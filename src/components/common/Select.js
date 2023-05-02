@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Input = styled.input`
+export const Select = styled.select`
   padding: 4px 8px;
   border: 1px solid #ccc;
   border-radius: 4px;

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link as ReactRouterDomLink, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Button } from '../common';
+import { useLogoutUserMutation } from '../../redux/services/authApi';
 
 const HeaderWrapper = styled.header`
   height: 60px;
@@ -72,6 +75,9 @@ const MobileMenuIcon = styled.div`
 const Header = () => {
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const loggedInUser = useSelector((state) => state.userState.user);
+  const [logoutUser, { isLoading }] = useLogoutUserMutation();
+
   return (
     <HeaderWrapper>
       <MobileMenuIcon onClick={() => setMenuOpen((s) => !s)}>
@@ -83,9 +89,13 @@ const Header = () => {
         <StyledLink to="/" isActive={pathname === '/'}>
           Home
         </StyledLink>
-        <StyledLink to="/login" isActive={pathname === '/login'}>
-          Login
-        </StyledLink>
+        {loggedInUser ? (
+          <Button onClick={logoutUser}>Logout</Button>
+        ) : (
+          <StyledLink to="/login" isActive={pathname === '/login'}>
+            Login
+          </StyledLink>
+        )}
       </Menu>
     </HeaderWrapper>
   );

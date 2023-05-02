@@ -25,7 +25,9 @@ const RootLayout = (props) => {
   return (
     <>
       <Header />
-      <Content>{props.children}</Content>
+      <Content>
+        <Outlet />
+      </Content>
     </>
   );
 };

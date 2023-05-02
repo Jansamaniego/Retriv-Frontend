@@ -1,25 +1,51 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Input } from '../components/common';
+import { Button, Input, PasswordInput, Form } from '../components/common';
+import { z } from 'zod';
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { DevTool } from '@hookform/devtools';
+import { useLoginUserMutation } from '../redux/services/authApi';
 
-const Form = styled.form`
-  width: 100%;
-  max-width: 400px;
-  background: white;
-  border: 1px solid #eee;
-  padding: 16px;
-  box-sizing: border-box;
-  color: black;
-  border-radius: 4px;
-`;
+let renderCount = 0;
 
 const Login = () => {
+  const [loginUser, { isLoading }] = useLoginUserMutation();
+
+  const loginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(3),
+  });
+
+  const methods = useForm({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const {
+    handleSubmit,
+    register,
+    control,
+    formState: { errors },
+  } = methods;
+
+  renderCount++;
+
   return (
     <>
+      <h1>{renderCount}</h1>
       <h1>Login</h1>
-      <Form>
-        <Input name="username" placeholder="Username" />
-      </Form>
+      <FormProvider {...methods}>
+        <Form
+          onSubmit={handleSubmit((data) => {
+            loginUser(data);
+          })}
+        >
+          <Input placeholder="Email" type="email" {...register('email')} />
+          {errors.email?.message && <p>{errors.email?.message}</p>}
+          <PasswordInput name="password" />
+          <Button type="submit">Login</Button>
+        </Form>
+        <DevTool control={control} />
+      </FormProvider>
     </>
   );
 };
