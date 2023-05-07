@@ -11,8 +11,11 @@ import {
 } from '../components/common';
 import { useRegisterUserMutation } from '../redux/services/authApi';
 import { DevTool } from '@hookform/devtools';
+import ImageUploader from '../components/common/ImageUploader';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
+const MB_BYTES = 1000000;
 
 const Register = () => {
   const [registerUser, { isLoading }] = useRegisterUserMutation();
@@ -22,21 +25,46 @@ const Register = () => {
       username: z.string(),
       email: z.string().email(),
       password: z.string().min(9),
-      confirmPassword: z.string().min(9),
+      passwordConfirmation: z.string().min(9),
       name: z.string(),
       address: z.string().optional(),
       phone: z.number().optional(),
       gender: z.enum(['male', 'female', 'other', 'undisclosed']).optional(),
       dateOfBirth: z.date().optional(),
+      image: z
+        .any()
+        .optional()
+        .superRefine((f, ctx) => {
+          if (f.size > 5 * MB_BYTES) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.too_big,
+              type: 'array',
+              message: `The file must not be larger than ${
+                5 * MB_BYTES
+              } bytes: ${f.size}`,
+              maximum: 5 * MB_BYTES,
+              inclusive: true,
+            });
+          }
+        })
+        .superRefine((f, ctx) => {
+          if (f[0] instanceof File) {
+          } else {
+            ctx.addIssue({
+              code: z.ZodIssueCode.invalid_type,
+              message: `Given value does not hold a file type`,
+            });
+          }
+        }),
     })
     .refine((data) => passwordRegex.test(data.password), {
       message:
-        'Passwords must contain at least one uppercase letter, one lowercase letter, one number and one special character',
+        'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
       path: ['password'],
     })
-    .refine((data) => data.password === data.confirmPassword, {
+    .refine((data) => data.password === data.passwordConfirmation, {
       message: 'Passwords do not match',
-      path: ['confirmPassword'],
+      path: ['passwordConfirmation'],
     });
 
   const methods = useForm({
@@ -50,18 +78,28 @@ const Register = () => {
     formState: { errors },
   } = methods;
 
+  const onSubmit = (data) => {
+    const mutatedData = { ...data, image: data.image[0] };
+    const formData = new FormData();
+
+    for (const key in mutatedData) {
+      formData.append(key, mutatedData[key]);
+    }
+    registerUser(formData);
+  };
+
   return (
     <>
       <h1>Register</h1>
       <FormProvider {...methods}>
-        <Form onSubmit={handleSubmit((data) => registerUser(data))}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Input placeholder="Username" type="text" {...register('username')} />
           {errors.username?.message && <p>{errors.username?.message}</p>}
           <Input placeholder="Email" type="email" {...register('email')} />
           {errors.email?.message && <p>{errors.email?.message}</p>}
           <PasswordInput name="password" />
           <PasswordInput
-            name="confirmPassword"
+            name="passwordConfirmation"
             placeholder="Confirm password"
           />
           <Input placeholder="name" type="text" {...register('name')} />
@@ -88,7 +126,10 @@ const Register = () => {
             {...register('dateOfBirth', { valueAsDate: true })}
           />
           {errors.dateOfBirth?.message && <p>{errors.dateOfBirth?.message}</p>}
-          <Button type="submit">Register</Button>
+          <ImageUploader name="image" />
+          <Button type="submit" disabled={isLoading}>
+            Register
+          </Button>
         </Form>
         <DevTool control={control} />
       </FormProvider>

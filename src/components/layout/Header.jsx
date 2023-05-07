@@ -4,6 +4,7 @@ import { Link as ReactRouterDomLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button } from '../common';
 import { useLogoutUserMutation } from '../../redux/services/authApi';
+import Cookies from 'js-cookie';
 
 const HeaderWrapper = styled.header`
   height: 60px;
@@ -77,6 +78,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const loggedInUser = useSelector((state) => state.userState.user);
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
+  const isLoggedIn = Cookies.get('logged_in');
 
   return (
     <HeaderWrapper>
@@ -89,8 +91,13 @@ const Header = () => {
         <StyledLink to="/" isActive={pathname === '/'}>
           Home
         </StyledLink>
+        <StyledLink to="/my-profile" isActive={pathname === '/my-profile'}>
+          My Profile
+        </StyledLink>
         {loggedInUser ? (
-          <Button onClick={logoutUser}>Logout</Button>
+          <Button onClick={logoutUser} disabled={isLoading}>
+            Logout
+          </Button>
         ) : (
           <StyledLink to="/login" isActive={pathname === '/login'}>
             Login

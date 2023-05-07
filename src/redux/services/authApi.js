@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import customBaseQuery from '../../utils/customBaseQuery';
+import { logout } from '../features/userSlice';
 import { userApi } from './userApi';
-import { logout, setUser } from '../features/userSlice';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -13,12 +13,13 @@ export const authApi = createApi({
           url: '/auth/register',
           method: 'POST',
           body: data,
+          credentials: 'include',
         };
       },
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
-          const { user } = await queryFulfilled;
-          dispatch(setUser(user));
+          await queryFulfilled;
+          await dispatch(userApi.endpoints.getMe.initiate());
         } catch (error) {
           console.log(error);
         }
@@ -35,18 +36,17 @@ export const authApi = createApi({
       },
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
-          const { user } = await queryFulfilled;
-          dispatch(setUser(user));
+          await queryFulfilled;
+          await dispatch(userApi.endpoints.getMe.initiate(null));
         } catch (error) {
           console.log(error);
         }
       },
     }),
     logoutUser: builder.mutation({
-      query(data) {
+      query() {
         return {
           url: '/auth/logout',
-          body: data,
           credentials: 'include',
         };
       },
@@ -59,6 +59,27 @@ export const authApi = createApi({
         }
       },
     }),
+    forgotPassword: builder.mutation({
+      query(data) {
+        return {
+          url: 'auth/forgot-password',
+          method: 'POST',
+          body: data,
+          credentials: 'include',
+        };
+      },
+    }),
+    resetPassword: builder.mutation({
+      query({ password, passwordConfirmation, resetToken }) {
+        console.log(resetToken);
+        return {
+          url: `auth/reset-password?token=${resetToken}`,
+          method: 'POST',
+          body: { password, passwordConfirmation },
+          credentials: 'include',
+        };
+      },
+    }),
   }),
 });
 
@@ -66,4 +87,6 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
 } = authApi;

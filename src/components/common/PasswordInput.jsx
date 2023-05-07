@@ -11,9 +11,7 @@ const PasswordInputWrapper = styled.div`
   }
 `;
 
-const StyledPasswordInput = styled(Input).attrs(() => ({
-  type: 'password',
-}))`
+const StyledPasswordInput = styled(Input)`
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 `;
@@ -40,21 +38,21 @@ export const PasswordInput = ({ placeholder = 'password', name, ...props }) => {
 
   const {
     register,
-    watch,
     formState: { errors },
   } = useFormContext();
-
-  const watchField = watch(name, '');
 
   return (
     <>
       <PasswordInputWrapper>
-        <StyledPasswordInput {...register(name)} {...props} />
+        <StyledPasswordInput
+          {...register(name)}
+          {...props}
+          type={showPassword ? 'text' : 'password'}
+        />
         <ToggleButton onClick={() => setShowPassword((s) => !s)}>
           {showPassword ? 'Hide' : 'Show'}
         </ToggleButton>
       </PasswordInputWrapper>
-      <div>{showPassword ? watchField : ''}</div>
       {errors[name]?.message && <p>{errors[name]?.message}</p>}
     </>
   );
