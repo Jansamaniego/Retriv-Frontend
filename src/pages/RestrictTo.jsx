@@ -12,7 +12,6 @@ const RestrictTo = ({ allowedRoles }) => {
     isFetching,
   } = useGetMeQuery(null, {
     skip: false,
-    refetchOnMountOrArgChange: true,
   });
 
   const loading = isLoading || isFetching;
@@ -20,14 +19,17 @@ const RestrictTo = ({ allowedRoles }) => {
   if (loading) {
     return <h1>Loading...</h1>;
   }
-
-  return (isLoggedIn || user) && allowedRoles.includes(user?.role) ? (
-    <Outlet />
+  console.log(user);
+  console.log(isLoggedIn);
+  return isLoggedIn && user && allowedRoles.includes(user?.role) ? (
+    <Outlet user={user} />
   ) : isLoggedIn && user ? (
     <Navigate to="unauthorized" replace state={{ from: location }} />
   ) : (
     <Navigate to="login" replace state={{ from: location }} />
   );
+
+  // return <Navigate to="login" replace state={{ from: location }} />;
 };
 
 export default RestrictTo;

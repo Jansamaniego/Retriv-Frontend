@@ -14,6 +14,7 @@ import ResetPassword from './pages/ResetPassword';
 import MyProfile from './pages/MyProfile';
 import RestrictTo from './pages/RestrictTo';
 import Unauthorized from './pages/Unauthorized';
+import VerifyEmail from './pages/VerifyEmail';
 
 const App = (props) => {
   const router = createBrowserRouter(
@@ -29,6 +30,7 @@ const App = (props) => {
           element={<RestrictTo allowedRoles={['user', 'admin', 'seller']} />}
         >
           <Route path="my-profile" element={<MyProfile />} />
+          <Route path="verify-email" element={<VerifyEmail />} />
         </Route>
       </Route>
     )
