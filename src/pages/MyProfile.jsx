@@ -72,9 +72,9 @@ const MyProfile = () => {
             Update User Details
           </Button>
           <Button onClick={changePasswordClickHandler}>Change Password</Button>
-          {user.isEmailVerified ? (
+          {user.isEmailVerified ? null : (
             <Button onClick={verifyEmailClickHandler}>Verify Email</Button>
-          ) : null}
+          )}
         </div>
         <div>
           {userDetails ? (

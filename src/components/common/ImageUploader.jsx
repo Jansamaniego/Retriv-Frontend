@@ -20,12 +20,12 @@ const StyledImageUploader = styled.input.attrs({
   height: 40px;
 `;
 
-const ImageUploader = ({ name, ...props }) => {
+export const ImageUploader = ({ name, initialImage, ...props }) => {
   const {
     register,
     formState: { errors },
     watch,
-  } = useFormContext();
+  } = useFormContext({});
 
   const file = watch(name);
 
@@ -39,12 +39,12 @@ const ImageUploader = ({ name, ...props }) => {
           width={100}
           height={100}
         />
+      ) : initialImage ? (
+        <img src={initialImage} alt="user Profile" />
       ) : (
         <MdCloudUpload color="#1475cf" size={30} width={75} height={75} />
       )}
-      {errors.profileImage?.message && <p>{errors.profileImage?.message}</p>}
+      {errors.image?.message && <p>{errors.image?.message}</p>}
     </>
   );
 };
-
-export default ImageUploader;

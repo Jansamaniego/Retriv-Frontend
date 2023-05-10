@@ -15,9 +15,9 @@ const UserDetails = ({ user }) => {
     <div>
       <h1>{address}</h1>
       <h1>{dateOfBirth}</h1>
-      <h1>{}</h1>
-      <h1>{}</h1>
-      <h1>{}</h1>
+      <h1>{gender}</h1>
+      <h1>{phone}</h1>
+      <h1>{role}</h1>
     </div>
   );
 };

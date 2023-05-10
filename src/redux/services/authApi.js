@@ -63,7 +63,7 @@ export const authApi = createApi({
       query(data) {
         return {
           url: 'auth/forgot-password',
-          method: 'POST',
+          method: 'PATCH',
           body: data,
           credentials: 'include',
         };
@@ -78,6 +78,21 @@ export const authApi = createApi({
           credentials: 'include',
         };
       },
+    }),
+    changePassword: builder.mutation({
+      query(data) {
+        return {
+          url: 'auth/change-password',
+          body: data,
+          method: 'POST',
+          credentials: 'include',
+        };
+      },
+      transformResponse: (data) => {
+        return data.user;
+      },
+      invalidatesTags: (result, error) =>
+        result ? [{ type: 'User', id: result.id }] : [],
     }),
     sendVerificationEmail: builder.mutation({
       query() {
@@ -108,4 +123,5 @@ export const {
   useResetPasswordMutation,
   useSendVerificationEmailMutation,
   useVerifyEmailMutation,
+  useChangePasswordMutation,
 } = authApi;

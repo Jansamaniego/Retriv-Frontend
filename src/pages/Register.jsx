@@ -11,7 +11,7 @@ import {
 } from '../components/common';
 import { useRegisterUserMutation } from '../redux/services/authApi';
 import { DevTool } from '@hookform/devtools';
-import ImageUploader from '../components/common/ImageUploader';
+import { ImageUploader } from '../components/common';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 

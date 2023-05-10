@@ -25,7 +25,41 @@ export const userApi = createApi({
         } catch (error) {}
       },
     }),
+    updateDetails: builder.mutation({
+      query(data) {
+        return {
+          url: 'user/update-details',
+          method: 'PATCH',
+          body: data,
+          credentials: 'include',
+        };
+      },
+      transformResponse: (data) => {
+        return data.user;
+      },
+      invalidatesTags: (result, error) =>
+        result ? [{ type: 'User', id: result.id }] : [],
+    }),
+    updateProfileImage: builder.mutation({
+      query(data) {
+        return {
+          url: 'user/update-profile-image',
+          method: 'PATCH',
+          body: data,
+          credentials: 'include',
+        };
+      },
+      transformResponse: (data) => {
+        return data.user;
+      },
+      invalidatesTags: (result, error) =>
+        result ? [{ type: 'User', id: result.id }] : [],
+    }),
   }),
 });
 
-export const { useGetMeQuery } = userApi;
+export const {
+  useGetMeQuery,
+  useUpdateDetailsMutation,
+  useUpdateProfileImageMutation,
+} = userApi;
