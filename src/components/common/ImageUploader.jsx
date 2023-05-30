@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { MdCloudUpload, MdDelete } from 'react-icons/md';
-import { AiFillFileImage } from 'react-icons/ai';
+import { MdCloudUpload } from 'react-icons/md';
 import { useFormContext, useController } from 'react-hook-form';
+import { Input } from './Input';
 
-const StyledImageUploader = styled.input.attrs({
+const StyledImageUploader = styled(Input).attrs({
   type: 'file',
   accept:
     'image/jpeg, image/jpg, image/png, image/JPG, image/PNG, image/WEBP, image/webp',
-})`
-  padding: 4px 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1em;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  margin-bottom: 8px;
-  width: 100%;
-  box-sizing: border-box;
-  height: 40px;
-`;
+})``;
 
 export const ImageUploader = ({ name, initialImage, ...props }) => {
   const {

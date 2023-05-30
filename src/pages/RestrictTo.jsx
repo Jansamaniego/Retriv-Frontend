@@ -19,8 +19,7 @@ const RestrictTo = ({ allowedRoles }) => {
   if (loading) {
     return <h1>Loading...</h1>;
   }
-  console.log(user);
-  console.log(isLoggedIn);
+
   return isLoggedIn && user && allowedRoles.includes(user?.role) ? (
     <Outlet user={user} />
   ) : isLoggedIn && user ? (

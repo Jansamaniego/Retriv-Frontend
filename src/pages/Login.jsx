@@ -1,24 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Input, PasswordInput, Form } from '../components/common';
+import {
+  Button,
+  Input,
+  PasswordInput,
+  Form,
+  StyledLink,
+} from '../components/common';
 import { z } from 'zod';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 import { useLoginUserMutation } from '../redux/services/authApi';
-import styled from 'styled-components';
 
 let renderCount = 0;
-
-const StyledLink = styled(Link)`
-  padding: 4px 8px;
-  display: block;
-  text-align: center;
-  box-sizing: border-box;
-  margin: auto 0;
-  font-weight: ${(p) => (p.isActive ? 'bold' : 'normal')};
-  color: black;
-`;
 
 const Login = () => {
   const [loginUser, { isLoading }] = useLoginUserMutation();

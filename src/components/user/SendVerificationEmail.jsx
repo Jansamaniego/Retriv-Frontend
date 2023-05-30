@@ -16,7 +16,7 @@ const SendVerificationEmail = ({ user }) => {
   };
 
   return (
-    <>
+    <div>
       {emailSent ? (
         <h3>
           An email was sent to {email}, please click the link on the message to
@@ -29,7 +29,7 @@ const SendVerificationEmail = ({ user }) => {
       <Button onClick={verificationEmailClickHandler} disabled={isLoading}>
         Send Verification Email
       </Button>
-    </>
+    </div>
   );
 };
 

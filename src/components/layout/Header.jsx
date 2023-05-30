@@ -2,33 +2,35 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link as ReactRouterDomLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Button } from '../common';
+import { Button, StyledLink } from '../common';
 import { useLogoutUserMutation } from '../../redux/services/authApi';
 import Cookies from 'js-cookie';
 
 const HeaderWrapper = styled.header`
   height: 60px;
   width: 100%;
-  box-sizing: border-box;
   display: flex;
-  padding: 0 16px;
+  padding: 0 1.6rem;
   position: fixed;
   top: 0;
-  background-image: linear-gradient(to right, #f8049c, #fdd54f);
-  border-bottom: 3px solid #fdd54f;
+  background-image: linear-gradient(
+    to right,
+    ${(props) => props.theme.primary},
+    ${(props) => props.theme.primaryLight}
+  );
+  border-bottom: 0.3rem solid ${(props) => props.theme.primaryLighter};
 `;
 
 const Menu = styled.nav`
-  display: ${(p) => (p.open ? 'block' : 'none')};
-  font-family: 'Times New Roman', Times, serif;
+  display: ${(props) => (props.open ? 'block' : 'none')};
   position: absolute;
   width: 100%;
-  top: 60px;
-  left: 0px;
-  padding: 8px;
+  top: 6rem;
+  left: 0;
+  padding: 0.8rem;
   box-sizing: border-box;
-  border-bottom: 3px solid #fdd54f;
-  background: white;
+  border-bottom: 0.3rem solid ${(props) => props.theme.secondary};
+  background: ${(props) => props.theme.offWhite};
 
   @media (min-width: 768px) {
     display: flex;
@@ -42,33 +44,19 @@ const Menu = styled.nav`
   }
 `;
 
-const Link = ({ isActive, children, ...props }) => {
-  return <ReactRouterDomLink {...props}>{children}</ReactRouterDomLink>;
-};
-
-const StyledLink = styled(Link)`
-  padding: 4px 8px;
-  display: block;
-  text-align: center;
-  box-sizing: border-box;
-  margin: auto 0;
-  font-weight: ${(p) => (p.isActive ? 'bold' : 'normal')};
-  color: black;
-`;
-
 const MobileMenuIcon = styled.div`
   margin: auto 0 auto auto;
-  width: 25px;
-  min-width: 25px;
-  padding: 5px;
+  width: 2.5rem;
+  min-width: 2.5rem;
+  padding: 2.5rem;
   > div {
-    height: 3px;
-    background: black;
-    margin: 5px 0;
+    height: 0.3rem;
+    background: ${(props) => props.theme.offBlack};
+    margin: 0.5rem;
     width: 100%;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 76.8em) {
     display: none;
   }
 `;

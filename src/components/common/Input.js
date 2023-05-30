@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
 export const Input = styled.input`
-  padding: 4px 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1em;
+  padding: 0.4rem 0.8rem;
+  border: 0.1rem solid ${(props) => props.theme.secondary};
+  border-radius: 0.4rem;
+  font-size: 1.6rem;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  margin-bottom: 8px;
+  margin-bottom: 0.8rem;
   width: 100%;
-  box-sizing: border-box;
-  height: 40px;
+  min-height: 4rem;
 `;

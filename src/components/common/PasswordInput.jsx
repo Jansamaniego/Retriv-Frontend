@@ -5,10 +5,7 @@ import { useFormContext } from 'react-hook-form';
 
 const PasswordInputWrapper = styled.div`
   display: flex;
-
-  ~ div {
-    margin-bottom: 8px;
-  }
+  width: 100%;
 `;
 
 const StyledPasswordInput = styled(Input)`
@@ -18,19 +15,18 @@ const StyledPasswordInput = styled(Input)`
 
 const ToggleButton = styled.div`
   height: 40px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  font-size: 0.9em;
+  border: 0.1rem solid ${(props) => props.theme.secondary};
+  font-size: 1.6rem;
   display: flex;
-  padding: 8px;
+  padding: 0.8rem;
   border-left: 0;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  background: white;
+  border-top-right-radius: 0.4rem;
+  border-bottom-right-radius: 0.4rem;
+  background: ${(props) => props.theme.offWhite};
   font-weight: bold;
   cursor: pointer;
   user-select: none;
-  color: black;
+  color: ${(props) => props.theme.offBlack};
 `;
 
 export const PasswordInput = ({ placeholder = 'password', name, ...props }) => {

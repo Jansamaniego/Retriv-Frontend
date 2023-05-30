@@ -46,9 +46,9 @@ const ChangePassword = ({ user }) => {
 
   return (
     <>
-      <h1>Change Password</h1>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
+          <h1>Change Password</h1>
           <PasswordInput
             name="currentPassword"
             placeholder="Current Password"
