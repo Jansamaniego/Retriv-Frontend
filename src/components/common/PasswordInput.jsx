@@ -44,6 +44,7 @@ export const PasswordInput = ({ placeholder = 'password', name, ...props }) => {
           {...register(name)}
           {...props}
           type={showPassword ? 'text' : 'password'}
+          placeholder={placeholder}
         />
         <ToggleButton onClick={() => setShowPassword((s) => !s)}>
           {showPassword ? 'Hide' : 'Show'}

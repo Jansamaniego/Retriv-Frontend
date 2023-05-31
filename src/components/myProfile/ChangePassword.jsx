@@ -1,16 +1,34 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useForm, FormProvider } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 import { useChangePasswordMutation } from '../../redux/services/authApi';
-import { Form } from 'react-router-dom';
+import { Form, useOutletContext } from 'react-router-dom';
 import { Button, PasswordInput } from '../common';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
-const ChangePassword = ({ user }) => {
+const ChangePasswordGrid = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 3.2rem;
+  column-gap: 1.6rem;
+  padding: 1.6rem;
+`;
+
+const ChangePasswordHeading = styled.h4`
+  padding-bottom: 1.6rem;
+`;
+
+const ButtonContainer = styled.div`
+  grid-column: 1 / span 2;
+`;
+
+const ChangePassword = () => {
   const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const [user] = useOutletContext();
 
   const { password } = user;
 
@@ -48,19 +66,23 @@ const ChangePassword = ({ user }) => {
     <>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <h1>Change Password</h1>
-          <PasswordInput
-            name="currentPassword"
-            placeholder="Current Password"
-          />
-          <PasswordInput name="newPassword" placeholder="New Password" />
-          <PasswordInput
-            name="newpasswordConfirmation"
-            placeholder="New Password Confirmation"
-          />
-          <Button type="submit" disabled={isLoading}>
-            Change Password
-          </Button>
+          <ChangePasswordHeading>Change Password</ChangePasswordHeading>
+          <ChangePasswordGrid>
+            <PasswordInput name="newPassword" placeholder="New Password" />
+            <PasswordInput
+              name="currentPassword"
+              placeholder="Current Password"
+            />
+            <PasswordInput
+              name="newpasswordConfirmation"
+              placeholder="New Password Confirmation"
+            />
+            <ButtonContainer>
+              <Button type="submit" disabled={isLoading} superLarge>
+                Change Password
+              </Button>
+            </ButtonContainer>
+          </ChangePasswordGrid>
         </Form>
         <DevTool control={control} />
       </FormProvider>

@@ -15,6 +15,11 @@ import MyProfile from './pages/MyProfile';
 import RestrictTo from './pages/RestrictTo';
 import Unauthorized from './pages/Unauthorized';
 import VerifyEmail from './pages/VerifyEmail';
+import MyProfileStats from './components/myProfile/MyProfileStats';
+import MyProfileInfo from './components/myProfile/MyProfileInfo';
+import MyProfileShopManager from './components/myProfile/MyProfileShopManager';
+import ChangePassword from './components/myProfile/ChangePassword';
+import SendVerificationEmail from './components/myProfile/SendVerificationEmail';
 
 const App = (props) => {
   const router = createBrowserRouter(
@@ -29,7 +34,16 @@ const App = (props) => {
         <Route
           element={<RestrictTo allowedRoles={['user', 'admin', 'seller']} />}
         >
-          <Route path="my-profile" element={<MyProfile />} />
+          <Route path="my-profile" element={<MyProfile />}>
+            <Route index element={<MyProfileStats />} />
+            <Route path="my-info" element={<MyProfileInfo />} />
+            <Route path="my-shops" element={<MyProfileShopManager />} />
+            <Route path="change-password" element={<ChangePassword />} />
+            <Route
+              path="send-verification-email"
+              element={<SendVerificationEmail />}
+            />
+          </Route>
           <Route path="verify-email" element={<VerifyEmail />} />
         </Route>
       </Route>

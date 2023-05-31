@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import styled from 'styled-components';
 import { Chart as ChartJS } from 'chart.js/auto';
 
 const MONTHS = [
@@ -62,7 +63,7 @@ const ProductsQuantitySoldChart = ({ chartData }) => {
     ],
   });
 
-  return <Line data={userData} />;
+  return <Line data={userData} options={{ aspectRatio: 3.5 / 1 }} />;
 };
 
 export default ProductsQuantitySoldChart;

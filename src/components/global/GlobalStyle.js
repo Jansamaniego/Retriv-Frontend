@@ -37,6 +37,10 @@ dd {
   margin: 0;
 }
 
+body{
+  background-color: ${(props) => props.theme.offWhite};
+}
+
 /* Set header and paragraph typography scale */
 h1{
   font-size: 4.8883rem;
