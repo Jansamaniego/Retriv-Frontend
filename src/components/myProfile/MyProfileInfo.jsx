@@ -5,7 +5,7 @@ import { useOutletContext } from 'react-router-dom';
 import { z } from 'zod';
 import { DevTool } from '@hookform/devtools';
 import { Form, Input, Select, Button } from '../common';
-import { useUpdateDetailsMutation } from '../../redux/services/userApi';
+import { useUpdateDetailsMutation } from '../../redux/services/myProfileApi';
 import styled from 'styled-components';
 
 const genderOptions = ['male', 'female', 'other', 'undisclosed'];

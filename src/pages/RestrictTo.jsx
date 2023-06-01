@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { useGetMeQuery } from '../redux/services/userApi';
+import { useGetMeQuery } from '../redux/services/myProfileApi';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 const RestrictTo = ({ allowedRoles }) => {
@@ -21,7 +21,7 @@ const RestrictTo = ({ allowedRoles }) => {
   }
 
   return isLoggedIn && user && allowedRoles.includes(user?.role) ? (
-    <Outlet user={user} />
+    <Outlet context={[user]} />
   ) : isLoggedIn && user ? (
     <Navigate to="unauthorized" replace state={{ from: location }} />
   ) : (

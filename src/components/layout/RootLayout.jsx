@@ -5,9 +5,11 @@ import Footer from './Footer';
 import styled from 'styled-components';
 
 const Content = styled.main`
-  max-width: 275ch;
+  max-width: 1000ch;
+  width: 97%;
   margin: 8rem auto 0 auto;
-  padding: 0 1.6rem;
+  display: flex;
+  justify-content: center;
 `;
 
 const RootLayout = (props) => {

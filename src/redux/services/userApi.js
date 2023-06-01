@@ -1,65 +1,84 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import customBaseQuery from '../../utils/customBaseQuery';
-import { setUser } from '../features/userSlice';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: customBaseQuery,
+  tagTypes: ['User'],
   endpoints: (builder) => ({
-    getMe: builder.query({
+    getUsers: builder.query({
       query() {
         return {
-          url: 'user/get-me',
-          credentials: 'include',
+          url: '/user',
         };
       },
-      transformResponse: (data) => {
-        return data.user;
+      transformResponse: (response) => {
+        return response.users;
       },
-      providesTags: (result, error) =>
-        result ? [{ type: 'User', id: result.id }] : [],
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
-        try {
-          const { data: user } = await queryFulfilled;
-          dispatch(setUser(user));
-        } catch (error) {}
+      providesTags: (result) => {
+        console.log(result);
+        return result
+          ? [
+              ...result.map(({ id }) => ({ type: 'User', id })),
+              { type: 'User', id: 'LIST' },
+            ]
+          : [];
       },
     }),
-    updateDetails: builder.mutation({
-      query(data) {
+    getUserById: builder.query({
+      query(userId) {
         return {
-          url: 'user/update-details',
-          method: 'PATCH',
-          body: data,
-          credentials: 'include',
+          url: `/user/${userId}`,
         };
       },
-      transformResponse: (data) => {
-        return data.user;
-      },
-      invalidatesTags: (result, error) =>
-        result ? [{ type: 'User', id: result.id }] : [],
+      transformResponse: (response) => response.user,
+      providesTags: (result, error, { userId }) =>
+        result ? [{ type: 'User', id: userId }] : [],
     }),
-    updateProfileImage: builder.mutation({
-      query(data) {
+    createUser: builder.mutation({
+      query(body) {
         return {
-          url: 'user/update-profile-image',
-          method: 'PATCH',
-          body: data,
+          url: '/user',
+          method: 'POST',
+          body,
           credentials: 'include',
         };
       },
-      transformResponse: (data) => {
-        return data.user;
+      invalidatesTags: [{ type: 'User', id: 'LIST' }],
+    }),
+    updateUser: builder.mutation({
+      query(body) {
+        return {
+          url: `/user/${body.id}`,
+          method: 'PATCH',
+          body,
+          credentals: 'include',
+        };
       },
-      invalidatesTags: (result, error) =>
-        result ? [{ type: 'User', id: result.id }] : [],
+      invalidatesTags: (result, error, { body }) => [
+        {
+          type: 'User',
+          id: body.id,
+        },
+      ],
+    }),
+    deleteUser: builder.mutation({
+      query(id) {
+        return {
+          url: `/user/${id}`,
+          method: 'DELETE',
+          credentials: 'include',
+        };
+      },
+      invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
   }),
 });
 
 export const {
-  useGetMeQuery,
-  useUpdateDetailsMutation,
-  useUpdateProfileImageMutation,
+  useGetUsersQuery,
+  useGetUserByIdQuery,
+  useCreateUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
 } = userApi;

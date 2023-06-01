@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import customBaseQuery from '../../utils/customBaseQuery';
 import { logout } from '../features/userSlice';
-import { userApi } from './userApi';
+import { myProfileApi } from './myProfileApi';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -19,7 +19,7 @@ export const authApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          await dispatch(userApi.endpoints.getMe.initiate());
+          await dispatch(myProfileApi.endpoints.getMe.initiate());
         } catch (error) {
           console.log(error);
         }
@@ -37,7 +37,7 @@ export const authApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          await dispatch(userApi.endpoints.getMe.initiate(null));
+          await dispatch(myProfileApi.endpoints.getMe.initiate(null));
         } catch (error) {
           console.log(error);
         }

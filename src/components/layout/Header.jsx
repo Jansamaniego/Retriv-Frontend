@@ -13,12 +13,6 @@ const HeaderWrapper = styled.header`
   padding: 0 1.6rem;
   position: fixed;
   top: 0;
-  background-image: linear-gradient(
-    to right,
-    ${(props) => props.theme.primary},
-    ${(props) => props.theme.primaryLight}
-  );
-  border-bottom: 0.3rem solid ${(props) => props.theme.primaryLighter};
 `;
 
 const Menu = styled.nav`
@@ -78,6 +72,9 @@ const Header = () => {
       <Menu open={menuOpen}>
         <StyledLink to="/" isActive={pathname === '/'}>
           Home
+        </StyledLink>
+        <StyledLink to="admin" isActive={pathname === '/admin'}>
+          Admin
         </StyledLink>
         <StyledLink to="/my-profile" isActive={pathname === '/my-profile'}>
           My Profile

@@ -1,12 +1,12 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
 import FullScreenLoader from '../components/FullScreenLoader';
-import { userApi } from '../redux/services/userApi';
+import { myProfileApi } from '../redux/services/myProfileApi';
 
 const AuthMiddleware = ({ children }) => {
   const [cookies] = useCookies(['logged_in']);
 
-  const { isLoading } = userApi.endpoints.getMe.useQuery(null, {
+  const { isLoading } = myProfileApi.endpoints.getMe.useQuery(null, {
     skip: !cookies.logged_in,
   });
 

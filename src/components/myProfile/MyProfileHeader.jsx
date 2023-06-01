@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, FormProvider } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
-import { useUpdateProfileImageMutation } from '../../redux/services/userApi';
+import { useUpdateProfileImageMutation } from '../../redux/services/myProfileApi';
 import {
   EditIcon,
   DateIcon,

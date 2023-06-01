@@ -20,11 +20,22 @@ import MyProfileInfo from './components/myProfile/MyProfileInfo';
 import MyProfileShopManager from './components/myProfile/MyProfileShopManager';
 import ChangePassword from './components/myProfile/ChangePassword';
 import SendVerificationEmail from './components/myProfile/SendVerificationEmail';
+import Admin from './pages/Admin';
+import UserManager from './components/user/UserManager';
+import ShopManager from './components/shop/ShopManager';
+import OrderManager from './components/order/OrderManager';
 
 const App = (props) => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
+        <Route element={<RestrictTo allowedRoles={['admin']} />}>
+          <Route path="admin" element={<Admin />}>
+            <Route index element={<UserManager />} />
+            <Route path="shop" relative element={<ShopManager />} />
+            <Route path="order" relative element={<OrderManager />} />
+          </Route>
+        </Route>
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />

@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useOutletContext } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import MyProfileHeader from '../components/myProfile/MyProfileHeader';
 import { Button } from '../components/common';
-import MyProfileStats from '../components/myProfile/MyProfileStats';
-import MyProfileShopManager from '../components/myProfile/MyProfileShopManager';
-import MyProfileInfo from '../components/myProfile/MyProfileInfo';
-import ChangePassword from '../components/myProfile/ChangePassword';
-import SendVerificationEmail from '../components/myProfile/SendVerificationEmail';
 
 const MyProfilePageContainer = styled.div`
-  max-width: 300ch;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -22,7 +16,6 @@ const MyProfilePageContainer = styled.div`
 const MyProfilePageGrid = styled.section`
   display: grid;
   width: 100%;
-  max-width: 280ch;
   grid-template-columns: 1fr 4fr;
   grid-template-rows: 1fr 4fr;
   row-gap: 5rem;
@@ -38,7 +31,7 @@ const MyProfileMenu = styled.nav`
 `;
 
 const MyProfile = () => {
-  const user = useSelector((state) => state.userState.user);
+  const [user] = useOutletContext();
 
   return user ? (
     <MyProfilePageContainer>
@@ -51,7 +44,7 @@ const MyProfile = () => {
           shops={user.shops}
         />
         <MyProfileMenu>
-          <Link to="/my-profile" >
+          <Link to="/my-profile">
             <Button large menu>
               My Stats
             </Button>
