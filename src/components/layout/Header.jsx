@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link as ReactRouterDomLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { setTheme } from '../../redux/features/themeSlice';
 import { Button, StyledLink } from '../common';
 import { useLogoutUserMutation } from '../../redux/services/authApi';
 import Cookies from 'js-cookie';
@@ -56,6 +57,7 @@ const MobileMenuIcon = styled.div`
 `;
 
 const Header = () => {
+  const theme = useSelector((state) => state.themeState.theme);
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const loggedInUser = useSelector((state) => state.userState.user);
@@ -79,6 +81,13 @@ const Header = () => {
         <StyledLink to="/my-profile" isActive={pathname === '/my-profile'}>
           My Profile
         </StyledLink>
+        <Button
+          onClick={() => {
+            setTheme(theme === 'light' ? 'dark' : 'light');
+          }}
+        >
+          Toggle Theme
+        </Button>
         {loggedInUser ? (
           <Button onClick={logoutUser} disabled={isLoading}>
             Logout

@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import GlobalStyle from './components/global/GlobalStyle';
+import { ThemeProvider } from 'styled-components';
+import { themeSettings } from './components/theme/theme';
 import RootLayout from './components/layout/RootLayout';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -26,6 +30,8 @@ import ShopManager from './components/shop/ShopManager';
 import OrderManager from './components/order/OrderManager';
 
 const App = (props) => {
+  const theme = useSelector((state) => state.themeState.theme);
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
@@ -61,7 +67,12 @@ const App = (props) => {
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider theme={themeSettings(theme)}>
+      <GlobalStyle />
+      <RouterProvider router={router} />;
+    </ThemeProvider>
+  );
 };
 
 export default App;

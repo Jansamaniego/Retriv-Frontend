@@ -18,7 +18,7 @@ html{
 
 body,
 html{
-  font-family: 'Lato', sans-serif;
+  font-family: 'Lato', 'sans-serif';
 }
 
 /* Remove default margin */
