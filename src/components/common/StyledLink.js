@@ -7,6 +7,14 @@ export const StyledLink = styled(Link)`
   display: inline-block;
   text-align: center;
   text-decoration: none;
-  font-weight: ${(props) => (props.isActive ? 'bold' : 'normal')};
-  color: ${(props) => props.theme.primaryDarkGray};
+  font-weight: ${(props) => (props.isActive ? 700 : 300)};
+  color: ${(props) => props.theme.neutral.text};
+
+  &:hover {
+    color: ${(props) => props.theme.neutral.light};
+  }
+
+  &:active {
+    color: ${(props) => props.theme.neutral.main};
+  }
 `;

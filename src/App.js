@@ -15,19 +15,17 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
-import MyProfile from './pages/MyProfile';
 import RestrictTo from './pages/RestrictTo';
 import Unauthorized from './pages/Unauthorized';
 import VerifyEmail from './pages/VerifyEmail';
-import MyProfileStats from './components/myProfile/MyProfileStats';
-import MyProfileInfo from './components/myProfile/MyProfileInfo';
-import MyProfileShopManager from './components/myProfile/MyProfileShopManager';
-import ChangePassword from './components/myProfile/ChangePassword';
-import SendVerificationEmail from './components/myProfile/SendVerificationEmail';
+import ProfileInfo from './pages/ProfileInfo';
+import ChangePassword from './pages/ChangePassword';
+import SendVerificationEmail from './pages/SendVerificationEmail';
 import Admin from './pages/Admin';
 import UserManager from './components/user/UserManager';
 import ShopManager from './components/shop/ShopManager';
 import OrderManager from './components/order/OrderManager';
+import ProfileHeader from './components/profile/ProfileHeader';
 
 const App = (props) => {
   const theme = useSelector((state) => state.themeState.theme);
@@ -51,17 +49,14 @@ const App = (props) => {
         <Route
           element={<RestrictTo allowedRoles={['user', 'admin', 'seller']} />}
         >
-          <Route path="my-profile" element={<MyProfile />}>
-            <Route index element={<MyProfileStats />} />
-            <Route path="my-info" element={<MyProfileInfo />} />
-            <Route path="my-shops" element={<MyProfileShopManager />} />
+          <Route path="profile" element={<ProfileHeader />}>
+            <Route index element={<ProfileInfo />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route
               path="send-verification-email"
               element={<SendVerificationEmail />}
             />
           </Route>
-          <Route path="verify-email" element={<VerifyEmail />} />
         </Route>
       </Route>
     )

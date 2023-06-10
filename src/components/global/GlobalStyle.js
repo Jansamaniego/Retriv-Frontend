@@ -38,7 +38,7 @@ dd {
 }
 
 body{
-  background-color: ${(props) => props.theme.offWhite};
+  background-color: ${(props) => props.theme.neutral[700]};
 }
 
 /* Set header and paragraph typography scale */

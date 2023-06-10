@@ -8,6 +8,7 @@ import {
   PasswordInput,
   Button,
   Select,
+  StyledLink,
 } from '../components/common';
 import { useRegisterUserMutation } from '../redux/services/authApi';
 import { DevTool } from '@hookform/devtools';
@@ -90,7 +91,6 @@ const Register = () => {
 
   return (
     <>
-      <h1>Register</h1>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Input placeholder="Username" type="text" {...register('username')} />
@@ -130,6 +130,9 @@ const Register = () => {
           <Button type="submit" disabled={isLoading}>
             Register
           </Button>
+          <StyledLink to="/login">
+            Have an account already? Log in instead!
+          </StyledLink>
         </Form>
         <DevTool control={control} />
       </FormProvider>

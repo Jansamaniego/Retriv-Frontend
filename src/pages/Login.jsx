@@ -40,8 +40,6 @@ const Login = () => {
 
   return (
     <>
-      <h1>{renderCount}</h1>
-      <h1>Login</h1>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Input placeholder="Email" type="email" {...register('email')} />

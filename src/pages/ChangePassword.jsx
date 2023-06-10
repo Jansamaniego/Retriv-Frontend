@@ -4,9 +4,9 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
-import { useChangePasswordMutation } from '../../redux/services/authApi';
+import { useChangePasswordMutation } from '../redux/services/authApi';
 import { Form, useOutletContext } from 'react-router-dom';
-import { Button, PasswordInput } from '../common';
+import { Button, PasswordInput } from '../components/common';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
@@ -28,9 +28,6 @@ const ButtonContainer = styled.div`
 
 const ChangePassword = () => {
   const [changePassword, { isLoading }] = useChangePasswordMutation();
-  const [user] = useOutletContext();
-
-  const { password } = user;
 
   const changePasswordSchema = z
     .object({
@@ -42,10 +39,6 @@ const ChangePassword = () => {
       message:
         'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
       path: ['password'],
-    })
-    .refine((data) => data.currentPassword === password, {
-      message: 'Wrong current password input',
-      path: ['currentPassword'],
     })
     .refine((data) => data.newPassword === data.newPasswordConfirmation, {
       message: 'Passwords do not match',

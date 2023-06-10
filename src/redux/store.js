@@ -7,6 +7,7 @@ import { shopApi } from './services/shopApi';
 import { orderApi } from './services/orderApi';
 import userReducer from './features/userSlice';
 import themeReducer from './features/themeSlice';
+import shopReducer from './features/shopSlice';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
     [shopApi.reducerPath]: shopApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
     userState: userReducer,
+    shopState: shopReducer,
     themeState: themeReducer,
   },
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useSendVerificationEmailMutation } from '../../redux/services/authApi';
-import { Button } from '../common';
+import { useSendVerificationEmailMutation } from '../redux/services/authApi';
+import { Button } from '../components/common';
 import styled from 'styled-components';
 import { useOutletContext } from 'react-router-dom';
 

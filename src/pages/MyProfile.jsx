@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, Outlet, useOutletContext } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import MyProfileHeader from '../components/myProfile/MyProfileHeader';
+import MyProfileHeader from '../components/profile/MyProfileHeader';
 import { Button } from '../components/common';
 
 const MyProfilePageContainer = styled.div`

@@ -1,19 +1,28 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link as ReactRouterDomLink, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { setTheme } from '../../redux/features/themeSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, StyledLink } from '../common';
 import { useLogoutUserMutation } from '../../redux/services/authApi';
-import Cookies from 'js-cookie';
+import ThemeToggleButton from '../theme/ThemeToggleButton';
+import ProfileImageLogo from '../profile/ProfileImageLogo';
+import ProfileDropdownMenu from '../profile/ProfileDropdownMenu';
 
 const HeaderWrapper = styled.header`
   height: 60px;
   width: 100%;
   display: flex;
-  padding: 0 1.6rem;
+  justify-content: space-between;
+  padding: 0 2.4rem;
+  z-index: 999;
   position: fixed;
   top: 0;
+  background-color: ${(props) => props.theme.background.default};
+`;
+
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Menu = styled.nav`
@@ -24,8 +33,8 @@ const Menu = styled.nav`
   left: 0;
   padding: 0.8rem;
   box-sizing: border-box;
-  border-bottom: 0.3rem solid ${(props) => props.theme.secondary};
-  background: ${(props) => props.theme.offWhite};
+  border-bottom: 0.3rem solid ${(props) => props.theme.primary.main};
+  background: ${(props) => props.theme.neutral.main};
 
   @media (min-width: 768px) {
     display: flex;
@@ -39,6 +48,12 @@ const Menu = styled.nav`
   }
 `;
 
+const MenuFlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3.2rem;
+`;
+
 const MobileMenuIcon = styled.div`
   margin: auto 0 auto auto;
   width: 2.5rem;
@@ -46,7 +61,7 @@ const MobileMenuIcon = styled.div`
   padding: 2.5rem;
   > div {
     height: 0.3rem;
-    background: ${(props) => props.theme.offBlack};
+    background: ${(props) => props.theme.primary[600]};
     margin: 0.5rem;
     width: 100%;
   }
@@ -60,9 +75,14 @@ const Header = () => {
   const theme = useSelector((state) => state.themeState.theme);
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const loggedInUser = useSelector((state) => state.userState.user);
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
-  const isLoggedIn = Cookies.get('logged_in');
+  const dispatch = useDispatch();
+
+  const userImageLogoClickhandler = () => {
+    setIsProfileMenuOpen((value) => !value);
+  };
 
   return (
     <HeaderWrapper>
@@ -71,33 +91,32 @@ const Header = () => {
         <div />
         <div />
       </MobileMenuIcon>
+      <LogoContainer>
+        <StyledLink to="/">
+          <h1>Retriv</h1>
+        </StyledLink>
+      </LogoContainer>
       <Menu open={menuOpen}>
-        <StyledLink to="/" isActive={pathname === '/'}>
-          Home
-        </StyledLink>
-        <StyledLink to="admin" isActive={pathname === '/admin'}>
-          Admin
-        </StyledLink>
-        <StyledLink to="/my-profile" isActive={pathname === '/my-profile'}>
-          My Profile
-        </StyledLink>
-        <Button
-          onClick={() => {
-            setTheme(theme === 'light' ? 'dark' : 'light');
-          }}
-        >
-          Toggle Theme
-        </Button>
-        {loggedInUser ? (
-          <Button onClick={logoutUser} disabled={isLoading}>
-            Logout
-          </Button>
-        ) : (
-          <StyledLink to="/login" isActive={pathname === '/login'}>
-            Login
-          </StyledLink>
-        )}
+        <MenuFlexContainer>
+          <ThemeToggleButton />
+          {loggedInUser ? (
+            <>
+              <ProfileImageLogo
+                profileImage={loggedInUser.profileImage}
+                onClick={userImageLogoClickhandler}
+              />
+            </>
+          ) : (
+            <StyledLink to="login">Log In</StyledLink>
+          )}
+        </MenuFlexContainer>
       </Menu>
+      {loggedInUser ? (
+        <ProfileDropdownMenu
+          isProfileMenuOpen={isProfileMenuOpen}
+          user={loggedInUser}
+        />
+      ) : null}
     </HeaderWrapper>
   );
 };
