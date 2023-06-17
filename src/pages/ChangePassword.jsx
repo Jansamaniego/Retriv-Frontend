@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 import { useChangePasswordMutation } from '../redux/services/authApi';
 import { Form, useOutletContext } from 'react-router-dom';
-import { Button, PasswordInput } from '../components/common';
+import { Button, Card, PasswordInput } from '../components/common';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
@@ -56,7 +56,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <>
+    <Card>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <ChangePasswordHeading>Change Password</ChangePasswordHeading>
@@ -79,7 +79,7 @@ const ChangePassword = () => {
         </Form>
         <DevTool control={control} />
       </FormProvider>
-    </>
+    </Card>
   );
 };
 

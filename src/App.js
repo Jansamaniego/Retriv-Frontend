@@ -21,11 +21,9 @@ import VerifyEmail from './pages/VerifyEmail';
 import ProfileInfo from './pages/ProfileInfo';
 import ChangePassword from './pages/ChangePassword';
 import SendVerificationEmail from './pages/SendVerificationEmail';
-import Admin from './pages/Admin';
-import UserManager from './components/user/UserManager';
-import ShopManager from './components/shop/ShopManager';
-import OrderManager from './components/order/OrderManager';
 import ProfileHeader from './components/profile/ProfileHeader';
+import AdminDashboard from './pages/AdminDashboard';
+import ProductDetail from './components/product/ProductDetail';
 
 const App = (props) => {
   const theme = useSelector((state) => state.themeState.theme);
@@ -33,19 +31,19 @@ const App = (props) => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
-        <Route element={<RestrictTo allowedRoles={['admin']} />}>
-          <Route path="admin" element={<Admin />}>
-            <Route index element={<UserManager />} />
-            <Route path="shop" relative element={<ShopManager />} />
-            <Route path="order" relative element={<OrderManager />} />
-          </Route>
-        </Route>
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="unauthorized" element={<Unauthorized />} />
+        <Route
+          path="shop/:shopId/product/:productId"
+          element={<ProductDetail />}
+        />
+        <Route element={<RestrictTo allowedRoles={['admin']} />}>
+          <Route path="admin-dashboard" element={<AdminDashboard />} />
+        </Route>
         <Route
           element={<RestrictTo allowedRoles={['user', 'admin', 'seller']} />}
         >
@@ -58,6 +56,7 @@ const App = (props) => {
             />
           </Route>
         </Route>
+        <Route element={<RestrictTo allowedRoles={['admin']} />}></Route>
       </Route>
     )
   );

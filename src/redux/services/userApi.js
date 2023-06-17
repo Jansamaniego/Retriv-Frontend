@@ -16,7 +16,6 @@ export const userApi = createApi({
         return response.users;
       },
       providesTags: (result) => {
-        console.log(result);
         return result
           ? [
               ...result.map(({ id }) => ({ type: 'User', id })),
@@ -52,15 +51,11 @@ export const userApi = createApi({
           url: `/user/${body.id}`,
           method: 'PATCH',
           body,
-          credentals: 'include',
+          credentials: 'include',
         };
       },
-      invalidatesTags: (result, error, { body }) => [
-        {
-          type: 'User',
-          id: body.id,
-        },
-      ],
+      invalidatesTags: (result, error, arg) =>
+        result ? [{ type: 'User', id: arg.id }] : [],
     }),
     deleteUser: builder.mutation({
       query(id) {

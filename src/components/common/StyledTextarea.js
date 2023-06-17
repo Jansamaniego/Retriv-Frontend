@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Input = styled.input`
+export const StyledTextarea = styled.textarea`
   padding: 0.4rem 0.8rem;
   border: 0.1rem solid ${(props) => props.theme.primary.main};
   border-radius: 0.5rem;
@@ -11,8 +11,4 @@ export const Input = styled.input`
   width: 100%;
   min-height: 4rem;
   color: ${(props) => props.theme.neutral.text};
-
-  &:focus {
-    outline-color: ${(props) => props.theme.neutral[200]};
-  }
 `;

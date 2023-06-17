@@ -1,9 +1,10 @@
 import React from 'react';
+import ProductManager from '../components/product/ProductManager';
 
 const Home = () => {
   return (
     <>
-      <h3>Home</h3>
+      <ProductManager />
     </>
   );
 };

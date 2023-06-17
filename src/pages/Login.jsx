@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   Button,
-  Input,
+  StyledInput,
   PasswordInput,
   Form,
   StyledLink,
@@ -29,9 +29,7 @@ const Login = () => {
 
   const {
     handleSubmit,
-    register,
     control,
-    formState: { errors },
   } = methods;
 
   const onSubmit = (data) => {
@@ -42,8 +40,7 @@ const Login = () => {
     <>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Input placeholder="Email" type="email" {...register('email')} />
-          {errors.email?.message && <p>{errors.email?.message}</p>}
+          <StyledInput placeholder="Email" type="email" name="email" />
           <PasswordInput name="password" />
           <StyledLink to="/forgot-password">Forgot your password?</StyledLink>
           <Button type="submit" disabled={isLoading}>

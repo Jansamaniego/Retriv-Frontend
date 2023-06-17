@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MdCloudUpload } from 'react-icons/md';
 import { useFormContext, useController } from 'react-hook-form';
-import { Input } from './Input';
+import { StyledInput } from './StyledInput';
 
-const StyledImageUploader = styled(Input).attrs({
+const StyledImageUploader = styled(StyledInput).attrs({
   type: 'file',
   accept:
     'image/jpeg, image/jpg, image/png, image/JPG, image/PNG, image/WEBP, image/webp',

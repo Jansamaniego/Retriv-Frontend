@@ -5,6 +5,7 @@ import { setUser } from '../features/userSlice';
 export const myProfileApi = createApi({
   reducerPath: 'myProfileApi',
   baseQuery: customBaseQuery,
+  tagTypes: ['User'],
   endpoints: (builder) => ({
     getMe: builder.query({
       query() {
@@ -37,8 +38,10 @@ export const myProfileApi = createApi({
       transformResponse: (data) => {
         return data.user;
       },
-      invalidatesTags: (result, error) =>
-        result ? [{ type: 'User', id: result.id }] : [],
+      invalidatesTags: (result, error, arg) => {
+        console.log(result);
+        return result ? [{ type: 'User', id: result.id }] : [];
+      },
     }),
     updateProfileImage: builder.mutation({
       query(data) {

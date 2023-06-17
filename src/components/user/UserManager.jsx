@@ -34,7 +34,6 @@ const UserList = ({ users }) => {
 
 const UserManager = () => {
   const { data: users, isLoading } = useGetUsersQuery();
-  console.log(users);
 
   if (isLoading) {
     return <h3>Loading...</h3>;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input } from '../components/common';
+import { Button, Form, StyledInput } from '../components/common';
 import { FormProvider } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,7 +28,7 @@ const ForgotPassword = () => {
   return (
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Input placeholder="Email" type="email" {...register('email')} />
+        <StyledInput placeholder="Email" type="email" {...register('email')} />
         {errors.email?.message && <p>{errors.email?.message}</p>}
         <Button type="submit" disabled={isLoading}>
           Send reset password email

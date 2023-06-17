@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSendVerificationEmailMutation } from '../redux/services/authApi';
-import { Button } from '../components/common';
+import { Button, Card } from '../components/common';
 import styled from 'styled-components';
 import { useOutletContext } from 'react-router-dom';
 
@@ -32,31 +32,33 @@ const SendVerificationEmail = () => {
   };
 
   return (
-    <SendVerificationEmailFlexBoxContainer>
-      <SendVerificationEmailHeading>
-        Please verify your email
-      </SendVerificationEmailHeading>
-      <SendVerificationEmailFlexBox>
-        {emailSent ? (
-          <h5>
-            An email was sent to {email}, please click the link on the message
-            to complete the verification process.
-          </h5>
-        ) : (
-          <h5>
-            Click the button below to send a verification email to {email}.
-          </h5>
-        )}
+    <Card>
+      <SendVerificationEmailFlexBoxContainer>
+        <SendVerificationEmailHeading>
+          Please verify your email
+        </SendVerificationEmailHeading>
+        <SendVerificationEmailFlexBox>
+          {emailSent ? (
+            <h5>
+              An email was sent to {email}, please click the link on the message
+              to complete the verification process.
+            </h5>
+          ) : (
+            <h5>
+              Click the button below to send a verification email to {email}.
+            </h5>
+          )}
 
-        <Button
-          superLarge
-          onClick={verificationEmailClickHandler}
-          disabled={isLoading}
-        >
-          Send Verification Email
-        </Button>
-      </SendVerificationEmailFlexBox>
-    </SendVerificationEmailFlexBoxContainer>
+          <Button
+            superLarge
+            onClick={verificationEmailClickHandler}
+            disabled={isLoading}
+          >
+            Send Verification Email
+          </Button>
+        </SendVerificationEmailFlexBox>
+      </SendVerificationEmailFlexBoxContainer>
+    </Card>
   );
 };
 

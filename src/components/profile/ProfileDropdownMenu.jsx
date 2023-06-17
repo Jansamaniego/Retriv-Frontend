@@ -57,8 +57,7 @@ const MenuLinksContainer = styled.div`
 `;
 
 const ProfileDropdownMenu = ({ isProfileMenuOpen, user }) => {
-  console.log(user);
-  const { profileImage, name, email, role } = user;
+  const { profileImage, name, email} = user;
   return (
     <ProfileDropdownMenuContainer isProfileMenuOpen={isProfileMenuOpen}>
       <ProfileSectionContainer>

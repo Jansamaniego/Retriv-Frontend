@@ -20,6 +20,7 @@ const SideMenuMain = styled.aside`
   border-radius: 0.5rem;
   background-color: ${(props) => props.theme.primary.main};
   min-height: 120rem;
+  box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1);
 `;
 
 const StyledMainMenuLink = styled(Link)`
@@ -100,7 +101,7 @@ const SideMenu = () => {
       </StyledMainMenuLink>
 
       {role === 'admin' ? (
-        <StyledMainMenuLink to="/">
+        <StyledMainMenuLink to="/admin-dashboard">
           <DashBoardIcon width="3rem" />
           Dashboard
         </StyledMainMenuLink>

@@ -4,7 +4,6 @@ import { logout } from '../redux/features/userSlice';
 import Cookies from 'js-cookie';
 
 const baseUrl = `${process.env.REACT_APP_API_BASE_URL}/api`;
-console.log(baseUrl);
 
 const mutex = new Mutex();
 

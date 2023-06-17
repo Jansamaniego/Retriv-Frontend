@@ -19,7 +19,7 @@ const MainContentContainer = styled.main`
 `;
 
 const MainContentFlex = styled.section`
-  width: 80%;
+  width: 95%;
 `;
 
 const RootLayout = (props) => {

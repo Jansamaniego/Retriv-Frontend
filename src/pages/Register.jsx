@@ -4,7 +4,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
-  Input,
+  StyledInput,
   PasswordInput,
   Button,
   Select,
@@ -93,20 +93,32 @@ const Register = () => {
     <>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Input placeholder="Username" type="text" {...register('username')} />
+          <StyledInput
+            placeholder="Username"
+            type="text"
+            {...register('username')}
+          />
           {errors.username?.message && <p>{errors.username?.message}</p>}
-          <Input placeholder="Email" type="email" {...register('email')} />
+          <StyledInput
+            placeholder="Email"
+            type="email"
+            {...register('email')}
+          />
           {errors.email?.message && <p>{errors.email?.message}</p>}
           <PasswordInput name="password" />
           <PasswordInput
             name="passwordConfirmation"
             placeholder="Confirm password"
           />
-          <Input placeholder="name" type="text" {...register('name')} />
+          <StyledInput placeholder="name" type="text" {...register('name')} />
           {errors.name?.message && <p>{errors.name?.message}</p>}
-          <Input placeholder="Address" type="text" {...register('address')} />
+          <StyledInput
+            placeholder="Address"
+            type="text"
+            {...register('address')}
+          />
           {errors.address?.message && <p>{errors.address?.message}</p>}
-          <Input
+          <StyledInput
             placeholder="Phone"
             type="number"
             {...register('phone', { valueAsNumber: true })}
@@ -120,7 +132,7 @@ const Register = () => {
             <option value="undisclosed">Undisclosed</option>
           </Select>
           {errors.gender?.message && <p>{errors.gender?.message}</p>}
-          <Input
+          <StyledInput
             placeholder="DateOfBirth"
             type="date"
             {...register('dateOfBirth', { valueAsDate: true })}

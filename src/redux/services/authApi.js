@@ -43,6 +43,7 @@ export const authApi = createApi({
         }
       },
     }),
+
     logoutUser: builder.mutation({
       query() {
         return {
