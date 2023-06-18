@@ -16,8 +16,8 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  max-width: 800px;
-  width: 30%;
+  max-width: 140rem;
+  /* width: 30%; */
   box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1);
   background: ${(props) => props.theme.neutral[900]};
   color: ${(props) => props.theme.neutral[10]};

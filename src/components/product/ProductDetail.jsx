@@ -23,17 +23,9 @@ const ProductDetail = () => {
       { pollingInterval: 20 * 60 * 1000 }
     );
 
-  if (
-    !product &&
-    !productRatings &&
-    productIsLoading &&
-    productRatingsIsLoading
-  )
-    return <h1>Loading...</h1>;
+  if (productIsLoading || productRatingsIsLoading) return <h1>Loading...</h1>;
 
-  console.log(product, productRatings);
-
-  return <ProductHeader product={product} productRatings={productRatings} />;
+  return <ProductHeader productRatings={productRatings} product={product} />;
 };
 
 export default ProductDetail;
