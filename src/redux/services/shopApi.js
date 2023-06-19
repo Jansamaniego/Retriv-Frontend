@@ -27,7 +27,7 @@ export const shopApi = createApi({
           url: `/shop/${shopId}`,
         };
       },
-      transformResponse: (response) => response.user,
+      transformResponse: (response) => response.shop,
       providesTags: (result, error, { shopId }) =>
         result ? [{ type: 'Shop', id: shopId }] : [],
     }),

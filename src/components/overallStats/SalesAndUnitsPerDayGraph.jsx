@@ -73,8 +73,6 @@ const SalesAndUnitsPerDayGraph = ({ dailyData, year }) => {
       }
     }
 
-    console.log(formattedDailyData);
-
     const salesPerDayLine = {
       id: 'salesPerDay',
       color: theme.primary.main,

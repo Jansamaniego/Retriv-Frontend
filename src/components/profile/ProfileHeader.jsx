@@ -1,9 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { Card } from '../common';
+import { Card, Socials } from '../common';
 import styled from 'styled-components';
-import { InstagramIcon, TwitterIcon, FacebookIcon } from '../../assets/icons';
 
 const ProfileHeaderCard = styled(Card)`
   position: relative;
@@ -67,16 +66,6 @@ const UserHeaderInfoRole = styled.h5`
   font-weight: 300;
 `;
 
-const SocialsFlexContainer = styled.div`
-  display: flex;
-  gap: 0.8rem;
-  align-items: flex-start;
-`;
-
-const SocialsText = styled.h5`
-  font-weight: 300;
-`;
-
 const ProfileHeader = () => {
   const user = useSelector((state) => state.userState.user);
 
@@ -101,12 +90,7 @@ const ProfileHeader = () => {
                   <UserHeaderInfoRole>{role}</UserHeaderInfoRole>
                 </UserHeaderSubInfo>
               </UserHeaderInfo>
-              <SocialsFlexContainer>
-                <SocialsText>socials</SocialsText>
-                <InstagramIcon width="3rem" />
-                <TwitterIcon width="3rem" />
-                <FacebookIcon width="3rem" />
-              </SocialsFlexContainer>
+              <Socials />
             </UserHeaderInfoFlexContainer>
           </NormalDiv>
         </ProfileHeaderCard>

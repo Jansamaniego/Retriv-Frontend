@@ -12,3 +12,6 @@ export * from './InstagramIcon';
 export * from './TwitterIcon';
 export * from './FacebookIcon';
 export * from './SearchIcon';
+export * from './StarIcon';
+export * from './MinusIcon';
+export * from './PlusIcon';

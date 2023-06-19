@@ -3,6 +3,8 @@ import { Card } from '../common';
 import styled from 'styled-components';
 import DisplayImageModal from './DisplayImageModal';
 
+import ProductHeaderInfo from './ProductHeaderInfo';
+
 const ProductHeaderCard = styled(Card)``;
 
 const ProductHeaderContentContainer = styled.div`
@@ -60,13 +62,23 @@ const SmallImage = styled.img`
   object-fit: cover;
 `;
 
-const ProductInfo = styled.main``;
-
 const ProductHeader = ({ product, productRatings }) => {
   const [displayImage, setDisplayImage] = useState();
   const [isDisplayImageModalOpen, setIsDisplayImageModalOpen] = useState(false);
 
-  const { mainImage, images, name } = product;
+  const {
+    mainImage,
+    images,
+    name,
+    quantitySold,
+    isOutOfStock,
+    quantityInStock,
+    description,
+    price,
+  } = product;
+
+  const { ratingsAverage, ratingsQuantity, ratingsQuantityPerRatingScore } =
+    productRatings;
 
   useEffect(() => {
     setDisplayImage(mainImage);
@@ -116,14 +128,16 @@ const ProductHeader = ({ product, productRatings }) => {
             </ImagesFlex>
           </ImagesContainer>
         </ImagesWrapper>
-        <ProductInfo>
-          <ProductInfoName>{name}</ProductInfoName>
-          <ProductInfoStatsContainer>
-            <ProductInfoStatsAvgRating></ProductInfoStatsAvgRating>
-            <ProductInfoStatsRatingQuantity></ProductInfoStatsRatingQuantity>
-            <ProductInfoStatsProductsSold></ProductInfoStatsProductsSold>
-          </ProductInfoStatsContainer>
-        </ProductInfo>
+        <ProductHeaderInfo
+          name={name}
+          quantitySold={quantitySold}
+          isOutOfStock={isOutOfStock}
+          quantityInStock={quantityInStock}
+          ratingsAverage={ratingsAverage}
+          ratingsQuantity={ratingsQuantity}
+          description={description}
+          price={price}
+        />
       </ProductHeaderContentContainer>
       {isDisplayImageModalOpen ? (
         <DisplayImageModal

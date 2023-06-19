@@ -50,8 +50,6 @@ const AdminDashboard = () => {
 
   if (!overallStats || isLoading) return <h1>Loading...</h1>;
 
-  console.log(overallStats);
-
   const {
     monthlyData,
     dailyData,
@@ -62,7 +60,6 @@ const AdminDashboard = () => {
     yearlySalesTotal,
     yearlyTotalSoldunits,
   } = overallStats;
-  console.log(overallStats);
 
   const onChangeHandler = (e) => {
     setQueryStatsYear(e.target.value);
@@ -78,8 +75,6 @@ const AdminDashboard = () => {
     yearsSelection.push(moment(createdAt).add(i, 'days').format('YYYY'));
     i++;
   }
-
-  console.log(yearsSelection, year, yearsSinceCreation);
 
   return (
     <>

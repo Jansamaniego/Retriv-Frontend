@@ -1,8 +1,13 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../../redux/services/productApi';
 import { useGetProductRatingsQuery } from '../../redux/services/ratings/productRatingsApi';
 import ProductHeader from './ProductHeader';
+import ProductShop from './ProductShop';
+import ReviewsByProductManager from '../review/ReviewsByProductManager';
+
+const ProductDetailContainer = styled.main``;
 
 const ProductDetail = () => {
   const { shopId, productId } = useParams();
@@ -25,7 +30,13 @@ const ProductDetail = () => {
 
   if (productIsLoading || productRatingsIsLoading) return <h1>Loading...</h1>;
 
-  return <ProductHeader productRatings={productRatings} product={product} />;
+  return (
+    <ProductDetailContainer>
+      <ProductHeader productRatings={productRatings} product={product} />
+      <ProductShop shopId={product.shop} />
+      <ReviewsByProductManager />
+    </ProductDetailContainer>
+  );
 };
 
 export default ProductDetail;

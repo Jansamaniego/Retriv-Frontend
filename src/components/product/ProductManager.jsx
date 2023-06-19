@@ -81,7 +81,6 @@ const ProductItem = ({ id }) => {
     navigate(`shop/${shopId}/product/${productId}`);
   };
 
-  console.log(product);
 
   return (
     <ProductCard onClick={navigateProduct}>
@@ -107,8 +106,6 @@ const ProductList = ({ products }) => {
 
 const ProductManager = () => {
   const { data: products, isLoading } = useGetProductsQuery();
-
-  console.log(products);
 
   if (!products && isLoading) {
     return <h3>Loading...</h3>;
