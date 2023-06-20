@@ -4,7 +4,7 @@ import customBaseQuery from '../../utils/customBaseQuery'
 export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: customBaseQuery,
-  tagTypes: ['product'],
+  tagTypes: ['Product'],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query() {

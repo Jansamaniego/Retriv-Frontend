@@ -40,6 +40,7 @@ const ProfileImageContainer = styled.div`
 const ProfileImage = styled.img`
   border-radius: 50%;
   outline: 0.5rem solid ${(props) => props.theme.neutral[900]};
+  object-fit: cover;
 `;
 
 const UserHeaderInfoFlexContainer = styled.div`

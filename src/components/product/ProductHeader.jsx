@@ -77,7 +77,7 @@ const ProductHeader = ({ product, productRatings }) => {
     price,
   } = product;
 
-  const { ratingsAverage, ratingsQuantity, ratingsQuantityPerRatingScore } =
+  const { ratingsAverage, ratingsQuantity } =
     productRatings;
 
   useEffect(() => {

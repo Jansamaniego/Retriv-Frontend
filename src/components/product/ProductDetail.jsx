@@ -7,7 +7,11 @@ import ProductHeader from './ProductHeader';
 import ProductShop from './ProductShop';
 import ReviewsByProductManager from '../review/ReviewsByProductManager';
 
-const ProductDetailContainer = styled.main``;
+const ProductDetailContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+`;
 
 const ProductDetail = () => {
   const { shopId, productId } = useParams();
@@ -19,7 +23,7 @@ const ProductDetail = () => {
     }
   );
 
-  const { data: productRatings, isLoading: productRatingsIsLoading } =
+  let { data: productRatings, isLoading: productRatingsIsLoading } =
     useGetProductRatingsQuery(
       {
         shopId,
@@ -30,11 +34,18 @@ const ProductDetail = () => {
 
   if (productIsLoading || productRatingsIsLoading) return <h1>Loading...</h1>;
 
+  if (!productRatings) {
+    productRatings = {
+      ratingsAverage: 0,
+      ratingsQuantity: 0,
+    };
+  }
+
   return (
     <ProductDetailContainer>
       <ProductHeader productRatings={productRatings} product={product} />
       <ProductShop shopId={product.shop} />
-      <ReviewsByProductManager />
+      <ReviewsByProductManager productId={productId} shopId={product.shop} />
     </ProductDetailContainer>
   );
 };
