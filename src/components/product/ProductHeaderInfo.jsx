@@ -119,7 +119,6 @@ const ProductHeaderInfo = ({
 }) => {
   const [quantityToPurchase, setQuantityToPurchase] = useState(1);
 
-
   const decrementQuantityToPurchase = () => {
     setQuantityToPurchase((value) => Number(value) - 1);
   };
@@ -140,11 +139,12 @@ const ProductHeaderInfo = ({
         <ProductInfoStatsAvgRating>
           <RatingsAverage>{ratingsAverage}</RatingsAverage>
           <ProductInfoStatsAvgRatingStars>
-            <StarIcon width="3rem" gradient={avg >= 10 ? 10 : avg} />
-            <StarIcon width="3rem" gradient={avg - 10 >= 10 ? 10 : avg - 10} />
-            <StarIcon width="3rem" gradient={avg - 20 >= 10 ? 10 : avg - 20} />
-            <StarIcon width="3rem" gradient={avg - 30 >= 10 ? 10 : avg - 30} />
-            <StarIcon width="3rem" gradient={avg - 40 >= 10 ? 10 : avg - 40} />
+            {[...Array(5)].map((star, idx) => (
+              <StarIcon
+                width="3rem"
+                gradient={avg - idx * 10 >= 10 ? 10 : avg - idx * 10}
+              />
+            ))}
           </ProductInfoStatsAvgRatingStars>
         </ProductInfoStatsAvgRating>
         <ProductInfoStatsRatingQuantityContainer>

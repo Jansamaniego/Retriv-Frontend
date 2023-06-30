@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../utils/customBaseQuery'
+import customBaseQuery from '../../utils/customBaseQuery';
 
 export const productApi = createApi({
   reducerPath: 'productApi',
@@ -7,16 +7,18 @@ export const productApi = createApi({
   tagTypes: ['Product'],
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query() {
-        return { url: '/product' };
+      query(queryString) {
+        return { url: `/product?${queryString || ''}` };
       },
       transformResponse: (response) => response.products,
-      providesTags: (result) => {
-        return result
+      providesTags: (results) => {
+        return Array.isArray(results.results)
           ? [
-              ...result.map(({ id }) => ({ type: 'Product', id })),
+              ...results.results.map(({ id }) => ({ type: 'Product', id })),
               { type: 'Product', id: 'LIST' },
             ]
+          : results.results
+          ? [{ type: 'Product', id: results[0].id }]
           : [];
       },
     }),

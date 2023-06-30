@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useGetProductByIdQuery } from '../../redux/services/productApi';
-import { useGetProductRatingsQuery } from '../../redux/services/ratings/productRatingsApi';
-import ProductHeader from './ProductHeader';
-import ProductShop from './ProductShop';
-import ReviewsByProductManager from '../review/ReviewsByProductManager';
+import { useGetProductByIdQuery } from '../redux/services/productApi';
+import { useGetProductRatingsQuery } from '../redux/services/ratings/productRatingsApi';
+import ProductHeader from '../components/product/ProductHeader';
+import ProductShop from '../components/product/ProductShop';
+import ReviewsByProductManager from '../components/review/ReviewsByProductManager';
+import ReviewForm from '../components/review/ReviewForm';
 
 const ProductDetailContainer = styled.main`
   display: flex;
@@ -13,7 +14,7 @@ const ProductDetailContainer = styled.main`
   gap: 3.2rem;
 `;
 
-const ProductDetail = () => {
+const ProductPage = () => {
   const { shopId, productId } = useParams();
 
   const { data: product, isLoading: productIsLoading } = useGetProductByIdQuery(
@@ -46,8 +47,9 @@ const ProductDetail = () => {
       <ProductHeader productRatings={productRatings} product={product} />
       <ProductShop shopId={product.shop} />
       <ReviewsByProductManager productId={productId} shopId={product.shop} />
+      <ReviewForm shopId={product.shop} productId={productId} />
     </ProductDetailContainer>
   );
 };
 
-export default ProductDetail;
+export default ProductPage;

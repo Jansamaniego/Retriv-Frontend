@@ -38,10 +38,8 @@ export const myProfileApi = createApi({
       transformResponse: (data) => {
         return data.user;
       },
-      invalidatesTags: (result, error, arg) => {
-        console.log(result);
-        return result ? [{ type: 'User', id: result.id }] : [];
-      },
+      invalidatesTags: (result, error, arg) =>
+        result ? [{ type: 'User', id: result.id }] : [],
     }),
     updateProfileImage: builder.mutation({
       query(data) {

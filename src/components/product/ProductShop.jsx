@@ -4,6 +4,8 @@ import { useGetShopRatingsQuery } from '../../redux/services/ratings/shopRatings
 import { useGetShopStatsQuery } from '../../redux/services/stats/shopStatsApi';
 import { Card } from '../common';
 import styled from 'styled-components';
+import ProfileImageLogo from '../profile/ProfileImageLogo';
+import { useNavigate } from 'react-router-dom';
 
 const ProductShopWrapper = styled.div`
   display: flex;
@@ -76,6 +78,7 @@ const Tag = styled.h6`
 const Value = styled.h6``;
 
 const ProductShop = ({ shopId }) => {
+  const navigate = useNavigate();
   const { data: shop, shopIsLoading } = useGetShopByIdQuery(shopId);
 
   let { data: shopRating, shopRatingIsLoading } =
@@ -91,8 +94,6 @@ const ProductShop = ({ shopId }) => {
     };
   }
 
-  console.log(shop);
-
   let { ratingsAverage, ratingsQuantity } = shopRating;
 
   const { name, description, shopImage, productsQuantity, totalUnitsSold } =
@@ -101,14 +102,20 @@ const ProductShop = ({ shopId }) => {
   if (!ratingsAverage) ratingsAverage = 0;
   if (!ratingsQuantity) ratingsQuantity = 0;
 
+  const navigateShop = () => {
+    navigate(`/shop/${shopId}`, { relative: false });
+  };
+
   return (
     <Card>
       <ProductShopWrapper>
         <ProductShopInfo>
           <ProductShopInfoFlex>
-            <ProductShopImageContainer>
-              <ProductShopImage src={shopImage} />
-            </ProductShopImageContainer>
+            <ProfileImageLogo
+              profileImage={shopImage}
+              imageWidth="8rem"
+              onClick={navigateShop}
+            />
             <ProductShopPreviewContainer>
               <ProductShopNameContainer>
                 <ProductShopName>{name}</ProductShopName>

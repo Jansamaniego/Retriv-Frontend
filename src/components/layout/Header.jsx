@@ -4,14 +4,15 @@ import {
   Link as ReactRouterDomLink,
   useLocation,
   useNavigate,
+  useSearchParams,
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, StyledLink } from '../common';
+import { StyledLink } from '../common';
 import { useLogoutUserMutation } from '../../redux/services/authApi';
 import ThemeToggleButton from '../theme/ThemeToggleButton';
 import ProfileImageLogo from '../profile/ProfileImageLogo';
 import ProfileDropdownMenu from '../profile/ProfileDropdownMenu';
-import { SearchIcon } from '../../assets/icons';
+import Search from './Search';
 
 const HeaderWrapper = styled.header`
   height: 60px;
@@ -28,30 +29,6 @@ const HeaderWrapper = styled.header`
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const SearchBar = styled.div`
-  display: flex;
-  align-items: center;
-  margin: auto;
-  background-color: ${(props) => props.theme.neutral[900]};
-  border-radius: 0.5rem;
-  font-size: 2rem;
-  width: 40%;
-`;
-
-const SearchInput = styled.input`
-  width: 95%;
-  border: none;
-  padding: 0 1.6rem;
-  border-radius: 0.5rem;
-  min-height: 4rem;
-`;
-
-const SearchIconButton = styled(Button)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Menu = styled.nav`
@@ -98,7 +75,7 @@ const MobileMenuIcon = styled.div`
   }
 `;
 
-const Header = () => {
+const Header = ({ setSearchParams }) => {
   const theme = useSelector((state) => state.themeState.theme);
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -106,6 +83,7 @@ const Header = () => {
   const loggedInUser = useSelector((state) => state.userState.user);
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
   const dispatch = useDispatch();
+  
 
   const userImageLogoClickhandler = () => {
     setIsProfileMenuOpen((value) => !value);
@@ -123,12 +101,7 @@ const Header = () => {
           <h1>Retriv</h1>
         </StyledLink>
       </LogoContainer>
-      <SearchBar>
-        <SearchInput />
-        <SearchIconButton>
-          <SearchIcon width="2rem" />
-        </SearchIconButton>
-      </SearchBar>
+      <Search setSearchParams={setSearchParams} />
       <Menu open={menuOpen}>
         <MenuFlexContainer>
           <ThemeToggleButton />

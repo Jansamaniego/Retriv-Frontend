@@ -15,6 +15,7 @@ import { productRatingsApi } from './services/ratings/productRatingsApi';
 import userReducer from './features/userSlice';
 import shopReducer from './features/shopSlice';
 import themeReducer from './features/themeSlice';
+import searchReducer from './features/searchSlice';
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ export const store = configureStore({
     userState: userReducer,
     shopState: shopReducer,
     themeState: themeReducer,
+    searchState: searchReducer,
   },
 
   devTools: process.env.REACT_APP_NODE_ENV === 'development',

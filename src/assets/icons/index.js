@@ -15,3 +15,5 @@ export * from './SearchIcon';
 export * from './StarIcon';
 export * from './MinusIcon';
 export * from './PlusIcon';
+export * from './ChevronDown';
+export * from './ChevronUp';

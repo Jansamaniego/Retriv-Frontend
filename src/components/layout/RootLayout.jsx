@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
@@ -22,7 +22,7 @@ const MainContentFlex = styled.section`
   width: 95%;
 `;
 
-const RootLayout = (props) => {
+const RootLayout = () => {
   return (
     <>
       <Header />

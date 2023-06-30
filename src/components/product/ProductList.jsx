@@ -1,15 +1,11 @@
-import React from 'react';
-import { useGetProductsQuery } from '../../redux/services/productApi';
+import React, { useEffect } from 'react';
+import {
+  useGetProductsQuery,
+  useGetProductsQuerySubscription,
+} from '../../redux/services/productApi';
 import { Card } from '../common';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-
-const ProductManagerGrid = styled.main`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  column-gap: 1.6rem;
-  row-gap: 1.6rem;
-`;
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const StyledCard = styled(Card)`
   min-height: 12vh;
@@ -60,13 +56,19 @@ const ProductCard = ({ children, onClick }) => {
 };
 
 const ProductItem = ({ id }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const { product } = useGetProductsQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      product: data?.find((product) => product.id === id),
-    }),
-  });
+  const { product } = useGetProductsQuery(
+    searchParams.size ? searchParams.toString() : undefined,
+    {
+      selectFromResult: ({ data }) => {
+        return {
+          product: data?.results?.find((product) => product.id === id),
+        };
+      },
+    }
+  );
 
   const {
     name,
@@ -78,9 +80,8 @@ const ProductItem = ({ id }) => {
   } = product;
 
   const navigateProduct = () => {
-    navigate(`shop/${shopId}/product/${productId}`);
+    navigate(`/shop/${shopId}/product/${productId}`);
   };
-
 
   return (
     <ProductCard onClick={navigateProduct}>
@@ -101,21 +102,8 @@ const ProductItem = ({ id }) => {
 };
 
 const ProductList = ({ products }) => {
+  console.log(products);
   return products.map(({ id }) => <ProductItem key={id} id={id} />);
 };
 
-const ProductManager = () => {
-  const { data: products, isLoading } = useGetProductsQuery();
-
-  if (!products && isLoading) {
-    return <h3>Loading...</h3>;
-  }
-
-  return (
-    <ProductManagerGrid>
-      <ProductList products={products} />
-    </ProductManagerGrid>
-  );
-};
-
-export default ProductManager;
+export default ProductList;

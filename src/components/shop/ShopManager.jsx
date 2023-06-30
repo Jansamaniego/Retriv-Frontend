@@ -27,6 +27,10 @@ const ShopManager = () => {
     return <h3>Loading...</h3>;
   }
 
+  if (!shops || shops.length === 0 || !Array.isArray(shops)) {
+    return <h3>No shops found</h3>;
+  }
+
   return <ShopList shops={shops} />;
 };
 

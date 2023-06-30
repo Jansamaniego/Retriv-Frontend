@@ -10,7 +10,6 @@ import GlobalStyle from './components/global/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import { themeSettings } from './components/theme/theme';
 import RootLayout from './components/layout/RootLayout';
-import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -23,7 +22,10 @@ import ChangePassword from './pages/ChangePassword';
 import SendVerificationEmail from './pages/SendVerificationEmail';
 import ProfileHeader from './components/profile/ProfileHeader';
 import AdminDashboard from './pages/AdminDashboard';
-import ProductDetail from './components/product/ProductDetail';
+import UserPage from './pages/UserPage';
+import ProductManager from './pages/ProductManager';
+import ProductPage from './pages/ProductPage';
+import ShopPage from './pages/ShopPage';
 
 const App = (props) => {
   const theme = useSelector((state) => state.themeState.theme);
@@ -31,7 +33,7 @@ const App = (props) => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
-        <Route index element={<Home />} />
+        <Route index element={<ProductManager />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
@@ -39,8 +41,10 @@ const App = (props) => {
         <Route path="unauthorized" element={<Unauthorized />} />
         <Route
           path="shop/:shopId/product/:productId"
-          element={<ProductDetail />}
+          element={<ProductPage />}
         />
+        <Route path="shop/:shopId" element={<ShopPage />} />
+        <Route path="user/:userId" element={<UserPage />} />
         <Route element={<RestrictTo allowedRoles={['admin']} />}>
           <Route path="admin-dashboard" element={<AdminDashboard />} />
         </Route>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ProfileImageLogoContainer = styled.div`
-  max-width: 4rem;
+  max-width: ${(props) => props.imageWidth};
   position: relative;
 `;
 
@@ -15,9 +15,15 @@ const ProfileImage = styled.img`
   }
 `;
 
-const ProfileImageLogo = ({ profileImage, onClick }) => {
+const ProfileImageLogo = ({
+  profileImage,
+  onClick,
+  imageWidth = '4rem',
+
+  ...props
+}) => {
   return (
-    <ProfileImageLogoContainer>
+    <ProfileImageLogoContainer imageWidth={imageWidth}>
       <ProfileImage
         src={profileImage}
         alt="profile image logo"

@@ -7,8 +7,8 @@ export const reviewApi = createApi({
   tagTypes: ['Review'],
   endpoints: (builder) => ({
     getReviewsByProductId: builder.query({
-      query(shopId, productId) {
-        return { url: `shop/${shopId}/product/${productId}` };
+      query({ shopId, productId }) {
+        return { url: `shop/${shopId}/product/${productId}/review` };
       },
       transformResponse: (response) => response.reviews,
       providesTags: (result, error, { productId }) => {
@@ -31,11 +31,11 @@ export const reviewApi = createApi({
         result ? [{ type: 'Review', id: result.id }] : [],
     }),
     createReview: builder.mutation({
-      query({ shopId, productId, ...body }) {
+      query({ shopId, productId, ...data }) {
         return {
-          url: `shop/${shopId}/product/${productId}`,
+          url: `shop/${shopId}/product/${productId}/review`,
           method: 'POST',
-          body,
+          body: data,
           credentials: 'include',
         };
       },
