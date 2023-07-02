@@ -22,10 +22,22 @@ export const productApi = createApi({
           : [];
       },
     }),
+    getProductsByShopId: builder.query({
+      query(shopId) {
+        return {
+          url: `shop/${shopId}/product/all`,
+        };
+      },
+      transformResponse: (response) => {
+        return response.products;
+      },
+      providesTags: (result, error, { productId }) =>
+        result ? [{ type: 'Product', id: productId }] : [],
+    }),
     getProductById: builder.query({
       query({ shopId, productId }) {
         return {
-          url: `shop/${shopId}/product/${productId}`,
+          url: `/shop/${shopId}/product/${productId}`,
         };
       },
       transformResponse: (response) => response.product,
@@ -48,6 +60,7 @@ export const productApi = createApi({
 
 export const {
   useGetProductsQuery,
+  useGetProductsByShopIdQuery,
   useGetProductByIdQuery,
   useCreateProductMutation,
 } = productApi;

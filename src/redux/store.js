@@ -6,6 +6,7 @@ import { shopApi } from './services/shopApi';
 import { orderApi } from './services/orderApi';
 import { productApi } from './services/productApi';
 import { reviewApi } from './services/reviewApi';
+import { cartApi } from './services/cartApi';
 import { overallStatsApi } from './services/stats/overallStatsApi';
 import { shopStatsApi } from './services/stats/shopStatsApi';
 import { productStatsApi } from './services/stats/productStatsApi';
@@ -25,6 +26,7 @@ export const store = configureStore({
     [shopApi.reducerPath]: shopApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
+    [cartApi.reducerPath]: cartApi.reducer,
     [reviewApi.reducerPath]: reviewApi.reducer,
     [overallStatsApi.reducerPath]: overallStatsApi.reducer,
     [shopStatsApi.reducerPath]: shopStatsApi.reducer,
@@ -47,6 +49,7 @@ export const store = configureStore({
       shopApi.middleware,
       orderApi.middleware,
       productApi.middleware,
+      cartApi.middleware,
       reviewApi.middleware,
       overallStatsApi.middleware,
       shopStatsApi.middleware,

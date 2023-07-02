@@ -1,6 +1,6 @@
 import { useTheme } from 'styled-components';
 
-export const StarIcon = ({ gradient, ...props }) => {
+export const StarGradientIcon = ({ gradient, ...props }) => {
   const theme = useTheme();
   return (
     <svg

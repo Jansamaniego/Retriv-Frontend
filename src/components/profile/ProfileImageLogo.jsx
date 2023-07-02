@@ -4,6 +4,8 @@ import styled from 'styled-components';
 const ProfileImageLogoContainer = styled.div`
   max-width: ${(props) => props.imageWidth};
   position: relative;
+  height: 100%;
+  display: flex;
 `;
 
 const ProfileImage = styled.img`

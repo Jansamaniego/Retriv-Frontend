@@ -13,6 +13,7 @@ import ThemeToggleButton from '../theme/ThemeToggleButton';
 import ProfileImageLogo from '../profile/ProfileImageLogo';
 import ProfileDropdownMenu from '../profile/ProfileDropdownMenu';
 import Search from './Search';
+import { CartIcon } from '../../assets/icons';
 
 const HeaderWrapper = styled.header`
   height: 60px;
@@ -83,7 +84,6 @@ const Header = ({ setSearchParams }) => {
   const loggedInUser = useSelector((state) => state.userState.user);
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
   const dispatch = useDispatch();
-  
 
   const userImageLogoClickhandler = () => {
     setIsProfileMenuOpen((value) => !value);
@@ -105,6 +105,11 @@ const Header = ({ setSearchParams }) => {
       <Menu open={menuOpen}>
         <MenuFlexContainer>
           <ThemeToggleButton />
+          {loggedInUser ? (
+            <StyledLink to="/cart">
+              <CartIcon width="3rem" />
+            </StyledLink>
+          ) : null}
           {loggedInUser ? (
             <>
               <ProfileImageLogo

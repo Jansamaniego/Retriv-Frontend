@@ -5,7 +5,7 @@ import {
   useGetReviewsByProductIdQuery,
   useGetReviewByIdQuery,
 } from '../../redux/services/reviewApi';
-import { StarIcon } from '../../assets/icons';
+import { StarGradientIcon } from '../../assets/icons';
 import ProfileImageLogo from '../profile/ProfileImageLogo';
 import { useNavigate } from 'react-router-dom';
 
@@ -74,7 +74,7 @@ const ReviewsByProductItem = ({ reviewId }) => {
             <ReviewerName>{name}</ReviewerName>
             <ProductInfoStatsAvgRatingStars>
               {[...Array(5)].map((star, idx) => (
-                <StarIcon
+                <StarGradientIcon
                   width="1rem"
                   gradient={
                     formattedRating - idx * 10 >= 10

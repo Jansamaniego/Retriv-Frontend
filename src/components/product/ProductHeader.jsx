@@ -67,6 +67,7 @@ const ProductHeader = ({ product, productRatings }) => {
   const [isDisplayImageModalOpen, setIsDisplayImageModalOpen] = useState(false);
 
   const {
+    id,
     mainImage,
     images,
     name,
@@ -77,8 +78,7 @@ const ProductHeader = ({ product, productRatings }) => {
     price,
   } = product;
 
-  const { ratingsAverage, ratingsQuantity } =
-    productRatings;
+  const { ratingsAverage, ratingsQuantity } = productRatings;
 
   useEffect(() => {
     setDisplayImage(mainImage);
@@ -129,6 +129,7 @@ const ProductHeader = ({ product, productRatings }) => {
           </ImagesContainer>
         </ImagesWrapper>
         <ProductHeaderInfo
+          productId={id}
           name={name}
           quantitySold={quantitySold}
           isOutOfStock={isOutOfStock}

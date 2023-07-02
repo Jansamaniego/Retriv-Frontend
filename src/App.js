@@ -26,6 +26,7 @@ import UserPage from './pages/UserPage';
 import ProductManager from './pages/ProductManager';
 import ProductPage from './pages/ProductPage';
 import ShopPage from './pages/ShopPage';
+import Cart from './pages/Cart';
 
 const App = (props) => {
   const theme = useSelector((state) => state.themeState.theme);
@@ -51,6 +52,7 @@ const App = (props) => {
         <Route
           element={<RestrictTo allowedRoles={['user', 'admin', 'seller']} />}
         >
+          <Route path="cart" element={<Cart />} />
           <Route path="profile" element={<ProfileHeader />}>
             <Route index element={<ProfileInfo />} />
             <Route path="change-password" element={<ChangePassword />} />

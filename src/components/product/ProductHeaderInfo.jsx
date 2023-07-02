@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-import { MinusIcon, PlusIcon, StarIcon } from '../../assets/icons';
+import {
+  CheckIcon,
+  MinusIcon,
+  PlusIcon,
+  StarGradientIcon,
+} from '../../assets/icons';
 import styled from 'styled-components';
-import { Button, Socials } from '../common';
+import { Button, Socials, TransparentPopup } from '../common';
+import { useAddProductToCartMutation } from '../../redux/services/cartApi';
 
 const ProductInfo = styled.main`
   display: flex;
@@ -108,6 +114,7 @@ const AddToCartButton = styled(Button)`
 `;
 
 const ProductHeaderInfo = ({
+  productId,
   name,
   ratingsAverage,
   ratingsQuantity,
@@ -117,7 +124,10 @@ const ProductHeaderInfo = ({
   description,
   price,
 }) => {
+  const [addProductToCart, { isLoading, isSuccess }] =
+    useAddProductToCartMutation();
   const [quantityToPurchase, setQuantityToPurchase] = useState(1);
+  const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
 
   const decrementQuantityToPurchase = () => {
     setQuantityToPurchase((value) => Number(value) - 1);
@@ -131,7 +141,18 @@ const ProductHeaderInfo = ({
     setQuantityToPurchase(event.target.value);
   };
 
+  const addToCartOnClickHandler = () => {
+    addProductToCart({ quantity: quantityToPurchase, productId });
+    if (isSuccess) {
+      setIsTransparentPopupOpen(true);
+      setTimeout(() => {
+        setIsTransparentPopupOpen(false);
+      }, 3000);
+    }
+  };
+
   const avg = ratingsAverage * 10;
+
   return (
     <ProductInfo>
       <ProductInfoName>{name}</ProductInfoName>
@@ -140,7 +161,7 @@ const ProductHeaderInfo = ({
           <RatingsAverage>{ratingsAverage}</RatingsAverage>
           <ProductInfoStatsAvgRatingStars>
             {[...Array(5)].map((star, idx) => (
-              <StarIcon
+              <StarGradientIcon
                 width="3rem"
                 gradient={avg - idx * 10 >= 10 ? 10 : avg - idx * 10}
               />
@@ -189,9 +210,17 @@ const ProductHeaderInfo = ({
         </QuantityInStockContainer>
       </QuantityControllerContainer>
       <AddToCartButtonContainer>
-        <AddToCartButton>Add To Cart</AddToCartButton>
+        <AddToCartButton onClick={addToCartOnClickHandler}>
+          Add To Cart
+        </AddToCartButton>
       </AddToCartButtonContainer>
       <Socials />
+      {isTransparentPopupOpen ? (
+        <TransparentPopup>
+          <CheckIcon width="3rem" />
+          <h3>Item has been added to your cart!</h3>
+        </TransparentPopup>
+      ) : null}
     </ProductInfo>
   );
 };

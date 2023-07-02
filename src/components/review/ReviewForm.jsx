@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { DevTool } from '@hookform/devtools';
 import { Button, Card, StyledTextarea } from '../common';
 import { Form } from 'react-router-dom';
-import { StarIcon } from '../../assets/icons';
+import { StarGradientIcon } from '../../assets/icons';
 
 const ProductInfoStatsStarsRating = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ const StarRadioInput = styled.input.attrs({
   display: none;
 `;
 
-const StyledStarIcon = styled(StarIcon)`
+const StyledStarGradientIcon = styled(StarGradientIcon)`
   cursor: pointer;
 `;
 
@@ -72,7 +72,7 @@ const ReviewForm = ({ shopId, productId }) => {
                       value={currentRating}
                       {...register('rating', { valueAsNumber: true })}
                     />
-                    <StyledStarIcon
+                    <StyledStarGradientIcon
                       width="3rem"
                       gradient={currentRating <= (hover || rating) ? 10 : 0}
                       onMouseEnter={() => setHover(currentRating)}
