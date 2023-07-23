@@ -13,10 +13,11 @@ import { productStatsApi } from './services/stats/productStatsApi';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { shopRatingsApi } from './services/ratings/shopRatingsApi';
 import { productRatingsApi } from './services/ratings/productRatingsApi';
+import { paymentIntentApi } from './services/paymentIntentApi';
 import userReducer from './features/userSlice';
 import shopReducer from './features/shopSlice';
 import themeReducer from './features/themeSlice';
-import searchReducer from './features/searchSlice';
+import cartReducer from './features/cartSlice';
 
 export const store = configureStore({
   reducer: {
@@ -33,10 +34,11 @@ export const store = configureStore({
     [productStatsApi.reducerPath]: productStatsApi.reducer,
     [shopRatingsApi.reducerPath]: shopRatingsApi.reducer,
     [productRatingsApi.reducerPath]: productRatingsApi.reducer,
+    [paymentIntentApi.reducerPath]: paymentIntentApi.reducer,
     userState: userReducer,
     shopState: shopReducer,
     themeState: themeReducer,
-    searchState: searchReducer,
+    cartState: cartReducer,
   },
 
   devTools: process.env.REACT_APP_NODE_ENV === 'development',
@@ -55,7 +57,8 @@ export const store = configureStore({
       shopStatsApi.middleware,
       productStatsApi.middleware,
       shopRatingsApi.middleware,
-      productRatingsApi.middleware
+      productRatingsApi.middleware,
+      paymentIntentApi.middleware
     ),
 });
 

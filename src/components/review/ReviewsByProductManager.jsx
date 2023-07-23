@@ -105,20 +105,24 @@ const ReviewsByProductManager = ({ shopId, productId }) => {
   });
 
   if (isLoading)
-    <StyledCard>
-      <h1>Loading...</h1>
-    </StyledCard>;
+    return (
+      <StyledCard>
+        <h1>Loading...</h1>
+      </StyledCard>
+    );
 
-  if (!reviews) {
+  console.log(reviews);
+  const { results, totalPages } = reviews;
+
+  if (!results || results.length === 0) {
     return (
       <StyledCard>
         <h4>There are no reviews for this product</h4>
       </StyledCard>
     );
   }
-  console.log(reviews);
 
-  return <ReviewsByProductList reviews={reviews} />;
+  return <ReviewsByProductList reviews={results} />;
 };
 
 export default ReviewsByProductManager;

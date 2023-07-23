@@ -10,3 +10,4 @@ export * from './StyledTextarea';
 export * from './StyledModal';
 export * from './Socials';
 export * from './TransparentPopup';
+export * from './QuantityTogglerInput';

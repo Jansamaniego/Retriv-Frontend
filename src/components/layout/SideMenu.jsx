@@ -101,10 +101,20 @@ const SideMenu = () => {
       </StyledMainMenuLink>
 
       {role === 'admin' ? (
-        <StyledMainMenuLink to="/admin-dashboard">
-          <DashBoardIcon width="3rem" />
-          Dashboard
-        </StyledMainMenuLink>
+        <>
+          <StyledMainMenuLink to="/admin-dashboard">
+            <DashBoardIcon width="3rem" />
+            Dashboard
+          </StyledMainMenuLink>
+          <StyledMainMenuLink to="/user-table">
+            <DashBoardIcon width="3rem" />
+            Users
+          </StyledMainMenuLink>
+          <StyledMainMenuLink to="/order-table">
+            <DashBoardIcon width="3rem" />
+            Orders
+          </StyledMainMenuLink>
+        </>
       ) : null}
 
       <StyledMainMenuLinkWithDropDown

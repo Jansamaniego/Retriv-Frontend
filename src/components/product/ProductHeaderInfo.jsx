@@ -6,7 +6,12 @@ import {
   StarGradientIcon,
 } from '../../assets/icons';
 import styled from 'styled-components';
-import { Button, Socials, TransparentPopup } from '../common';
+import {
+  Button,
+  QuantityTogglerInput,
+  Socials,
+  TransparentPopup,
+} from '../common';
 import { useAddProductToCartMutation } from '../../redux/services/cartApi';
 
 const ProductInfo = styled.main`
@@ -189,18 +194,12 @@ const ProductHeaderInfo = ({
         <QuantityContainer>
           <Quantity>Quantity</Quantity>
         </QuantityContainer>
-        <QuantityControlContainer>
-          <DecrementQuantityButton onClick={decrementQuantityToPurchase}>
-            <MinusIcon width="2rem" />
-          </DecrementQuantityButton>
-          <QuantityControl
-            value={quantityToPurchase}
-            onChange={changeQuantityToPurchase}
-          />
-          <IncrementQuantityButton onClick={incrementQuantityToPurchase}>
-            <PlusIcon width="2rem" />
-          </IncrementQuantityButton>
-        </QuantityControlContainer>
+        <QuantityTogglerInput
+          decrementQuantityToggle={decrementQuantityToPurchase}
+          incrementQuantityToggle={incrementQuantityToPurchase}
+          onChangeHandler={changeQuantityToPurchase}
+          QuantityInputValue={quantityToPurchase}
+        />
         <QuantityInStockContainer>
           <QuantityInStock>
             {isOutOfStock

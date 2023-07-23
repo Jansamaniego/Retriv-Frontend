@@ -84,7 +84,7 @@ const ProductShop = ({ shopId }) => {
   let { data: shopRating, shopRatingIsLoading } =
     useGetShopRatingsQuery(shopId);
 
-  if (!shop || !shopRating || shopIsLoading || shopRatingIsLoading)
+  if (!shop || shopIsLoading || shopRatingIsLoading)
     return <h1>Loading...</h1>;
 
   if (!shopRating) {

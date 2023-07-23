@@ -7,7 +7,7 @@ export const Select = styled.select`
   font-size: 1.6rem;
   font-weight: 300;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  margin-bottom: 0.8rem;
+  margin-bottom: ${(props) => props.marginBottom ?? '0.8rem'};
   width: 100%;
   min-height: 4rem;
   color: ${(props) => props.theme.neutral.text};

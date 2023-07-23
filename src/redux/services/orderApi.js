@@ -10,25 +10,28 @@ export const orderApi = createApi({
       query() {
         return {
           url: '/order',
+          credentials: 'include',
         };
       },
-      transformResponse: (response) => response.orders,
-      providesTags: (result) =>
-        result
+      transformResponse: (response) => response.orders.results,
+      providesTags: (result) => {
+        return result
           ? [
               ...result.map(({ id }) => ({ type: 'Order', id })),
               { type: 'Order', id: 'LIST' },
             ]
-          : [],
+          : [];
+      },
     }),
     getOrderById: builder.query({
       query(orderId) {
         return {
           url: `/order/${orderId}`,
+          credentials: 'include',
         };
       },
       transformResponse: (response) => response.order,
-      providesTags: (result, error, { orderId }) =>
+      providesTags: (result, error, orderId) =>
         result ? [{ type: 'Order', id: orderId }] : [],
     }),
     createOrder: builder.mutation({
@@ -43,18 +46,18 @@ export const orderApi = createApi({
       invalidatesTags: [{ type: 'Order', id: 'LIST' }],
     }),
     updateOrderStatus: builder.mutation({
-      query(body) {
+      query({ id, status }) {
         return {
-          url: `/order/${body.id}`,
+          url: `/order/${id}`,
           method: 'PATCH',
-          body,
-          credentals: 'include',
+          body: { status },
+          credentials: 'include',
         };
       },
-      invalidatesTags: (result, error, { body }) => [
+      invalidatesTags: (result, error, { id }) => [
         {
           type: 'Order',
-          id: body.id,
+          id,
         },
       ],
     }),

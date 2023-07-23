@@ -22,3 +22,8 @@ export * from './ProductIcon';
 export * from './ProductsSoldIcon';
 export * from './CartIcon';
 export * from './CheckIcon';
+export * from './TruckIcon';
+export * from './HorizontalEllipsis';
+export * from './ForwardIcon';
+export * from './BriefcaseIcon';
+export * from './XMarkIcon';

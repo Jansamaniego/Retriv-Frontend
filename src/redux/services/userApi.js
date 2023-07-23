@@ -13,12 +13,13 @@ export const userApi = createApi({
         };
       },
       transformResponse: (response) => {
-        return response.users;
+        return response.users.results;
       },
-      providesTags: (result) => {
-        return result
+      providesTags: (results) => {
+        console.log(results);
+        return results
           ? [
-              ...result.map(({ id }) => ({ type: 'User', id })),
+              ...results.map(({ id }) => ({ type: 'User', id })),
               { type: 'User', id: 'LIST' },
             ]
           : [];

@@ -2,6 +2,7 @@ import React from 'react';
 import { z } from 'zod';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { DevTool } from '@hookform/devtools';
 import {
   Form,
   StyledInput,
@@ -11,7 +12,6 @@ import {
   StyledLink,
 } from '../components/common';
 import { useRegisterUserMutation } from '../redux/services/authApi';
-import { DevTool } from '@hookform/devtools';
 import { ImageUploader } from '../components/common';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;

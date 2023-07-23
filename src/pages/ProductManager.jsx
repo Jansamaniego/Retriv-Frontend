@@ -14,9 +14,6 @@ const ProductManagerGrid = styled.main`
 `;
 
 const ProductManager = () => {
-  const searchQuery = useSelector((state) => state.searchState.query);
-
-  console.log(searchQuery);
   const [searchParams, setSearchParams] = useSearchParams();
   const { products, totalPages, isLoading } = useGetProductsQuery(
     searchParams.size ? searchParams.toString() : undefined,

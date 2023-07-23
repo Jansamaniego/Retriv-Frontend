@@ -27,6 +27,18 @@ import ProductManager from './pages/ProductManager';
 import ProductPage from './pages/ProductPage';
 import ShopPage from './pages/ShopPage';
 import Cart from './pages/Cart';
+import CheckOut from './pages/CheckOut';
+import Payment from './components/order/Payment';
+import PaymentCompletion from './pages/PaymentCompletion';
+import { useCreatePaymentIntentMutation } from './redux/services/orderApi';
+import { useGetCartQuery } from './redux/services/cartApi';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import AdminUserTablePage from './pages/AdminUserTablePage';
+import AdminOrderTablePage from './pages/AdminOrderTablePage';
+import PlacedOrderPage from './pages/PlacedOrderPage';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const App = (props) => {
   const theme = useSelector((state) => state.themeState.theme);
@@ -46,13 +58,19 @@ const App = (props) => {
         />
         <Route path="shop/:shopId" element={<ShopPage />} />
         <Route path="user/:userId" element={<UserPage />} />
+        <Route path="order/:orderId" element={<PlacedOrderPage />} />
         <Route element={<RestrictTo allowedRoles={['admin']} />}>
           <Route path="admin-dashboard" element={<AdminDashboard />} />
+          <Route path="user-table" element={<AdminUserTablePage />} />
+          <Route path="order-table" element={<AdminOrderTablePage />} />
         </Route>
         <Route
           element={<RestrictTo allowedRoles={['user', 'admin', 'seller']} />}
         >
-          <Route path="cart" element={<Cart />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<CheckOut />} />
+          <Route path="/payment-test" element={<Payment />} />
+          <Route path="/completion" element={<PaymentCompletion />} />
           <Route path="profile" element={<ProfileHeader />}>
             <Route index element={<ProfileInfo />} />
             <Route path="change-password" element={<ChangePassword />} />
@@ -62,7 +80,6 @@ const App = (props) => {
             />
           </Route>
         </Route>
-        <Route element={<RestrictTo allowedRoles={['admin']} />}></Route>
       </Route>
     )
   );
@@ -70,7 +87,7 @@ const App = (props) => {
   return (
     <ThemeProvider theme={themeSettings(theme)}>
       <GlobalStyle />
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 };

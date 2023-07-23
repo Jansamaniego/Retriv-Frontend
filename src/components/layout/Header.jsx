@@ -59,6 +59,23 @@ const MenuFlexContainer = styled.div`
   gap: 3.2rem;
 `;
 
+const StyledStyledLink = styled(StyledLink)`
+  position: relative;
+`;
+
+const CartItemQuantity = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => props.theme.primary.main};
+  color: ${(props) => props.theme.neutral[900]};
+  top: -0.1rem;
+  right: 0.4rem;
+  border-radius: 50%;
+  width: 2rem;
+`;
+
 const MobileMenuIcon = styled.div`
   margin: auto 0 auto auto;
   width: 2.5rem;
@@ -77,8 +94,7 @@ const MobileMenuIcon = styled.div`
 `;
 
 const Header = ({ setSearchParams }) => {
-  const theme = useSelector((state) => state.themeState.theme);
-  const { pathname } = useLocation();
+  const cart = useSelector((state) => state.cartState.cart);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const loggedInUser = useSelector((state) => state.userState.user);
@@ -104,11 +120,17 @@ const Header = ({ setSearchParams }) => {
       <Search setSearchParams={setSearchParams} />
       <Menu open={menuOpen}>
         <MenuFlexContainer>
+          {loggedInUser ? (
+            <StyledStyledLink to="/payment-test">payment test</StyledStyledLink>
+          ) : null}
           <ThemeToggleButton />
           {loggedInUser ? (
-            <StyledLink to="/cart">
-              <CartIcon width="3rem" />
-            </StyledLink>
+            <StyledStyledLink to="/cart">
+              <CartIcon width="4rem" strokeWidth="2" />
+              {cart ? (
+                <CartItemQuantity>{cart.items.length}</CartItemQuantity>
+              ) : null}
+            </StyledStyledLink>
           ) : null}
           {loggedInUser ? (
             <>

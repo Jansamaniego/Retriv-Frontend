@@ -2,6 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import customBaseQuery from '../../utils/customBaseQuery';
 import { logout } from '../features/userSlice';
 import { myProfileApi } from './myProfileApi';
+import { cartApi } from './cartApi';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -38,6 +39,7 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
           await dispatch(myProfileApi.endpoints.getMe.initiate(null));
+          await dispatch(cartApi.endpoints.getCart.initiate(null));
         } catch (error) {
           console.log(error);
         }

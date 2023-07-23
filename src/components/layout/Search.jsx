@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '../common';
 import { SearchIcon } from '../../assets/icons';
-import { setQuery } from '../../redux/features/searchSlice';
 import { useDispatch } from 'react-redux';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -61,7 +60,6 @@ const formatData = (data, searchParams) => {
 };
 
 const Search = () => {
-  const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const searchQuerySchema = z.object({

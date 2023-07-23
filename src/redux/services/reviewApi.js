@@ -12,9 +12,10 @@ export const reviewApi = createApi({
       },
       transformResponse: (response) => response.reviews,
       providesTags: (result, error, { productId }) => {
-        return result
+        console.log(result);
+        return result.results
           ? [
-              ...result.map(({ id }) => ({ type: 'Review', id })),
+              ...result.results.map(({ id }) => ({ type: 'Review', id })),
               { type: 'Review', id: productId },
             ]
           : [];
