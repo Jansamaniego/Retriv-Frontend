@@ -4,6 +4,7 @@ import { useGetUserByIdQuery } from '../redux/services/userApi';
 import UserPageHeader from '../components/user/UserPageHeader';
 import UserShopManager from '../components/user/UserShopManager';
 import UserProfileInfo from '../components/user/UserProfileInfo';
+import UserPageControls from '../components/user/UserPageControls';
 import styled from 'styled-components';
 import { Card } from '../components/common';
 
@@ -11,6 +12,12 @@ const StyledCard = styled(Card)`
   padding: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+`;
+
+const UserPageFlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 `;
 
 const UserPageBody = styled.main`
@@ -43,7 +50,7 @@ const UserPage = () => {
   const { role } = user;
 
   return (
-    <>
+    <UserPageFlexWrapper>
       <UserPageHeader user={user} />
       <div>
         <UserPageTabs>
@@ -67,9 +74,10 @@ const UserPage = () => {
               <UserShopManager user={user} />
             ) : null}
           </UserPageBody>
+          <UserPageControls userId={userId} />
         </StyledCard>
       </div>
-    </>
+    </UserPageFlexWrapper>
   );
 };
 

@@ -72,10 +72,20 @@ const ProfileSubMenu = ({ userRole }) => {
   );
 };
 
+const UserSubMenu = ({ userRole }) => {
+  return (
+    <>
+      <SubMenuLink to="user-table">User Table</SubMenuLink>
+      <SubMenuLink to="create-user">Create User</SubMenuLink>
+    </>
+  );
+};
+
 const SideMenu = () => {
   const loggedInUser = useSelector((state) => state.userState.user);
 
   const [isProfileSubMenuOpen, setIsProfileSubMenuOpen] = useState(false);
+  const [isUserSubMenuOpen, setIsUserSubMenuOpen] = useState(false);
 
   if (!loggedInUser) {
     return (
@@ -106,10 +116,26 @@ const SideMenu = () => {
             <DashBoardIcon width="3rem" />
             Dashboard
           </StyledMainMenuLink>
-          <StyledMainMenuLink to="/user-table">
+          {/* <StyledMainMenuLink to="/user-table">
             <DashBoardIcon width="3rem" />
             Users
-          </StyledMainMenuLink>
+          </StyledMainMenuLink> */}
+          <StyledMainMenuLinkWithDropDown
+            onClick={() => setIsUserSubMenuOpen((value) => !value)}
+          >
+            <MainLink>
+              <UserIcon width="3rem" />
+              Users
+            </MainLink>
+            <DropDownIcon>
+              {isUserSubMenuOpen ? (
+                <ChevronDown width="2rem" />
+              ) : (
+                <ChevronUp width="2rem" />
+              )}
+            </DropDownIcon>
+          </StyledMainMenuLinkWithDropDown>
+          {isUserSubMenuOpen ? <UserSubMenu /> : null}
           <StyledMainMenuLink to="/order-table">
             <DashBoardIcon width="3rem" />
             Orders
@@ -136,9 +162,11 @@ const SideMenu = () => {
       {isProfileSubMenuOpen ? <ProfileSubMenu /> : null}
 
       {role === 'seller' ? (
-        <StyledMainMenuLink>Shops</StyledMainMenuLink>
+        <StyledMainMenuLink to="/my-shop">Manage Shop</StyledMainMenuLink>
       ) : role === 'user' ? (
-        <StyledMainMenuLink>Start Selling!</StyledMainMenuLink>
+        <StyledMainMenuLink to="/create-shop">
+          Start Selling!
+        </StyledMainMenuLink>
       ) : null}
     </SideMenuMain>
   );

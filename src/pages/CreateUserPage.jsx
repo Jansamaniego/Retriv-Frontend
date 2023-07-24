@@ -1,8 +1,5 @@
 import React from 'react';
-import { z } from 'zod';
-import { useForm, FormProvider } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { DevTool } from '@hookform/devtools';
+import z from 'zod';
 import {
   Form,
   StyledInput,
@@ -11,15 +8,19 @@ import {
   Select,
   StyledLink,
   ImageUploader,
+  Card,
 } from '../components/common';
-import { useRegisterUserMutation } from '../redux/services/authApi';
+import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { DevTool } from '@hookform/devtools';
+import { useCreateUserMutation } from '../redux/services/userApi';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
 const MB_BYTES = 1000000;
 
-const Register = () => {
-  const [registerUser, { isLoading }] = useRegisterUserMutation();
+const CreateUserPage = () => {
+  const [createUser, { isLoading }] = useCreateUserMutation();
 
   const registerSchema = z
     .object({
@@ -68,7 +69,6 @@ const Register = () => {
       message: 'Passwords do not match',
       path: ['passwordConfirmation'],
     });
-
   const methods = useForm({
     resolver: zodResolver(registerSchema),
   });
@@ -87,11 +87,11 @@ const Register = () => {
     for (const key in mutatedData) {
       formData.append(key, mutatedData[key]);
     }
-    registerUser(formData);
+    createUser(formData);
   };
 
   return (
-    <>
+    <Card>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <StyledInput
@@ -112,12 +112,12 @@ const Register = () => {
             placeholder="Confirm password"
           />
           <StyledInput
-            placeholder="First Name"
+            placeholder="firstName"
             type="text"
             {...register('firstName')}
           />
           <StyledInput
-            placeholder="Last Name"
+            placeholder="lastName"
             type="text"
             {...register('lastName')}
           />
@@ -150,16 +150,13 @@ const Register = () => {
           {errors.dateOfBirth?.message && <p>{errors.dateOfBirth?.message}</p>}
           <ImageUploader name="image" />
           <Button type="submit" disabled={isLoading}>
-            Register
+            Create User
           </Button>
-          <StyledLink to="/login">
-            Have an account already? Log in instead!
-          </StyledLink>
         </Form>
         <DevTool control={control} />
       </FormProvider>
-    </>
+    </Card>
   );
 };
 
-export default Register;
+export default CreateUserPage;

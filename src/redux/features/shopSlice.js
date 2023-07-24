@@ -3,6 +3,7 @@ import { setUser, logout } from './userSlice';
 
 const initialState = {
   currentShop: null,
+  userShops: [],
 };
 
 export const shopSlice = createSlice({
@@ -16,6 +17,7 @@ export const shopSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(setUser, (state, { payload: user }) => {
       state.currentShop = user.defaultShop;
+      state.userShops = user.shops;
     });
     builder.addCase(logout, () => initialState);
   },

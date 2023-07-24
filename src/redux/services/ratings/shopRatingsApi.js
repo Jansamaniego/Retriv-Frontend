@@ -13,6 +13,7 @@ export const shopRatingsApi = createApi({
         };
       },
       transformResponse: (response) => {
+        console.log(response);
         return response.shopRatings;
       },
     }),

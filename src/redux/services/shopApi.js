@@ -1,5 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import customBaseQuery from '../../utils/customBaseQuery';
+import { myProfileApi } from './myProfileApi';
 
 export const shopApi = createApi({
   reducerPath: 'shopApi',
@@ -41,6 +42,14 @@ export const shopApi = createApi({
         };
       },
       invalidatesTags: [{ type: 'Shop', id: 'LIST' }],
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          await dispatch(myProfileApi.endpoints.getMe.initiate());
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     updateShop: builder.mutation({
       query(body) {

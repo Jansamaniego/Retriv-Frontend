@@ -37,6 +37,9 @@ import { Elements } from '@stripe/react-stripe-js';
 import AdminUserTablePage from './pages/AdminUserTablePage';
 import AdminOrderTablePage from './pages/AdminOrderTablePage';
 import PlacedOrderPage from './pages/PlacedOrderPage';
+import CreateUserPage from './pages/CreateUserPage';
+import CreateShopPage from './pages/CreateShopPage';
+import MyShopPage from './pages/MyShopPage';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
@@ -63,6 +66,10 @@ const App = (props) => {
           <Route path="admin-dashboard" element={<AdminDashboard />} />
           <Route path="user-table" element={<AdminUserTablePage />} />
           <Route path="order-table" element={<AdminOrderTablePage />} />
+          <Route path="create-user" element={<CreateUserPage />} />
+        </Route>
+        <Route element={<RestrictTo allowedRoles={['seller']} />}>
+          <Route path="/my-shop" element={<MyShopPage />} />
         </Route>
         <Route
           element={<RestrictTo allowedRoles={['user', 'admin', 'seller']} />}
@@ -71,6 +78,7 @@ const App = (props) => {
           <Route path="/checkout" element={<CheckOut />} />
           <Route path="/payment-test" element={<Payment />} />
           <Route path="/completion" element={<PaymentCompletion />} />
+          <Route path="/create-shop" element={<CreateShopPage />} />
           <Route path="profile" element={<ProfileHeader />}>
             <Route index element={<ProfileInfo />} />
             <Route path="change-password" element={<ChangePassword />} />

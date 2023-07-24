@@ -22,6 +22,7 @@ export const myProfileApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data: user } = await queryFulfilled;
+          console.log(user);
           dispatch(setUser(user));
         } catch (error) {}
       },

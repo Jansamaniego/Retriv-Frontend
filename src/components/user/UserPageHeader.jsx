@@ -7,7 +7,6 @@ import styled from 'styled-components';
 const ProfileHeaderCard = styled(Card)`
   position: relative;
   padding: 0;
-  margin-bottom: 3.2rem;
 `;
 
 const ColoredDiv = styled.div`
