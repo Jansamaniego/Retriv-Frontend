@@ -64,7 +64,6 @@ const NameRenderer = (p) => {
 };
 
 const PhoneRenderer = (p) => {
-  console.log(p);
   return p.value ? <>{p.value}</> : <>{'N/A'}</>;
 };
 

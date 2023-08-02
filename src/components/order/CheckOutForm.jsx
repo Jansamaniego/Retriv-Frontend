@@ -36,7 +36,7 @@ export default function CheckoutForm() {
     // }
 
     setIsProcessing(false);
-    console.log(elements.getElement(PaymentElement).getValue());
+
   };
 
   return (

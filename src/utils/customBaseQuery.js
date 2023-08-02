@@ -21,8 +21,9 @@ const baseQuery = fetchBaseQuery({
 
 const customBaseQuery = async (args, api, extraOptions) => {
   await mutex.waitForUnlock();
+
   let result = await baseQuery(args, api, extraOptions);
-  console.log(result);
+
   if (result.error?.data?.message === 'you are not logged in') {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
@@ -48,6 +49,8 @@ const customBaseQuery = async (args, api, extraOptions) => {
       result = await baseQuery(args, api, extraOptions);
     }
   }
+
+  console.log(result);
 
   return result;
 };

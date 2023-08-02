@@ -50,7 +50,7 @@ const ControlContainer = styled.div`
   align-self: flex-end;
 `;
 
-const StyledModal = ({
+export const StyledModal = ({
   showModal,
   closeModal,
   children,
@@ -104,5 +104,3 @@ const StyledModal = ({
     )
   );
 };
-
-export default StyledModal;

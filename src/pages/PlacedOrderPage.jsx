@@ -17,9 +17,11 @@ const PlacedOrderPageFlexWrapper = styled.main`
 const PlacedOrderPage = () => {
   const { orderId } = useParams();
   const { data: order, isLoading } = useGetOrderByIdQuery(orderId);
+  
   if (isLoading) return <h3>Loading...</h3>;
-  console.log(order);
+
   const { products, _id, dateOfPurchase, status } = order;
+
   return (
     <PlacedOrderPageFlexWrapper>
       <PlacedOrderPageHeader orderId={_id} dateOfPurchase={dateOfPurchase} />

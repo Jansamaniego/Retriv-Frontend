@@ -10,15 +10,16 @@ export const reviewApi = createApi({
       query({ shopId, productId }) {
         return { url: `shop/${shopId}/product/${productId}/review` };
       },
-      transformResponse: (response) => response.reviews,
+      transformResponse: (response) => {
+        return response?.reviews;
+      },
       providesTags: (result, error, { productId }) => {
-        console.log(result);
-        return result.results
+        return result?.results
           ? [
               ...result.results.map(({ id }) => ({ type: 'Review', id })),
               { type: 'Review', id: productId },
             ]
-          : [];
+          : [{ type: 'Review', id: productId }];
       },
     }),
     getReviewById: builder.query({
@@ -41,7 +42,37 @@ export const reviewApi = createApi({
         };
       },
       transformResponse: (response) => response.review,
-      invalidatesTags: [{ type: 'Review', id: 'LIST' }],
+      invalidatesTags: (result, error, { productId }) => {
+        return [{ type: 'Review', id: productId }];
+      },
+    }),
+    updateReview: builder.mutation({
+      query({ productId, reviewId, body }) {
+        return {
+          url: `product/${productId}/review/${reviewId}`,
+          method: 'PATCH',
+          body,
+          credentials: 'include',
+        };
+      },
+      invalidatesTags: (result, error, { reviewId }) => [
+        { type: 'Review', id: reviewId },
+      ],
+    }),
+    deleteReview: builder.mutation({
+      query({ shopId, productId, reviewId }) {
+        return {
+          url: `shop/${shopId}/product/${productId}/review/${reviewId}`,
+          method: 'DELETE',
+          credentials: 'include',
+        };
+      },
+      invalidatesTags: (result, error, { productId, reviewId }) => {
+        return [
+          { type: 'Review', id: productId },
+          { type: 'Review', id: reviewId },
+        ];
+      },
     }),
   }),
 });
@@ -50,4 +81,6 @@ export const {
   useGetReviewsByProductIdQuery,
   useGetReviewByIdQuery,
   useCreateReviewMutation,
+  useUpdateReviewMutation,
+  useDeleteReviewMutation,
 } = reviewApi;

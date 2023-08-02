@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
 const ProfileImageLogoContainer = styled.div`
@@ -17,22 +17,19 @@ const ProfileImage = styled.img`
   }
 `;
 
-const ProfileImageLogo = ({
-  profileImage,
-  onClick,
-  imageWidth = '4rem',
-
-  ...props
-}) => {
-  return (
-    <ProfileImageLogoContainer imageWidth={imageWidth}>
-      <ProfileImage
-        src={profileImage}
-        alt="profile image logo"
-        onClick={onClick}
-      />
-    </ProfileImageLogoContainer>
-  );
-};
+const ProfileImageLogo = forwardRef(
+  ({ profileImage, onClick, imageWidth = '4rem', ...props }, ref) => {
+    return (
+      <ProfileImageLogoContainer imageWidth={imageWidth}>
+        <ProfileImage
+          src={profileImage}
+          alt="profile image logo"
+          onClick={onClick}
+          ref={ref}
+        />
+      </ProfileImageLogoContainer>
+    );
+  }
+);
 
 export default ProfileImageLogo;

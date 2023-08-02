@@ -5,7 +5,8 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: ${(props) =>
+    props.marginBottom ? props.marginBottom : '0.8rem'};
   width: 100%;
 `;
 
@@ -25,14 +26,19 @@ const Input = styled.input`
   }
 `;
 
-export const StyledInput = ({ name, type = 'text', ...props }) => {
+export const StyledInput = ({
+  name,
+  type = 'text',
+  marginBottom,
+  ...props
+}) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
   return (
-    <InputWrapper>
+    <InputWrapper marginBottom>
       <Input {...register(name)} type={type} {...props} />
       {errors[name]?.message && <p>{errors[name]?.message}</p>}
     </InputWrapper>

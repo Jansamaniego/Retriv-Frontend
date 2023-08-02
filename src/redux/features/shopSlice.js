@@ -16,7 +16,6 @@ export const shopSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(setUser, (state, { payload: user }) => {
-      state.currentShop = user.defaultShop;
       state.userShops = user.shops;
     });
     builder.addCase(logout, () => initialState);

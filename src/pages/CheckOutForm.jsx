@@ -69,7 +69,6 @@ const CheckOutForm = ({ paymentIntentId }) => {
   const { items, totalPrice, totalQuantity } = cart;
 
   const onSubmit = async (data) => {
-    console.log('hello');
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.

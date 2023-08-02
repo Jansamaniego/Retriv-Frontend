@@ -3,6 +3,7 @@ import customBaseQuery from '../../utils/customBaseQuery';
 import { logout } from '../features/userSlice';
 import { myProfileApi } from './myProfileApi';
 import { cartApi } from './cartApi';
+import { shopApi } from './shopApi';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -38,14 +39,19 @@ export const authApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          await dispatch(myProfileApi.endpoints.getMe.initiate(null));
-          await dispatch(cartApi.endpoints.getCart.initiate(null));
+
+          await dispatch(
+            myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
+          );
+
+          await dispatch(
+            cartApi.endpoints.getCart.initiate(null, { forceRefetch: true })
+          );
         } catch (error) {
           console.log(error);
         }
       },
     }),
-
     logoutUser: builder.mutation({
       query() {
         return {
@@ -65,10 +71,9 @@ export const authApi = createApi({
     forgotPassword: builder.mutation({
       query(data) {
         return {
-          url: 'auth/forgot-password',
-          method: 'PATCH',
+          url: '/auth/forgot-password',
+          method: 'POST',
           body: data,
-          credentials: 'include',
         };
       },
     }),
@@ -78,7 +83,6 @@ export const authApi = createApi({
           url: `auth/reset-password?token=${resetToken}`,
           method: 'POST',
           body: { password, passwordConfirmation },
-          credentials: 'include',
         };
       },
     }),
@@ -87,7 +91,7 @@ export const authApi = createApi({
         return {
           url: 'auth/change-password',
           body: data,
-          method: 'POST',
+          method: 'PATCH',
           credentials: 'include',
         };
       },

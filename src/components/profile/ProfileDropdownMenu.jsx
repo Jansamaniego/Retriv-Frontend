@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
 import { StyledLink } from '../common';
+import { useLogoutUserMutation } from '../../redux/services/authApi';
 
 const ProfileDropdownMenuContainer = styled.div`
   max-width: 30rem;
@@ -56,30 +57,41 @@ const MenuLinksContainer = styled.div`
   padding: 0.4rem 0.4rem;
 `;
 
-const ProfileDropdownMenu = ({ isProfileMenuOpen, user }) => {
-  const { profileImage, name, email} = user;
-  return (
-    <ProfileDropdownMenuContainer isProfileMenuOpen={isProfileMenuOpen}>
-      <ProfileSectionContainer>
-        <ProfileSection>
-          <ProfileImageLogoContainer>
-            <ProfileImage src={profileImage} />
-          </ProfileImageLogoContainer>
-          <UserInfo>
-            <h5>{name}</h5>
-            <h5>{email}</h5>
-            <StyledLink>Manage your account</StyledLink>
-          </UserInfo>
-        </ProfileSection>
-      </ProfileSectionContainer>
-      <MenuLinksContainer>
-        <StyledLink>Your Profile</StyledLink>
-        <StyledLink>Your Shops</StyledLink>
-        <StyledLink>Admin Dashboard</StyledLink>
-        <StyledLink>Log out</StyledLink>
-      </MenuLinksContainer>
-    </ProfileDropdownMenuContainer>
-  );
-};
+const ProfileDropdownMenu = forwardRef(
+  ({ isProfileMenuOpen, user, closeProfileMenu }, ref) => {
+    const [logout, { isLoading }] = useLogoutUserMutation();
+    const { profileImage, name, email } = user;
+
+    const logoutOnClickHandler = () => {
+      logout();
+    };
+
+    return (
+      <ProfileDropdownMenuContainer
+        isProfileMenuOpen={isProfileMenuOpen}
+        ref={ref}
+      >
+        <ProfileSectionContainer>
+          <ProfileSection>
+            <ProfileImageLogoContainer>
+              <ProfileImage src={profileImage} />
+            </ProfileImageLogoContainer>
+            <UserInfo>
+              <h5>{name}</h5>
+              <h5>{email}</h5>
+              <StyledLink>Manage your account</StyledLink>
+            </UserInfo>
+          </ProfileSection>
+        </ProfileSectionContainer>
+        <MenuLinksContainer>
+          <StyledLink>Your Profile</StyledLink>
+          <StyledLink>Your Shops</StyledLink>
+          <StyledLink>Admin Dashboard</StyledLink>
+          <StyledLink onClick={logoutOnClickHandler}>Log out</StyledLink>
+        </MenuLinksContainer>
+      </ProfileDropdownMenuContainer>
+    );
+  }
+);
 
 export default ProfileDropdownMenu;

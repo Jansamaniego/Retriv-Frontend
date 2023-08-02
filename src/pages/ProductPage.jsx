@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../redux/services/productApi';
@@ -7,6 +7,7 @@ import ProductHeader from '../components/product/ProductHeader';
 import ProductShop from '../components/product/ProductShop';
 import ReviewsByProductManager from '../components/review/ReviewsByProductManager';
 import ReviewForm from '../components/review/ReviewForm';
+import { useSelector } from 'react-redux';
 
 const ProductDetailContainer = styled.main`
   display: flex;
@@ -16,6 +17,11 @@ const ProductDetailContainer = styled.main`
 
 const ProductPage = () => {
   const { shopId, productId } = useParams();
+  const currentUser = useSelector((state) => state.userState.user);
+  const { currentShop, userShops } = useSelector((state) => state.shopState);
+  const [isOwner, setIsOwner] = useState(
+    [...userShops.map((userShop) => userShop._id)].includes(shopId)
+  );
 
   const { data: product, isLoading: productIsLoading } = useGetProductByIdQuery(
     {
@@ -44,10 +50,17 @@ const ProductPage = () => {
 
   return (
     <ProductDetailContainer>
-      <ProductHeader productRatings={productRatings} product={product} />
+      <ProductHeader
+        productRatings={productRatings}
+        product={product}
+        isOwner={isOwner}
+        shopId={shopId}
+      />
       <ProductShop shopId={product.shop} />
       <ReviewsByProductManager productId={productId} shopId={product.shop} />
-      <ReviewForm shopId={product.shop} productId={productId} />
+      {currentUser && (
+        <ReviewForm shopId={product.shop} productId={productId} />
+      )}
     </ProductDetailContainer>
   );
 };

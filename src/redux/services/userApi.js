@@ -16,7 +16,6 @@ export const userApi = createApi({
         return response.users.results;
       },
       providesTags: (results) => {
-        console.log(results);
         return results
           ? [
               ...results.map(({ id }) => ({ type: 'User', id })),
@@ -32,7 +31,7 @@ export const userApi = createApi({
         };
       },
       transformResponse: (response) => response.user,
-      providesTags: (result, error, { userId }) =>
+      providesTags: (result, error, userId) =>
         result ? [{ type: 'User', id: userId }] : [],
     }),
     createUser: builder.mutation({

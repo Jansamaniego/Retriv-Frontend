@@ -25,8 +25,6 @@ const CartItemManager = () => {
 
   if (!cart) return <Card>Your shopping cart is empty.</Card>;
 
-  console.log(cart);
-
   const { items, totalPrice, totalQuantity } = cart;
 
   return (

@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { Card, Socials } from '../common';
-import styled from 'styled-components';
+import { Button, Card, Socials, StyledModal } from '../common';
+import { EditIcon } from '../../assets/icons';
+import { useUpdateProfileImageMutation } from '../../redux/services/myProfileApi';
+import UpdateProfileImageModal from '../common/UpdateProfileImageModal';
 
 const ProfileHeaderCard = styled(Card)`
   position: relative;
   padding: 0;
+  margin-bottom: 3.2rem;
 `;
 
 const ColoredDiv = styled.div`
@@ -33,13 +37,22 @@ const ProfileImageContainer = styled.div`
   position: absolute;
   left: 8rem;
   bottom: 4rem;
-  max-width: 18rem;
 `;
 
 const ProfileImage = styled.img`
   border-radius: 50%;
   outline: 0.5rem solid ${(props) => props.theme.neutral[900]};
   object-fit: cover;
+  position: relative;
+  width: 18rem;
+  height: 18rem;
+`;
+
+const StyledEditIcon = styled(EditIcon)`
+  position: absolute;
+  cursor: pointer;
+  right: 0.2rem;
+  bottom: 0.05rem;
 `;
 
 const UserHeaderInfoFlexContainer = styled.div`
@@ -67,34 +80,47 @@ const UserHeaderInfoRole = styled.h5`
 `;
 
 const UserPageHeader = ({ user }) => {
+  const [isProfileImageEditModalOpen, setIsProfileImageEditModalOpen] =
+    useState(false);
+
   const { profileImage, name, email, role } = user;
 
-  if (!user) return <h1>Loading...</h1>;
+  const openProfileImageEditModal = () => {
+    setIsProfileImageEditModalOpen(true);
+  };
+
+  const closeProfileImageEditModal = () => {
+    setIsProfileImageEditModalOpen(false);
+  };
 
   return (
-    <>
-      <ProfileHeaderCard>
-        <ColoredDiv />
-        <NormalDiv>
-          <ProfileImageContainer>
-            {profileImage ? <ProfileImage src={profileImage} /> : null}
-          </ProfileImageContainer>
-          <UserHeaderInfoFlexContainer>
-            <UserHeaderInfo>
-              <div>
-                <UserHeaderInfoName>{name}</UserHeaderInfoName>
-              </div>
-              <UserHeaderSubInfo>
-                <UserHeaderInfoEmail>{email}</UserHeaderInfoEmail>
-                <UserHeaderInfoRole>{role}</UserHeaderInfoRole>
-              </UserHeaderSubInfo>
-            </UserHeaderInfo>
-            <Socials />
-          </UserHeaderInfoFlexContainer>
-        </NormalDiv>
-      </ProfileHeaderCard>
-      <Outlet context={[user]} />
-    </>
+    <ProfileHeaderCard>
+      <ColoredDiv />
+      <NormalDiv>
+        <ProfileImageContainer>
+          {profileImage ? <ProfileImage src={profileImage} /> : null}
+          <StyledEditIcon width="2rem" onClick={openProfileImageEditModal} />
+        </ProfileImageContainer>
+        <UserHeaderInfoFlexContainer>
+          <UserHeaderInfo>
+            <div>
+              <UserHeaderInfoName>{name}</UserHeaderInfoName>
+            </div>
+            <UserHeaderSubInfo>
+              <UserHeaderInfoEmail>{email}</UserHeaderInfoEmail>
+              <UserHeaderInfoRole>{role}</UserHeaderInfoRole>
+            </UserHeaderSubInfo>
+          </UserHeaderInfo>
+          <Socials />
+        </UserHeaderInfoFlexContainer>
+      </NormalDiv>
+      {isProfileImageEditModalOpen && (
+        <UpdateProfileImageModal
+          showModal={openProfileImageEditModal}
+          closeModal={closeProfileImageEditModal}
+        />
+      )}
+    </ProfileHeaderCard>
   );
 };
 

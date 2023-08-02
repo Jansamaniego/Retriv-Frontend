@@ -16,7 +16,7 @@ export const cartApi = createApi({
       },
       transformResponse: (response) => response.cart,
       providesTags: (result) =>
-        result ? [{ type: 'Cart', id: result.id }] : [],
+        result ? [{ type: 'Cart', id: result._id }] : [],
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data: cart } = await queryFulfilled;
@@ -24,6 +24,15 @@ export const cartApi = createApi({
         } catch (error) {
           console.log(error);
         }
+      },
+    }),
+    deleteCart: builder.mutation({
+      query() {
+        return {
+          url: `/cart`,
+          method: 'DELETE',
+          credentials: 'include',
+        };
       },
     }),
     addProductToCart: builder.mutation({
@@ -39,26 +48,50 @@ export const cartApi = createApi({
       invalidatesTags: (result) =>
         result ? [{ type: 'Cart', id: result.id }] : [],
     }),
-    deleteCart: builder.mutation({
+    incrementCartItemQuantity: builder.mutation({
       query(productId) {
         return {
-          url: `/cart/${productId}`,
+          url: `/cart/increment-product/${productId}`,
+          method: 'PATCH',
+          credentials: 'include',
+        };
+      },
+      transformResponse: (response) => response.cart,
+      invalidatesTags: (result, error) =>
+        result ? [{ type: 'Cart', id: result._id }] : [],
+    }),
+    decrementCartItemQuantity: builder.mutation({
+      query(productId) {
+        return {
+          url: `/cart/decrement-product/${productId}`,
+          method: 'PATCH',
+          credentials: 'include',
+        };
+      },
+      transformResponse: (response) => response.cart,
+      invalidatesTags: (result, error) =>
+        result ? [{ type: 'Cart', id: result._id }] : [],
+    }),
+    removeCartItem: builder.mutation({
+      query(productId) {
+        return {
+          url: `/cart/remove-product/${productId}`,
           method: 'DELETE',
           credentials: 'include',
         };
       },
-    }),
-    incrementCartItemQuantity: builder.mutation({
-      query(productId) {
-        return {};
-      },
-    }),
-    decrementCartItemQuantity: builder.mutation({
-      query(productId) {
-        return {};
-      },
+      transformResponse: (response) => response.cart,
+      invalidatesTags: (result) =>
+        result ? [{ type: 'Cart', id: result._id }] : [],
     }),
   }),
 });
 
-export const { useGetCartQuery, useAddProductToCartMutation } = cartApi;
+export const {
+  useGetCartQuery,
+  useDeleteCartMutation,
+  useAddProductToCartMutation,
+  useIncrementCartItemQuantityMutation,
+  useDecrementCartItemQuantityMutation,
+  useRemoveCartItemMutation,
+} = cartApi;

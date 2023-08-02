@@ -23,7 +23,6 @@ const ShopPage = () => {
     return <h1>Loading...</h1>;
   }
 
-  console.log(ratings);
 
   return (
     <ShopPageContainer>

@@ -4,6 +4,8 @@ import { Card } from '../common';
 import { useGetProductsByShopIdQuery } from '../../redux/services/productApi';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { current } from '@reduxjs/toolkit';
 
 const StyledCard = styled(Card)`
   min-height: 12vh;
@@ -53,12 +55,11 @@ const ProductCard = ({ children, onClick }) => {
   return <StyledCard onClick={onClick}>{children}</StyledCard>;
 };
 
-const ShopProductItem = ({ id }) => {
+const ShopProductItem = ({ id, shopId }) => {
   const navigate = useNavigate();
-  const { shopId } = useParams();
+
   const { product, isLoading } = useGetProductsByShopIdQuery(shopId, {
     selectFromResult: ({ data }) => {
-      console.log(data);
       return {
         product: data?.find((product) => product.id === id),
       };
@@ -66,6 +67,8 @@ const ShopProductItem = ({ id }) => {
   });
 
   if (isLoading) return <h1>Loading...</h1>;
+
+  if (!product) return <h1>No product</h1>;
 
   const { name, price, mainImage, quantitySold, id: productId } = product;
 
@@ -92,7 +95,15 @@ const ShopProductItem = ({ id }) => {
 };
 
 const ShopProductsList = ({ products }) => {
-  return products.map(({ id }) => <ShopProductItem key={id} id={id} />);
+  const { currentShop } = useSelector((state) => state.shopState);
+  const { shopId } = useParams();
+  return products.map(({ id }) => (
+    <ShopProductItem
+      key={id}
+      id={id}
+      shopId={shopId ? shopId : currentShop._id}
+    />
+  ));
 };
 
 export default ShopProductsList;

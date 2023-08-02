@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   Link as ReactRouterDomLink,
@@ -94,6 +94,8 @@ const MobileMenuIcon = styled.div`
 `;
 
 const Header = ({ setSearchParams }) => {
+  const dropdownRef = useRef();
+  const userImageRef = useRef();
   const cart = useSelector((state) => state.cartState.cart);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -101,9 +103,27 @@ const Header = ({ setSearchParams }) => {
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
   const dispatch = useDispatch();
 
-  const userImageLogoClickhandler = () => {
+  const userImageLogoClickhandler = (event) => {
     setIsProfileMenuOpen((value) => !value);
   };
+
+  const closeProfileMenu = () => {
+    setIsProfileMenuOpen(false);
+  };
+
+  console.log(userImageRef);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        !dropdownRef?.current?.contains(event.target) &&
+        !userImageRef?.current?.contains(event.target)
+      ) {
+        closeProfileMenu();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+  }, [dropdownRef]);
 
   return (
     <HeaderWrapper>
@@ -137,6 +157,7 @@ const Header = ({ setSearchParams }) => {
               <ProfileImageLogo
                 profileImage={loggedInUser.profileImage}
                 onClick={userImageLogoClickhandler}
+                ref={userImageRef}
               />
             </>
           ) : (
@@ -147,7 +168,9 @@ const Header = ({ setSearchParams }) => {
       {loggedInUser ? (
         <ProfileDropdownMenu
           isProfileMenuOpen={isProfileMenuOpen}
+          closeProfileMenu={closeProfileMenu}
           user={loggedInUser}
+          ref={dropdownRef}
         />
       ) : null}
     </HeaderWrapper>

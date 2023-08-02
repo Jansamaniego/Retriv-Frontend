@@ -102,7 +102,6 @@ const ProductItem = ({ id }) => {
 };
 
 const ProductList = ({ products }) => {
-  console.log(products);
   return products.map(({ id }) => <ProductItem key={id} id={id} />);
 };
 

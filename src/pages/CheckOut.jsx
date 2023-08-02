@@ -44,7 +44,6 @@ const CheckOut = () => {
     const fetchData = async () => {
       if (!isLoading) {
         const response = await createPaymentIntent(cart.totalPrice);
-        console.log(response);
 
         if (!createPaymentIntentIsLoading) {
           setClientSecret(response.data.clientSecret);

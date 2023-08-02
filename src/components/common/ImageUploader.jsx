@@ -21,7 +21,7 @@ export const ImageUploader = ({ name, initialImage, ...props }) => {
 
   return (
     <>
-      <StyledImageUploader {...register(name)} {...props}></StyledImageUploader>
+      <StyledImageUploader {...register(name)} {...props} />
       {file && file[0] ? (
         <img
           src={file && file[0] ? URL.createObjectURL(file[0]) : null}

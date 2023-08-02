@@ -14,6 +14,7 @@ import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { shopRatingsApi } from './services/ratings/shopRatingsApi';
 import { productRatingsApi } from './services/ratings/productRatingsApi';
 import { paymentIntentApi } from './services/paymentIntentApi';
+import { categoryApi } from './services/categoryApi';
 import userReducer from './features/userSlice';
 import shopReducer from './features/shopSlice';
 import themeReducer from './features/themeSlice';
@@ -35,6 +36,7 @@ export const store = configureStore({
     [shopRatingsApi.reducerPath]: shopRatingsApi.reducer,
     [productRatingsApi.reducerPath]: productRatingsApi.reducer,
     [paymentIntentApi.reducerPath]: paymentIntentApi.reducer,
+    [categoryApi.reducerPath]: categoryApi.reducer,
     userState: userReducer,
     shopState: shopReducer,
     themeState: themeReducer,
@@ -53,6 +55,7 @@ export const store = configureStore({
       productApi.middleware,
       cartApi.middleware,
       reviewApi.middleware,
+      categoryApi.middleware,
       overallStatsApi.middleware,
       shopStatsApi.middleware,
       productStatsApi.middleware,

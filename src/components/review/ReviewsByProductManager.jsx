@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from '../common';
+import { Button, Card } from '../common';
 import {
   useGetReviewsByProductIdQuery,
   useGetReviewByIdQuery,
+  useDeleteReviewMutation,
 } from '../../redux/services/reviewApi';
 import { StarGradientIcon } from '../../assets/icons';
 import ProfileImageLogo from '../profile/ProfileImageLogo';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const StyledCard = styled(Card)``;
 
@@ -44,7 +46,11 @@ const ReviewCard = ({ children }) => {
 };
 
 const ReviewsByProductItem = ({ reviewId }) => {
+  const { shopId, productId } = useParams();
+  const currentUser = useSelector((state) => state.userState.user);
   const { data: review, isLoading } = useGetReviewByIdQuery(reviewId);
+  const [deleteReview, { isLoading: deleteReviewIsLoading }] =
+    useDeleteReviewMutation();
   const navigate = useNavigate();
 
   if (isLoading) return <h1>Loading...</h1>;
@@ -55,10 +61,15 @@ const ReviewsByProductItem = ({ reviewId }) => {
     user: { _id: userId, name, profileImage },
   } = review;
 
+
   const formattedRating = rating * 10;
 
   const navigateToReviewer = () => {
     navigate(`/user/${userId}`);
+  };
+
+  const deleteReviewOnClickHandler = () => {
+    deleteReview({ shopId, productId, reviewId });
   };
 
   return (
@@ -86,6 +97,14 @@ const ReviewsByProductItem = ({ reviewId }) => {
             </ProductInfoStatsAvgRatingStars>
           </ReviewNameAndStarsContainer>
           <ReviewText>{reviewText}</ReviewText>
+          {currentUser && currentUser?.id === userId ? (
+            <Button
+              onClick={deleteReviewOnClickHandler}
+              disabled={deleteReviewIsLoading}
+            >
+              Delete Review
+            </Button>
+          ) : null}
         </ReviewData>
       </ReviewContainer>
     </ReviewCard>
@@ -99,10 +118,20 @@ const ReviewsByProductList = ({ reviews }) => {
 };
 
 const ReviewsByProductManager = ({ shopId, productId }) => {
-  const { data: reviews, isLoading } = useGetReviewsByProductIdQuery({
-    shopId,
-    productId,
-  });
+  const { reviews, totalPages, isLoading } = useGetReviewsByProductIdQuery(
+    {
+      shopId,
+      productId,
+    },
+    {
+      selectFromResult: ({ data }) => {
+        return {
+          reviews: data?.results,
+          totalPages: data?.totalPages,
+        };
+      },
+    }
+  );
 
   if (isLoading)
     return (
@@ -111,10 +140,8 @@ const ReviewsByProductManager = ({ shopId, productId }) => {
       </StyledCard>
     );
 
-  console.log(reviews);
-  const { results, totalPages } = reviews;
 
-  if (!results || results.length === 0) {
+  if (!reviews || reviews.length === 0) {
     return (
       <StyledCard>
         <h4>There are no reviews for this product</h4>
@@ -122,7 +149,7 @@ const ReviewsByProductManager = ({ shopId, productId }) => {
     );
   }
 
-  return <ReviewsByProductList reviews={results} />;
+  return <ReviewsByProductList reviews={reviews} />;
 };
 
 export default ReviewsByProductManager;

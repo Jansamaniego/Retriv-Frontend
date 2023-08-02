@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import customBaseQuery from '../../utils/customBaseQuery';
 import { myProfileApi } from './myProfileApi';
+import { setShop } from '../features/shopSlice';
 
 export const shopApi = createApi({
   reducerPath: 'shopApi',
@@ -14,22 +15,34 @@ export const shopApi = createApi({
         };
       },
       transformResponse: (response) => response.shops,
-      providesTags: (result) =>
-        result
+      providesTags: ({ results }) => {
+        console.log(results);
+        return results
           ? [
-              ...result.map(({ id }) => ({ type: 'Shop', id })),
+              ...results.map(({ id }) => ({ type: 'Shop', id })),
               { type: 'Shop', id: 'LIST' },
             ]
-          : [],
+          : [{ type: 'Shop', id: 'LIST' }];
+      },
     }),
     getShopById: builder.query({
       query(shopId) {
+        console.log(shopId);
         return {
           url: `/shop/${shopId}`,
         };
       },
       transformResponse: (response) => response.shop,
-      providesTags: (result, error, { shopId }) =>
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data: shop } = await queryFulfilled;
+
+          dispatch(setShop(shop));
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      providesTags: (result, error, shopId) =>
         result ? [{ type: 'Shop', id: shopId }] : [],
     }),
     createShop: builder.mutation({
@@ -57,29 +70,29 @@ export const shopApi = createApi({
           url: `/shop/${body.id}`,
           method: 'PATCH',
           body,
-          credentals: 'include',
+          credentials: 'include',
         };
       },
-      invalidatesTags: (result, error, { body }) => [
+      invalidatesTags: (result, error, { id }) => [
         {
           type: 'Shop',
-          id: body.id,
+          id,
         },
       ],
     }),
     updateShopImage: builder.mutation({
-      query(body) {
+      query(formData) {
         return {
-          url: `/shop/${body.id}/shop-image`,
+          url: `/shop/${formData.get('id')}/shop-image`,
           method: 'PATCH',
-          body,
-          credentals: 'include',
+          body: formData,
+          credentials: 'include',
         };
       },
-      invalidatesTags: (result, error, { body }) => [
+      invalidatesTags: (result, error, formData) => [
         {
           type: 'Shop',
-          id: body.id,
+          id: formData.get('id'),
         },
       ],
     }),

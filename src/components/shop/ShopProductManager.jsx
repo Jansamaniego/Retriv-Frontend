@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useGetProductsByShopIdQuery } from '../../redux/services/productApi';
 import ShopProductsList from './ShopProductsList';
+import { Card } from '../common';
 
 const ShopProductManagerGrid = styled.main`
   display: grid;
@@ -15,7 +16,19 @@ const ShopProductManager = () => {
   const { shopId } = useParams();
   const { data: products, isLoading } = useGetProductsByShopIdQuery(shopId);
 
-  if (!products || isLoading) return <h1>Loading...</h1>;
+  if (isLoading)
+    return (
+      <Card>
+        <h1>Loading...</h1>
+      </Card>
+    );
+
+  if (!products || products.length === 0)
+    return (
+      <Card>
+        <h1>No products found.</h1>
+      </Card>
+    );
 
   return (
     <ShopProductManagerGrid>

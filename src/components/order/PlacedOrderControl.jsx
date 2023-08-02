@@ -35,7 +35,6 @@ const PlacedOrderControl = ({ orderId, status }) => {
   const [updateOrderStatus, { isLoading }] = useUpdateOrderStatusMutation();
   const loggedInUser = useSelector((state) => state.userState.user);
   const [orderStatus, setOrderStatus] = useState(status);
-  console.log(loggedInUser);
   const { role } = loggedInUser;
 
   const updateOrderStatusHandler = () => {

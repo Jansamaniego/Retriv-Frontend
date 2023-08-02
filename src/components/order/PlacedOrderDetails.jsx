@@ -16,7 +16,6 @@ const PlacedOrderDetails = ({ orderId }) => {
 
   if (isLoading) return <h4>Loading...</h4>;
 
-  console.log(order);
 
   return (
     <Card>

@@ -17,7 +17,6 @@ import ResetPassword from './pages/ResetPassword';
 import RestrictTo from './pages/RestrictTo';
 import Unauthorized from './pages/Unauthorized';
 import VerifyEmail from './pages/VerifyEmail';
-import ProfileInfo from './pages/ProfileInfo';
 import ChangePassword from './pages/ChangePassword';
 import SendVerificationEmail from './pages/SendVerificationEmail';
 import ProfileHeader from './components/profile/ProfileHeader';
@@ -40,6 +39,11 @@ import PlacedOrderPage from './pages/PlacedOrderPage';
 import CreateUserPage from './pages/CreateUserPage';
 import CreateShopPage from './pages/CreateShopPage';
 import MyShopPage from './pages/MyShopPage';
+import CreateProductForm from './pages/CreateProductForm';
+import UserInfo from './components/user/UserInfo';
+import UserPageContent from './components/user/UserPageContent';
+import ProfilePage from './pages/ProfilePage';
+import ProfilePageContent from './components/profile/ProfilePageContent';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
@@ -60,7 +64,9 @@ const App = (props) => {
           element={<ProductPage />}
         />
         <Route path="shop/:shopId" element={<ShopPage />} />
-        <Route path="user/:userId" element={<UserPage />} />
+        <Route path="user/:userId" element={<UserPage />}>
+          <Route index element={<UserPageContent />} />
+        </Route>
         <Route path="order/:orderId" element={<PlacedOrderPage />} />
         <Route element={<RestrictTo allowedRoles={['admin']} />}>
           <Route path="admin-dashboard" element={<AdminDashboard />} />
@@ -70,6 +76,7 @@ const App = (props) => {
         </Route>
         <Route element={<RestrictTo allowedRoles={['seller']} />}>
           <Route path="/my-shop" element={<MyShopPage />} />
+          <Route path="/add-product" element={<CreateProductForm />} />
         </Route>
         <Route
           element={<RestrictTo allowedRoles={['user', 'admin', 'seller']} />}
@@ -79,8 +86,8 @@ const App = (props) => {
           <Route path="/payment-test" element={<Payment />} />
           <Route path="/completion" element={<PaymentCompletion />} />
           <Route path="/create-shop" element={<CreateShopPage />} />
-          <Route path="profile" element={<ProfileHeader />}>
-            <Route index element={<ProfileInfo />} />
+          <Route path="profile" element={<ProfilePage />}>
+            <Route index element={<ProfilePageContent />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route
               path="send-verification-email"

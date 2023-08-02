@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import StyledModal from '../common/StyledModal';
+import { StyledModal } from '../common';
 import DisplayImageModalCarousel from './DisplayImageModalCarousel';
 
 const ModalContentContainer = styled.div`

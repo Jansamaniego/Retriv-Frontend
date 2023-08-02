@@ -1,26 +1,61 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Card } from '../common';
+import { Button, Card, StyledInput } from '../common';
 import ProfileImageLogo from '../profile/ProfileImageLogo';
 import {
   DateIcon,
+  EditIcon,
   ProductIcon,
   ProductsSoldIcon,
   StarRatingIcon,
 } from '../../assets/icons';
+import {
+  useDeleteShopMutation,
+  useGetShopByIdQuery,
+  useUpdateShopMutation,
+} from '../../redux/services/shopApi';
+import { Form, useNavigate } from 'react-router-dom';
+import { FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useGetShopRatingsQuery } from '../../redux/services/ratings/shopRatingsApi';
+import { DevTool } from '@hookform/devtools';
+import UpdateShopImageModal from './UpdateShopImageModal';
 
 const ShopHeaderFlexWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  padding-left: 1rem;
   gap: 4rem;
 `;
 
 const ShopImageAndInfoContainer = styled.div`
+  position: relative;
   display: flex;
   justify-content: flex-start;
-  gap: 1rem;
+  gap: 2rem;
   max-width: 175ch;
   width: 40%;
+`;
+
+const ShopImageContainer = styled.div`
+  position: relative;
+`;
+
+const ShopImage = styled.img`
+  border-radius: 50%;
+  outline: 0.5rem solid ${(props) => props.theme.neutral[900]};
+  object-fit: cover;
+  position: relative;
+  width: 18rem;
+  height: 18rem;
+`;
+
+const StyledEditIcon = styled(EditIcon)`
+  position: absolute;
+  cursor: pointer;
+  right: 0.2rem;
+  bottom: 0.05rem;
 `;
 
 const ShopInfoContainer = styled.div`
@@ -31,21 +66,22 @@ const ShopInfoContainer = styled.div`
   max-width: 75ch;
 `;
 
-const NameContainer = styled.div``;
+const ShopDataInputFlexWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
-const Name = styled.h5`
+const InfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+`;
+
+const Info = styled.h5`
   font-weight: 700;
 `;
 
-const DescriptionContainer = styled.div``;
-
-const Description = styled.h5`
-  font-weight: 400;
-`;
-
-const AddressContainer = styled.div``;
-
-const Address = styled.h5`
+const SubInfo = styled.h5`
   font-weight: 400;
 `;
 
@@ -71,10 +107,44 @@ const ShopStat = styled.h5`
   font-weight: 300;
 `;
 
-const ShopHeader = ({ shop, shopRatings }) => {
-  console.log(shop);
-  console.log(shopRatings);
+const ButtonFlexWrapper = styled.div`
+  display: flex;
+`;
+
+const EditIconButton = styled.button`
+  display: flex;
+  align-items: center;
+  background: none;
+  color: ${(props) =>
+    props.disabled ? props.theme.neutral.light : props.theme.neutral.text};
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: ${(props) => (props.disabled ? 'inherit' : 'pointer')};
+  outline: inherit;
+`;
+
+const ShopHeader = ({ shop }) => {
+  const navigate = useNavigate();
+
+  const { data: shopRatings, isLoading: shopRatingsIsLoading } =
+    useGetShopRatingsQuery(shop.id);
+
+  const [deleteShop, { isLoading: deleteShopIsLoading }] =
+    useDeleteShopMutation();
+
+  const [updateShop, { isLoading: updateShopIsLoading }] =
+    useUpdateShopMutation();
+
+  const [isShopImageEditModalOpen, setIsShopImageEditModalOpen] =
+    useState(false);
+  const [isEditMode, setisEditMode] = useState(false);
+  const [isEditNameMode, setIsEditNameMode] = useState(false);
+  const [isEditAddressMode, setIsEditAddressMode] = useState(false);
+  const [isEditDescriptionMode, setIsEditDescriptionMode] = useState(false);
+
   const {
+    id,
     shopImage,
     name,
     description,
@@ -84,49 +154,235 @@ const ShopHeader = ({ shop, shopRatings }) => {
     createdAt,
   } = shop;
 
+  const updateShopSchema = z.object({
+    name: z.string(),
+    address: z.string(),
+    description: z.string(),
+  });
+
+  const methods = useForm({
+    defaultValues: {
+      name,
+      address,
+      description,
+    },
+    resolver: zodResolver(updateShopSchema),
+  });
+
+  const {
+    handleSubmit,
+    register,
+    control,
+    formState: { errors },
+  } = methods;
+
+  const openShopImageEditModal = () => {
+    setIsShopImageEditModalOpen(true);
+  };
+
+  const closeShopImageEditModal = () => {
+    setIsShopImageEditModalOpen(false);
+  };
+
+  const enableEditNameMode = () => {
+    setIsEditNameMode(true);
+    setisEditMode(true);
+  };
+
+  const disableEditNameMode = () => {
+    setIsEditNameMode(false);
+    setisEditMode(false);
+  };
+
+  const enableEditDescriptionMode = () => {
+    setIsEditDescriptionMode(true);
+    setisEditMode(true);
+  };
+
+  const disableEditDescriptionMode = () => {
+    setIsEditDescriptionMode(false);
+    setisEditMode(false);
+  };
+
+  const enableEditAddressMode = () => {
+    setIsEditAddressMode(true);
+    setisEditMode(true);
+  };
+
+  const disableEditAddressMode = () => {
+    setIsEditAddressMode(false);
+    setisEditMode(false);
+  };
+
+  const deleteShopOnClickHandler = async () => {
+    await deleteShop(id);
+    navigate('/');
+  };
+
+  const onSubmit = async (data) => {
+    await updateShop({ id, ...data });
+
+    if (isEditNameMode) return disableEditNameMode();
+    if (isEditDescriptionMode) return disableEditDescriptionMode();
+    if (isEditAddressMode) return disableEditAddressMode();
+  };
+
+  if (shopRatingsIsLoading) return <h3>Loading...</h3>;
+
   const { ratingsAverage, ratingsQuantity } = shopRatings;
+
   return (
-    <Card>
-      <ShopHeaderFlexWrapper>
-        <ShopImageAndInfoContainer>
-          <ProfileImageLogo profileImage={shopImage} imageWidth="20rem" />
-          <ShopInfoContainer>
-            <NameContainer>
-              <Name>{name}</Name>
-            </NameContainer>
-            <DescriptionContainer>
-              <Description>{description}</Description>
-            </DescriptionContainer>
-            <AddressContainer>
-              <Address>{address}</Address>
-            </AddressContainer>
-          </ShopInfoContainer>
-        </ShopImageAndInfoContainer>
-        <ShopHeaderStatsContainer>
-          <ShopHeaderStatsGridWrapper>
-            <ShopHeaderStatContainer>
-              <ProductIcon width="2rem" />
-              <ShopStat>Products: {productsQuantity}</ShopStat>
-            </ShopHeaderStatContainer>
-            <ShopHeaderStatContainer>
-              <ProductsSoldIcon width="2rem" />
-              <ShopStat>Units Sold: {totalUnitsSold}</ShopStat>
-            </ShopHeaderStatContainer>
-            <ShopHeaderStatContainer>
-              <StarRatingIcon width="2rem" />
-              <ShopStat>
-                Rating: {ratingsAverage} &#40;{ratingsQuantity}{' '}
-                {ratingsQuantity > 1 ? 'ratings' : 'rating'}&#41;
-              </ShopStat>
-            </ShopHeaderStatContainer>
-            <ShopHeaderStatContainer>
-              <DateIcon width="2rem" />
-              <ShopStat>Joined: {createdAt}</ShopStat>
-            </ShopHeaderStatContainer>
-          </ShopHeaderStatsGridWrapper>
-        </ShopHeaderStatsContainer>
-      </ShopHeaderFlexWrapper>
-    </Card>
+    <FormProvider {...methods}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Card>
+          <ShopHeaderFlexWrapper>
+            <ShopImageAndInfoContainer>
+              <ShopImageContainer>
+                {shopImage ? <ShopImage src={shopImage} /> : null}
+                <StyledEditIcon width="2rem" onClick={openShopImageEditModal} />
+              </ShopImageContainer>
+              <ShopInfoContainer>
+                {isEditNameMode ? (
+                  <>
+                    <ShopDataInputFlexWrapper>
+                      <StyledInput
+                        placeholder="Name"
+                        name="name"
+                        marginBottom={0}
+                      />
+                      <ButtonFlexWrapper>
+                        <Button
+                          onClick={disableEditNameMode}
+                          disabled={updateShopIsLoading}
+                        >
+                          Cancel
+                        </Button>
+                        <Button type="submit" disabled={updateShopIsLoading}>
+                          Update
+                        </Button>
+                      </ButtonFlexWrapper>
+                    </ShopDataInputFlexWrapper>
+                  </>
+                ) : (
+                  <InfoContainer>
+                    <Info>{name}</Info>
+                    <EditIconButton
+                      onClick={enableEditNameMode}
+                      disabled={isEditMode}
+                    >
+                      <EditIcon width="2rem" />
+                    </EditIconButton>
+                  </InfoContainer>
+                )}
+                {isEditDescriptionMode ? (
+                  <>
+                    <ShopDataInputFlexWrapper>
+                      <StyledInput
+                        placeholder="Description"
+                        name="description"
+                        marginBottom={0}
+                      />
+                      <ButtonFlexWrapper>
+                        <Button
+                          onClick={disableEditDescriptionMode}
+                          disabled={updateShopIsLoading}
+                        >
+                          Cancel
+                        </Button>
+                        <Button type="submit" disabled={updateShopIsLoading}>
+                          Update
+                        </Button>
+                      </ButtonFlexWrapper>
+                    </ShopDataInputFlexWrapper>
+                  </>
+                ) : (
+                  <InfoContainer>
+                    <SubInfo>{description}</SubInfo>
+                    <EditIconButton
+                      onClick={enableEditDescriptionMode}
+                      disabled={isEditMode}
+                    >
+                      <EditIcon width="2rem" />
+                    </EditIconButton>
+                  </InfoContainer>
+                )}
+                {isEditAddressMode ? (
+                  <>
+                    <ShopDataInputFlexWrapper>
+                      <StyledInput
+                        placeholder="Address"
+                        name="address"
+                        marginBottom={0}
+                      />
+                      <ButtonFlexWrapper>
+                        <Button
+                          onClick={disableEditAddressMode}
+                          disabled={updateShopIsLoading}
+                        >
+                          Cancel
+                        </Button>
+                        <Button type="submit" disabled={updateShopIsLoading}>
+                          Update
+                        </Button>
+                      </ButtonFlexWrapper>
+                    </ShopDataInputFlexWrapper>
+                  </>
+                ) : (
+                  <InfoContainer>
+                    <SubInfo>{address}</SubInfo>
+                    <EditIconButton
+                      onClick={enableEditAddressMode}
+                      disabled={isEditMode}
+                    >
+                      <EditIcon width="2rem" />
+                    </EditIconButton>
+                  </InfoContainer>
+                )}
+              </ShopInfoContainer>
+            </ShopImageAndInfoContainer>
+            <ShopHeaderStatsContainer>
+              <ShopHeaderStatsGridWrapper>
+                <ShopHeaderStatContainer>
+                  <ProductIcon width="2rem" />
+                  <ShopStat>Products: {productsQuantity}</ShopStat>
+                </ShopHeaderStatContainer>
+                <ShopHeaderStatContainer>
+                  <ProductsSoldIcon width="2rem" />
+                  <ShopStat>Units Sold: {totalUnitsSold}</ShopStat>
+                </ShopHeaderStatContainer>
+                <ShopHeaderStatContainer>
+                  <StarRatingIcon width="2rem" />
+                  <ShopStat>
+                    Rating: {ratingsAverage} &#40;{ratingsQuantity}{' '}
+                    {ratingsQuantity > 1 ? 'ratings' : 'rating'}&#41;
+                  </ShopStat>
+                </ShopHeaderStatContainer>
+                <ShopHeaderStatContainer>
+                  <DateIcon width="2rem" />
+                  <ShopStat>Joined: {createdAt}</ShopStat>
+                </ShopHeaderStatContainer>
+                <ShopHeaderStatContainer>
+                  <Button
+                    onClick={deleteShopOnClickHandler}
+                    disabled={deleteShopIsLoading}
+                  >
+                    Delete Shop
+                  </Button>
+                </ShopHeaderStatContainer>
+              </ShopHeaderStatsGridWrapper>
+            </ShopHeaderStatsContainer>
+          </ShopHeaderFlexWrapper>
+        </Card>
+      </Form>
+      <DevTool control={control} />
+      {isShopImageEditModalOpen && (
+        <UpdateShopImageModal
+          showModal={openShopImageEditModal}
+          closeModal={closeShopImageEditModal}
+          id={id}
+        />
+      )}
+    </FormProvider>
   );
 };
 

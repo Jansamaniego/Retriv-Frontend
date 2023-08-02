@@ -24,7 +24,6 @@ const PaymentCompletion = () => {
     searchParams.size ? searchParams.toString() : undefined,
     {
       selectFromResult: ({ data }) => {
-        console.log(data);
         return {
           products: data?.results,
           totalPages: data?.totalPages,

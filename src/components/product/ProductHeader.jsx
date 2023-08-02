@@ -62,7 +62,7 @@ const SmallImage = styled.img`
   object-fit: cover;
 `;
 
-const ProductHeader = ({ product, productRatings }) => {
+const ProductHeader = ({ product, productRatings, isOwner, shopId }) => {
   const [displayImage, setDisplayImage] = useState();
   const [isDisplayImageModalOpen, setIsDisplayImageModalOpen] = useState(false);
 
@@ -138,6 +138,8 @@ const ProductHeader = ({ product, productRatings }) => {
           ratingsQuantity={ratingsQuantity}
           description={description}
           price={price}
+          isOwner={isOwner}
+          shopId={shopId}
         />
       </ProductHeaderContentContainer>
       {isDisplayImageModalOpen ? (
