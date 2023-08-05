@@ -6,6 +6,7 @@ const ProfileImageLogoContainer = styled.div`
   position: relative;
   height: 100%;
   display: flex;
+  z-index: 0;
 `;
 
 const ProfileImage = styled.img`

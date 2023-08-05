@@ -56,6 +56,7 @@ const DisplayImageModalMenu = ({ name, productImages, slide, setSlide }) => {
       <DisplayImageModalMenuImagesContainer>
         {productImages.map((image, idx) => (
           <DisplayImageModalMenuImageWrapper
+            key={idx}
             setOutline={slide === idx ? true : false}
           >
             <DisplayImageModalMenuImage
@@ -63,7 +64,6 @@ const DisplayImageModalMenu = ({ name, productImages, slide, setSlide }) => {
                 setSlide(idx);
               }}
               src={image}
-              key={idx}
               alt="product image"
             />
           </DisplayImageModalMenuImageWrapper>
@@ -73,8 +73,14 @@ const DisplayImageModalMenu = ({ name, productImages, slide, setSlide }) => {
   );
 };
 
-const DisplayImageModal = ({ productImages, name, showModal, closeModal }) => {
-  const [slide, setSlide] = useState(0);
+const DisplayImageModal = ({
+  productImages,
+  name,
+  showModal,
+  closeModal,
+  imageSlide,
+}) => {
+  const [slide, setSlide] = useState(imageSlide);
   return (
     <StyledModal
       showModal={showModal}

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { z } from 'zod';
 import { useUpdateShopImageMutation } from '../../redux/services/shopApi';
+import { useUpdateProductMainImageMutation } from '../../redux/services/productApi';
 
 const UpdateImageModalFlexContainer = styled.div`
   display: flex;
@@ -27,12 +28,20 @@ const Image = styled.img`
 
 const MB_BYTES = 1000000;
 
-const UpdateShopImageModal = ({ showModal, closeModal, id }) => {
-  const [updateShopImage, { isLoading, data }] = useUpdateShopImageMutation();
-  const inputRef = useRef();
-  const [shopImage, setShopImage] = useState('');
+const UpdateProductMainImageModal = ({
+  showModal,
+  closeModal,
+  shopId,
+  productId,
+}) => {
+  const [updateProductMainImage, { isLoading, data }] =
+    useUpdateProductMainImageMutation();
 
-  const updateImageSchema = z.object({
+  const inputRef = useRef();
+
+  const [productMainImage, setProductMainImage] = useState('');
+
+  const updateProductMainImageSchema = z.object({
     image: z
       .any()
       .optional()
@@ -66,16 +75,19 @@ const UpdateShopImageModal = ({ showModal, closeModal, id }) => {
 
   const onChangeHandler = (event) => {
     const file = event.target.files[0];
-    setShopImage(file);
+    setProductMainImage(file);
   };
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    const { image } = updateImageSchema.parse({ image: shopImage });
+    const { image } = updateProductMainImageSchema.parse({
+      image: productMainImage,
+    });
     const formData = new FormData();
-    formData.append('id', id);
+    formData.append('shopId', shopId);
+    formData.append('productId', productId);
     formData.append('image', image);
-    await updateShopImage(formData);
+    await updateProductMainImage(formData);
     closeModal();
   };
 
@@ -89,8 +101,8 @@ const UpdateShopImageModal = ({ showModal, closeModal, id }) => {
       <UpdateImageModalFlexContainer>
         <Form onSubmit={onSubmitHandler}>
           <ImageContainer onClick={handleImageClick}>
-            {shopImage ? (
-              <Image src={URL.createObjectURL(shopImage)} alt="" />
+            {productMainImage ? (
+              <Image src={URL.createObjectURL(productMainImage)} alt="" />
             ) : (
               <MdCloudUpload color="#1475cf" size={150} />
             )}
@@ -110,4 +122,4 @@ const UpdateShopImageModal = ({ showModal, closeModal, id }) => {
   );
 };
 
-export default UpdateShopImageModal;
+export default UpdateProductMainImageModal;

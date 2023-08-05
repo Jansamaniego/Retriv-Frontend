@@ -60,9 +60,10 @@ export const productApi = createApi({
       ],
     }),
     updateProductDetails: builder.mutation({
-      query({ productId, body }) {
+      query({ productId, shopId, body }) {
+        console.log(body);
         return {
-          url: `/product/${productId}`,
+          url: `shop/${shopId}/product/${productId}`,
           method: 'PATCH',
           body,
           credentials: 'include',
@@ -73,23 +74,56 @@ export const productApi = createApi({
       ],
     }),
     updateProductMainImage: builder.mutation({
-      query({ productId, body }) {
+      query(formData) {
         return {
-          url: `/product/${productId}/main-image`,
+          url: `shop/${formData.get('shopId')}/product/${formData.get(
+            'productId'
+          )}/main-image`,
           method: 'PATCH',
-          body,
+          body: formData,
           credentials: 'include',
         };
       },
-      invalidatesTags: (result, error, { productId }) => [
-        { type: 'Product', id: productId },
+      invalidatesTags: (result, error, formData) => [
+        { type: 'Product', id: formData.get('productId') },
       ],
     }),
     updateProductImages: builder.mutation({
-      query({ productId, body }) {
+      query(formData) {
         return {
-          url: `/product/${productId}/images`,
+          url: `shop/${formData.get('shopId')}/product/${formData.get(
+            'productId'
+          )}/images`,
           method: 'PATCH',
+          body: formData,
+          credentials: 'include',
+        };
+      },
+      invalidatesTags: (result, error, formData) => [
+        { type: 'Product', id: formData.get('productId') },
+      ],
+    }),
+    addProductImages: builder.mutation({
+      query(formData) {
+        return {
+          url: `shop/${formData.get('shopId')}/product/${formData.get(
+            'productId'
+          )}/add-images`,
+          method: 'PATCH',
+          body: formData,
+          credentials: 'include',
+        };
+      },
+      invalidatesTags: (result, error, formData) => [
+        { type: 'Product', id: formData.get('productId') },
+      ],
+    }),
+    deleteProductImage: builder.mutation({
+      query({ shopId, productId, body }) {
+        console.log(body);
+        return {
+          url: `shop/${shopId}/product/${productId}/images`,
+          method: 'DELETE',
           body,
           credentials: 'include',
         };
@@ -123,5 +157,7 @@ export const {
   useUpdateProductDetailsMutation,
   useUpdateProductMainImageMutation,
   useUpdateProductImagesMutation,
+  useAddProductImagesMutation,
+  useDeleteProductImageMutation,
   useDeleteProductMutation,
 } = productApi;

@@ -31,15 +31,22 @@ const ProductInfo = styled.main`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  width: 50%;
+  width: 100%;
 `;
 
 const ProductDataValueFlexWrapper = styled.div`
   display: flex;
+  align-items: center;
+  gap: 0.8rem;
 `;
 
 const ProductDataInputFlexWrapper = styled.div`
-  flex-direction: column;
+  display: flex;
+  align-items: center;
+`;
+
+const FlexWrapper = styled.div`
+  display: flex;
 `;
 
 const Value = styled.h6`
@@ -208,7 +215,7 @@ const ProductHeaderInfo = ({
     name: z.string(),
     description: z.string(),
     price: z.string(),
-    quantityInStock: z.string(),
+    quantityInStock: z.any(),
   });
 
   const methods = useForm({
@@ -295,7 +302,8 @@ const ProductHeaderInfo = ({
   };
 
   const onSubmit = async (data) => {
-    await updateProductDetails(data);
+    console.log(data);
+    await updateProductDetails({ productId, shopId, body: data });
 
     if (isEditNameMode) return disableEditNameMode();
     if (isEditDescriptionMode) return disableEditDescriptionMode();
@@ -304,29 +312,23 @@ const ProductHeaderInfo = ({
   };
 
   return (
-    <FormProvider>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <ProductInfo>
           {isEditNameMode ? (
-            <div>
-              <label>
-                <h5>name:</h5>
-              </label>
+            <>
               <ProductDataInputFlexWrapper>
-                <StyledInput placeholder="Name" name="name" />
-                <div>
+                <StyledInput placeholder="Name" name="name" marginBottom={0} />
+                <FlexWrapper>
                   <Button onClick={disableEditNameMode}>Cancel</Button>
                   <Button type="submit">Update</Button>
-                </div>
+                </FlexWrapper>
               </ProductDataInputFlexWrapper>
-            </div>
+            </>
           ) : (
-            <div>
-              <div>
-                <h5>name:</h5>
-              </div>
+            <>
               <ProductDataValueFlexWrapper>
-                <Value>{name}</Value>
+                <ProductInfoName>{name}</ProductInfoName>
                 <EditIconButton
                   onClick={enableEditNameMode}
                   disabled={isEditMode}
@@ -334,7 +336,7 @@ const ProductHeaderInfo = ({
                   <EditIcon width="2rem" />
                 </EditIconButton>
               </ProductDataValueFlexWrapper>
-            </div>
+            </>
           )}
           <ProductInfoStatsContainer>
             <ProductInfoStatsAvgRating>
@@ -362,20 +364,63 @@ const ProductHeaderInfo = ({
             </ProductInfoStatsProductsSoldContainer>
           </ProductInfoStatsContainer>
           <DescriptionContainer>
-            <Description>{description}</Description>
+            {isEditDescriptionMode ? (
+              <>
+                <ProductDataInputFlexWrapper>
+                  <StyledInput
+                    placeholder="Quantity in stock"
+                    name="description"
+                    marginBottom={0}
+                  />
+                  <FlexWrapper>
+                    <Button onClick={disableEditDescriptionMode}>Cancel</Button>
+                    <Button type="submit">Update</Button>
+                  </FlexWrapper>
+                </ProductDataInputFlexWrapper>
+              </>
+            ) : (
+              <>
+                <ProductDataValueFlexWrapper>
+                  <Description>{description}</Description>
+                  <EditIconButton
+                    onClick={enableEditDescriptionMode}
+                    disabled={isEditMode}
+                  >
+                    <EditIcon width="2rem" />
+                  </EditIconButton>
+                </ProductDataValueFlexWrapper>
+              </>
+            )}
           </DescriptionContainer>
-          <PriceContainer>
-            <Price>&#8369;{price}</Price>
-          </PriceContainer>
+          {isEditPriceMode ? (
+            <>
+              <ProductDataInputFlexWrapper>
+                <StyledInput
+                  placeholder="Price"
+                  name="price"
+                  marginBottom={0}
+                />
+                <FlexWrapper>
+                  <Button onClick={disableEditPriceMode}>Cancel</Button>
+                  <Button type="submit">Update</Button>
+                </FlexWrapper>
+              </ProductDataInputFlexWrapper>
+            </>
+          ) : (
+            <>
+              <ProductDataValueFlexWrapper>
+                <Price> &#8369;{price}</Price>
+                <EditIconButton
+                  onClick={enableEditPriceMode}
+                  disabled={isEditMode}
+                >
+                  <EditIcon width="2rem" />
+                </EditIconButton>
+              </ProductDataValueFlexWrapper>
+            </>
+          )}
           {isOwner ? (
             <>
-              <QuantityInStockContainer>
-                <QuantityInStock>
-                  {isOutOfStock
-                    ? 'Out of stock'
-                    : `${quantityInStock} units available`}
-                </QuantityInStock>
-              </QuantityInStockContainer>
               <AddToCartButtonContainer>
                 <RemoveProductButton
                   onClick={removeProductOnClickHandler}
@@ -398,11 +443,41 @@ const ProductHeaderInfo = ({
                   QuantityInputValue={quantityToPurchase}
                 />
                 <QuantityInStockContainer>
-                  <QuantityInStock>
-                    {isOutOfStock
-                      ? 'Out of stock'
-                      : `${quantityInStock} units available`}
-                  </QuantityInStock>
+                  <QuantityInStockContainer>
+                    {isEditQuantityInStockMode ? (
+                      <>
+                        <ProductDataInputFlexWrapper>
+                          <StyledInput
+                            placeholder="Quantity in stock"
+                            name="quantityInStock"
+                            marginBottom={0}
+                          />
+                          <FlexWrapper>
+                            <Button onClick={disableEditQuantityInStockMode}>
+                              Cancel
+                            </Button>
+                            <Button type="submit">Update</Button>
+                          </FlexWrapper>
+                        </ProductDataInputFlexWrapper>
+                      </>
+                    ) : (
+                      <>
+                        <ProductDataValueFlexWrapper>
+                          <QuantityInStock>
+                            {isOutOfStock
+                              ? 'Out of stock'
+                              : `${quantityInStock} units available`}
+                          </QuantityInStock>
+                          <EditIconButton
+                            onClick={enableEditQuantityInStockMode}
+                            disabled={isEditMode}
+                          >
+                            <EditIcon width="2rem" />
+                          </EditIconButton>
+                        </ProductDataValueFlexWrapper>
+                      </>
+                    )}
+                  </QuantityInStockContainer>
                 </QuantityInStockContainer>
               </QuantityControllerContainer>
               <AddToCartButtonContainer>
@@ -424,7 +499,7 @@ const ProductHeaderInfo = ({
             </TransparentPopup>
           ) : null}
         </ProductInfo>
-      </Form>
+      </form>
     </FormProvider>
   );
 };

@@ -1,4 +1,6 @@
-export const EditIcon = (props) => {
+import { forwardRef } from 'react';
+
+export const EditIcon = forwardRef(({ ...props }, ref) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,6 +10,7 @@ export const EditIcon = (props) => {
       stroke="currentColor"
       className="w-6 h-6"
       {...props}
+      ref={ref}
     >
       <path
         strokeLinecap="round"
@@ -16,6 +19,4 @@ export const EditIcon = (props) => {
       />
     </svg>
   );
-};
-
-
+});

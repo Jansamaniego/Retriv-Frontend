@@ -8,6 +8,7 @@ import ProductShop from '../components/product/ProductShop';
 import ReviewsByProductManager from '../components/review/ReviewsByProductManager';
 import ReviewForm from '../components/review/ReviewForm';
 import { useSelector } from 'react-redux';
+import { useGetReviewsByProductIdQuery } from '../redux/services/reviewApi';
 
 const ProductDetailContainer = styled.main`
   display: flex;
@@ -19,8 +20,9 @@ const ProductPage = () => {
   const { shopId, productId } = useParams();
   const currentUser = useSelector((state) => state.userState.user);
   const { currentShop, userShops } = useSelector((state) => state.shopState);
+  const [isUserReviewExists, setIsUserReviewExists] = useState(false);
   const [isOwner, setIsOwner] = useState(
-    [...userShops.map((userShop) => userShop._id)].includes(shopId)
+    currentShop ? currentShop.id === shopId : false
   );
 
   const { data: product, isLoading: productIsLoading } = useGetProductByIdQuery(
@@ -47,6 +49,7 @@ const ProductPage = () => {
       ratingsQuantity: 0,
     };
   }
+  console.log(currentUser, isOwner);
 
   return (
     <ProductDetailContainer>
@@ -57,8 +60,13 @@ const ProductPage = () => {
         shopId={shopId}
       />
       <ProductShop shopId={product.shop} />
-      <ReviewsByProductManager productId={productId} shopId={product.shop} />
-      {currentUser && (
+      <ReviewsByProductManager
+        shopId={shopId}
+        productId={productId}
+        currentUser={currentUser}
+        setIsUserReviewExists={setIsUserReviewExists}
+      />
+      {currentUser && !isOwner && !isUserReviewExists && (
         <ReviewForm shopId={product.shop} productId={productId} />
       )}
     </ProductDetailContainer>

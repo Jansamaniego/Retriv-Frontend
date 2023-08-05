@@ -13,6 +13,7 @@ const Background = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 `;
 
 const ModalWrapper = styled.div`
@@ -55,6 +56,10 @@ export const StyledModal = ({
   closeModal,
   children,
   isLoading,
+  onClick,
+  productId,
+  shopId,
+  body,
   withButtons = true,
   withCloseButton = true,
   ...props
@@ -76,6 +81,13 @@ export const StyledModal = ({
     [showModal, closeModal]
   );
 
+  const onClickHandler = async () => {
+    await onClick({ shopId, productId, body });
+    if (!isLoading) {
+      closeModal();
+    }
+  };
+
   useEffect(() => {
     document.addEventListener('keydown', keyPress);
     return () => document.removeEventListener('keydown', keyPress);
@@ -88,11 +100,15 @@ export const StyledModal = ({
           <ContentContainer>{children}</ContentContainer>
           {withButtons ? (
             <ControlContainer>
-              <Button type="button" onClick={closeModal}>
+              <Button type="button" onClick={closeModal} disabled={isLoading}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isLoading}>
-                Submit
+              <Button
+                type={onClick ? 'button' : 'submit'}
+                disabled={isLoading}
+                onClick={onClick && onClickHandler}
+              >
+                {onClick ? 'Confirm' : 'Submit'}
               </Button>
             </ControlContainer>
           ) : null}
