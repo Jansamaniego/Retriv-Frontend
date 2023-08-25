@@ -53,17 +53,12 @@ const PostalCodeAddressLabel = styled.label`
 `;
 
 const DeliveryAddress = () => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
-
   return (
     <Card>
       <DeliveryAddressFlexWrapper>
         <StyledInputContainer>
           <DeliveryAddressLabel htmlFor="address">Address</DeliveryAddressLabel>
-          <StyledInput {...register('address')} id="address" />
+          <StyledInput id="address" name="address" />
         </StyledInputContainer>
         <CountryAndPostalCodeWrapper>
           <CountryStyledInputContainer>
@@ -76,12 +71,12 @@ const DeliveryAddress = () => {
             <PostalCodeAddressLabel htmlFor="postalCode">
               Postal Code
             </PostalCodeAddressLabel>
-            <StyledInput {...register('postalCode')} id="postalCode" />
+            <StyledInput id="postalCode" name="postalCode" />
           </PostalCodeStyledInputContainer>
         </CountryAndPostalCodeWrapper>
         <StyledInputContainer>
           <DeliveryAddressLabel htmlFor="phone">Phone</DeliveryAddressLabel>
-          <StyledInput {...register('phone')} id="phone" />
+          <StyledInput id="phone" name="phone" />
         </StyledInputContainer>
       </DeliveryAddressFlexWrapper>
     </Card>

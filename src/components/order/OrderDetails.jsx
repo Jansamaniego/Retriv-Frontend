@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Card } from '../common';
+import { Button, Card, StyledModal } from '../common';
 import { useConfirmPaymentIntentMutation } from '../../redux/services/paymentIntentApi';
+import { useState } from 'react';
 
 const OrderDetailsFlexContainer = styled.div`
   display: flex;
@@ -21,6 +22,16 @@ const OrderDetailLabel = styled.h5``;
 const OrderDetailValue = styled.h5``;
 
 const OrderDetails = ({ totalPrice, totalQuantity, isLoading }) => {
+  const [isCreateOrderModalOpen, setIsCreateOrderModalOpen] = useState(false);
+
+  const openCreateOrderModal = () => {
+    setIsCreateOrderModalOpen(true);
+  };
+
+  const closeCreateOrderModal = () => {
+    setIsCreateOrderModalOpen(false);
+  };
+
   return (
     <Card>
       <OrderDetailsFlexContainer>
@@ -32,10 +43,18 @@ const OrderDetails = ({ totalPrice, totalQuantity, isLoading }) => {
           <OrderDetailLabel>Payment total:</OrderDetailLabel>
           <OrderDetailValue>&#8369;{totalPrice}</OrderDetailValue>
         </OrderDetailContainer>
-        <Button type="submit" disabled={isLoading}>
+        <Button onClick={openCreateOrderModal} disabled={isLoading}>
           Place Order
         </Button>
       </OrderDetailsFlexContainer>
+      {isCreateOrderModalOpen && (
+        <StyledModal
+          showModal={openCreateOrderModal}
+          closeModal={closeCreateOrderModal}
+        >
+          Are you sure you want to confirm your order?
+        </StyledModal>
+      )}
     </Card>
   );
 };

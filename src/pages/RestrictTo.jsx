@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
 import { useGetMeQuery } from '../redux/services/myProfileApi';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const RestrictTo = ({ allowedRoles }) => {
   const isLoggedIn = Cookies.get('logged_in');
@@ -10,9 +12,19 @@ const RestrictTo = ({ allowedRoles }) => {
     data: user,
     isLoading,
     isFetching,
+    refetch,
   } = useGetMeQuery(null, {
     skip: false,
   });
+
+  useEffect(() => {
+    const refetchUser = async () => {
+      refetch();
+    };
+    if (isLoggedIn) {
+      refetchUser();
+    }
+  }, [isLoggedIn, refetch]);
 
   const loading = isLoading || isFetching;
 

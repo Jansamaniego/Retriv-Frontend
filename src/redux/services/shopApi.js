@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import customBaseQuery from '../../utils/customBaseQuery';
 import { myProfileApi } from './myProfileApi';
-import { setShop } from '../features/shopSlice';
+import { removeShop, setShop } from '../features/shopSlice';
 
 export const shopApi = createApi({
   reducerPath: 'shopApi',
@@ -33,17 +33,9 @@ export const shopApi = createApi({
         };
       },
       transformResponse: (response) => response.shop,
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
-        try {
-          const { data: shop } = await queryFulfilled;
-
-          dispatch(setShop(shop));
-        } catch (error) {
-          console.log(error);
-        }
+      providesTags: (result, error, shopId) => {
+        return result ? [{ type: 'Shop', id: shopId }] : [];
       },
-      providesTags: (result, error, shopId) =>
-        result ? [{ type: 'Shop', id: shopId }] : [],
     }),
     createShop: builder.mutation({
       query(body) {
@@ -55,14 +47,16 @@ export const shopApi = createApi({
         };
       },
       invalidatesTags: [{ type: 'Shop', id: 'LIST' }],
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          await dispatch(myProfileApi.endpoints.getMe.initiate());
-        } catch (error) {
-          console.log(error);
-        }
-      },
+      // async onQueryStarted(args, { dispatch, queryFulfilled }) {
+      //   try {
+      //     await queryFulfilled;
+      //     await dispatch(
+      //       myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
+      //     );
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // },
     }),
     updateShop: builder.mutation({
       query(body) {
@@ -79,6 +73,18 @@ export const shopApi = createApi({
           id,
         },
       ],
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          await dispatch(
+            myProfileApi.endpoints.getMe.initiate(null, {
+              forceRefetch: true,
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     updateShopImage: builder.mutation({
       query(formData) {
@@ -89,12 +95,27 @@ export const shopApi = createApi({
           credentials: 'include',
         };
       },
-      invalidatesTags: (result, error, formData) => [
-        {
-          type: 'Shop',
-          id: formData.get('id'),
-        },
-      ],
+      invalidatesTags: (result, error, formData) => {
+        console.log(formData.get('id'));
+        return [
+          {
+            type: 'Shop',
+            id: formData.get('id'),
+          },
+        ];
+      },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          await dispatch(
+            myProfileApi.endpoints.getMe.initiate(null, {
+              forceRefetch: true,
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     deleteShop: builder.mutation({
       query(id) {
@@ -105,6 +126,39 @@ export const shopApi = createApi({
         };
       },
       invalidatesTags: [{ type: 'Shop', id: 'LIST' }],
+      // async onQueryStarted(args, { dispatch, queryFulfilled }) {
+      //   try {
+      //     await queryFulfilled;
+
+      //     await dispatch(
+      //       myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
+      //     );
+
+      //     dispatch(removeShop());
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // },
+    }),
+    updateDefaultShop: builder.mutation({
+      query(id) {
+        return {
+          url: `/shop/${id}/set-default-shop`,
+          method: 'PATCH',
+          credentials: 'include',
+        };
+      },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          await dispatch(
+            myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
   }),
 });
@@ -114,6 +168,7 @@ export const {
   useGetShopByIdQuery,
   useCreateShopMutation,
   useUpdateShopMutation,
+
   useUpdateShopImageMutation,
   useDeleteShopMutation,
 } = shopApi;

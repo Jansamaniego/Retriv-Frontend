@@ -28,9 +28,7 @@ export const cartSlice = createSlice({
         (cartItem) => cartItem._id !== cartItemId
       );
     },
-    removeCart: (state) => {
-      state = initialState;
-    },
+    removeCart: () => initialState,
   },
 });
 

@@ -14,6 +14,7 @@ export const categoryApi = createApi({
       },
       transformResponse: (response) => response.categories,
       providesTags: (results) => {
+        console.log(results);
         return results.categories
           ? [
               ...results.categories.map(({ id }) => ({ type: 'Category', id })),
@@ -30,6 +31,7 @@ export const categoryApi = createApi({
       },
       transformResponse: (response) => response.category,
       providesTags: (result, error, categoryId) => {
+        console.log(categoryId);
         return result ? [{ type: 'Category', id: categoryId }] : [];
       },
     }),
@@ -46,7 +48,7 @@ export const categoryApi = createApi({
         result ? [{ type: 'Category', id: 'LIST' }] : [],
     }),
     updateCategoryDetails: builder.mutation({
-      query({ categoryId, body }) {
+      query({ categoryId, ...body }) {
         return {
           url: `/category/${categoryId}`,
           method: 'PATCH',
@@ -58,16 +60,16 @@ export const categoryApi = createApi({
         result ? [{ type: 'Category', id: categoryId }] : [],
     }),
     updateCategoryImage: builder.mutation({
-      query({ categoryId, body }) {
+      query(formData) {
         return {
-          url: `/category/${categoryId}`,
+          url: `/category/${formData.get('id')}/image`,
           method: 'PATCH',
-          body,
+          body: formData,
           credentials: 'include',
         };
       },
-      invalidatesTags: (result, error, { categoryId }) =>
-        result ? [{ type: 'Category', id: categoryId }] : [],
+      invalidatesTags: (result, error, formData) =>
+        result ? [{ type: 'Category', id: formData.get('id') }] : [],
     }),
     deleteCategory: builder.mutation({
       query(categoryId) {

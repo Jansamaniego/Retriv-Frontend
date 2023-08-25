@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../redux/services/productApi';
@@ -9,6 +9,7 @@ import ReviewsByProductManager from '../components/review/ReviewsByProductManage
 import ReviewForm from '../components/review/ReviewForm';
 import { useSelector } from 'react-redux';
 import { useGetReviewsByProductIdQuery } from '../redux/services/reviewApi';
+import { Loading } from '../components/common';
 
 const ProductDetailContainer = styled.main`
   display: flex;
@@ -24,6 +25,10 @@ const ProductPage = () => {
   const [isOwner, setIsOwner] = useState(
     currentShop ? currentShop.id === shopId : false
   );
+
+  useEffect(() => {
+    setIsOwner(currentShop ? currentShop.id === shopId : false);
+  }, [currentShop, shopId]);
 
   const { data: product, isLoading: productIsLoading } = useGetProductByIdQuery(
     {
@@ -41,7 +46,7 @@ const ProductPage = () => {
       { pollingInterval: 20 * 60 * 1000 }
     );
 
-  if (productIsLoading || productRatingsIsLoading) return <h1>Loading...</h1>;
+  if (productIsLoading || productRatingsIsLoading) return <Loading />;
 
   if (!productRatings) {
     productRatings = {
@@ -49,7 +54,8 @@ const ProductPage = () => {
       ratingsQuantity: 0,
     };
   }
-  console.log(currentUser, isOwner);
+
+  const { shop } = product;
 
   return (
     <ProductDetailContainer>
@@ -59,7 +65,7 @@ const ProductPage = () => {
         isOwner={isOwner}
         shopId={shopId}
       />
-      <ProductShop shopId={product.shop} />
+      <ProductShop shopId={shop} />
       <ReviewsByProductManager
         shopId={shopId}
         productId={productId}

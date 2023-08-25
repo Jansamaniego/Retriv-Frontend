@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CheckIcon,
   EditIcon,
@@ -13,6 +13,7 @@ import {
   QuantityTogglerInput,
   Socials,
   StyledInput,
+  StyledModal,
   TransparentPopup,
 } from '../common';
 import { useAddProductToCartMutation } from '../../redux/services/cartApi';
@@ -204,6 +205,8 @@ const ProductHeaderInfo = ({
   const [quantityToPurchase, setQuantityToPurchase] = useState(1);
   const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
   const [avgRating, setAvgRating] = useState(ratingsAverage * 10);
+  const [isDeleteProductModalOpen, setIsDeleteProductModalOpen] =
+    useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isEditNameMode, setIsEditNameMode] = useState(false);
   const [isEditDescriptionMode, setIsEditDescriptionMode] = useState(false);
@@ -214,7 +217,7 @@ const ProductHeaderInfo = ({
   const updateProductDetailsSchema = z.object({
     name: z.string(),
     description: z.string(),
-    price: z.string(),
+    price: z.any(),
     quantityInStock: z.any(),
   });
 
@@ -286,19 +289,34 @@ const ProductHeaderInfo = ({
     setQuantityToPurchase(event.target.value);
   };
 
-  const addToCartOnClickHandler = () => {
-    addProductToCart({ quantity: quantityToPurchase, productId });
-    if (addProductIsSuccess) {
+  const addToCartOnClickHandler = async () => {
+    await addProductToCart({ quantity: quantityToPurchase, productId });
+  };
+
+  useEffect(() => {
+    const toggleTransparentPopup = () => {
       setIsTransparentPopupOpen(true);
       setTimeout(() => {
         setIsTransparentPopupOpen(false);
       }, 3000);
+    };
+
+    if (!addProductIsLoading && addProductIsSuccess) {
+      toggleTransparentPopup();
     }
-  };
+  }, [addProductIsLoading, addProductIsSuccess]);
 
   const removeProductOnClickHandler = async () => {
     await deleteProduct({ shopId, productId });
-    navigate('/');
+    navigate('/my-shop');
+  };
+
+  const openDeleteProductModal = () => {
+    setIsDeleteProductModalOpen(true);
+  };
+
+  const closeDeleteProductModal = () => {
+    setIsDeleteProductModalOpen(false);
   };
 
   const onSubmit = async (data) => {
@@ -312,68 +330,20 @@ const ProductHeaderInfo = ({
   };
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ProductInfo>
-          {isEditNameMode ? (
-            <>
-              <ProductDataInputFlexWrapper>
-                <StyledInput placeholder="Name" name="name" marginBottom={0} />
-                <FlexWrapper>
-                  <Button onClick={disableEditNameMode}>Cancel</Button>
-                  <Button type="submit">Update</Button>
-                </FlexWrapper>
-              </ProductDataInputFlexWrapper>
-            </>
-          ) : (
-            <>
-              <ProductDataValueFlexWrapper>
-                <ProductInfoName>{name}</ProductInfoName>
-                <EditIconButton
-                  onClick={enableEditNameMode}
-                  disabled={isEditMode}
-                >
-                  <EditIcon width="2rem" />
-                </EditIconButton>
-              </ProductDataValueFlexWrapper>
-            </>
-          )}
-          <ProductInfoStatsContainer>
-            <ProductInfoStatsAvgRating>
-              <RatingsAverage>{ratingsAverage}</RatingsAverage>
-              <ProductInfoStatsAvgRatingStars>
-                {[...Array(5)].map((star, idx) => (
-                  <StarGradientIcon
-                    width="3rem"
-                    gradient={
-                      avgRating - idx * 10 >= 10 ? 10 : avgRating - idx * 10
-                    }
-                  />
-                ))}
-              </ProductInfoStatsAvgRatingStars>
-            </ProductInfoStatsAvgRating>
-            <ProductInfoStatsRatingQuantityContainer>
-              <ProductInfoStatsRatingQuantity>
-                {ratingsQuantity} Ratings
-              </ProductInfoStatsRatingQuantity>
-            </ProductInfoStatsRatingQuantityContainer>
-            <ProductInfoStatsProductsSoldContainer>
-              <ProductInfoStatsProductsSold>
-                {quantitySold} Sold
-              </ProductInfoStatsProductsSold>
-            </ProductInfoStatsProductsSoldContainer>
-          </ProductInfoStatsContainer>
-          <DescriptionContainer>
-            {isEditDescriptionMode ? (
+    <>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ProductInfo>
+            {isEditNameMode ? (
               <>
                 <ProductDataInputFlexWrapper>
                   <StyledInput
-                    placeholder="Quantity in stock"
-                    name="description"
+                    placeholder="Name"
+                    name="name"
                     marginBottom={0}
                   />
                   <FlexWrapper>
-                    <Button onClick={disableEditDescriptionMode}>Cancel</Button>
+                    <Button onClick={disableEditNameMode}>Cancel</Button>
                     <Button type="submit">Update</Button>
                   </FlexWrapper>
                 </ProductDataInputFlexWrapper>
@@ -381,19 +351,78 @@ const ProductHeaderInfo = ({
             ) : (
               <>
                 <ProductDataValueFlexWrapper>
-                  <Description>{description}</Description>
-                  <EditIconButton
-                    onClick={enableEditDescriptionMode}
-                    disabled={isEditMode}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
+                  <ProductInfoName>{name}</ProductInfoName>
+                  {isOwner && (
+                    <EditIconButton
+                      onClick={enableEditNameMode}
+                      disabled={isEditMode}
+                    >
+                      <EditIcon width="2rem" />
+                    </EditIconButton>
+                  )}
                 </ProductDataValueFlexWrapper>
               </>
             )}
-          </DescriptionContainer>
-          {isEditPriceMode ? (
-            <>
+            <ProductInfoStatsContainer>
+              <ProductInfoStatsAvgRating>
+                <RatingsAverage>{ratingsAverage}</RatingsAverage>
+                <ProductInfoStatsAvgRatingStars>
+                  {[...Array(5)].map((star, idx) => (
+                    <StarGradientIcon
+                      key={idx}
+                      width="3rem"
+                      gradient={
+                        avgRating - idx * 10 >= 10 ? 10 : avgRating - idx * 10
+                      }
+                    />
+                  ))}
+                </ProductInfoStatsAvgRatingStars>
+              </ProductInfoStatsAvgRating>
+              <ProductInfoStatsRatingQuantityContainer>
+                <ProductInfoStatsRatingQuantity>
+                  {ratingsQuantity} Ratings
+                </ProductInfoStatsRatingQuantity>
+              </ProductInfoStatsRatingQuantityContainer>
+              <ProductInfoStatsProductsSoldContainer>
+                <ProductInfoStatsProductsSold>
+                  {quantitySold} Sold
+                </ProductInfoStatsProductsSold>
+              </ProductInfoStatsProductsSoldContainer>
+            </ProductInfoStatsContainer>
+            <DescriptionContainer>
+              {isEditDescriptionMode ? (
+                <>
+                  <ProductDataInputFlexWrapper>
+                    <StyledInput
+                      placeholder="Quantity in stock"
+                      name="description"
+                      marginBottom={0}
+                    />
+                    <FlexWrapper>
+                      <Button onClick={disableEditDescriptionMode}>
+                        Cancel
+                      </Button>
+                      <Button type="submit">Update</Button>
+                    </FlexWrapper>
+                  </ProductDataInputFlexWrapper>
+                </>
+              ) : (
+                <>
+                  <ProductDataValueFlexWrapper>
+                    <Description>{description}</Description>
+                    {isOwner && (
+                      <EditIconButton
+                        onClick={enableEditDescriptionMode}
+                        disabled={isEditMode}
+                      >
+                        <EditIcon width="2rem" />
+                      </EditIconButton>
+                    )}
+                  </ProductDataValueFlexWrapper>
+                </>
+              )}
+            </DescriptionContainer>
+            {isEditPriceMode ? (
               <ProductDataInputFlexWrapper>
                 <StyledInput
                   placeholder="Price"
@@ -405,32 +434,31 @@ const ProductHeaderInfo = ({
                   <Button type="submit">Update</Button>
                 </FlexWrapper>
               </ProductDataInputFlexWrapper>
-            </>
-          ) : (
-            <>
+            ) : (
               <ProductDataValueFlexWrapper>
                 <Price> &#8369;{price}</Price>
-                <EditIconButton
-                  onClick={enableEditPriceMode}
-                  disabled={isEditMode}
-                >
-                  <EditIcon width="2rem" />
-                </EditIconButton>
+                {isOwner && (
+                  <EditIconButton
+                    onClick={enableEditPriceMode}
+                    disabled={isEditMode}
+                  >
+                    <EditIcon width="2rem" />
+                  </EditIconButton>
+                )}
               </ProductDataValueFlexWrapper>
-            </>
-          )}
-          {isOwner ? (
-            <>
-              <AddToCartButtonContainer>
-                <RemoveProductButton
-                  onClick={removeProductOnClickHandler}
-                  disabled={deleteProductIsLoading}
-                >
-                  Remove Product
-                </RemoveProductButton>
-              </AddToCartButtonContainer>
-            </>
-          ) : (
+            )}
+            {isOwner && (
+              <>
+                <AddToCartButtonContainer>
+                  <RemoveProductButton
+                    onClick={openDeleteProductModal}
+                    disabled={deleteProductIsLoading}
+                  >
+                    Remove Product
+                  </RemoveProductButton>
+                </AddToCartButtonContainer>
+              </>
+            )}
             <>
               <QuantityControllerContainer>
                 <QuantityContainer>
@@ -468,39 +496,52 @@ const ProductHeaderInfo = ({
                               ? 'Out of stock'
                               : `${quantityInStock} units available`}
                           </QuantityInStock>
-                          <EditIconButton
-                            onClick={enableEditQuantityInStockMode}
-                            disabled={isEditMode}
-                          >
-                            <EditIcon width="2rem" />
-                          </EditIconButton>
+                          {isOwner && (
+                            <EditIconButton
+                              onClick={enableEditQuantityInStockMode}
+                              disabled={isEditMode}
+                            >
+                              <EditIcon width="2rem" />
+                            </EditIconButton>
+                          )}
                         </ProductDataValueFlexWrapper>
                       </>
                     )}
                   </QuantityInStockContainer>
                 </QuantityInStockContainer>
               </QuantityControllerContainer>
-              <AddToCartButtonContainer>
-                <AddToCartButton
-                  onClick={addToCartOnClickHandler}
-                  disabled={addProductIsLoading}
-                >
-                  Add To Cart
-                </AddToCartButton>
-              </AddToCartButtonContainer>
+              {!isOwner && (
+                <AddToCartButtonContainer>
+                  <AddToCartButton
+                    onClick={addToCartOnClickHandler}
+                    disabled={addProductIsLoading}
+                  >
+                    Add To Cart
+                  </AddToCartButton>
+                </AddToCartButtonContainer>
+              )}
             </>
-          )}
-
-          <Socials />
-          {isTransparentPopupOpen ? (
-            <TransparentPopup>
-              <CheckIcon width="3rem" />
-              <h3>Item has been added to your cart!</h3>
-            </TransparentPopup>
-          ) : null}
-        </ProductInfo>
-      </form>
-    </FormProvider>
+            <Socials />
+            {isTransparentPopupOpen && (
+              <TransparentPopup>
+                <CheckIcon width="3rem" />
+                <h3>Item has been added to your cart!</h3>
+              </TransparentPopup>
+            )}
+          </ProductInfo>
+        </form>
+      </FormProvider>
+      {isDeleteProductModalOpen && (
+        <StyledModal
+          showModal={openDeleteProductModal}
+          closeModal={closeDeleteProductModal}
+          isLoading={deleteProductIsLoading}
+          onClick={removeProductOnClickHandler}
+        >
+          Are you sure you want to remove this product?
+        </StyledModal>
+      )}
+    </>
   );
 };
 

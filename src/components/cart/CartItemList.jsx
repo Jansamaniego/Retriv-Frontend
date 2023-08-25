@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useGetProductByIdQuery } from '../../redux/services/productApi';
 import styled from 'styled-components';
-import { Button, QuantityTogglerInput } from '../common';
+import { Button, QuantityTogglerInput, TransparentPopup } from '../common';
+import { useRemoveCartItemMutation } from '../../redux/services/cartApi';
+import { useEffect } from 'react';
 
 const CartItemContainer = styled.div``;
 
@@ -48,15 +50,37 @@ const DeleteButton = styled(Button)``;
 const CartItemItem = ({
   productId,
   shopId,
+  cartItemIndex,
   totalProductPrice,
   totalProductQuantity,
 }) => {
+  const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
   const [quantityToPurchase, setQuantityToPurchase] =
     useState(totalProductQuantity);
   const { data: product, isLoading } = useGetProductByIdQuery({
     shopId,
     productId,
   });
+
+  const [removeCartItem, { isLoading: removeCartItemIsLoading, isSuccess }] =
+    useRemoveCartItemMutation();
+
+  const DeleteCartItemOnClickHandler = async () => {
+    await removeCartItem({ productId, cartItemIndex });
+  };
+
+  useEffect(() => {
+    const toggleTransparentPopup = () => {
+      setIsTransparentPopupOpen(true);
+      setTimeout(() => {
+        setIsTransparentPopupOpen(false);
+      }, 3000);
+    };
+
+    if (!removeCartItemIsLoading && isSuccess) {
+      toggleTransparentPopup();
+    }
+  }, [removeCartItemIsLoading, isSuccess]);
 
   if (isLoading) return <h1>Loading...</h1>;
 
@@ -98,19 +122,33 @@ const CartItemItem = ({
           <CartItemTotalPrice>&#8369;{totalProductPrice}</CartItemTotalPrice>
         </CartItemDetailContainer>
         <CartItemDetailContainer>
-          <DeleteButton>Delete</DeleteButton>
+          <DeleteButton
+            onClick={DeleteCartItemOnClickHandler}
+            disabled={removeCartItemIsLoading}
+          >
+            Delete
+          </DeleteButton>
         </CartItemDetailContainer>
       </CartItemFlexWrapper>
+      {isTransparentPopupOpen && (
+        <TransparentPopup>
+          <h3>Item has been removed from your cart!</h3>
+        </TransparentPopup>
+      )}
     </CartItemContainer>
   );
 };
 
 const CartItemList = ({ cartItems }) => {
   return cartItems.map(
-    ({ product, shop, _id: id, totalProductPrice, totalProductQuantity }) => (
+    (
+      { product, shop, _id: id, totalProductPrice, totalProductQuantity },
+      idx
+    ) => (
       <CartItemItem
         key={id}
         productId={product}
+        cartItemIndex={idx}
         shopId={shop}
         totalProductPrice={totalProductPrice}
         totalProductQuantity={totalProductQuantity}

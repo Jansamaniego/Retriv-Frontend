@@ -1,7 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import customBaseQuery from '../../utils/customBaseQuery';
-import { setUser } from '../features/userSlice';
+import { logout, setUser } from '../features/userSlice';
 import { shopApi } from './shopApi';
+import { setShop } from '../features/shopSlice';
+import { cartApi } from './cartApi';
+import { useNavigate } from 'react-router-dom';
+import { store } from '../store';
 
 export const myProfileApi = createApi({
   reducerPath: 'myProfileApi',
@@ -18,28 +22,36 @@ export const myProfileApi = createApi({
       transformResponse: (data) => {
         return data.user;
       },
-      providesTags: (result, error) =>
-        result ? [{ type: 'User', id: result.id }] : [],
+      providesTags: (result, error) => {
+        console.log(result);
+        return result ? [{ type: 'User', id: result.id }] : [];
+      },
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data: user } = await queryFulfilled;
 
           const { role, defaultShop } = user;
 
-          console.log(user);
-
           dispatch(setUser(user));
 
-          console.log(role, defaultShop);
+          await dispatch(
+            cartApi.endpoints.getCart.initiate(null, { forceRefetch: true })
+          );
 
           if (defaultShop && role === 'seller') {
-            await dispatch(
+            const { data: shop } = await dispatch(
               shopApi.endpoints.getShopById.initiate(defaultShop.id, {
                 forceRefetch: true,
               })
             );
+            const currentShop = store.getState().shopState.currentShop;
+            if (!currentShop) {
+              dispatch(setShop(shop));
+            }
           }
-        } catch (error) {}
+        } catch (error) {
+          console.log(error);
+        }
       },
     }),
     updateDetails: builder.mutation({
@@ -92,9 +104,14 @@ export const myProfileApi = createApi({
         return {
           url: '/user/me',
           method: 'DELETE',
+          credentials: 'include',
         };
       },
       transformResponse: (response) => response.user,
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        await queryFulfilled;
+        dispatch(logout());
+      },
       invalidatesTags: (result) =>
         result ? [{ type: 'User', id: result._id }] : [],
     }),

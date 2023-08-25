@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+
 import { Card, StyledModal } from '../common';
 import styled from 'styled-components';
 import DisplayImageModal from './DisplayImageModal';
@@ -28,6 +29,10 @@ const ImagesFlex = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
+`;
+
+const CarouselContainer = styled.div`
+  margin: '20px 0 20px 0';
 `;
 
 const DisplayImageContainer = styled.div`
@@ -126,6 +131,10 @@ const AddImageIcon = styled.div`
   font-size: 100px;
 `;
 
+const ProductSubImage = () => {
+  return;
+};
+
 const ProductHeader = ({ product, productRatings, isOwner, shopId }) => {
   const displayImageRef = useRef();
   const [displayImage, setDisplayImage] = useState();
@@ -199,6 +208,12 @@ const ProductHeader = ({ product, productRatings, isOwner, shopId }) => {
     setIsDeleteProductImageModalOpen(false);
   };
 
+  const deleteProductImageOnClickHandler = async () => {
+    await deleteProductImage({ shopId, productId: id, image: displayImage });
+  };
+
+  console.log(productImages.length <= 9);
+
   return (
     <ProductHeaderCard>
       <ProductHeaderContentContainer>
@@ -208,9 +223,13 @@ const ProductHeader = ({ product, productRatings, isOwner, shopId }) => {
               <DisplayImageContainer onClick={showDisplayImageModal}>
                 <DisplayImage src={displayImage} ref={displayImageRef} />
                 {displayImage === mainImage && (
-                  <EditIconButton onClick={showMainImageEditModal}>
-                    <EditIcon width="4rem" />
-                  </EditIconButton>
+                  <>
+                    {isOwner && (
+                      <EditIconButton onClick={showMainImageEditModal}>
+                        <EditIcon width="4rem" />
+                      </EditIconButton>
+                    )}
+                  </>
                 )}
                 {displayImage !== mainImage && (
                   <XMarkIconButton onClick={showDeleteProductImageModal}>
@@ -221,24 +240,28 @@ const ProductHeader = ({ product, productRatings, isOwner, shopId }) => {
               <ImagesPickerContainer>
                 {productImages.map((image, idx) => (
                   <SmallImageContainer
+                    key={idx}
                     outline={image === displayImage ? 'selectedImage' : false}
                   >
                     <SmallImage
-                      key={idx}
                       src={image}
                       alt="product image"
                       onMouseEnter={onMouseEnter}
                     />
                   </SmallImageContainer>
                 ))}
-                {productImages.length < 8 && (
-                  <SmallImageContainer
-                    pointer={true}
-                    onClick={showAddProductImagesModal}
-                    outline={'addImage'}
-                  >
-                    <AddImageIcon>+</AddImageIcon>
-                  </SmallImageContainer>
+                {isOwner && (
+                  <>
+                    {productImages.length <= 4 && (
+                      <SmallImageContainer
+                        pointer={true}
+                        onClick={showAddProductImagesModal}
+                        outline={'addImage'}
+                      >
+                        <AddImageIcon>+</AddImageIcon>
+                      </SmallImageContainer>
+                    )}
+                  </>
                 )}
               </ImagesPickerContainer>
             </ImagesFlex>
@@ -290,11 +313,8 @@ const ProductHeader = ({ product, productRatings, isOwner, shopId }) => {
         <StyledModal
           showModal={showDeleteProductImageModal}
           closeModal={closeDeleteProductImageModal}
-          onClick={deleteProductImage}
-          productId={id}
-          shopId={shopId}
+          onClick={deleteProductImageOnClickHandler}
           isLoading={deleteProductImageIsLoading}
-          body={{ image: displayImage }}
         >
           <DeleteModalFlexWrapper>
             <ImageFlexWrapper>

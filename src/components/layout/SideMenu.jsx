@@ -10,6 +10,8 @@ import {
 } from '../../assets/icons';
 import { ChevronUp } from '../../assets/icons/ChevronUp';
 import { ChevronDown } from '../../assets/icons/ChevronDown';
+import { useEffect } from 'react';
+import CategorySideMenuFilter from '../category/CategorySideMenuFilter';
 
 const SideMenuMain = styled.aside`
   display: flex;
@@ -18,16 +20,16 @@ const SideMenuMain = styled.aside`
   width: 100%;
   padding: 2.4rem;
   border-radius: 0.5rem;
-  background-color: ${(props) => props.theme.primary.main};
-  min-height: 120rem;
-  box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1);
+  background-color: ${(props) => props.theme.neutral.background};
+  /* min-height: 120rem; */
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
 `;
 
 const StyledMainMenuLink = styled(Link)`
   font-size: 2rem;
   font-weight: 400;
   text-decoration: none;
-  color: ${(props) => props.theme.neutral[900]};
+  color: ${(props) => props.theme.primary.main};
   display: flex;
   gap: 4rem;
   padding: 1.6rem 0.8rem;
@@ -38,7 +40,7 @@ const StyledMainMenuLink = styled(Link)`
   }
 
   &:hover {
-    background-color: ${(props) => props.theme.primary[600]};
+    background-color: ${(props) => props.theme.neutral[800]};
   }
 `;
 
@@ -61,13 +63,17 @@ const MainLink = styled.div`
 `;
 
 const ProfileSubMenu = ({ userRole }) => {
+  const currentUser = useSelector((state) => state.userState.user);
+
   return (
     <>
       <SubMenuLink to="profile">User Info</SubMenuLink>
       <SubMenuLink to="/profile/change-password">Change Password</SubMenuLink>
-      <SubMenuLink to="/profile/send-verification-email">
-        Verify Email
-      </SubMenuLink>
+      {currentUser && !currentUser.isEmailVerified && (
+        <SubMenuLink to="/profile/send-verification-email">
+          Verify Email
+        </SubMenuLink>
+      )}
     </>
   );
 };
@@ -84,10 +90,15 @@ const UserSubMenu = ({ userRole }) => {
 const SideMenu = () => {
   const loggedInUser = useSelector((state) => state.userState.user);
 
+  const [currentUser, setCurrentUser] = useState(loggedInUser);
   const [isProfileSubMenuOpen, setIsProfileSubMenuOpen] = useState(false);
   const [isUserSubMenuOpen, setIsUserSubMenuOpen] = useState(false);
 
-  if (!loggedInUser) {
+  useEffect(() => {
+    setCurrentUser(loggedInUser);
+  }, [loggedInUser]);
+
+  if (!currentUser) {
     return (
       <SideMenuMain>
         <StyledMainMenuLink to="/">
@@ -98,19 +109,19 @@ const SideMenu = () => {
           <SignupIcon width="3rem" />
           Sign up now!
         </StyledMainMenuLink>
+        <CategorySideMenuFilter />
       </SideMenuMain>
     );
   }
 
-  const { role } = loggedInUser;
+  const { role } = currentUser;
 
   return (
     <SideMenuMain>
       <StyledMainMenuLink to="/">
         <HomeIcon width="3rem" /> Home
       </StyledMainMenuLink>
-
-      {role === 'admin' ? (
+      {role === 'admin' && (
         <>
           <StyledMainMenuLink to="/admin-dashboard">
             <DashBoardIcon width="3rem" />
@@ -135,14 +146,17 @@ const SideMenu = () => {
               )}
             </DropDownIcon>
           </StyledMainMenuLinkWithDropDown>
-          {isUserSubMenuOpen ? <UserSubMenu /> : null}
+          {isUserSubMenuOpen && <UserSubMenu />}
           <StyledMainMenuLink to="/order-table">
             <DashBoardIcon width="3rem" />
             Orders
           </StyledMainMenuLink>
+          <StyledMainMenuLink to="/category">
+            <DashBoardIcon width="3rem" />
+            Categories
+          </StyledMainMenuLink>
         </>
-      ) : null}
-
+      )}
       <StyledMainMenuLinkWithDropDown
         onClick={() => setIsProfileSubMenuOpen((value) => !value)}
       >
@@ -158,16 +172,16 @@ const SideMenu = () => {
           )}
         </DropDownIcon>
       </StyledMainMenuLinkWithDropDown>
-
-      {isProfileSubMenuOpen ? <ProfileSubMenu /> : null}
-
-      {role === 'seller' ? (
+      {isProfileSubMenuOpen && <ProfileSubMenu />}
+      {role === 'seller' && (
         <StyledMainMenuLink to="/my-shop">Manage Shop</StyledMainMenuLink>
-      ) : role === 'user' ? (
+      )}
+      {role === 'user' && (
         <StyledMainMenuLink to="/create-shop">
           Start Selling!
         </StyledMainMenuLink>
-      ) : null}
+      )}
+      <CategorySideMenuFilter />
     </SideMenuMain>
   );
 };

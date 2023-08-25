@@ -171,9 +171,12 @@ const formatQueryParams = (params) => {
   return obj;
 };
 
-const ProductSearchControls = ({ totalPages }) => {
+const ProductSearchControls = ({
+  totalPages,
+  handlePageChange,
+  currentPage,
+}) => {
   const [isPriceDropdownOpen, setIsPriceDropdownOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
@@ -197,7 +200,9 @@ const ProductSearchControls = ({ totalPages }) => {
         sort: -1,
       };
     });
+    handlePageChange(1);
   };
+
   const sortByLatestClickHandler = () => {
     setSearchParams((params) => {
       return {
@@ -206,6 +211,7 @@ const ProductSearchControls = ({ totalPages }) => {
         sort: -1,
       };
     });
+    handlePageChange(1);
   };
   const sortByTopSalesClickHandler = () => {
     setSearchParams((params) => {
@@ -215,6 +221,7 @@ const ProductSearchControls = ({ totalPages }) => {
         sort: -1,
       };
     });
+    handlePageChange(1);
   };
 
   const sortByPriceOptionLowToHighClickHandler = () => {
@@ -225,6 +232,7 @@ const ProductSearchControls = ({ totalPages }) => {
         sort: 1,
       };
     });
+    handlePageChange(1);
   };
 
   const sortByPriceOptionHighToLowClickHandler = () => {
@@ -235,18 +243,15 @@ const ProductSearchControls = ({ totalPages }) => {
         sort: -1,
       };
     });
-  };
-
-  const nextPageOnClickHandler = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((v) => Number(v) + 1);
-    }
+    handlePageChange(1);
   };
 
   const prevPageOnClickHandler = () => {
-    if (currentPage !== 1) {
-      setCurrentPage((v) => Number(v) - 1);
-    }
+    handlePageChange(currentPage - 1);
+  };
+
+  const nextPageOnClickHandler = () => {
+    handlePageChange(currentPage + 1);
   };
 
   return (
@@ -285,24 +290,26 @@ const ProductSearchControls = ({ totalPages }) => {
           </SelectWithStatus>
         </SortByPriceOption>
       </SortByOptions>
-      <MiniPageController>
-        <MiniPageControllerState>
-          <MiniPageControllerCurrent>{currentPage}</MiniPageControllerCurrent>/
-          <MiniPageControllerTotal>{totalPages}</MiniPageControllerTotal>
-        </MiniPageControllerState>
-        <MiniPageControllerPrevButton
-          onClick={prevPageOnClickHandler}
-          disabled={currentPage === 1}
-        >
-          <ChevronLeft width="2rem" />
-        </MiniPageControllerPrevButton>
-        <MiniPageControllerNextButton
-          onClick={nextPageOnClickHandler}
-          disabled={currentPage === totalPages}
-        >
-          <ChevronRight width="2rem" />
-        </MiniPageControllerNextButton>
-      </MiniPageController>
+      {totalPages > 1 && (
+        <MiniPageController>
+          <MiniPageControllerState>
+            <MiniPageControllerCurrent>{currentPage}</MiniPageControllerCurrent>
+            /<MiniPageControllerTotal>{totalPages}</MiniPageControllerTotal>
+          </MiniPageControllerState>
+          <MiniPageControllerPrevButton
+            onClick={prevPageOnClickHandler}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft width="2rem" />
+          </MiniPageControllerPrevButton>
+          <MiniPageControllerNextButton
+            onClick={nextPageOnClickHandler}
+            disabled={currentPage === totalPages}
+          >
+            <ChevronRight width="2rem" />
+          </MiniPageControllerNextButton>
+        </MiniPageController>
+      )}
     </SortBar>
   );
 };

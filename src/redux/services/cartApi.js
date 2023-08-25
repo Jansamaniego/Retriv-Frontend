@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import customBaseQuery from '../../utils/customBaseQuery';
-import { setCart } from '../features/cartSlice';
+import { removeCart, setCart } from '../features/cartSlice';
+import { myProfileApi } from './myProfileApi';
 
 export const cartApi = createApi({
   reducerPath: 'cartApi',
@@ -15,8 +16,7 @@ export const cartApi = createApi({
         };
       },
       transformResponse: (response) => response.cart,
-      providesTags: (result) =>
-        result ? [{ type: 'Cart', id: result._id }] : [],
+      providesTags: (result) => [{ type: 'Cart', id: 'myCart' }],
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data: cart } = await queryFulfilled;
@@ -34,6 +34,15 @@ export const cartApi = createApi({
           credentials: 'include',
         };
       },
+      invalidatesTags: [{ type: 'Cart', id: 'myCart' }],
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(removeCart());
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     addProductToCart: builder.mutation({
       query(body) {
@@ -45,8 +54,18 @@ export const cartApi = createApi({
         };
       },
       transformResponse: (response) => response.cart,
-      invalidatesTags: (result) =>
-        result ? [{ type: 'Cart', id: result.id }] : [],
+      invalidatesTags: (result) => {
+        return result ? [{ type: 'Cart', id: 'myCart' }] : [];
+      },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data: cart } = await queryFulfilled;
+          // console.log(cart);
+          // dispatch(setCart(cart));
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     incrementCartItemQuantity: builder.mutation({
       query(productId) {
@@ -58,7 +77,7 @@ export const cartApi = createApi({
       },
       transformResponse: (response) => response.cart,
       invalidatesTags: (result, error) =>
-        result ? [{ type: 'Cart', id: result._id }] : [],
+        result ? [{ type: 'Cart', id: 'myCart' }] : [],
     }),
     decrementCartItemQuantity: builder.mutation({
       query(productId) {
@@ -70,19 +89,20 @@ export const cartApi = createApi({
       },
       transformResponse: (response) => response.cart,
       invalidatesTags: (result, error) =>
-        result ? [{ type: 'Cart', id: result._id }] : [],
+        result ? [{ type: 'Cart', id: 'myCart' }] : [],
     }),
     removeCartItem: builder.mutation({
-      query(productId) {
+      query({ productId, cartItemIndex }) {
         return {
           url: `/cart/remove-product/${productId}`,
           method: 'DELETE',
+          body: { cartItemIndex },
           credentials: 'include',
         };
       },
       transformResponse: (response) => response.cart,
       invalidatesTags: (result) =>
-        result ? [{ type: 'Cart', id: result._id }] : [],
+        result ? [{ type: 'Cart', id: 'myCart' }] : [],
     }),
   }),
 });

@@ -21,20 +21,6 @@ const ProductShopInfoFlex = styled.div`
   gap: 1.6rem;
 `;
 
-const ProductShopImageContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  /* align-items: center; */
-  max-width: 15rem;
-  height: 15rem;
-`;
-
-const ProductShopImage = styled.img`
-  border-radius: 50%;
-  outline: 0.1rem solid ${(props) => props.theme.neutral[300]};
-  object-fit: cover;
-`;
-
 const ProductShopPreviewContainer = styled.section`
   display: flex;
   flex-direction: column;

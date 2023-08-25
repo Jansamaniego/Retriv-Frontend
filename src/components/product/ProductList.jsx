@@ -9,7 +9,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const StyledCard = styled(Card)`
   min-height: 12vh;
-  padding: 0;
+  padding: 1rem;
 
   &:hover {
     cursor: pointer;
@@ -70,6 +70,8 @@ const ProductItem = ({ id }) => {
     }
   );
 
+  
+
   const {
     name,
     price,
@@ -102,6 +104,7 @@ const ProductItem = ({ id }) => {
 };
 
 const ProductList = ({ products }) => {
+  console.log(products);
   return products.map(({ id }) => <ProductItem key={id} id={id} />);
 };
 

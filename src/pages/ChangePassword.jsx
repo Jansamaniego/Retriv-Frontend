@@ -6,7 +6,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 import { useChangePasswordMutation } from '../redux/services/authApi';
 import { Form, useOutletContext } from 'react-router-dom';
-import { Button, Card, PasswordInput } from '../components/common';
+import {
+  Button,
+  Card,
+  PasswordInput,
+  TransparentPopup,
+} from '../components/common';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
@@ -27,7 +34,9 @@ const ButtonContainer = styled.div`
 `;
 
 const ChangePassword = () => {
-  const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
+  const [changePassword, { isLoading, isSuccess }] =
+    useChangePasswordMutation();
 
   const changePasswordSchema = z
     .object({
@@ -35,10 +44,10 @@ const ChangePassword = () => {
       newPassword: z.string().min(9),
       newPasswordConfirmation: z.string(),
     })
-    .refine((data) => passwordRegex.text(data.password), {
+    .refine((data) => passwordRegex.test(data.newPassword), {
       message:
-        'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
-      path: ['password'],
+        'Password must contain at least one uppercase letter, one lowercase letter, and one number',
+      path: ['newPassword'],
     })
     .refine((data) => data.newPassword === data.newPasswordConfirmation, {
       message: 'Passwords do not match',
@@ -51,9 +60,23 @@ const ChangePassword = () => {
 
   const { handleSubmit, control } = methods;
 
-  const onSubmit = (data) => {
-    changePassword(data);
+  const onSubmit = async (data) => {
+    console.log('hit');
+    await changePassword(data);
   };
+
+  useEffect(() => {
+    const toggleTransparentPopup = () => {
+      setIsTransparentPopupOpen(true);
+      setTimeout(() => {
+        setIsTransparentPopupOpen(false);
+      }, 3000);
+    };
+
+    if (!isLoading && isSuccess) {
+      toggleTransparentPopup();
+    }
+  }, [isLoading, isSuccess]);
 
   return (
     <Card>
@@ -67,7 +90,7 @@ const ChangePassword = () => {
               placeholder="Current Password"
             />
             <PasswordInput
-              name="newpasswordConfirmation"
+              name="newPasswordConfirmation"
               placeholder="New Password Confirmation"
             />
             <ButtonContainer>
@@ -76,6 +99,11 @@ const ChangePassword = () => {
               </Button>
             </ButtonContainer>
           </ChangePasswordGrid>
+          {isTransparentPopupOpen && (
+            <TransparentPopup>
+              <h3>Your password has been changed.</h3>
+            </TransparentPopup>
+          )}
         </Form>
         <DevTool control={control} />
       </FormProvider>

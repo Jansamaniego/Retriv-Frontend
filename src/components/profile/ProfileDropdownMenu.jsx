@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
-import { StyledLink } from '../common';
+import { Card, StyledLink } from '../common';
 import { useLogoutUserMutation } from '../../redux/services/authApi';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileDropdownMenuContainer = styled.div`
   max-width: 30rem;
@@ -59,11 +60,13 @@ const MenuLinksContainer = styled.div`
 
 const ProfileDropdownMenu = forwardRef(
   ({ isProfileMenuOpen, user, closeProfileMenu }, ref) => {
+    const navigate = useNavigate();
     const [logout, { isLoading }] = useLogoutUserMutation();
-    const { profileImage, name, email } = user;
+    const { profileImage, name, email, role } = user;
 
-    const logoutOnClickHandler = () => {
-      logout();
+    const logoutOnClickHandler = async () => {
+      await logout();
+      navigate('/');
     };
 
     return (
@@ -84,9 +87,9 @@ const ProfileDropdownMenu = forwardRef(
           </ProfileSection>
         </ProfileSectionContainer>
         <MenuLinksContainer>
-          <StyledLink>Your Profile</StyledLink>
-          <StyledLink>Your Shops</StyledLink>
-          <StyledLink>Admin Dashboard</StyledLink>
+          <StyledLink to="/profile">My Profile</StyledLink>
+          <StyledLink to="/my-orders">Orders</StyledLink>
+          {role === 'admin' && <StyledLink>Admin Dashboard</StyledLink>}
           <StyledLink onClick={logoutOnClickHandler}>Log out</StyledLink>
         </MenuLinksContainer>
       </ProfileDropdownMenuContainer>

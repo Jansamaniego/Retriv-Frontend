@@ -2,8 +2,12 @@ import React, { useEffect } from 'react';
 import { Card } from '../components/common';
 import styled from 'styled-components';
 import ProductList from '../components/product/ProductList';
-import { useGetProductsQuery } from '../redux/services/productApi';
+import {
+  useGetProductsQuery,
+  useGetRecommendedProductsQuery,
+} from '../redux/services/productApi';
 import { useSearchParams } from 'react-router-dom';
+import RecommendedProductList from '../components/product/RecommendedProductList';
 
 const PaymentCompletionFlexWrapper = styled.main`
   display: flex;
@@ -20,7 +24,7 @@ const ProductManagerGrid = styled.main`
 
 const PaymentCompletion = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { products, isLoading } = useGetProductsQuery(
+  const { products, isLoading } = useGetRecommendedProductsQuery(
     searchParams.size ? searchParams.toString() : undefined,
     {
       selectFromResult: ({ data }) => {
@@ -49,7 +53,7 @@ const PaymentCompletion = () => {
       <Card>
         <h4>Please check out our other products:</h4>
         <ProductManagerGrid>
-          <ProductList products={products} />
+          <RecommendedProductList products={products} />
         </ProductManagerGrid>
       </Card>
     </PaymentCompletionFlexWrapper>

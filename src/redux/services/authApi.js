@@ -8,6 +8,7 @@ import { shopApi } from './shopApi';
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: customBaseQuery,
+  tagTypes: ['User'],
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query(data) {
@@ -21,7 +22,9 @@ export const authApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          await dispatch(myProfileApi.endpoints.getMe.initiate());
+          await dispatch(
+            myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
+          );
         } catch (error) {
           console.log(error);
         }
@@ -42,10 +45,6 @@ export const authApi = createApi({
 
           await dispatch(
             myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
-          );
-
-          await dispatch(
-            cartApi.endpoints.getCart.initiate(null, { forceRefetch: true })
           );
         } catch (error) {
           console.log(error);
@@ -113,10 +112,26 @@ export const authApi = createApi({
     verifyEmail: builder.mutation({
       query(emailToken) {
         return {
-          url: `auth/reset-password?token=${emailToken}`,
+          url: `auth/verify-email?token=${emailToken}`,
           method: 'POST',
           credentials: 'include',
         };
+      },
+      transformResponse: (data) => {
+        return data.user;
+      },
+      invalidatesTags: (result, error) =>
+        result ? [{ type: 'User', id: result.id }] : [],
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          await dispatch(
+            myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
+          );
+        } catch (error) {
+          console.log(error);
+        }
       },
     }),
   }),

@@ -3,6 +3,7 @@ import { useSendVerificationEmailMutation } from '../redux/services/authApi';
 import { Button, Card } from '../components/common';
 import styled from 'styled-components';
 import { useOutletContext } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const SendVerificationEmailHeading = styled.h4`
   padding-bottom: 1.6rem;
@@ -21,15 +22,20 @@ const SendVerificationEmail = () => {
   const [emailSent, setEmailSent] = useState(false);
   const [user] = useOutletContext();
 
-  const [sendVerificationEmail, { isLoading }] =
+  const [sendVerificationEmail, { isLoading, isSuccess }] =
     useSendVerificationEmailMutation();
 
   const { email } = user;
 
-  const verificationEmailClickHandler = () => {
-    setEmailSent(true);
-    sendVerificationEmail();
+  const verificationEmailClickHandler = async () => {
+    await sendVerificationEmail();
   };
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      setEmailSent(true);
+    }
+  }, [isLoading, isSuccess]);
 
   return (
     <Card>
@@ -49,13 +55,15 @@ const SendVerificationEmail = () => {
             </h5>
           )}
 
-          <Button
-            superLarge
-            onClick={verificationEmailClickHandler}
-            disabled={isLoading}
-          >
-            Send Verification Email
-          </Button>
+          {!emailSent && (
+            <Button
+              superLarge
+              onClick={verificationEmailClickHandler}
+              disabled={isLoading}
+            >
+              Send Verification Email
+            </Button>
+          )}
         </SendVerificationEmailFlexBox>
       </SendVerificationEmailFlexBoxContainer>
     </Card>

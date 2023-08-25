@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import SideMenu from './SideMenu';
 import styled from 'styled-components';
+import { ProductPaginationProvider } from '../../context/ProductPaginationContext';
 
 const ContentFlex = styled.section`
   display: flex;
@@ -25,15 +26,17 @@ const MainContentFlex = styled.section`
 const RootLayout = () => {
   return (
     <>
-      <Header />
-      <ContentFlex>
-        <SideMenu />
-        <MainContentContainer>
-          <MainContentFlex>
-            <Outlet />
-          </MainContentFlex>
-        </MainContentContainer>
-      </ContentFlex>
+      <ProductPaginationProvider>
+        <Header />
+        <ContentFlex>
+          <SideMenu />
+          <MainContentContainer>
+            <MainContentFlex>
+              <Outlet />
+            </MainContentFlex>
+          </MainContentContainer>
+        </ContentFlex>
+      </ProductPaginationProvider>
     </>
   );
 };

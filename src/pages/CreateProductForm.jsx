@@ -12,14 +12,54 @@ import {
   Select,
   StyledLink,
   ImageUploader,
+  StyledModal,
 } from '../components/common';
 import { useCreateProductMutation } from '../redux/services/productApi';
-import { useGetCategoriesQuery } from '../redux/services/categoryApi';
+import {
+  useGetCategoriesQuery,
+  useGetCategoryQuery,
+} from '../redux/services/categoryApi';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import ImageUpload from '../components/common/ImageUpload';
+import { useState } from 'react';
+import styled from 'styled-components';
+
+const FormFlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+`;
+
+const ButtonFlexWrapper = styled.div`
+  display: flex;
+`;
 
 const MB_BYTES = 1000000;
 
+const TITLE = {
+  0: 'Product Info',
+  1: 'Product Details',
+  2: 'Product Images',
+  3: 'Congratulations for completing the form, please press the create product button to publish your product',
+};
+
 const CreateProductForm = () => {
+  const navigate = useNavigate();
+  const [formStep, setFormStep] = useState(0);
+  const [isCreateProductModalOpen, setIsCreateProductModalOpen] =
+    useState(false);
+  const [mainImage, setMainImage] = useState('');
+  const [mainImageError, setMainImageError] = useState({
+    isError: false,
+    message: '',
+  });
+  const [images, setImages] = useState([]);
+  const [imagesError, setImagesError] = useState({
+    isError: false,
+    message: '',
+  });
   const { currentShop } = useSelector((state) => state.shopState);
   const [createProduct, { isLoading: productIsLoading }] =
     useCreateProductMutation();
@@ -35,79 +75,45 @@ const CreateProductForm = () => {
   );
 
   const createProductSchema = z.object({
-    name: z.string(),
-    price: z.string(),
-    description: z.string(),
-    quantityInStock: z.string(),
+    name: z.string().min(3),
+    description: z.string().min(10),
+    price: z.coerce.number().min(1),
+    quantityInStock: z.coerce.number(),
     category: z.string(),
-    images: z
-      .any()
-      .optional()
-      .superRefine((f, ctx) => {
-        if (f.size > 5 * MB_BYTES) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.too_big,
-            type: 'array',
-            message: `The file must not be larger than ${5 * MB_BYTES} bytes: ${
-              f.size
-            }`,
-            maximum: 5 * MB_BYTES,
-            inclusive: true,
-          });
-        }
-      })
-      .superRefine((f, ctx) => {
-        if (f[0] instanceof File) {
-        } else {
-          ctx.addIssue({
-            code: z.ZodIssueCode.invalid_type,
-            message: `Given value does not hold a file type`,
-          });
-        }
-      }),
-    mainImage: z
-      .any()
-      .optional()
-      .superRefine((f, ctx) => {
-        if (f.size > 5 * MB_BYTES) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.too_big,
-            type: 'array',
-            message: `The file must not be larger than ${5 * MB_BYTES} bytes: ${
-              f.size
-            }`,
-            maximum: 5 * MB_BYTES,
-            inclusive: true,
-          });
-        }
-      })
-      .superRefine((f, ctx) => {
-        if (f[0] instanceof File) {
-        } else {
-          ctx.addIssue({
-            code: z.ZodIssueCode.invalid_type,
-            message: `Given value does not hold a file type`,
-          });
-        }
-      }),
+  });
+
+  const productInfoSchema = createProductSchema.pick({
+    name: true,
+    description: true,
+  });
+
+  const productDetailsSchema = createProductSchema.pick({
+    price: true,
+    quantityInStock: true,
+    category: true,
   });
 
   const methods = useForm({
     resolver: zodResolver(createProductSchema),
+    mode: 'onBlur',
   });
 
   const {
     handleSubmit,
     register,
+    watch,
     control,
     formState: { errors },
   } = methods;
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    console.log(data);
+    if (images.length === 0 || !mainImage) return;
+
     const mutatedData = {
       ...data,
-      mainImage: data.mainImage[0],
-      images: data.images,
+      mainImage,
+      images,
     };
 
     const formData = new FormData();
@@ -121,7 +127,67 @@ const CreateProductForm = () => {
       formData.append(key, mutatedData[key]);
     }
 
-    createProduct({ shopId: currentShop._id, formData });
+    await createProduct({ shopId: currentShop._id, formData });
+
+    navigate('/my-shop');
+  };
+
+  const nextFormStep = () => {
+    if (formStep === 0) {
+      try {
+        const canNext = productInfoSchema.parse({
+          name: watch('name'),
+          description: watch('description'),
+        });
+
+        if (canNext) {
+          setFormStep((curr) => curr + 1);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    }
+
+    if (formStep === 1) {
+      try {
+        const canNext = productDetailsSchema.parse({
+          price: watch('price'),
+          quantityInStock: watch('quantityInStock'),
+          category: watch('category'),
+        });
+
+        if (canNext) {
+          setFormStep((curr) => curr + 1);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    }
+
+    if (formStep === 2) {
+      if (mainImage && images.length !== 0) {
+        setFormStep((curr) => curr + 1);
+      }
+
+      return;
+    }
+  };
+
+  const prevFormStep = () => {
+    setFormStep((curr) => curr - 1);
+  };
+
+  const setImagesErrorMessage = (message) => {
+    setImagesError(message);
+  };
+
+  const openCreateProductModal = () => {
+    setIsCreateProductModalOpen(true);
+  };
+  const closeCreateProductModal = () => {
+    setIsCreateProductModalOpen(false);
   };
 
   if (categoryIsLoading)
@@ -130,49 +196,100 @@ const CreateProductForm = () => {
         <h1>Loading...</h1>
       </Card>
     );
+  console.log(errors);
 
   return (
     <Card>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <StyledInput placeholder="name" type="text" {...register('name')} />
-          {errors.name?.message && <p>{errors.name?.message}</p>}
-          <StyledInput
-            placeholder="Price"
-            type="number"
-            {...register('price')}
-          />
-          {errors.price?.message && <p>{errors.price?.message}</p>}
-          <StyledInput
-            placeholder="Description"
-            type="text"
-            {...register('description')}
-          />
-          {errors.description?.message && <p>{errors.description?.message}</p>}
-          <StyledInput
-            placeholder="Quantity in stock"
-            type="number"
-            {...register('quantityInStock')}
-          />
-          {errors.quantityInStock?.message && (
-            <p>{errors.quantityInStock?.message}</p>
-          )}
-          <Select placeholder="Category" {...register('category')}>
-            <option value="" disabled selected>
-              Select category
-            </option>
-            {categories
-              ? categories.map((category) => (
-                  <option value={category._id}>{category.name}</option>
-                ))
-              : null}
-          </Select>
-          {errors.category?.message && <p>{errors.category?.message}</p>}
-          <ImageUploader name="mainImage" />
-          <ImageUploader name="images" multiple />
-          <Button type="submit" disabled={productIsLoading}>
-            Add Product
-          </Button>
+          <FormFlexWrapper>
+            <div>
+              <ButtonFlexWrapper>
+                {formStep !== 0 && (
+                  <Button onClick={prevFormStep} type="button">
+                    prev
+                  </Button>
+                )}
+                {formStep !== 3 && (
+                  <Button type="button" onClick={nextFormStep}>
+                    next
+                  </Button>
+                )}
+              </ButtonFlexWrapper>
+            </div>
+            <h5>{TITLE[formStep]}</h5>
+            {formStep === 0 && (
+              <>
+                <StyledInput placeholder="name" name="name" />
+                <StyledInput placeholder="Description" name="description" />
+              </>
+            )}
+            {formStep === 1 && (
+              <>
+                <StyledInput placeholder="Price" type="number" name="price" />
+                <StyledInput
+                  placeholder="Quantity in stock"
+                  type="number"
+                  name="quantityInStock"
+                />
+                <Select
+                  placeholder="Category"
+                  {...register('category')}
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select category
+                  </option>
+                  {categories &&
+                    categories.map((category) => (
+                      <option value={category._id} key={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
+                </Select>
+                {errors.category?.message && <p>{errors.category?.message}</p>}
+              </>
+            )}
+            {formStep === 2 && (
+              <>
+                <ImageUpload
+                  name="mainImage"
+                  image={mainImage}
+                  setImage={setMainImage}
+                  error={mainImageError}
+                  setError={setMainImageError}
+                  fileSizeLimit={5 * MB_BYTES}
+                />
+                <ImageUpload
+                  name="images"
+                  multiple
+                  images={images}
+                  setImages={setImages}
+                  error={imagesError}
+                  setError={setImagesErrorMessage}
+                  fileSizeLimit={5 * MB_BYTES}
+                />
+              </>
+            )}
+            {formStep === 3 && (
+              <Button
+                onClick={openCreateProductModal}
+                disabled={productIsLoading}
+                type="button"
+              >
+                Add Product
+              </Button>
+            )}
+            {isCreateProductModalOpen && (
+              <StyledModal
+                showModal={openCreateProductModal}
+                closeModal={closeCreateProductModal}
+                isLoading={productIsLoading}
+              >
+                Are you sure you want to create this product?
+              </StyledModal>
+            )}
+          </FormFlexWrapper>
         </Form>
         <DevTool control={control} />
       </FormProvider>

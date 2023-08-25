@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Button, Card, Socials, StyledModal } from '../common';
 import { EditIcon } from '../../assets/icons';
-import { useUpdateProfileImageMutation } from '../../redux/services/myProfileApi';
+import {
+  useDeleteMyAccountMutation,
+  useUpdateProfileImageMutation,
+} from '../../redux/services/myProfileApi';
 import UpdateProfileImageModal from '../common/UpdateProfileImageModal';
 
 const ProfileHeaderCard = styled(Card)`
@@ -61,6 +64,12 @@ const UserHeaderInfoFlexContainer = styled.div`
   margin: 0.4rem 4rem 0 27rem;
 `;
 
+const UserHeaderFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+`;
+
 const UserHeaderInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -80,9 +89,14 @@ const UserHeaderInfoRole = styled.h5`
 `;
 
 const ProfileHeader = ({ user }) => {
+  const navigate = useNavigate();
+  const [isDeleteMyAccountModalOpen, setIsDeleteMyAccountModalOpen] =
+    useState(false);
   const [updateProfileImage, { isLoading }] = useUpdateProfileImageMutation();
   const [isProfileImageEditModalOpen, setIsProfileImageEditModalOpen] =
     useState(false);
+  const [deleteMyAccount, { isLoading: DeleteMyAccountIsLoading }] =
+    useDeleteMyAccountMutation();
 
   const { profileImage, name, email, role } = user;
 
@@ -92,6 +106,22 @@ const ProfileHeader = ({ user }) => {
 
   const closeProfileImageEditModal = () => {
     setIsProfileImageEditModalOpen(false);
+  };
+
+  const openDeleteMyAccountModal = () => {
+    setIsDeleteMyAccountModalOpen(true);
+  };
+
+  const closeDeleteMyAccountModal = () => {
+    setIsDeleteMyAccountModalOpen(false);
+  };
+
+  const deleteMyAccountOnClickHandler = async () => {
+    await deleteMyAccount();
+    if (!isLoading) {
+      closeDeleteMyAccountModal();
+      navigate('/');
+    }
   };
 
   return (
@@ -112,7 +142,12 @@ const ProfileHeader = ({ user }) => {
               <UserHeaderInfoRole>{role}</UserHeaderInfoRole>
             </UserHeaderSubInfo>
           </UserHeaderInfo>
-          <Socials />
+          <UserHeaderFlex>
+            <Socials />
+            <Button superLarge onClick={openDeleteMyAccountModal}>
+              Delete My Account
+            </Button>
+          </UserHeaderFlex>
         </UserHeaderInfoFlexContainer>
       </NormalDiv>
       {isProfileImageEditModalOpen && (
@@ -120,6 +155,15 @@ const ProfileHeader = ({ user }) => {
           showModal={openProfileImageEditModal}
           closeModal={closeProfileImageEditModal}
         />
+      )}
+      {isDeleteMyAccountModalOpen && (
+        <StyledModal
+          showModal={openDeleteMyAccountModal}
+          closeModal={closeDeleteMyAccountModal}
+          onClick={deleteMyAccountOnClickHandler}
+        >
+          Are you sure you want to delete your account?
+        </StyledModal>
       )}
     </ProfileHeaderCard>
   );

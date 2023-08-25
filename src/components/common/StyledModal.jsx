@@ -82,7 +82,7 @@ export const StyledModal = ({
   );
 
   const onClickHandler = async () => {
-    await onClick({ shopId, productId, body });
+    await onClick();
     if (!isLoading) {
       closeModal();
     }
@@ -106,7 +106,7 @@ export const StyledModal = ({
               <Button
                 type={onClick ? 'button' : 'submit'}
                 disabled={isLoading}
-                onClick={onClick && onClickHandler}
+                onClick={onClick ? onClickHandler : null}
               >
                 {onClick ? 'Confirm' : 'Submit'}
               </Button>

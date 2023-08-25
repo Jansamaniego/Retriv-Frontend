@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card } from '../common';
+import { Button, Card, StyledModal} from '../common';
 import { useNavigate } from 'react-router-dom';
+import { useDeleteCartMutation } from '../../redux/services/cartApi';
 
 const CartDetailsFlexWrapper = styled.main`
   display: flex;
@@ -49,15 +50,32 @@ const CheckOutButton = styled(Button)``;
 
 const CartDetailsWithCheckOutButton = ({ totalPrice, totalQuantity }) => {
   const navigate = useNavigate();
+  const [isDeleteCartModalOpen, setIsDeleteCartModalOpen] = useState(false);
+  const [deleteCart, { isLoading, isSuccess }] = useDeleteCartMutation();
   const navigateToCheckOut = () => {
     navigate('/checkout');
   };
+
+  const openDeleteCartModal = () => {
+    setIsDeleteCartModalOpen(true);
+  };
+
+  const closeDeleteCartModal = () => {
+    setIsDeleteCartModalOpen(false);
+  };
+
+  const deleteCartOnClickHandler = async () => {
+    await deleteCart();
+  };
+
   return (
     <Card>
       <CartDetailsFlexWrapper>
         <CartDetailsControls>
           <CartDetailsDeleteButtonContainer>
-            <CartDetailsDeleteButton>Delete</CartDetailsDeleteButton>
+            <CartDetailsDeleteButton onClick={openDeleteCartModal}>
+              Delete
+            </CartDetailsDeleteButton>
           </CartDetailsDeleteButtonContainer>
         </CartDetailsControls>
         <CartDetailsTotalAndCheckOut>
@@ -73,6 +91,16 @@ const CartDetailsWithCheckOutButton = ({ totalPrice, totalQuantity }) => {
           </CheckOutButtonContainer>
         </CartDetailsTotalAndCheckOut>
       </CartDetailsFlexWrapper>
+      {isDeleteCartModalOpen && (
+        <StyledModal
+          showModal={openDeleteCartModal}
+          closeModal={closeDeleteCartModal}
+          isLoading={isLoading}
+          onClick={deleteCartOnClickHandler}
+        >
+          Are you sure you want to delete your cart?
+        </StyledModal>
+      )}
     </Card>
   );
 };

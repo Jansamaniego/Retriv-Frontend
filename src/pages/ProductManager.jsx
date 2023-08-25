@@ -19,7 +19,6 @@ const ProductManager = () => {
     searchParams.size ? searchParams.toString() : undefined,
     {
       selectFromResult: ({ data }) => {
-        console.log(data);
         return {
           products: data?.results,
           totalPages: data?.totalPages,
@@ -28,9 +27,7 @@ const ProductManager = () => {
     }
   );
 
-  console.log(searchParams);
-
-  console.log(products);
+  console.log('wtf');
 
   if (isLoading) {
     return <h3>Loading...</h3>;

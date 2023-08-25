@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Button,
   StyledInput,
@@ -12,11 +12,12 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 import { useLoginUserMutation } from '../redux/services/authApi';
-
-let renderCount = 0;
+import { useSelector } from 'react-redux';
 
 const Login = () => {
-  const [loginUser, { isLoading }] = useLoginUserMutation();
+  const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.userState.user);
+  const [loginUser, { isLoading, isSuccess }] = useLoginUserMutation();
 
   const loginSchema = z.object({
     email: z.string().email(),
@@ -27,14 +28,17 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const {
-    handleSubmit,
-    control,
-  } = methods;
+  const { handleSubmit, control } = methods;
 
-  const onSubmit = (data) => {
-    loginUser(data);
+  const onSubmit = async (data) => {
+    await loginUser(data);
   };
+
+  useEffect(() => {
+    if (isSuccess && !isLoading && currentUser) {
+      navigate('/');
+    }
+  }, [isLoading, isSuccess, currentUser, navigate]);
 
   return (
     <>

@@ -16,7 +16,10 @@ export const reviewApi = createApi({
       providesTags: (result, error, { productId }) => {
         return result?.results
           ? [
-              ...result.results.map(({ id }) => ({ type: 'Review', id })),
+              ...result.results.map(({ _id }) => {
+                console.log(_id);
+                return { type: 'Review', id: _id };
+              }),
               { type: 'Review', id: productId },
             ]
           : [{ type: 'Review', id: productId }];
@@ -29,8 +32,10 @@ export const reviewApi = createApi({
         };
       },
       transformResponse: (response) => response.review,
-      providesTags: (result) =>
-        result ? [{ type: 'Review', id: result.id }] : [],
+      providesTags: (result, error, reviewId) => {
+        console.log(reviewId);
+        return result ? [{ type: 'Review', id: reviewId }] : [];
+      },
     }),
     createReview: builder.mutation({
       query({ shopId, productId, ...data }) {
@@ -47,7 +52,7 @@ export const reviewApi = createApi({
       },
     }),
     updateReview: builder.mutation({
-      query({ productId, reviewId, body }) {
+      query({ productId, reviewId, ...body }) {
         return {
           url: `product/${productId}/review/${reviewId}`,
           method: 'PATCH',
@@ -68,6 +73,7 @@ export const reviewApi = createApi({
         };
       },
       invalidatesTags: (result, error, { productId, reviewId }) => {
+        console.log(reviewId);
         return [
           { type: 'Review', id: productId },
           { type: 'Review', id: reviewId },

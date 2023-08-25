@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { DevTool } from '@hookform/devtools';
 import { useSearchParams } from 'react-router-dom';
+import { useProductPagination } from '../../context/ProductPaginationContext';
 
 const StyledForm = styled.form`
   display: flex;
@@ -62,6 +63,8 @@ const formatData = (data, searchParams) => {
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const { currentPage, setCurrentPage } = useProductPagination();
+
   const searchQuerySchema = z.object({
     search: z.string(),
   });
@@ -82,8 +85,11 @@ const Search = () => {
       return {
         ...formatQueryParams(params),
         ...formatData(data, searchParams),
+        sortBy: 'relevance',
+        sort: -1,
       };
     });
+    setCurrentPage(1);
   };
 
   return (

@@ -13,7 +13,7 @@ export const productRatingsApi = createApi({
         };
       },
       transformResponse: (response) => {
-        return response.productRatings;
+        return response?.productRatings;
       },
     }),
   }),

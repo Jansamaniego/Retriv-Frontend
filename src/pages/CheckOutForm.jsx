@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
-import { Form } from 'react-router-dom';
+import { Form, useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import DeliveryAddress from '../components/order/DeliveryAddress';
 import OrderItemList from '../components/order/OrderItemList';
@@ -28,6 +28,7 @@ const CheckoutPageFlexWrapper = styled.main`
 
 const CheckOutForm = ({ paymentIntentId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loggedInUser = useSelector((state) => state.userState.user);
   const { data: cart, isLoading } = useGetCartQuery();
   const [createOrder, { isLoading: createOrderIsLoading }] =
@@ -78,7 +79,30 @@ const CheckOutForm = ({ paymentIntentId }) => {
     if (!isCash) {
       setIsProcessing(true);
 
-      createOrder({
+      const result = await stripe.confirmPayment({
+        elements,
+        redirect: 'if_required',
+        // confirmParams: {
+        // Make sure to change this to your payment completion page
+        // return_url: `${window.location.origin}/completion`,
+        // },
+      });
+
+      console.log(result);
+
+      if (result.error) {
+        if (
+          result.error.type === 'card_error' ||
+          result.error.type === 'validation_error'
+        ) {
+          setMessage(result.error.message);
+        } else {
+          setMessage('An unexpected error occured.');
+        }
+      }
+
+      await createOrder({
+        cartId: cart._id,
         paymentMethod: data.paymentMethod,
         phone: data.phone,
         shippingAddress: {
@@ -89,25 +113,12 @@ const CheckOutForm = ({ paymentIntentId }) => {
         paymentIntent: paymentIntentId,
       });
 
-      dispatch(removeCart());
-
-      const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          // Make sure to change this to your payment completion page
-          return_url: `${window.location.origin}/completion`,
-        },
-      });
-
-      if (error.type === 'card_error' || error.type === 'validation_error') {
-        setMessage(error.message);
-      } else {
-        setMessage('An unexpected error occured.');
-      }
-
       setIsProcessing(false);
+
+      navigate('/completion');
     } else {
-      createOrder({
+      await createOrder({
+        cartId: cart._id,
         paymentMethod: 'cash',
         phone: data.phone,
         shippingAddress: {
@@ -116,6 +127,8 @@ const CheckOutForm = ({ paymentIntentId }) => {
           address: data.address,
         },
       });
+
+      navigate('/completion');
     }
   };
 

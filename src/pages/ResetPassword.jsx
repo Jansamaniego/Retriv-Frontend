@@ -2,15 +2,25 @@ import React from 'react';
 import { z } from 'zod';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Form, PasswordInput } from '../components/common';
+import {
+  Button,
+  Form,
+  PasswordInput,
+  TransparentPopup,
+} from '../components/common';
 import { DevTool } from '@hookform/devtools';
 import { useResetPasswordMutation } from '../redux/services/authApi';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { CheckIcon } from '../assets/icons';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
 const ResetPassword = () => {
-  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+  const navigate = useNavigate();
+  const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
+  const [resetPassword, { isLoading, isSuccess }] = useResetPasswordMutation();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const resetToken = searchParams.get('token') || '';
@@ -33,8 +43,24 @@ const ResetPassword = () => {
 
   const { handleSubmit, control } = methods;
 
-  const onSubmit = (data) => {
-    resetPassword({ ...data, resetToken });
+  useEffect(() => {
+    const toggleTransparentPopup = () => {
+      setIsTransparentPopupOpen(true);
+      setTimeout(() => {
+        setIsTransparentPopupOpen(false);
+      }, 3000);
+    };
+
+    if (!isLoading && isSuccess) {
+      toggleTransparentPopup();
+      setTimeout(() => {
+        navigate('/login');
+      }, 4000);
+    }
+  }, [isLoading, isSuccess, navigate]);
+
+  const onSubmit = async (data) => {
+    await resetPassword({ ...data, resetToken });
   };
 
   return (
@@ -50,6 +76,12 @@ const ResetPassword = () => {
         </Button>
       </Form>
       <DevTool control={control} />
+      {isTransparentPopupOpen && (
+        <TransparentPopup>
+          <CheckIcon width="3rem" />
+          <h3>You have successfully reset your password</h3>
+        </TransparentPopup>
+      )}
     </FormProvider>
   );
 };

@@ -13,6 +13,13 @@ export const shopSlice = createSlice({
     setShop: (state, { payload: shop }) => {
       state.currentShop = shop;
     },
+    removeShop: (state) => {
+      if (state.userShops.length !== 0) {
+        state.currentShop = state.userShops[0];
+      } else {
+        state.currentShop = null;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(setUser, (state, { payload: user }) => {
@@ -24,4 +31,4 @@ export const shopSlice = createSlice({
 
 export default shopSlice.reducer;
 
-export const { setShop } = shopSlice.actions;
+export const { setShop, removeShop } = shopSlice.actions;

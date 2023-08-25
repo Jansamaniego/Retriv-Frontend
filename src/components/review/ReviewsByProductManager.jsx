@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card } from '../common';
+import { Button, Card, StyledModal } from '../common';
 import {
   useGetReviewsByProductIdQuery,
   useGetReviewByIdQuery,
@@ -10,11 +10,13 @@ import { EditIcon, StarGradientIcon, XMarkIcon } from '../../assets/icons';
 import ProfileImageLogo from '../profile/ProfileImageLogo';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { FormProvider, useForm } from 'react-hook-form';
+import EditReviewForm from './EditReviewForm';
 
 const StyledCard = styled(Card)``;
 
 const ReviewContainer = styled.main`
-  position: relative;
+  /* position: relative; */
   display: flex;
   gap: 1.6rem;
   align-items: flex-start;
@@ -43,7 +45,7 @@ const XMarkIconButton = styled.button`
 `;
 
 const EditIconButton = styled.button`
-  position: absolute;
+  /* position: absolute; */
   left: 22.5rem;
   top: 0.5rem;
   background-color: ${(props) => props.theme.neutral[700]};
@@ -89,19 +91,27 @@ const StyledEditIcon = styled(EditIcon)`
   }
 `;
 
-const ReviewNameAndStarsContainer = styled.div`
+const ReviewMainFlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+`;
+
+const ReviewMainContainer = styled.div`
+  display: flex;
   gap: 0.8rem;
 `;
 
 const ReviewData = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 1rem;
 `;
 
-const ReviewerName = styled.h6``;
+const ReviewerName = styled.h5`
+  font-weight: 400;
+`;
 
 const ProductInfoStatsAvgRatingStars = styled.div`
   display: flex;
@@ -116,22 +126,34 @@ const ReviewCard = ({ children }) => {
   return <StyledCard>{children}</StyledCard>;
 };
 
-const ReviewsByProductItem = ({ reviewId }) => {
+const ReviewsByProductItem = ({ reviewId, currentUser }) => {
+  const [isDeleteReviewModalOpen, setIsDeleteReviewModalOpen] = useState(false);
   const { shopId, productId } = useParams();
-  const currentUser = useSelector((state) => state.userState.user);
   const [isEditReviewMode, setIsEditReviewMode] = useState(false);
+  const [isReviewer, setIsReviewer] = useState(false);
   const { data: review, isLoading } = useGetReviewByIdQuery(reviewId);
   const [deleteReview, { isLoading: deleteReviewIsLoading }] =
     useDeleteReviewMutation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser && currentUser?.id === review?.user._id) {
+      setIsReviewer(true);
+    } else {
+      return;
+    }
+  }, [currentUser, review]);
 
   if (isLoading) return <h1>Loading...</h1>;
 
   const {
     rating,
     reviewText,
-    user: { _id: userId, name, profileImage },
+    user: { _id: userId, firstName, lastName, profileImage },
   } = review;
+
+  console.log(review);
+  console.log(currentUser);
 
   const formattedRating = rating * 10;
 
@@ -139,8 +161,24 @@ const ReviewsByProductItem = ({ reviewId }) => {
     navigate(`/user/${userId}`);
   };
 
-  const deleteReviewOnClickHandler = () => {
-    deleteReview({ shopId, productId, reviewId });
+  const activateEditReviewMode = () => {
+    setIsEditReviewMode(true);
+  };
+
+  const deactivateEditReviewMode = () => {
+    setIsEditReviewMode(false);
+  };
+
+  const openDeleteReviewModal = () => {
+    setIsDeleteReviewModalOpen(true);
+  };
+
+  const closeDeleteReviewModal = () => {
+    setIsDeleteReviewModalOpen(false);
+  };
+
+  const deleteReviewOnClickHandler = async () => {
+    await deleteReview({ shopId, productId, reviewId });
   };
 
   return (
@@ -152,23 +190,41 @@ const ReviewsByProductItem = ({ reviewId }) => {
           onClick={navigateToReviewer}
         />
         <ReviewData>
-          <ReviewNameAndStarsContainer>
-            <ReviewerName>{name}</ReviewerName>
-            <ProductInfoStatsAvgRatingStars>
-              {[...Array(5)].map((star, idx) => (
-                <StarGradientIcon
-                  width="2rem"
-                  gradient={
-                    formattedRating - idx * 10 >= 10
-                      ? 10
-                      : formattedRating - idx * 10
-                  }
-                />
-              ))}
-            </ProductInfoStatsAvgRatingStars>
-          </ReviewNameAndStarsContainer>
-          <ReviewText>{reviewText}</ReviewText>
-          {currentUser && currentUser?.id === userId && (
+          <ReviewerName>{`${firstName} ${lastName}`}</ReviewerName>
+          {isEditReviewMode ? (
+            <EditReviewForm
+              deactivateEditReviewMode={deactivateEditReviewMode}
+              review={review}
+            />
+          ) : (
+            <ReviewMainFlexWrapper>
+              <ReviewMainContainer>
+                <ProductInfoStatsAvgRatingStars>
+                  {[...Array(5)].map((star, idx) => (
+                    <StarGradientIcon
+                      key={idx}
+                      width="2rem"
+                      gradient={
+                        formattedRating - idx * 10 >= 10
+                          ? 10
+                          : formattedRating - idx * 10
+                      }
+                    />
+                  ))}
+                </ProductInfoStatsAvgRatingStars>
+                {isReviewer && !isEditReviewMode && (
+                  <EditIconButton
+                    onClick={activateEditReviewMode}
+                    disabled={deleteReviewIsLoading}
+                  >
+                    <StyledEditIcon width="2rem" />
+                  </EditIconButton>
+                )}
+              </ReviewMainContainer>
+              <ReviewText>{reviewText}</ReviewText>
+            </ReviewMainFlexWrapper>
+          )}
+          {isReviewer && (
             <XMarkIconButton
               onClick={deleteReviewOnClickHandler}
               disabled={deleteReviewIsLoading}
@@ -176,23 +232,25 @@ const ReviewsByProductItem = ({ reviewId }) => {
               <StyledXMarkIcon width="2rem" />
             </XMarkIconButton>
           )}
+          {isDeleteReviewModalOpen && (
+            <StyledModal
+              showModal={openDeleteReviewModal}
+              closeModal={closeDeleteReviewModal}
+              onClick={deleteReviewOnClickHandler}
+              isLoading={deleteReviewIsLoading}
+            >
+              Are you sure you want to delete this review?
+            </StyledModal>
+          )}
         </ReviewData>
-        {currentUser && currentUser?.id === userId && (
-          <EditIconButton
-            onClick={deleteReviewOnClickHandler}
-            disabled={deleteReviewIsLoading}
-          >
-            <StyledEditIcon width="2rem" />
-          </EditIconButton>
-        )}
       </ReviewContainer>
     </ReviewCard>
   );
 };
 
-const ReviewsByProductList = ({ reviews }) => {
+const ReviewsByProductList = ({ reviews, currentUser }) => {
   return reviews.map(({ _id }) => (
-    <ReviewsByProductItem reviewId={_id} key={_id} />
+    <ReviewsByProductItem reviewId={_id} key={_id} currentUser={currentUser} />
   ));
 };
 
@@ -219,10 +277,10 @@ const ReviewsByProductManager = ({
 
   useEffect(() => {
     const reviewExists =
-      reviews && reviews.find((review) => review.user.id === currentUser.id);
+      reviews && reviews.find((review) => review.user.id === currentUser?.id);
 
     setIsUserReviewExists(!!reviewExists);
-  }, [currentUser.id, reviews, setIsUserReviewExists]);
+  }, [currentUser, reviews, setIsUserReviewExists]);
 
   if (isLoading)
     return (
@@ -239,7 +297,7 @@ const ReviewsByProductManager = ({
     );
   }
 
-  return <ReviewsByProductList reviews={reviews} />;
+  return <ReviewsByProductList reviews={reviews} currentUser={currentUser} />;
 };
 
 export default ReviewsByProductManager;

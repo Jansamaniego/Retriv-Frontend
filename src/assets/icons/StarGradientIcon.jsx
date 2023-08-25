@@ -13,48 +13,48 @@ export const StarGradientIcon = ({ gradient, ...props }) => {
       {...props}
     >
       <linearGradient id="lg0" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="100%" stop-color="white"></stop>
-        <stop offset="0%" stop-color={theme.primary.main}></stop>
+        <stop offset="100%" stopColor="white"></stop>
+        <stop offset="0%" stopColor={theme.primary.main}></stop>
       </linearGradient>
       <linearGradient id="lg1" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="90%" stop-color="white"></stop>
-        <stop offset="10%" stop-color={theme.primary.main}></stop>
+        <stop offset="90%" stopColor="white"></stop>
+        <stop offset="10%" stopColor={theme.primary.main}></stop>
       </linearGradient>
       <linearGradient id="lg2" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="80%" stop-color="white"></stop>
-        <stop offset="20%" stop-color={theme.primary.main}></stop>
+        <stop offset="80%" stopColor="white"></stop>
+        <stop offset="20%" stopColor={theme.primary.main}></stop>
       </linearGradient>
       <linearGradient id="lg3" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="70%" stop-color="white"></stop>
-        <stop offset="30%" stop-color={theme.primary.main}></stop>
+        <stop offset="70%" stopColor="white"></stop>
+        <stop offset="30%" stopColor={theme.primary.main}></stop>
       </linearGradient>
       <linearGradient id="lg4" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="60%" stop-color="white"></stop>
-        <stop offset="40%" stop-color={theme.primary.main}></stop>
+        <stop offset="60%" stopColor="white"></stop>
+        <stop offset="40%" stopColor={theme.primary.main}></stop>
       </linearGradient>
       <linearGradient id="lg5" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="50%" stop-color="white"></stop>
-        <stop offset="50%" stop-color={theme.primary.main}></stop>
+        <stop offset="50%" stopColor="white"></stop>
+        <stop offset="50%" stopColor={theme.primary.main}></stop>
       </linearGradient>
       <linearGradient id="lg6" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="40%" stop-color="white"></stop>
-        <stop offset="60%" stop-color={theme.primary.main}></stop>
+        <stop offset="40%" stopColor="white"></stop>
+        <stop offset="60%" stopColor={theme.primary.main}></stop>
       </linearGradient>
       <linearGradient id="lg7" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="30%" stop-color="white"></stop>
-        <stop offset="70%" stop-color={theme.primary.main}></stop>
+        <stop offset="30%" stopColor="white"></stop>
+        <stop offset="70%" stopColor={theme.primary.main}></stop>
       </linearGradient>
       <linearGradient id="lg8" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="20%" stop-color="white"></stop>
-        <stop offset="80%" stop-color={theme.primary.main}></stop>
+        <stop offset="20%" stopColor="white"></stop>
+        <stop offset="80%" stopColor={theme.primary.main}></stop>
       </linearGradient>
       <linearGradient id="lg9" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="10%" stop-color="white"></stop>
-        <stop offset="90%" stop-color={theme.primary.main}></stop>
+        <stop offset="10%" stopColor="white"></stop>
+        <stop offset="90%" stopColor={theme.primary.main}></stop>
       </linearGradient>
       <linearGradient id="lg10" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="white"></stop>
-        <stop offset="100%" stop-color={theme.primary.main}></stop>
+        <stop offset="0%" stopColor="white"></stop>
+        <stop offset="100%" stopColor={theme.primary.main}></stop>
       </linearGradient>
 
       <path

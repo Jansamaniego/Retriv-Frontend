@@ -71,7 +71,7 @@ export const InstagramIcon = (props) => {
           stroke="#fff"
           strokeLinecap="round"
           strokeLinejoin="round"
-          stroke-miterlimit="10"
+          strokeMiterlimit="10"
           strokeWidth="2"
           d="M30,11H18c-3.9,0-7,3.1-7,7v12c0,3.9,3.1,7,7,7h12c3.9,0,7-3.1,7-7V18C37,14.1,33.9,11,30,11z"
         />
@@ -86,7 +86,7 @@ export const InstagramIcon = (props) => {
           stroke="#fff"
           strokeLinecap="round"
           strokeLinejoin="round"
-          stroke-miterlimit="10"
+          strokeMiterlimit="10"
           strokeWidth="2"
         />
       </g>

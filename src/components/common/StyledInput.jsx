@@ -41,7 +41,13 @@ export const StyledInput = ({
 
   return (
     <InputWrapper marginBottom={marginBottom}>
-      <Input {...register(name)} type={type} {...props} />
+      <Input
+        {...register(name, {
+          valueAsDate: type === 'date' ? true : false,
+        })}
+        type={type}
+        {...props}
+      />
       {errors[name]?.message && <p>{errors[name]?.message}</p>}
     </InputWrapper>
   );

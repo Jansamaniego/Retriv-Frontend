@@ -1,5 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import { cartApi } from './cartApi';
 import customBaseQuery from '../../utils/customBaseQuery';
+import { removeCart } from '../features/cartSlice';
 
 export const orderApi = createApi({
   reducerPath: 'orderApi',
@@ -20,7 +22,7 @@ export const orderApi = createApi({
               ...result.map(({ id }) => ({ type: 'Order', id })),
               { type: 'Order', id: 'LIST' },
             ]
-          : [];
+          : [{ type: 'Order', id: 'LIST' }];
       },
     }),
     getOrderById: builder.query({
@@ -35,7 +37,7 @@ export const orderApi = createApi({
         result ? [{ type: 'Order', id: orderId }] : [],
     }),
     createOrder: builder.mutation({
-      query(body) {
+      query({ cartId, ...body }) {
         return {
           url: '/order',
           method: 'POST',
@@ -43,7 +45,17 @@ export const orderApi = createApi({
           credentials: 'include',
         };
       },
-      invalidatesTags: [{ type: 'Order', id: 'LIST' }],
+      invalidatesTags: (result, error, { cartId }) => {
+        return [{ type: 'Order', id: 'LIST' }];
+      },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(removeCart());
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     updateOrderStatus: builder.mutation({
       query({ id, status }) {
@@ -62,15 +74,17 @@ export const orderApi = createApi({
       ],
     }),
     cancelOrder: builder.mutation({
-      query(body) {
+      query(id) {
         return {
-          url: `/order/${body.id}`,
-          method: 'PATCH',
-          body,
+          url: `/order/${id}`,
+          method: 'DELETE',
           credentials: 'include',
         };
       },
-      invalidatesTags: (result, error, { id }) => [{ type: 'Order', id }],
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Order', id },
+        { type: 'Order', id: 'LIST' },
+      ],
     }),
   }),
 });

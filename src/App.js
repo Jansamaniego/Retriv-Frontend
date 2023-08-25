@@ -5,7 +5,7 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import GlobalStyle from './components/global/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import { themeSettings } from './components/theme/theme';
@@ -22,7 +22,6 @@ import SendVerificationEmail from './pages/SendVerificationEmail';
 import ProfileHeader from './components/profile/ProfileHeader';
 import AdminDashboard from './pages/AdminDashboard';
 import UserPage from './pages/UserPage';
-import ProductManager from './pages/ProductManager';
 import ProductPage from './pages/ProductPage';
 import ShopPage from './pages/ShopPage';
 import Cart from './pages/Cart';
@@ -44,35 +43,41 @@ import UserInfo from './components/user/UserInfo';
 import UserPageContent from './components/user/UserPageContent';
 import ProfilePage from './pages/ProfilePage';
 import ProfilePageContent from './components/profile/ProfilePageContent';
-
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+import AuthMiddleware from './utils/authMiddleware';
+import Home, { homeLoader } from './pages/Home';
+import CategoryPage from './pages/CategoryPage';
+import NoTFound from './pages/NotFound';
+import MyOrdersPage from './pages/MyOrdersPage';
+import CategoriesPage from './pages/CategoriesPage';
+import CreateCategory from './pages/CreateCategory';
 
 const App = (props) => {
   const theme = useSelector((state) => state.themeState.theme);
-
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
-        <Route index element={<ProductManager />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="reset-password" element={<ResetPassword />} />
-        <Route path="unauthorized" element={<Unauthorized />} />
+        <Route index element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route
-          path="shop/:shopId/product/:productId"
+          path="/shop/:shopId/product/:productId"
           element={<ProductPage />}
         />
-        <Route path="shop/:shopId" element={<ShopPage />} />
-        <Route path="user/:userId" element={<UserPage />}>
+        <Route path="/shop/:shopId" element={<ShopPage />} />
+        <Route path="/user/:userId" element={<UserPage />}>
           <Route index element={<UserPageContent />} />
         </Route>
-        <Route path="order/:orderId" element={<PlacedOrderPage />} />
+        <Route path="/category/:categoryId" element={<CategoryPage />} />
+        <Route path="/category" element={<CategoriesPage />} />
         <Route element={<RestrictTo allowedRoles={['admin']} />}>
           <Route path="admin-dashboard" element={<AdminDashboard />} />
           <Route path="user-table" element={<AdminUserTablePage />} />
           <Route path="order-table" element={<AdminOrderTablePage />} />
           <Route path="create-user" element={<CreateUserPage />} />
+          <Route path="create-category" element={<CreateCategory />} />
         </Route>
         <Route element={<RestrictTo allowedRoles={['seller']} />}>
           <Route path="/my-shop" element={<MyShopPage />} />
@@ -85,7 +90,10 @@ const App = (props) => {
           <Route path="/checkout" element={<CheckOut />} />
           <Route path="/payment-test" element={<Payment />} />
           <Route path="/completion" element={<PaymentCompletion />} />
+          <Route path="/my-orders" element={<MyOrdersPage />} />
+          <Route path="order/:orderId" element={<PlacedOrderPage />} />
           <Route path="/create-shop" element={<CreateShopPage />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="profile" element={<ProfilePage />}>
             <Route index element={<ProfilePageContent />} />
             <Route path="change-password" element={<ChangePassword />} />
@@ -95,6 +103,7 @@ const App = (props) => {
             />
           </Route>
         </Route>
+        <Route path="*" element={<NoTFound />} />
       </Route>
     )
   );
@@ -102,7 +111,9 @@ const App = (props) => {
   return (
     <ThemeProvider theme={themeSettings(theme)}>
       <GlobalStyle />
-      <RouterProvider router={router} />
+      <AuthMiddleware>
+        <RouterProvider router={router} />
+      </AuthMiddleware>
     </ThemeProvider>
   );
 };

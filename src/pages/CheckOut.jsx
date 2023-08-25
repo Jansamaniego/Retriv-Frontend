@@ -29,6 +29,7 @@ const CheckoutPageFlexWrapper = styled.main`
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const CheckOut = () => {
+  const initialized = useRef(false);
   const [clientSecret, setClientSecret] = useState(null);
   const [paymentIntentId, setPaymentIntentId] = useState(null);
   const loggedInUser = useSelector((state) => state.userState.user);
@@ -41,20 +42,27 @@ const CheckOut = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!isLoading) {
-        const response = await createPaymentIntent(cart.totalPrice);
+    if (!initialized.current) {
+      initialized.current = true;
 
-        if (!createPaymentIntentIsLoading) {
-          setClientSecret(response.data.clientSecret);
-          setPaymentIntentId(response.data.paymentIntentId);
+      const fetchData = async () => {
+        if (!isLoading) {
+          const response = await createPaymentIntent(cart.totalPrice);
+          if (!createPaymentIntentIsLoading && !clientSecret) {
+            setClientSecret(response.data.clientSecret);
+            setPaymentIntentId(response.data.paymentIntentId);
+          }
         }
-      }
-    };
-    fetchData();
+      };
+
+      fetchData();
+    }
   }, []);
 
-  if (isLoading || createPaymentIntentIsLoading) return <h1>Loading...</h1>;
+  if (isLoading || createPaymentIntentIsLoading || !clientSecret)
+    return <h1>Loading...</h1>;
+
+  console.log(clientSecret);
 
   return (
     clientSecret && (

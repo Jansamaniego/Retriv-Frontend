@@ -13,7 +13,8 @@ import ThemeToggleButton from '../theme/ThemeToggleButton';
 import ProfileImageLogo from '../profile/ProfileImageLogo';
 import ProfileDropdownMenu from '../profile/ProfileDropdownMenu';
 import Search from './Search';
-import { CartIcon } from '../../assets/icons';
+import { CartIcon, StoreIcon } from '../../assets/icons';
+import ShopPickerDropdownMenu from '../shop/ShopPickerDropdownMenu';
 
 const HeaderWrapper = styled.header`
   height: 60px;
@@ -30,6 +31,30 @@ const HeaderWrapper = styled.header`
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const IconsFlexWrapper = styled.div`
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+`;
+
+const StoreIconContainer = styled.div`
+  position: relative;
+  padding: 0.4rem 0.8rem 0 0.8rem;
+  display: inline-block;
+  color: ${(props) => props.theme.neutral.text};
+  cursor: pointer;
+`;
+
+const StyledStoreIcon = styled(StoreIcon)`
+  &:hover {
+    color: ${(props) => props.theme.neutral.light};
+  }
+
+  &:active {
+    color: ${(props) => props.theme.neutral.main};
+  }
 `;
 
 const Menu = styled.nav`
@@ -61,6 +86,7 @@ const MenuFlexContainer = styled.div`
 
 const StyledStyledLink = styled(StyledLink)`
   position: relative;
+  padding: 0.6rem 0.8rem 0 0.8rem;
 `;
 
 const CartItemQuantity = styled.div`
@@ -96,8 +122,13 @@ const MobileMenuIcon = styled.div`
 const Header = ({ setSearchParams }) => {
   const dropdownRef = useRef();
   const userImageRef = useRef();
+  const shopIconRef = useRef();
+  const shopPickerDropdownRef = useRef();
+  const { userShops, currentShop } = useSelector((state) => state.shopState);
   const cart = useSelector((state) => state.cartState.cart);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isShopPickerDropdownMenuOpen, setIsShopPickerDropdownMenuOpen] =
+    useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const loggedInUser = useSelector((state) => state.userState.user);
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
@@ -107,11 +138,17 @@ const Header = ({ setSearchParams }) => {
     setIsProfileMenuOpen((value) => !value);
   };
 
+  const shopIconClickHandler = (event) => {
+    setIsShopPickerDropdownMenuOpen((value) => !value);
+  };
+
+  const closeShopPickerDropdownMenu = () => {
+    setIsShopPickerDropdownMenuOpen(false);
+  };
+
   const closeProfileMenu = () => {
     setIsProfileMenuOpen(false);
   };
-
-  console.log(userImageRef);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -124,6 +161,18 @@ const Header = ({ setSearchParams }) => {
     };
     document.addEventListener('mousedown', handleClickOutside);
   }, [dropdownRef]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        !shopIconRef?.current?.contains(event.target) &&
+        !shopPickerDropdownRef?.current?.contains(event.target)
+      ) {
+        closeShopPickerDropdownMenu();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <HeaderWrapper>
@@ -140,39 +189,47 @@ const Header = ({ setSearchParams }) => {
       <Search setSearchParams={setSearchParams} />
       <Menu open={menuOpen}>
         <MenuFlexContainer>
-          {loggedInUser ? (
-            <StyledStyledLink to="/payment-test">payment test</StyledStyledLink>
-          ) : null}
           <ThemeToggleButton />
+          {loggedInUser && (
+            <IconsFlexWrapper>
+              {loggedInUser.role === 'seller' && userShops.length !== 0 && (
+                <StoreIconContainer
+                  onClick={shopIconClickHandler}
+                  ref={shopIconRef}
+                >
+                  <StyledStoreIcon width="4rem" strokeWidth="2" />
+                  {isShopPickerDropdownMenuOpen && (
+                    <ShopPickerDropdownMenu ref={shopPickerDropdownRef} />
+                  )}
+                </StoreIconContainer>
+              )}
+              <StyledStyledLink to="/cart">
+                <CartIcon width="4rem" strokeWidth="2" />{' '}
+                <CartItemQuantity>
+                  {cart ? cart.items.length : 0}
+                </CartItemQuantity>
+              </StyledStyledLink>
+            </IconsFlexWrapper>
+          )}
           {loggedInUser ? (
-            <StyledStyledLink to="/cart">
-              <CartIcon width="4rem" strokeWidth="2" />
-              {cart ? (
-                <CartItemQuantity>{cart.items.length}</CartItemQuantity>
-              ) : null}
-            </StyledStyledLink>
-          ) : null}
-          {loggedInUser ? (
-            <>
-              <ProfileImageLogo
-                profileImage={loggedInUser.profileImage}
-                onClick={userImageLogoClickhandler}
-                ref={userImageRef}
-              />
-            </>
+            <ProfileImageLogo
+              profileImage={loggedInUser.profileImage}
+              onClick={userImageLogoClickhandler}
+              ref={userImageRef}
+            />
           ) : (
             <StyledLink to="login">Log In</StyledLink>
           )}
         </MenuFlexContainer>
       </Menu>
-      {loggedInUser ? (
+      {loggedInUser && (
         <ProfileDropdownMenu
           isProfileMenuOpen={isProfileMenuOpen}
           closeProfileMenu={closeProfileMenu}
           user={loggedInUser}
           ref={dropdownRef}
         />
-      ) : null}
+      )}
     </HeaderWrapper>
   );
 };

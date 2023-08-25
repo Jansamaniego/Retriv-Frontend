@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, StyledInput } from '../common';
+import { Button, Card, StyledInput, StyledModal } from '../common';
 import ProfileImageLogo from '../profile/ProfileImageLogo';
 import {
   DateIcon,
@@ -21,6 +21,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useGetShopRatingsQuery } from '../../redux/services/ratings/shopRatingsApi';
 import { DevTool } from '@hookform/devtools';
 import UpdateShopImageModal from './UpdateShopImageModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { myProfileApi } from '../../redux/services/myProfileApi';
+import { removeShop } from '../../redux/features/shopSlice';
 
 const ShopHeaderFlexWrapper = styled.div`
   display: flex;
@@ -125,22 +128,27 @@ const EditIconButton = styled.button`
 `;
 
 const ShopHeader = ({ shop }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { data: shopRatings, isLoading: shopRatingsIsLoading } =
     useGetShopRatingsQuery(shop.id);
 
-  const [deleteShop, { isLoading: deleteShopIsLoading }] =
-    useDeleteShopMutation();
+  const [
+    deleteShop,
+    { isLoading: deleteShopIsLoading, isSuccess: deleteShopIsSuccess },
+  ] = useDeleteShopMutation();
 
   const [updateShop, { isLoading: updateShopIsLoading }] =
     useUpdateShopMutation();
 
+  const [isDeleteShopModalOpen, setIsDeleteShopModalOpen] = useState(false);
   const [isShopImageEditModalOpen, setIsShopImageEditModalOpen] =
     useState(false);
   const [isEditMode, setisEditMode] = useState(false);
   const [isEditNameMode, setIsEditNameMode] = useState(false);
   const [isEditAddressMode, setIsEditAddressMode] = useState(false);
+  const [isEditPhoneMode, setIsEditPhoneMode] = useState(false);
   const [isEditDescriptionMode, setIsEditDescriptionMode] = useState(false);
 
   const {
@@ -148,6 +156,7 @@ const ShopHeader = ({ shop }) => {
     shopImage,
     name,
     description,
+    phone,
     address,
     productsQuantity,
     totalUnitsSold,
@@ -157,24 +166,33 @@ const ShopHeader = ({ shop }) => {
   const updateShopSchema = z.object({
     name: z.string(),
     address: z.string(),
+    phone: z.coerce.number(),
     description: z.string(),
   });
 
   const methods = useForm({
-    defaultValues: {
-      name,
-      address,
-      description,
-    },
+    defaultValues: useMemo(() => {
+      return {
+        name,
+        address,
+        description,
+        phone,
+      };
+    }, [address, name, description, phone]),
     resolver: zodResolver(updateShopSchema),
   });
 
   const {
     handleSubmit,
     register,
+    reset,
     control,
     formState: { errors },
   } = methods;
+
+  useEffect(() => {
+    reset({ name, address, description, phone });
+  }, [address, name, description, phone]);
 
   const openShopImageEditModal = () => {
     setIsShopImageEditModalOpen(true);
@@ -214,9 +232,35 @@ const ShopHeader = ({ shop }) => {
     setisEditMode(false);
   };
 
+  const enableEditPhoneMode = () => {
+    setIsEditPhoneMode(true);
+    setisEditMode(true);
+  };
+
+  const disableEditPhoneMode = () => {
+    setIsEditPhoneMode(false);
+    setisEditMode(false);
+  };
+
+  const openDeleteShopModal = () => {
+    setIsDeleteShopModalOpen(true);
+  };
+  const closeDeleteShopModal = () => {
+    setIsDeleteShopModalOpen(false);
+  };
+
   const deleteShopOnClickHandler = async () => {
     await deleteShop(id);
-    navigate('/');
+    if (!deleteShopIsLoading) {
+      const { isSuccess } = await dispatch(
+        myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
+      );
+
+      if (isSuccess) {
+        dispatch(removeShop());
+      }
+      navigate('/');
+    }
   };
 
   const onSubmit = async (data) => {
@@ -338,6 +382,39 @@ const ShopHeader = ({ shop }) => {
                     </EditIconButton>
                   </InfoContainer>
                 )}
+                {isEditPhoneMode ? (
+                  <>
+                    <ShopDataInputFlexWrapper>
+                      <StyledInput
+                        placeholder="Phone"
+                        type="number"
+                        name="phone"
+                        marginBottom={0}
+                      />
+                      <ButtonFlexWrapper>
+                        <Button
+                          onClick={disableEditPhoneMode}
+                          disabled={updateShopIsLoading}
+                        >
+                          Cancel
+                        </Button>
+                        <Button type="submit" disabled={updateShopIsLoading}>
+                          Update
+                        </Button>
+                      </ButtonFlexWrapper>
+                    </ShopDataInputFlexWrapper>
+                  </>
+                ) : (
+                  <InfoContainer>
+                    <SubInfo>{phone}</SubInfo>
+                    <EditIconButton
+                      onClick={enableEditPhoneMode}
+                      disabled={isEditMode}
+                    >
+                      <EditIcon width="2rem" />
+                    </EditIconButton>
+                  </InfoContainer>
+                )}
               </ShopInfoContainer>
             </ShopImageAndInfoContainer>
             <ShopHeaderStatsContainer>
@@ -363,7 +440,7 @@ const ShopHeader = ({ shop }) => {
                 </ShopHeaderStatContainer>
                 <ShopHeaderStatContainer>
                   <Button
-                    onClick={deleteShopOnClickHandler}
+                    onClick={openDeleteShopModal}
                     disabled={deleteShopIsLoading}
                   >
                     Delete Shop
@@ -382,6 +459,17 @@ const ShopHeader = ({ shop }) => {
           id={id}
         />
       )}
+      {isDeleteShopModalOpen && (
+        <StyledModal
+          showModal={openDeleteShopModal}
+          closeModal={closeDeleteShopModal}
+          onClick={deleteShopOnClickHandler}
+          isLoading={deleteShopIsLoading}
+        >
+          Are you sure you want to delete your shop?
+        </StyledModal>
+      )}
+      <DevTool control={control} />
     </FormProvider>
   );
 };

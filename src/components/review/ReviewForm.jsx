@@ -45,14 +45,15 @@ const ReviewForm = ({ shopId, productId }) => {
     formState: { errors },
   } = methods;
 
-  const onSubmit = (data) =>
+  const onSubmit = (data) => {
     createReview({
       shopId,
       productId,
       reviewText: data.reviewText,
       rating: Number(data.rating),
     });
-
+  };
+  
   const { rating } = watch();
 
   return (
