@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react';
 import { Form, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, Card, Loading, StyledInput, StyledModal } from '../common';
+import {
+  Button,
+  Card,
+  Loading,
+  StyledInput,
+  StyledModal,
+  ProfileImageLogo,
+} from '../common';
 import {
   useDeleteCategoryMutation,
   useGetCategoryQuery,
   useUpdateCategoryDetailsMutation,
   useUpdateCategoryImageMutation,
 } from '../../redux/services/categoryApi';
-import ProfileImageLogo from '../profile/ProfileImageLogo';
 import { useState } from 'react';
 import { EditIcon } from '../../assets/icons';
 import UpdateCategoryImageModal from './UpdateCategoryImageModal';

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Card, StyledInput } from '../common';
-import { CountrySelect } from '../common/CountrySelect';
+import { Card, StyledInput, CountrySelect } from '../common';
 import styled from 'styled-components';
 
 const DeliveryAddressFlexWrapper = styled.main`

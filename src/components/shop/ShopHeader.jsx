@@ -1,7 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, StyledInput, StyledModal } from '../common';
-import ProfileImageLogo from '../profile/ProfileImageLogo';
+import {
+  Button,
+  Card,
+  StyledInput,
+  StyledModal,
+  ProfileImageLogo,
+} from '../common';
 import {
   DateIcon,
   EditIcon,

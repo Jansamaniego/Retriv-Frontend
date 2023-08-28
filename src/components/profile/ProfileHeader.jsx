@@ -8,7 +8,7 @@ import {
   useDeleteMyAccountMutation,
   useUpdateProfileImageMutation,
 } from '../../redux/services/myProfileApi';
-import UpdateProfileImageModal from '../common/UpdateProfileImageModal';
+import { UpdateProfileImageModal } from '../common';
 
 const ProfileHeaderCard = styled(Card)`
   position: relative;

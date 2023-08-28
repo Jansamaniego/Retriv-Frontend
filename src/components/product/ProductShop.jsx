@@ -2,9 +2,8 @@ import React from 'react';
 import { useGetShopByIdQuery } from '../../redux/services/shopApi';
 import { useGetShopRatingsQuery } from '../../redux/services/ratings/shopRatingsApi';
 import { useGetShopStatsQuery } from '../../redux/services/stats/shopStatsApi';
-import { Card } from '../common';
+import { Card, ProfileImageLogo } from '../common';
 import styled from 'styled-components';
-import ProfileImageLogo from '../profile/ProfileImageLogo';
 import { useNavigate } from 'react-router-dom';
 
 const ProductShopWrapper = styled.div`
@@ -70,8 +69,7 @@ const ProductShop = ({ shopId }) => {
   let { data: shopRating, shopRatingIsLoading } =
     useGetShopRatingsQuery(shopId);
 
-  if (!shop || shopIsLoading || shopRatingIsLoading)
-    return <h1>Loading...</h1>;
+  if (!shop || shopIsLoading || shopRatingIsLoading) return <h1>Loading...</h1>;
 
   if (!shopRating) {
     shopRating = {
@@ -99,7 +97,7 @@ const ProductShop = ({ shopId }) => {
           <ProductShopInfoFlex>
             <ProfileImageLogo
               profileImage={shopImage}
-              imageWidth="8rem"
+              size="10rem"
               onClick={navigateShop}
             />
             <ProductShopPreviewContainer>

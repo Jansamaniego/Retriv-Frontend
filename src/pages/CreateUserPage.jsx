@@ -10,13 +10,13 @@ import {
   ImageUploader,
   Card,
   StyledModal,
+  ImageUpload,
 } from '../components/common';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 import { useCreateUserMutation } from '../redux/services/userApi';
 import { useNavigate } from 'react-router-dom';
-import ImageUpload from '../components/common/ImageUpload';
 import styled from 'styled-components';
 
 const FormFlexWrapper = styled.div`

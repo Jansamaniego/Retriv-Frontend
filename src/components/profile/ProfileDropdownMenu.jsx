@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
-import { Card, StyledLink } from '../common';
+import { Card, StyledLink, ProfileImageLogo } from '../common';
 import { useLogoutUserMutation } from '../../redux/services/authApi';
 import { useNavigate } from 'react-router-dom';
 
@@ -76,9 +76,7 @@ const ProfileDropdownMenu = forwardRef(
       >
         <ProfileSectionContainer>
           <ProfileSection>
-            <ProfileImageLogoContainer>
-              <ProfileImage src={profileImage} />
-            </ProfileImageLogoContainer>
+            <ProfileImageLogo profileImage={profileImage} size="6rem" />
             <UserInfo>
               <h5>{name}</h5>
               <h5>{email}</h5>

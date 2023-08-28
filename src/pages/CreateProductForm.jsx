@@ -13,6 +13,7 @@ import {
   StyledLink,
   ImageUploader,
   StyledModal,
+  ImageUpload,
 } from '../components/common';
 import { useCreateProductMutation } from '../redux/services/productApi';
 import {
@@ -21,7 +22,6 @@ import {
 } from '../redux/services/categoryApi';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import ImageUpload from '../components/common/ImageUpload';
 import { useState } from 'react';
 import styled from 'styled-components';
 

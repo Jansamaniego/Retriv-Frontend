@@ -5,6 +5,7 @@ import {
   StyledInput,
   StyledModal,
   Button,
+  ImageUpload,
 } from '../components/common';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -12,7 +13,6 @@ import { useCreateCategoryMutation } from '../redux/services/categoryApi';
 import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import ImageUpload from '../components/common/ImageUpload';
 import { DevTool } from '@hookform/devtools';
 import styled from 'styled-components';
 

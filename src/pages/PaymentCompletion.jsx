@@ -2,10 +2,7 @@ import React, { useEffect } from 'react';
 import { Card } from '../components/common';
 import styled from 'styled-components';
 import ProductList from '../components/product/ProductList';
-import {
-  useGetProductsQuery,
-  useGetRecommendedProductsQuery,
-} from '../redux/services/productApi';
+import { useGetProductsQuery } from '../redux/services/productApi';
 import { useSearchParams } from 'react-router-dom';
 import RecommendedProductList from '../components/product/RecommendedProductList';
 
@@ -24,7 +21,7 @@ const ProductManagerGrid = styled.main`
 
 const PaymentCompletion = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { products, isLoading } = useGetRecommendedProductsQuery(
+  const { products, isLoading } = useGetProductsQuery(
     searchParams.size ? searchParams.toString() : undefined,
     {
       selectFromResult: ({ data }) => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import CategoryDetail from '../components/category/CategoryDetail';
 import { useParams, useSearchParams } from 'react-router-dom';
-import ProductManager from './ProductManager';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import RecommendedProductManager from '../components/product/RecommendedProductManager';

@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import ProductList from './ProductList';
 import ProductSearchControls from './ProductSearchControls';
-import { useGetRecommendedProductsQuery } from '../../redux/services/productApi';
+import { useGetProductsQuery } from '../../redux/services/productApi';
 import RecommendedProductList from './RecommendedProductList';
 import { Loading } from '../common';
 import { useSelector } from 'react-redux';
-import Pagination from '../common/Pagination';
+import { Pagination } from '../common';
 import { useState } from 'react';
 import { useProductPagination } from '../../context/ProductPaginationContext';
 
@@ -33,7 +33,7 @@ const RecommendedProductManager = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { products, totalProductPages, isLoading, refetch } =
-    useGetRecommendedProductsQuery(
+    useGetProductsQuery(
       searchParams.size ? searchParams.toString() : undefined,
       {
         selectFromResult: ({ data }) => {
@@ -76,7 +76,7 @@ const RecommendedProductManager = () => {
     return <Loading />;
   }
 
-  if (products.length === 0) {
+  if (!products || products.length === 0) {
     return <h1>No products found</h1>;
   }
 

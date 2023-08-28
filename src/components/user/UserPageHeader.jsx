@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { Button, Card, Socials, StyledModal } from '../common';
+import {
+  Button,
+  Card,
+  Socials,
+  StyledModal,
+  UpdateProfileImageModal,
+} from '../common';
 import { EditIcon } from '../../assets/icons';
 import { useUpdateProfileImageMutation } from '../../redux/services/myProfileApi';
-import UpdateProfileImageModal from '../common/UpdateProfileImageModal';
 
 const ProfileHeaderCard = styled(Card)`
   position: relative;

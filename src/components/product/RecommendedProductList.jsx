@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {
   productApi,
   useGetProductsQuery,
-  useGetRecommendedProductsQuery,
 } from '../../redux/services/productApi';
 import { Card } from '../common';
 import styled from 'styled-components';
@@ -62,7 +61,7 @@ const RecommendedProductItem = ({ id }) => {
 
   const navigate = useNavigate();
 
-  const { product } = useGetRecommendedProductsQuery(
+  const { product } = useGetProductsQuery(
     searchParams.size ? searchParams.toString() : undefined,
     {
       selectFromResult: ({ data }) => {

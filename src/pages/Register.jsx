@@ -11,11 +11,11 @@ import {
   Select,
   StyledLink,
   ImageUploader,
+  ImageUpload,
 } from '../components/common';
 import { useRegisterUserMutation } from '../redux/services/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import ImageUpload from '../components/common/ImageUpload';
 import styled from 'styled-components';
 
 const FormFlexWrapper = styled.div`

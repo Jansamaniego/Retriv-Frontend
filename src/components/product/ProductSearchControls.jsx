@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ChevronDown } from '../../assets/icons';
-import { ChevronLeft } from '../../assets/icons/ChevronLeft';
-import { ChevronRight } from '../../assets/icons/ChevronRight';
+import { ChevronLeft } from '../../assets/icons/chevronLeft';
+import { ChevronRight } from '../../assets/icons/chevronRight';
 import { useSearchParams } from 'react-router-dom';
 import { productApi } from '../../redux/services/productApi';
 

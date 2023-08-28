@@ -6,10 +6,10 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import GlobalStyle from './components/global/GlobalStyle';
+import GlobalStyle from './components/globalStyles';
 import { ThemeProvider } from 'styled-components';
-import { themeSettings } from './components/theme/theme';
-import RootLayout from './components/layout/RootLayout';
+import { themeSettings } from './components/theme';
+import RootLayout from './components/layout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -44,7 +44,7 @@ import UserPageContent from './components/user/UserPageContent';
 import ProfilePage from './pages/ProfilePage';
 import ProfilePageContent from './components/profile/ProfilePageContent';
 import AuthMiddleware from './utils/authMiddleware';
-import Home, { homeLoader } from './pages/Home';
+import { Home } from './pages';
 import CategoryPage from './pages/CategoryPage';
 import NoTFound from './pages/NotFound';
 import MyOrdersPage from './pages/MyOrdersPage';

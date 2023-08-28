@@ -10,12 +10,12 @@ import {
   ImageUploader,
   Card,
   StyledModal,
+  ImageUpload,
 } from '../components/common';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 import { useCreateShopMutation } from '../redux/services/shopApi';
-import ImageUpload from '../components/common/ImageUpload';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';

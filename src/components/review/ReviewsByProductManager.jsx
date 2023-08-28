@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, StyledModal } from '../common';
+import { Button, Card, StyledModal, ProfileImageLogo } from '../common';
 import {
   useGetReviewsByProductIdQuery,
   useGetReviewByIdQuery,
   useDeleteReviewMutation,
 } from '../../redux/services/reviewApi';
 import { EditIcon, StarGradientIcon, XMarkIcon } from '../../assets/icons';
-import ProfileImageLogo from '../profile/ProfileImageLogo';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -186,7 +185,7 @@ const ReviewsByProductItem = ({ reviewId, currentUser }) => {
       <ReviewContainer>
         <ProfileImageLogo
           profileImage={profileImage}
-          imageWidth="10rem"
+          size="10rem"
           onClick={navigateToReviewer}
         />
         <ReviewData>

@@ -8,30 +8,9 @@ export const productApi = createApi({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query(queryString) {
-        return { url: `/product?${queryString || ''}` };
+        return { url: `/product?${queryString || ''}`, credentials: 'include' };
       },
       transformResponse: (response) => response.products,
-      providesTags: (results) => {
-        return Array.isArray(results.results)
-          ? [
-              ...results.results.map(({ id }) => ({ type: 'Product', id })),
-              { type: 'Product', id: 'LIST' },
-            ]
-          : results.results
-          ? [{ type: 'Product', id: results[0].id }]
-          : [{ type: 'Product', id: 'LIST' }];
-      },
-    }),
-    getRecommendedProducts: builder.query({
-      query(queryString) {
-        return {
-          url: `/product/get-recommended-products?${queryString || ''}`,
-          credentials: 'include',
-        };
-      },
-      transformResponse: (response) => {
-        return response.products;
-      },
       providesTags: (results) => {
         return Array.isArray(results.results)
           ? [
@@ -170,7 +149,6 @@ export const productApi = createApi({
 
 export const {
   useGetProductsQuery,
-  useGetRecommendedProductsQuery,
   useGetProductsByShopIdQuery,
   useGetProductByIdQuery,
   useCreateProductMutation,
