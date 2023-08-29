@@ -30,7 +30,7 @@ const SideMenuMain = styled.aside`
     padding: 0;
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 600px) {
     display: none;
   }
 `;

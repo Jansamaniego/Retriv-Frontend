@@ -11,24 +11,8 @@ import { useProductPagination } from '../../../context/ProductPaginationContext'
 
 const ProductManagerGrid = styled.main`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(20.8rem, 1fr));
   gap: 20px;
-
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
-
-  @media (max-width: 992px) {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  }
-
-  @media (max-width: 360px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
 `;
 
 const formatQueryParams = (params) => {
@@ -65,12 +49,14 @@ const ProductManager = () => {
   }, [totalProductPages]);
 
   useEffect(() => {
-    setSearchParams((params) => {
-      return {
-        ...formatQueryParams(params),
-        page: Number(currentPage),
-      };
-    });
+    if (currentPage !== 1) {
+      setSearchParams((params) => {
+        return {
+          ...formatQueryParams(params),
+          page: Number(currentPage),
+        };
+      });
+    }
   }, [currentPage]);
 
   useEffect(() => {

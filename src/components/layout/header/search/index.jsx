@@ -7,15 +7,19 @@ import { z } from 'zod';
 import { DevTool } from '@hookform/devtools';
 import { useSearchParams } from 'react-router-dom';
 
-import { Button } from '../../common';
-import { SearchIcon } from '../../../assets/icons';
-import { useProductPagination } from '../../../context/ProductPaginationContext';
+import { Button } from '../../../common';
+import { SearchIcon } from '../../../../assets/icons';
+import { useProductPagination } from '../../../../context/ProductPaginationContext';
 
 const StyledForm = styled.form`
   display: flex;
   align-items: center;
   margin: auto;
   width: 45%;
+ 
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const SearchBar = styled.div`

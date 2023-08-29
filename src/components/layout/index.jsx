@@ -27,8 +27,7 @@ const ContentFlex = styled.section`
   @media (max-width: 768px) {
   }
 
-  @media (max-width: 360px) {
-    width: 1000px;
+  @media (max-width: 600px) {
   }
 `;
 

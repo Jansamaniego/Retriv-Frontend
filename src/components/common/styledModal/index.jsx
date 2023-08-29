@@ -34,11 +34,11 @@ const ModalWrapper = styled.div`
 const CloseButton = styled.button`
   background-color: transparent;
   border: 0;
-  font-size: 2rem;
+  font-size: 3rem;
   cursor: pointer;
   position: absolute;
   right: 0.2rem;
-  top: 0.2rem;
+  top: 0;
 `;
 
 const ContentContainer = styled.div`

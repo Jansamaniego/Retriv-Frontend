@@ -12,17 +12,20 @@ import { StyledLink, ProfileImageLogo } from '../../common';
 import { useLogoutUserMutation } from '../../../redux/services/authApi';
 import ThemeToggleButton from './themeToggleButton';
 import ProfileDropdownMenu from '../../profile/ProfileDropdownMenu';
-import Search from '../search';
-import { CartIcon, StoreIcon } from '../../../assets/icons';
+import Search from './search';
+import { CartIcon, SearchIcon, StoreIcon } from '../../../assets/icons';
 import ShopPickerDropdownMenu from '../../shop/ShopPickerDropdownMenu';
 import MobileMenuIcon from '../../../assets/icons/mobileMenuIcon';
 import MobileDropdownMenu from './mobileDropdownMenu';
+import CategoryFilterModal from '../sideMenu/mobileSideMenuCategoryFilter/categoryFIlterModal';
+import { Button } from 'semantic-ui-react';
 
 const HeaderWrapper = styled.header`
   height: 60px;
   width: 100%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   padding: 0 2.4rem;
   z-index: 999;
   position: fixed;
@@ -31,9 +34,18 @@ const HeaderWrapper = styled.header`
 `;
 
 const MobileMenuIconContainer = styled.div`
-  display: flex;
+  display: none;
+
   align-items: center;
-  padding: 1.6rem;
+
+  @media (max-width: 600px) {
+    display: flex;
+  }
+`;
+
+const StyledMobileMenuIcon = styled(MobileMenuIcon)`
+  cursor: pointer;
+  padding: 0.8rem;
 `;
 
 const LogoContainer = styled.div`
@@ -65,6 +77,21 @@ const StyledStoreIcon = styled(StoreIcon)`
   }
 `;
 
+const StyledSearchIconButton = styled(Button)`
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  width: 5rem;
+  height: 5rem;
+
+  @media (max-width: 600px) {
+    display: flex;
+  }
+`;
+
+const StyledSearchIcon = styled(SearchIcon)``;
+
 const Menu = styled.nav`
   display: flex;
   /* position: absolute; */
@@ -76,7 +103,7 @@ const Menu = styled.nav`
   border-bottom: none;
   width: initial;
 
-  @media (max-width: 360px) {
+  @media (max-width: 600px) {
     display: none;
   }
 `;
@@ -85,6 +112,9 @@ const MenuFlexContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 3.2rem;
+  @media (max-width: 768px) {
+    gap: 1rem;
+  }
 `;
 
 const StyledStyledLink = styled(StyledLink)`
@@ -103,15 +133,6 @@ const CartItemQuantity = styled.div`
   right: 0.4rem;
   border-radius: 50%;
   width: 2rem;
-`;
-
-const StyledMobileMenuIcon = styled(MobileMenuIcon)`
-  display: none;
-  cursor: pointer;
-  padding: 0.8rem;
-  @media (max-width: 360px) {
-    display: block;
-  }
 `;
 
 // const MobileMenuIcon = styled.div`
@@ -141,6 +162,8 @@ const Header = ({ setSearchParams }) => {
   const { userShops, currentShop } = useSelector((state) => state.shopState);
   const cart = useSelector((state) => state.cartState.cart);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCategoryFilterModalOpen, setIsCategoryFilterModalOpen] =
+    useState(false);
   const [isShopPickerDropdownMenuOpen, setIsShopPickerDropdownMenuOpen] =
     useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -162,6 +185,15 @@ const Header = ({ setSearchParams }) => {
 
   const closeProfileMenu = () => {
     setIsProfileMenuOpen(false);
+  };
+
+  const showCategoryFilterModal = () => {
+    setIsMobileMenuOpen(false);
+    setIsCategoryFilterModalOpen(true);
+  };
+
+  const closeCategoryFilterModal = () => {
+    setIsCategoryFilterModalOpen(false);
   };
 
   useEffect(() => {
@@ -189,61 +221,77 @@ const Header = ({ setSearchParams }) => {
   }, []);
 
   return (
-    <HeaderWrapper>
-      <MobileMenuIconContainer onClick={() => setIsMobileMenuOpen((s) => !s)}>
-        <StyledMobileMenuIcon width="5rem" />
-      </MobileMenuIconContainer>
-      <LogoContainer>
-        <StyledLink to="/">
-          <h1>Retriv</h1>
-        </StyledLink>
-      </LogoContainer>
-      <Search setSearchParams={setSearchParams} />
-      <Menu>
-        <MenuFlexContainer>
-          <ThemeToggleButton />
-          {loggedInUser && (
-            <IconsFlexWrapper>
-              {loggedInUser.role === 'seller' && userShops.length !== 0 && (
-                <StoreIconContainer
-                  onClick={shopIconClickHandler}
-                  ref={shopIconRef}
-                >
-                  <StyledStoreIcon width="4rem" strokeWidth="2" />
-                  {isShopPickerDropdownMenuOpen && (
-                    <ShopPickerDropdownMenu ref={shopPickerDropdownRef} />
-                  )}
-                </StoreIconContainer>
-              )}
-              <StyledStyledLink to="/cart">
-                <CartIcon width="4rem" strokeWidth="2" />{' '}
-                <CartItemQuantity>
-                  {cart ? cart.items.length : 0}
-                </CartItemQuantity>
-              </StyledStyledLink>
-            </IconsFlexWrapper>
-          )}
-          {loggedInUser ? (
-            <ProfileImageLogo
-              profileImage={loggedInUser.profileImage}
-              onClick={userImageLogoClickhandler}
-              ref={userImageRef}
-            />
-          ) : (
-            <StyledLink to="login">Log In</StyledLink>
-          )}
-        </MenuFlexContainer>
-      </Menu>
-      {loggedInUser && (
-        <ProfileDropdownMenu
-          isProfileMenuOpen={isProfileMenuOpen}
-          closeProfileMenu={closeProfileMenu}
-          user={loggedInUser}
-          ref={dropdownRef}
+    <>
+      <HeaderWrapper>
+        <MobileMenuIconContainer onClick={() => setIsMobileMenuOpen((s) => !s)}>
+          <StyledMobileMenuIcon width="5rem" />
+        </MobileMenuIconContainer>
+        <LogoContainer>
+          <StyledLink to="/">
+            <h1>Retriv</h1>
+          </StyledLink>
+        </LogoContainer>
+        <Search setSearchParams={setSearchParams} />
+        <StyledSearchIconButton type="button">
+          <StyledSearchIcon width="2rem" />
+        </StyledSearchIconButton>
+        <Menu>
+          <MenuFlexContainer>
+            <ThemeToggleButton />
+            {loggedInUser && (
+              <IconsFlexWrapper>
+                {loggedInUser.role === 'seller' && userShops.length !== 0 && (
+                  <StoreIconContainer
+                    onClick={shopIconClickHandler}
+                    ref={shopIconRef}
+                  >
+                    <StyledStoreIcon width="4rem" strokeWidth="2" />
+                    {isShopPickerDropdownMenuOpen && (
+                      <ShopPickerDropdownMenu ref={shopPickerDropdownRef} />
+                    )}
+                  </StoreIconContainer>
+                )}
+                <StyledStyledLink to="/cart">
+                  <CartIcon width="4rem" strokeWidth="2" />{' '}
+                  <CartItemQuantity>
+                    {cart ? cart.items.length : 0}
+                  </CartItemQuantity>
+                </StyledStyledLink>
+              </IconsFlexWrapper>
+            )}
+            {loggedInUser ? (
+              <ProfileImageLogo
+                profileImage={loggedInUser.profileImage}
+                onClick={userImageLogoClickhandler}
+                ref={userImageRef}
+              />
+            ) : (
+              <StyledLink to="login">Log In</StyledLink>
+            )}
+          </MenuFlexContainer>
+        </Menu>
+        {loggedInUser && (
+          <ProfileDropdownMenu
+            isProfileMenuOpen={isProfileMenuOpen}
+            closeProfileMenu={closeProfileMenu}
+            user={loggedInUser}
+            ref={dropdownRef}
+          />
+        )}
+        {isMobileMenuOpen && (
+          <MobileDropdownMenu
+            setIsMobileMenuOpen={setIsMobileMenuOpen}
+            showCategoryFilterModal={showCategoryFilterModal}
+          />
+        )}
+      </HeaderWrapper>
+      {isCategoryFilterModalOpen && (
+        <CategoryFilterModal
+          showModal={showCategoryFilterModal}
+          closeModal={closeCategoryFilterModal}
         />
       )}
-      {isMobileMenuOpen && <MobileDropdownMenu />}
-    </HeaderWrapper>
+    </>
   );
 };
 

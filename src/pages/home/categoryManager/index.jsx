@@ -9,7 +9,7 @@ import { useLoaderData } from 'react-router-dom';
 
 const CategoryManagerGrid = styled.main`
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   column-gap: 1.6rem;
   row-gap: 1.6rem;
 `;
