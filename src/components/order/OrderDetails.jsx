@@ -49,7 +49,7 @@ const OrderDetails = ({ totalPrice, totalQuantity, isLoading }) => {
       </OrderDetailsFlexContainer>
       {isCreateOrderModalOpen && (
         <StyledModal
-          showModal={openCreateOrderModal}
+          isModalOpen={isCreateOrderModalOpen}
           closeModal={closeCreateOrderModal}
         >
           Are you sure you want to confirm your order?

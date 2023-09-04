@@ -10,13 +10,14 @@ import { useSearchParams } from 'react-router-dom';
 import { Button } from '../../../common';
 import { SearchIcon } from '../../../../assets/icons';
 import { useProductPagination } from '../../../../context/ProductPaginationContext';
+import { useEffect } from 'react';
 
 const StyledForm = styled.form`
   display: flex;
   align-items: center;
   margin: auto;
   width: 45%;
- 
+
   @media (max-width: 600px) {
     display: none;
   }
@@ -25,7 +26,6 @@ const StyledForm = styled.form`
 const SearchBar = styled.div`
   display: flex;
   align-items: center;
-
   background-color: ${(props) => props.theme.neutral[900]};
   border-radius: 0.5rem;
   font-size: 2rem;
@@ -38,6 +38,10 @@ const SearchInput = styled.input`
   padding: 0 1.6rem;
   border-radius: 0.5rem;
   min-height: 4rem;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const SearchIconButton = styled(Button)`
@@ -82,8 +86,13 @@ const Search = () => {
     handleSubmit,
     control,
     register,
+    setValue,
     formState: { errors },
   } = methods;
+
+  useEffect(() => {
+    setValue('search', searchParams.get('search'));
+  }, [searchParams]);
 
   const onSubmitSearchQueryHandler = (data) => {
     setSearchParams((params) => {

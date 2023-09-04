@@ -8,10 +8,15 @@ export const productApi = createApi({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query(queryString) {
+        console.log(queryString);
         return { url: `/product?${queryString || ''}`, credentials: 'include' };
       },
-      transformResponse: (response) => response.products,
+      transformResponse: (response) => {
+        console.log(response);
+        return response.products;
+      },
       providesTags: (results) => {
+        console.log(results);
         return Array.isArray(results.results)
           ? [
               ...results.results.map(({ id }) => ({ type: 'Product', id })),

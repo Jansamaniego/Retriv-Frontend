@@ -11,8 +11,22 @@ import { useProductPagination } from '../../../context/ProductPaginationContext'
 
 const ProductManagerGrid = styled.main`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20.8rem, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(6, minmax(20.8rem, 1fr));
+  gap: 2rem;
+
+  @media (max-width: 1650px) {
+    grid-template-columns: repeat(5, minmax(20.8rem, 1fr));
+  }
+
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(3, minmax(20.8rem, 1fr));
+  }
+  @media (max-width: 830px) {
+    grid-template-columns: repeat(2, minmax(20.8rem, 1fr));
+  }
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, minmax(20.8rem, 1fr));
+  }
 `;
 
 const formatQueryParams = (params) => {
@@ -61,7 +75,7 @@ const ProductManager = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await refetch(searchParams.size ? searchParams.toString() : undefined);
+      await refetch();
     };
 
     fetchData();

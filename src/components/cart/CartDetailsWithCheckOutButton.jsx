@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, StyledModal} from '../common';
+import { Button, Card, StyledModal } from '../common';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteCartMutation } from '../../redux/services/cartApi';
 
@@ -93,7 +93,7 @@ const CartDetailsWithCheckOutButton = ({ totalPrice, totalQuantity }) => {
       </CartDetailsFlexWrapper>
       {isDeleteCartModalOpen && (
         <StyledModal
-          showModal={openDeleteCartModal}
+          isModalOpen={isDeleteCartModalOpen}
           closeModal={closeDeleteCartModal}
           isLoading={isLoading}
           onClick={deleteCartOnClickHandler}

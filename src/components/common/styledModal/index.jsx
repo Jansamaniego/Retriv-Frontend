@@ -52,7 +52,7 @@ const ControlContainer = styled.div`
 `;
 
 export const StyledModal = ({
-  showModal,
+  isModalOpen,
   closeModal,
   children,
   isLoading,
@@ -74,11 +74,11 @@ export const StyledModal = ({
 
   const keyPress = useCallback(
     (e) => {
-      if (e.key === 'Escape' && showModal) {
+      if (e.key === 'Escape' && isModalOpen) {
         closeModal();
       }
     },
-    [showModal, closeModal]
+    [closeModal, isModalOpen]
   );
 
   const onClickHandler = async () => {
@@ -94,7 +94,7 @@ export const StyledModal = ({
   }, [keyPress]);
 
   return (
-    showModal && (
+    isModalOpen && (
       <Background onClick={onBackgroundClick} ref={backgroundRef}>
         <ModalWrapper>
           <ContentContainer>{children}</ContentContainer>

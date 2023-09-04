@@ -6,29 +6,17 @@ import SideMenu from './sideMenu';
 import styled from 'styled-components';
 import { ProductPaginationProvider } from '../../context/ProductPaginationContext';
 
-const OutletContainer = styled.div`
-  width: 100%;
-`;
-
 const ContentFlex = styled.section`
   display: flex;
   justify-content: space-between;
   gap: 1.6rem;
   margin-top: 9rem;
+  margin: 9rem auto 0 auto;
   padding: 0 1.6rem;
+`;
+
+const OutletContainer = styled.div`
   width: 100%;
-
-  @media (max-width: 1200px) {
-  }
-
-  @media (max-width: 992px) {
-  }
-
-  @media (max-width: 768px) {
-  }
-
-  @media (max-width: 600px) {
-  }
 `;
 
 const RootLayout = () => {

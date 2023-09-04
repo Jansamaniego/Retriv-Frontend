@@ -275,7 +275,7 @@ const CategoryDetail = ({ category }) => {
       </FormProvider>
       {isDeleteCategoryModalOpen && (
         <StyledModal
-          showModal={openDeleteCategoryModal}
+          isModalOpen={isDeleteCategoryModalOpen}
           closeModal={closeDeleteCategoryModal}
           onClick={deleteCategoryOnClickHandler}
           isLoading={deleteCategoryIsLoading}

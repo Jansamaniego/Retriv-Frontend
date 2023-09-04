@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyledLink, ProfileImageLogo } from '../../common';
 import { useLogoutUserMutation } from '../../../redux/services/authApi';
 import ThemeToggleButton from './themeToggleButton';
-import ProfileDropdownMenu from '../../profile/ProfileDropdownMenu';
+import ProfileDropdownMenu from './profileDropdownMenu';
 import Search from './search';
 import { CartIcon, SearchIcon, StoreIcon } from '../../../assets/icons';
 import ShopPickerDropdownMenu from '../../shop/ShopPickerDropdownMenu';
@@ -19,6 +19,7 @@ import MobileMenuIcon from '../../../assets/icons/mobileMenuIcon';
 import MobileDropdownMenu from './mobileDropdownMenu';
 import CategoryFilterModal from '../sideMenu/mobileSideMenuCategoryFilter/categoryFIlterModal';
 import { Button } from 'semantic-ui-react';
+import MobileSearch from './mobileSearch';
 
 const HeaderWrapper = styled.header`
   height: 60px;
@@ -51,6 +52,11 @@ const StyledMobileMenuIcon = styled(MobileMenuIcon)`
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+
+  @media (max-width: 600px) {
+    display: ${({ isMobileSearchOpen }) =>
+      isMobileSearchOpen ? 'none' : 'flex'};
+  }
 `;
 
 const IconsFlexWrapper = styled.div`
@@ -77,7 +83,7 @@ const StyledStoreIcon = styled(StoreIcon)`
   }
 `;
 
-const StyledSearchIconButton = styled(Button)`
+const MobileSearchToggleButton = styled(Button)`
   display: none;
   align-items: center;
   justify-content: center;
@@ -86,7 +92,8 @@ const StyledSearchIconButton = styled(Button)`
   height: 5rem;
 
   @media (max-width: 600px) {
-    display: flex;
+    display: ${({ isMobileSearchOpen }) =>
+      isMobileSearchOpen ? 'none' : 'flex'};
   }
 `;
 
@@ -154,14 +161,16 @@ const CartItemQuantity = styled.div`
 //   }
 // `;
 
-const Header = ({ setSearchParams }) => {
+const Header = () => {
   const dropdownRef = useRef();
   const userImageRef = useRef();
   const shopIconRef = useRef();
   const shopPickerDropdownRef = useRef();
+  const mobileSearchRef = useRef();
   const { userShops, currentShop } = useSelector((state) => state.shopState);
   const cart = useSelector((state) => state.cartState.cart);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isCategoryFilterModalOpen, setIsCategoryFilterModalOpen] =
     useState(false);
   const [isShopPickerDropdownMenuOpen, setIsShopPickerDropdownMenuOpen] =
@@ -196,6 +205,14 @@ const Header = ({ setSearchParams }) => {
     setIsCategoryFilterModalOpen(false);
   };
 
+  const closeMobileSearch = () => {
+    setIsMobileSearchOpen(false);
+  };
+
+  const openMobileSearch = () => {
+    setIsMobileSearchOpen(true);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -207,6 +224,16 @@ const Header = ({ setSearchParams }) => {
     };
     document.addEventListener('mousedown', handleClickOutside);
   }, [dropdownRef]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!mobileSearchRef?.current?.contains(event.target)) {
+        closeMobileSearch();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+  }, [mobileSearchRef]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -226,15 +253,25 @@ const Header = ({ setSearchParams }) => {
         <MobileMenuIconContainer onClick={() => setIsMobileMenuOpen((s) => !s)}>
           <StyledMobileMenuIcon width="5rem" />
         </MobileMenuIconContainer>
-        <LogoContainer>
+        <LogoContainer
+          isMobileSearchOpen={isMobileSearchOpen}
+          // onClick={navigateHome}
+        >
           <StyledLink to="/">
             <h1>Retriv</h1>
           </StyledLink>
         </LogoContainer>
-        <Search setSearchParams={setSearchParams} />
-        <StyledSearchIconButton type="button">
-          <StyledSearchIcon width="2rem" />
-        </StyledSearchIconButton>
+        <Search />
+        <MobileSearch
+          isMobileSearchOpen={isMobileSearchOpen}
+          ref={mobileSearchRef}
+        />
+        <MobileSearchToggleButton
+          type="button"
+          isMobileSearchOpen={isMobileSearchOpen}
+        >
+          <StyledSearchIcon width="2rem" onClick={openMobileSearch} />
+        </MobileSearchToggleButton>
         <Menu>
           <MenuFlexContainer>
             <ThemeToggleButton />

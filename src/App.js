@@ -19,36 +19,25 @@ import Unauthorized from './pages/Unauthorized';
 import VerifyEmail from './pages/VerifyEmail';
 import ChangePassword from './pages/ChangePassword';
 import SendVerificationEmail from './pages/SendVerificationEmail';
-import ProfileHeader from './components/profile/ProfileHeader';
 import AdminDashboard from './pages/AdminDashboard';
 import UserPage from './pages/UserPage';
-import ProductPage from './pages/ProductPage';
-import ShopPage from './pages/ShopPage';
 import Cart from './pages/Cart';
 import CheckOut from './pages/CheckOut';
 import Payment from './components/order/Payment';
 import PaymentCompletion from './pages/PaymentCompletion';
-import { useCreatePaymentIntentMutation } from './redux/services/orderApi';
-import { useGetCartQuery } from './redux/services/cartApi';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
 import AdminUserTablePage from './pages/AdminUserTablePage';
 import AdminOrderTablePage from './pages/AdminOrderTablePage';
 import PlacedOrderPage from './pages/PlacedOrderPage';
 import CreateUserPage from './pages/CreateUserPage';
 import CreateShopPage from './pages/CreateShopPage';
-import MyShopPage from './pages/MyShopPage';
 import CreateProductForm from './pages/CreateProductForm';
-import UserInfo from './components/user/UserInfo';
 import UserPageContent from './components/user/UserPageContent';
 import ProfilePage from './pages/ProfilePage';
 import ProfilePageContent from './components/profile/ProfilePageContent';
 import AuthMiddleware from './utils/authMiddleware';
-import { Home } from './pages';
-import CategoryPage from './pages/CategoryPage';
+import { Home, MyShop, Shop, Product, Category, Categories } from './pages';
 import NoTFound from './pages/NotFound';
 import MyOrdersPage from './pages/MyOrdersPage';
-import CategoriesPage from './pages/CategoriesPage';
 import CreateCategory from './pages/CreateCategory';
 
 const App = (props) => {
@@ -62,16 +51,13 @@ const App = (props) => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route
-          path="/shop/:shopId/product/:productId"
-          element={<ProductPage />}
-        />
-        <Route path="/shop/:shopId" element={<ShopPage />} />
+        <Route path="/shop/:shopId/product/:productId" element={<Product />} />
+        <Route path="/shop/:shopId" element={<Shop />} />
         <Route path="/user/:userId" element={<UserPage />}>
           <Route index element={<UserPageContent />} />
         </Route>
-        <Route path="/category/:categoryId" element={<CategoryPage />} />
-        <Route path="/category" element={<CategoriesPage />} />
+        <Route path="/category/:categoryId" element={<Category />} />
+        <Route path="/category" element={<Categories />} />
         <Route element={<RestrictTo allowedRoles={['admin']} />}>
           <Route path="admin-dashboard" element={<AdminDashboard />} />
           <Route path="user-table" element={<AdminUserTablePage />} />
@@ -80,7 +66,7 @@ const App = (props) => {
           <Route path="create-category" element={<CreateCategory />} />
         </Route>
         <Route element={<RestrictTo allowedRoles={['seller']} />}>
-          <Route path="/my-shop" element={<MyShopPage />} />
+          <Route path="/my-shop" element={<MyShop />} />
           <Route path="/add-product" element={<CreateProductForm />} />
         </Route>
         <Route

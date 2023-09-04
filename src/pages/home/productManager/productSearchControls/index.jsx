@@ -29,6 +29,20 @@ const SortByOptions = styled.div`
   align-items: center;
   flex: 1;
   justify-content: flex-start;
+
+  @media (max-width: 900px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1rem;
+    row-gap: 1rem;
+  }
+
+  @media (max-width: 700px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
 `;
 
 const SortByOption = styled.div`
@@ -49,6 +63,16 @@ const SortByOption = styled.div`
   margin-left: 1.2rem;
   box-sizing: border-box;
   cursor: pointer;
+
+  @media (max-width: 900px) {
+    width: clamp(10rem, 6.296rem + 9.877vw, 30rem);
+  }
+
+  @media (max-width: 700px) {
+    min-width: 10rem;
+    max-width: 30rem;
+    width: 80%;
+  }
 `;
 
 const SortByPriceOption = styled.div`
@@ -64,18 +88,41 @@ const SortByPriceOption = styled.div`
   background: ${(props) => props.theme.neutral[600]};
   margin-left: 1.2rem;
   cursor: pointer;
+
+  @media (max-width: 900px) {
+    width: fit-content;
+  }
+
+  @media (max-width: 700px) {
+    min-width: 10rem;
+    max-width: 30rem;
+    width: 80%;
+  }
 `;
 
-const SelectWithStatus = styled.div``;
+const SelectWithStatus = styled.div`
+  width: 100%;
+
+  /* @media (max-width: 900px) {
+    width: clamp(10rem, 8.148rem + 4.938vw, 20rem);
+  } */
+`;
 
 const SelectWithStatusHolder = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 1rem;
+  padding: 0 1rem 0 1rem;
   align-items: center;
   position: relative;
   transition: border-color 0.1s ease;
-  min-width: 18rem;
+  min-width: 17rem;
+
+  width: 100%;
+
+  @media (max-width: 700px) {
+    padding: 0 1rem;
+    min-width: 0;
+  }
 `;
 
 const SelectWithStatusPlaceholder = styled.span`

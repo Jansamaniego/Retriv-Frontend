@@ -2,7 +2,6 @@ import { useSearchParams } from 'react-router-dom';
 import { FilterIcon } from '../../../../assets/icons';
 import { useProductPagination } from '../../../../context/ProductPaginationContext';
 import { useGetCategoriesQuery } from '../../../../redux/services/categoryApi';
-import { Loading, StyledModal } from '../../../common';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import CategoryFilterModal from './categoryFIlterModal';

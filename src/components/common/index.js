@@ -17,3 +17,4 @@ export * from './pagination';
 export * from './updateProfileImageModal';
 export * from './imageUpload';
 export * from './pageFlexColumnWrapper';
+export * from './contentFlexWrapper';

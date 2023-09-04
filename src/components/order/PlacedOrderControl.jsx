@@ -116,7 +116,7 @@ const PlacedOrderControl = ({ orderId, status }) => {
       )}
       {isCancelOrderModalOpen && (
         <StyledModal
-          showModal={openCancelOrderModal}
+          isModalOpen={isCancelOrderModalOpen}
           closeModal={closeCancelOrderModal}
           onClick={cancelOrderHandler}
           isLoading={cancelOrderIsLoading}
@@ -126,7 +126,7 @@ const PlacedOrderControl = ({ orderId, status }) => {
       )}
       {isUpdateOrderStatusModalOpen && (
         <StyledModal
-          showModal={openUpdateOrderStatusModal}
+          isModalOpen={isUpdateOrderStatusModalOpen}
           closeModal={closeUpdateOrderStatusModal}
           onClick={updateOrderStatusOnClickHandler}
           isLoading={updateOrderStatusIsLoading}

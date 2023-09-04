@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useGetProductByIdQuery } from '../redux/services/productApi';
-import { useGetProductRatingsQuery } from '../redux/services/ratings/productRatingsApi';
-import ProductHeader from '../components/product/ProductHeader';
-import ProductShop from '../components/product/ProductShop';
-import ReviewsByProductManager from '../components/review/ReviewsByProductManager';
-import ReviewForm from '../components/review/ReviewForm';
+import { useGetProductByIdQuery } from '../../redux/services/productApi';
+import { useGetProductRatingsQuery } from '../../redux/services/ratings/productRatingsApi';
+import ProductHeader from './productHeader';
+import ProductShop from './productShop';
+import ReviewByProductManager from './reviewByProductManager';
+import ReviewForm from './reviewForm';
 import { useSelector } from 'react-redux';
-import { useGetReviewsByProductIdQuery } from '../redux/services/reviewApi';
-import { Loading } from '../components/common';
+import { Loading, PageFlexColumnWrapper } from '../../components/common';
 
-const ProductDetailContainer = styled.main`
-  display: flex;
-  flex-direction: column;
-  gap: 3.2rem;
-`;
-
-const ProductPage = () => {
+export const Product = () => {
   const { shopId, productId } = useParams();
   const currentUser = useSelector((state) => state.userState.user);
   const { currentShop, userShops } = useSelector((state) => state.shopState);
@@ -58,7 +51,7 @@ const ProductPage = () => {
   const { shop } = product;
 
   return (
-    <ProductDetailContainer>
+    <PageFlexColumnWrapper>
       <ProductHeader
         productRatings={productRatings}
         product={product}
@@ -66,7 +59,7 @@ const ProductPage = () => {
         shopId={shopId}
       />
       <ProductShop shopId={shop} />
-      <ReviewsByProductManager
+      <ReviewByProductManager
         shopId={shopId}
         productId={productId}
         currentUser={currentUser}
@@ -75,8 +68,6 @@ const ProductPage = () => {
       {currentUser && !isOwner && !isUserReviewExists && (
         <ReviewForm shopId={product.shop} productId={productId} />
       )}
-    </ProductDetailContainer>
+    </PageFlexColumnWrapper>
   );
 };
-
-export default ProductPage;

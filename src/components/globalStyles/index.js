@@ -43,31 +43,35 @@ body{
 
 /* Set header and paragraph typography scale */
 h1{
-  font-size: 4.8883rem;
+  font-size: clamp(3.666rem, 3.44rem + 0.604vw, 4.888rem);
 }
 
 h2{
-  font-size: 3.906rem;
+  font-size: clamp(2.929rem, 2.749rem + 0.482vw, 3.906rem);
 }
 
 h3{
-  font-size: 3.125rem;
+  font-size: clamp(2.344rem, 2.199rem + 0.386vw, 3.125rem);
 }
 
 h4{
-  font-size: 2.5rem;
+  font-size: clamp(1.875rem, 1.759rem + 0.309vw, 2.5rem);
 }
 
 h5{
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 1.407rem + 0.247vw, 2rem);
 }
 
 h6{
-  font-size: 1.6rem;
+  font-size: clamp(1.2rem, 1.126rem + 0.198vw, 1.6rem);
 }
 
 p{
-  font-size: 1.28rem;
+  font-size: clamp(0.96rem, 0.901rem + 0.158vw, 1.28rem);
+}
+
+label{
+  font-size: clamp(1.2rem, 1.126rem + 0.198vw, 1.6rem);
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */

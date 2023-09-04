@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { StyledModal, Form, Button } from '../common';
+import { StyledModal, Form, Button } from '../../components/common';
 import { MdCloudUpload } from 'react-icons/md';
 import styled from 'styled-components';
 

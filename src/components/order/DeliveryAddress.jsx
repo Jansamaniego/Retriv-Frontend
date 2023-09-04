@@ -18,7 +18,6 @@ const StyledInputContainer = styled.div`
 
 const DeliveryAddressLabel = styled.label`
   width: 7rem;
-  font-size: 1.6rem;
   font-weight: 700;
 `;
 
@@ -46,7 +45,6 @@ const PostalCodeStyledInputContainer = styled.div`
 `;
 
 const PostalCodeAddressLabel = styled.label`
-  font-size: 1.6rem;
   width: 13rem;
   font-weight: 700;
 `;
