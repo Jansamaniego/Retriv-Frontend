@@ -21,7 +21,6 @@ import ChangePassword from './pages/ChangePassword';
 import SendVerificationEmail from './pages/SendVerificationEmail';
 import AdminDashboard from './pages/AdminDashboard';
 import UserPage from './pages/UserPage';
-import Cart from './pages/Cart';
 import CheckOut from './pages/CheckOut';
 import Payment from './components/order/Payment';
 import PaymentCompletion from './pages/PaymentCompletion';
@@ -35,7 +34,15 @@ import UserPageContent from './components/user/UserPageContent';
 import ProfilePage from './pages/ProfilePage';
 import ProfilePageContent from './components/profile/ProfilePageContent';
 import AuthMiddleware from './utils/authMiddleware';
-import { Home, MyShop, Shop, Product, Category, Categories } from './pages';
+import {
+  Home,
+  MyShop,
+  Shop,
+  Product,
+  Category,
+  Categories,
+  Cart,
+} from './pages';
 import NoTFound from './pages/NotFound';
 import MyOrdersPage from './pages/MyOrdersPage';
 import CreateCategory from './pages/CreateCategory';

@@ -1,7 +1,7 @@
 import React from 'react';
-import CategoryManager from '../components/category/CategoryManager';
+import CategoryManager from './categoryManager';
 import styled from 'styled-components';
-import { Card, StyledLink, Button } from '../components/common';
+import { Card, StyledLink, Button } from '../../components/common';
 import { useNavigate } from 'react-router-dom';
 
 const CategoriesPageFlexWrapper = styled.main`

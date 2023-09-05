@@ -1,12 +1,12 @@
 import React from 'react';
-import CategoryDetail from '../components/category/CategoryDetail';
+import CategoryDetail from './categoryDetail';
 import { useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import ProductManager from './productManager';
 import { useSelector } from 'react-redux';
-import { useGetCategoryQuery } from '../redux/services/categoryApi';
-import { Loading } from '../components/common';
+import { useGetCategoryQuery } from '../../redux/services/categoryApi';
+import { Loading } from '../../components/common';
 
 const CategoryPageFlexWrapper = styled.main`
   display: flex;
