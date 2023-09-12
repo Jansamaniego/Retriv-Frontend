@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { useGetProductByIdQuery } from '../../redux/services/productApi';
+import { useGetProductByIdQuery } from '../../../../redux/services/productApi';
 import styled from 'styled-components';
-import { Button, QuantityTogglerInput, TransparentPopup } from '../common';
-import { useRemoveCartItemMutation } from '../../redux/services/cartApi';
+import {
+  Button,
+  QuantityTogglerInput,
+  TransparentPopup,
+} from '../../../../components/common';
+import { useRemoveCartItemMutation } from '../../../../redux/services/cartApi';
 import { useEffect } from 'react';
 
 const CartItemContainer = styled.div``;
@@ -11,6 +15,40 @@ const CartItemFlexWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 900px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 1.6rem;
+  }
+
+  @media (max-width: 635px) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 600px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 1.6rem;
+  }
+
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const CartItemImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  min-width: 10rem;
+  max-width: 15rem;
+  width: 100%;
+
+  @media (max-width: 900px) {
+    max-width: 30rem;
+  }
 `;
 
 const CartItemImageContainer = styled.div`
@@ -19,7 +57,7 @@ const CartItemImageContainer = styled.div`
   outline: 1px solid ${(props) => props.theme.primary.main};
   box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
-  width: 15rem;
+  width: fit-content;
 
   &:hover {
     cursor: pointer;
@@ -27,21 +65,75 @@ const CartItemImageContainer = styled.div`
 `;
 
 const CartItemImage = styled.img`
+  width: 16rem;
+  height: 12rem;
   object-fit: cover;
-  height: 15rem;
 `;
 
 const CartItemDetailContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30rem;
+  min-width: 10rem;
+  max-width: 30rem;
+  width: 100%;
 `;
+
+const QuantityTogglerInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 10rem;
+  max-width: 30rem;
+  width: 100%;
+
+  @media (max-width: 900px) {
+    grid-row: 1;
+    grid-column: 2;
+  }
+`;
+
+const QuantityTogglerInputLabel = styled.h5`
+  display: none;
+
+  @media (max-width: 900px) {
+    display: block;
+  }
+`;
+
+const CartItemUnitPriceContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 10rem;
+  max-width: 30rem;
+  width: 100%;
+  @media (max-width: 900px) {
+    grid-row: 3;
+  }
+`;
+
 const CartItemName = styled.h5``;
+
+const PriceLabel = styled.h5`
+  display: none;
+
+  @media (max-width: 900px) {
+    display: block;
+  }
+`;
 
 const CartItemUnitPrice = styled.h5``;
 
 const CartItemQuantity = styled.h5``;
+
+const TotalPriceLabel = styled.h5`
+  display: none;
+
+  @media (max-width: 900px) {
+    display: block;
+  }
+`;
 
 const CartItemTotalPrice = styled.h5``;
 
@@ -101,24 +193,31 @@ const CartItemItem = ({
   return (
     <CartItemContainer>
       <CartItemFlexWrapper>
-        <CartItemImageContainer>
-          <CartItemImage src={mainImage} />
-        </CartItemImageContainer>
+        <CartItemImageWrapper>
+          <CartItemImageContainer>
+            <CartItemImage src={mainImage} />
+          </CartItemImageContainer>
+        </CartItemImageWrapper>
         <CartItemDetailContainer>
           <CartItemName>{name}</CartItemName>
         </CartItemDetailContainer>
-        <CartItemDetailContainer>
+        <CartItemUnitPriceContainer>
+          <PriceLabel>Price: &nbsp;</PriceLabel>
           <CartItemUnitPrice>&#8369;{price}</CartItemUnitPrice>
-        </CartItemDetailContainer>
-        <CartItemDetailContainer>
+        </CartItemUnitPriceContainer>
+        <QuantityTogglerInputContainer>
+          <QuantityTogglerInputLabel>
+            Quantity: &nbsp;
+          </QuantityTogglerInputLabel>
           <QuantityTogglerInput
             decrementQuantityToggle={decrementQuantityToPurchase}
             incrementQuantityToggle={incrementQuantityToPurchase}
             onChangeHandler={changeQuantityToPurchase}
             QuantityInputValue={quantityToPurchase}
           />
-        </CartItemDetailContainer>
+        </QuantityTogglerInputContainer>
         <CartItemDetailContainer>
+          <TotalPriceLabel>Total Price: &nbsp;</TotalPriceLabel>
           <CartItemTotalPrice>&#8369;{totalProductPrice}</CartItemTotalPrice>
         </CartItemDetailContainer>
         <CartItemDetailContainer>

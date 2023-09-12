@@ -31,3 +31,8 @@ export * from './briefcaseIcon';
 export * from './xMarkIcon';
 export * from './filterIcon';
 export * from './mobileMenuIcon';
+export * from './notProcessed';
+export * from './processing';
+export * from './shipped';
+export * from './outForDelivery';
+export * from './delivered';

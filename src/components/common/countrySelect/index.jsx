@@ -3,7 +3,9 @@ import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import { Select } from '../select';
 
-const StyledSelect = styled(Select)``;
+const StyledSelect = styled(Select)`
+  max-width: 30rem;
+`;
 
 export const CountrySelect = ({
   placeHolder = 'Select country',

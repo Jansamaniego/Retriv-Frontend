@@ -35,7 +35,7 @@ const SideMenuMain = styled.aside`
   }
 `;
 
-const MenuButtonLabel = styled.h5`
+const MenuLinkLabel = styled.h5`
   font-weight: 400;
   white-space: nowrap;
   @media (max-width: 1300px) {
@@ -65,11 +65,24 @@ const StyledMainMenuLink = styled(Link)`
 
 const SubMenuLink = styled(StyledMainMenuLink)`
   padding-left: 8.8rem;
+
+  @media (max-width: 1300px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+`;
+
+const SubMenuLinkLabel = styled.h5`
+  font-weight: 300;
+  white-space: nowrap;
+
+  @media (max-width: 1300px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const StyledMainMenuLinkWithDropDown = styled(StyledMainMenuLink)`
   justify-content: space-between;
-  align-items: center;
 `;
 
 const DropDownIcon = styled.div`
@@ -78,7 +91,14 @@ const DropDownIcon = styled.div`
 
 const MainLink = styled.div`
   display: flex;
+  align-items: center;
   gap: 4rem;
+
+  @media (max-width: 1300px) {
+    flex-direction: column;
+    gap: 0;
+    /* padding: 2.4rem 3.2rem; */
+  }
 `;
 
 const ProfileSubMenu = ({ userRole }) => {
@@ -86,11 +106,15 @@ const ProfileSubMenu = ({ userRole }) => {
 
   return (
     <>
-      <SubMenuLink to="profile">User Info</SubMenuLink>
-      <SubMenuLink to="/profile/change-password">Change Password</SubMenuLink>
+      <SubMenuLink to="profile">
+        <SubMenuLinkLabel>User Info</SubMenuLinkLabel>
+      </SubMenuLink>
+      <SubMenuLink to="/profile/change-password">
+        <SubMenuLinkLabel>Change Password</SubMenuLinkLabel>
+      </SubMenuLink>
       {currentUser && !currentUser.isEmailVerified && (
         <SubMenuLink to="/profile/send-verification-email">
-          Verify Email
+          <SubMenuLinkLabel> Verify Email</SubMenuLinkLabel>
         </SubMenuLink>
       )}
     </>
@@ -100,8 +124,12 @@ const ProfileSubMenu = ({ userRole }) => {
 const UserSubMenu = ({ userRole }) => {
   return (
     <>
-      <SubMenuLink to="user-table">User Table</SubMenuLink>
-      <SubMenuLink to="create-user">Create User</SubMenuLink>
+      <SubMenuLink to="user-table">
+        <SubMenuLinkLabel>User Table</SubMenuLinkLabel>
+      </SubMenuLink>
+      <SubMenuLink to="create-user">
+        <SubMenuLinkLabel> Create User</SubMenuLinkLabel>
+      </SubMenuLink>
     </>
   );
 };
@@ -122,11 +150,11 @@ const SideMenu = () => {
       <SideMenuMain>
         <StyledMainMenuLink to="/">
           <HomeIcon width="3rem" />
-          <MenuButtonLabel>Home</MenuButtonLabel>
+          <MenuLinkLabel>Home</MenuLinkLabel>
         </StyledMainMenuLink>
         <StyledMainMenuLink to="register">
           <SignupIcon width="3rem" />
-          <MenuButtonLabel>Sign up!</MenuButtonLabel>
+          <MenuLinkLabel>Sign up!</MenuLinkLabel>
         </StyledMainMenuLink>
         <SideMenuCategoryFilter />
         <MobileSideMenuCategoryFilter />
@@ -140,20 +168,20 @@ const SideMenu = () => {
     <SideMenuMain>
       <StyledMainMenuLink to="/">
         <HomeIcon width="3rem" />
-        <MenuButtonLabel>Home</MenuButtonLabel>
+        <MenuLinkLabel>Home</MenuLinkLabel>
       </StyledMainMenuLink>
       {role === 'admin' && (
         <>
           <StyledMainMenuLink to="/admin-dashboard">
             <DashBoardIcon width="3rem" />
-            <MenuButtonLabel>Dashboard</MenuButtonLabel>
+            <MenuLinkLabel>Dashboard</MenuLinkLabel>
           </StyledMainMenuLink>
           <StyledMainMenuLinkWithDropDown
             onClick={() => setIsUserSubMenuOpen((value) => !value)}
           >
             <MainLink>
               <UserIcon width="3rem" />
-              <MenuButtonLabel>Users</MenuButtonLabel>
+              <MenuLinkLabel>Users</MenuLinkLabel>
             </MainLink>
             <DropDownIcon>
               {isUserSubMenuOpen ? (
@@ -166,11 +194,11 @@ const SideMenu = () => {
           {isUserSubMenuOpen && <UserSubMenu />}
           <StyledMainMenuLink to="/order-table">
             <DashBoardIcon width="3rem" />
-            <MenuButtonLabel>Orders</MenuButtonLabel>
+            <MenuLinkLabel>Orders</MenuLinkLabel>
           </StyledMainMenuLink>
           <StyledMainMenuLink to="/category">
             <DashBoardIcon width="3rem" />
-            <MenuButtonLabel>Categories</MenuButtonLabel>
+            <MenuLinkLabel>Categories</MenuLinkLabel>
           </StyledMainMenuLink>
         </>
       )}
@@ -179,7 +207,7 @@ const SideMenu = () => {
       >
         <MainLink>
           <UserIcon width="3rem" />
-          <MenuButtonLabel>Profile</MenuButtonLabel>
+          <MenuLinkLabel>Profile</MenuLinkLabel>
         </MainLink>
         <DropDownIcon>
           {isProfileSubMenuOpen ? (
@@ -193,13 +221,13 @@ const SideMenu = () => {
       {role === 'seller' && (
         <StyledMainMenuLink to="/my-shop">
           <StoreIcon width="3rem" />
-          <MenuButtonLabel>Manage Shop</MenuButtonLabel>
+          <MenuLinkLabel>Manage Shop</MenuLinkLabel>
         </StyledMainMenuLink>
       )}
       {role === 'user' && (
         <StyledMainMenuLink to="/create-shop">
           <StoreIcon width="3rem" />
-          <MenuButtonLabel>Start Selling!</MenuButtonLabel>
+          <MenuLinkLabel>Start Selling!</MenuLinkLabel>
         </StyledMainMenuLink>
       )}
       <SideMenuCategoryFilter />

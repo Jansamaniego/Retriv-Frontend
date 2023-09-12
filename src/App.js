@@ -10,42 +10,41 @@ import GlobalStyle from './components/globalStyles';
 import { ThemeProvider } from 'styled-components';
 import { themeSettings } from './components/theme';
 import RootLayout from './components/layout';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
-import RestrictTo from './pages/RestrictTo';
-import Unauthorized from './pages/Unauthorized';
-import VerifyEmail from './pages/VerifyEmail';
-import ChangePassword from './pages/ChangePassword';
-import SendVerificationEmail from './pages/SendVerificationEmail';
-import AdminDashboard from './pages/AdminDashboard';
-import UserPage from './pages/UserPage';
-import CheckOut from './pages/CheckOut';
-import Payment from './components/order/Payment';
-import PaymentCompletion from './pages/PaymentCompletion';
-import AdminUserTablePage from './pages/AdminUserTablePage';
-import AdminOrderTablePage from './pages/AdminOrderTablePage';
-import PlacedOrderPage from './pages/PlacedOrderPage';
-import CreateUserPage from './pages/CreateUserPage';
-import CreateShopPage from './pages/CreateShopPage';
-import CreateProductForm from './pages/CreateProductForm';
-import UserPageContent from './components/user/UserPageContent';
-import ProfilePage from './pages/ProfilePage';
-import ProfilePageContent from './components/profile/ProfilePageContent';
 import AuthMiddleware from './utils/authMiddleware';
 import {
   Home,
   MyShop,
   Shop,
   Product,
+  User,
+  UserLayout,
+  Profile,
+  ProfileLayout,
   Category,
   Categories,
   Cart,
+  NotFound,
+  RestrictTo,
+  Unauthorized,
+  VerifyEmail,
+  ChangePassword,
+  SendVerificationEmail,
+  CheckOut,
+  ForgotPassword,
+  AdminDashboard,
+  AdminOrder,
+  AdminUser,
+  CreateCategory,
+  CreateProduct,
+  CreateShop,
+  CreateUser,
+  Login,
+  MyOrders,
+  Order,
+  PaymentCompletion,
+  Register,
+  ResetPassword,
 } from './pages';
-import NoTFound from './pages/NotFound';
-import MyOrdersPage from './pages/MyOrdersPage';
-import CreateCategory from './pages/CreateCategory';
 
 const App = (props) => {
   const theme = useSelector((state) => state.themeState.theme);
@@ -60,35 +59,34 @@ const App = (props) => {
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/shop/:shopId/product/:productId" element={<Product />} />
         <Route path="/shop/:shopId" element={<Shop />} />
-        <Route path="/user/:userId" element={<UserPage />}>
-          <Route index element={<UserPageContent />} />
+        <Route path="/user/:userId" element={<UserLayout />}>
+          <Route index element={<User />} />
         </Route>
         <Route path="/category/:categoryId" element={<Category />} />
         <Route path="/category" element={<Categories />} />
         <Route element={<RestrictTo allowedRoles={['admin']} />}>
           <Route path="admin-dashboard" element={<AdminDashboard />} />
-          <Route path="user-table" element={<AdminUserTablePage />} />
-          <Route path="order-table" element={<AdminOrderTablePage />} />
-          <Route path="create-user" element={<CreateUserPage />} />
+          <Route path="user-table" element={<AdminUser />} />
+          <Route path="order-table" element={<AdminOrder />} />
+          <Route path="create-user" element={<CreateUser />} />
           <Route path="create-category" element={<CreateCategory />} />
         </Route>
         <Route element={<RestrictTo allowedRoles={['seller']} />}>
           <Route path="/my-shop" element={<MyShop />} />
-          <Route path="/add-product" element={<CreateProductForm />} />
+          <Route path="/add-product" element={<CreateProduct />} />
         </Route>
         <Route
           element={<RestrictTo allowedRoles={['user', 'admin', 'seller']} />}
         >
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<CheckOut />} />
-          <Route path="/payment-test" element={<Payment />} />
           <Route path="/completion" element={<PaymentCompletion />} />
-          <Route path="/my-orders" element={<MyOrdersPage />} />
-          <Route path="order/:orderId" element={<PlacedOrderPage />} />
-          <Route path="/create-shop" element={<CreateShopPage />} />
+          <Route path="/my-orders" element={<MyOrders />} />
+          <Route path="order/:orderId" element={<Order />} />
+          <Route path="/create-shop" element={<CreateShop />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
-          <Route path="profile" element={<ProfilePage />}>
-            <Route index element={<ProfilePageContent />} />
+          <Route path="profile" element={<ProfileLayout />}>
+            <Route index element={<Profile />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route
               path="send-verification-email"
@@ -96,7 +94,7 @@ const App = (props) => {
             />
           </Route>
         </Route>
-        <Route path="*" element={<NoTFound />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     )
   );

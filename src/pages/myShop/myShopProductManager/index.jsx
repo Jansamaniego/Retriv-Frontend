@@ -20,7 +20,16 @@ const ShopProductManagerGrid = styled.main`
   @media (max-width: 830px) {
     grid-template-columns: repeat(2, minmax(20.8rem, 1fr));
   }
-  @media (max-width: 480px) {
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(1, minmax(20.8rem, 1fr));
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, minmax(20.8rem, 1fr));
+  }
+
+  @media (max-width: 470px) {
     grid-template-columns: repeat(1, minmax(20.8rem, 1fr));
   }
 `;

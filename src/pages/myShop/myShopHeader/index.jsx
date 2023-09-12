@@ -49,7 +49,7 @@ const ShopImageAndInfoContainer = styled.div`
   /* width: 100%; */
   /* justify-content: space-between; */
   /* min-width: 110rem; */
-  @media (max-width: 680px) {
+  @media (max-width: 715px) {
     flex-direction: column;
     align-items: center;
   }

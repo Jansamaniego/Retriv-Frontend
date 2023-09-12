@@ -27,7 +27,7 @@ const Image = styled.img`
 
 const MB_BYTES = 1000000;
 
-export const UpdateProfileImageModal = ({ showModal, closeModal }) => {
+export const UpdateProfileImageModal = ({ isModalOpen, closeModal }) => {
   const [updateProfileImage, { isLoading, data }] =
     useUpdateProfileImageMutation();
   const inputRef = useRef();
@@ -84,7 +84,7 @@ export const UpdateProfileImageModal = ({ showModal, closeModal }) => {
 
   return (
     <StyledModal
-      showModal={showModal}
+      isModalOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton={false}
       withButtons={false}

@@ -1,6 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from '../common';
+import { Card } from '../../../../components/common';
+
+const StyledCard = styled(Card)`
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
 
 const CartItemContainer = styled.div``;
 
@@ -14,21 +20,25 @@ const CartItemListProductHeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 15rem;
+  min-width: 10rem;
+  max-width: 15rem;
+  width: 100%;
 `;
 
 const CartItemListColumnHeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30rem;
+  min-width: 10rem;
+  max-width: 30rem;
+  width: 100%;
 `;
 
 const CartItemListColumnHeader = styled.h5``;
 
 const CartItemListHeader = () => {
   return (
-    <Card>
+    <StyledCard>
       <CartItemContainer>
         <CartItemFlexWrapper>
           <CartItemListProductHeaderContainer>
@@ -49,7 +59,7 @@ const CartItemListHeader = () => {
           <CartItemListColumnHeaderContainer></CartItemListColumnHeaderContainer>
         </CartItemFlexWrapper>
       </CartItemContainer>
-    </Card>
+    </StyledCard>
   );
 };
 

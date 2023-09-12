@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, StyledModal } from '../common';
+import { Button, Card, StyledModal } from '../../../../components/common';
 import { useNavigate } from 'react-router-dom';
-import { useDeleteCartMutation } from '../../redux/services/cartApi';
+import { useDeleteCartMutation } from '../../../../redux/services/cartApi';
 
 const CartDetailsFlexWrapper = styled.main`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 675px) {
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: row;
+  }
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 1.6rem;
+  }
 `;
 
 const CartDetailsControls = styled.div`
@@ -30,6 +44,18 @@ const CartDetailsTotalAndCheckOut = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: 1rem;
+
+  @media (max-width: 675px) {
+    flex-direction: column;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: row;
+  }
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 const CartDetailsQuantityAndPriceContainer = styled.div`
@@ -85,7 +111,7 @@ const CartControl = ({ totalPrice, totalQuantity }) => {
             </CartDetailsQuantityAndPrice>
           </CartDetailsQuantityAndPriceContainer>
           <CheckOutButtonContainer>
-            <CheckOutButton superLarge onClick={navigateToCheckOut}>
+            <CheckOutButton onClick={navigateToCheckOut}>
               Check Out
             </CheckOutButton>
           </CheckOutButtonContainer>

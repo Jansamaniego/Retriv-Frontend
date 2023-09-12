@@ -77,8 +77,8 @@ const MyShopProductControl = ({ currentShop }) => {
     <Card>
       <MyShopProductControlsFlexWrapper>
         <AddProductButtonContainer>
-          <AddProductButton onClick={navigateToProductForm} large>
-            Add New Product
+          <AddProductButton onClick={navigateToProductForm}>
+            Add Product
           </AddProductButton>
         </AddProductButtonContainer>
         {currentUser && currentUser.defaultShop._id !== shopId && (
@@ -92,9 +92,8 @@ const MyShopProductControl = ({ currentShop }) => {
           <AddProductButton
             onClick={openDeleteShopModal}
             disabled={deleteShopIsLoading}
-            large
           >
-            Delete Shop
+            Delete
           </AddProductButton>
         </AddProductButtonContainer>
       </MyShopProductControlsFlexWrapper>

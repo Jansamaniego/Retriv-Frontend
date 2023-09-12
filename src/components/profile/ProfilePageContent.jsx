@@ -54,7 +54,10 @@ const ProfilePageContent = () => {
             profile
           </ProfilePageTab>
           {role === 'seller' && (
-            <ProfilePageTab onClick={() => setIsProfileTabOpen(false)}>
+            <ProfilePageTab
+              onClick={() => setIsProfileTabOpen(false)}
+              isActive={!isProfileTabOpen}
+            >
               shops
             </ProfilePageTab>
           )}
