@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
 // import FullScreenLoader from '../components/FullScreenLoader';
-import { myProfileApi } from '../redux/services/myProfileApi';
+import { myProfileApi } from '../redux/services/myProfileApi/myProfileApi';
 
 const AuthMiddleware = ({ children }) => {
   const [cookies] = useCookies(['logged_in']);

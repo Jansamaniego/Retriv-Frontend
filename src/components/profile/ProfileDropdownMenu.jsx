@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
 import { Card, StyledLink, ProfileImageLogo } from '../common';
-import { useLogoutUserMutation } from '../../redux/services/authApi';
+import { useLogoutUserMutation } from '../../redux/services/authApi/authApi';
 import { useNavigate } from 'react-router-dom';
 
 const ProfileDropdownMenuContainer = styled.div`

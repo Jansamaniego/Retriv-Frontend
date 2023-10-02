@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
-import { useForgotPasswordMutation } from '../../redux/services/authApi';
+import { useForgotPasswordMutation } from '../../redux/services/authApi/authApi';
 
 export const ForgotPassword = () => {
   const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);

@@ -27,7 +27,7 @@ import { useGetShopRatingsQuery } from '../../redux/services/ratings/shopRatings
 import { DevTool } from '@hookform/devtools';
 import UpdateShopImageModal from './UpdateShopImageModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { myProfileApi } from '../../redux/services/myProfileApi';
+import { myProfileApi } from '../../redux/services/myProfileApi/myProfileApi';
 import { removeShop } from '../../redux/features/shopSlice';
 
 const ShopHeaderFlexWrapper = styled.div`

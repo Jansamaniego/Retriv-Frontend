@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   myProfileApi,
   useUpdateDefaultShopMutation,
-} from '../../../redux/services/myProfileApi';
+} from '../../../redux/services/myProfileApi/myProfileApi';
 import { Button, Card, StyledModal } from '../../../components/common';
 import styled from 'styled-components';
 import { useDeleteShopMutation } from '../../../redux/services/shopApi';

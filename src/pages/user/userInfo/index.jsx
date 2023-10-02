@@ -10,7 +10,7 @@ import {
   StyledTextarea,
 } from '../../../components/common';
 import { z } from 'zod';
-import { useUpdateDetailsMutation } from '../../../redux/services/myProfileApi';
+import { useUpdateDetailsMutation } from '../../../redux/services/myProfileApi/myProfileApi';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';

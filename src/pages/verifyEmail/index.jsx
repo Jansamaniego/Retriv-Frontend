@@ -1,5 +1,5 @@
 import React from 'react';
-import { useVerifyEmailMutation } from '../../redux/services/authApi';
+import { useVerifyEmailMutation } from '../../redux/services/authApi/authApi';
 import { Button, TransparentPopup, Card } from '../../components/common';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';

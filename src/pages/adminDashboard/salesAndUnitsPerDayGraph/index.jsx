@@ -5,6 +5,7 @@ import styled, { useTheme } from 'styled-components';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { ResponsiveLine } from '@nivo/line';
 
 const StyledCard = styled(Card)`
   height: 60rem;
@@ -139,7 +140,7 @@ const SalesAndUnitsPerDayGraph = ({ dailyData, year }) => {
           />
         </div>
       </DatePickerContainer>
-      <LineGraph
+      <ResponsiveLine
         data={view === 'sales' ? salesPerDayLine : unitsPerDayLine}
         leftAxisLegend={view === 'sales' ? 'sales' : 'units'}
         bottomAxisLegend="date"

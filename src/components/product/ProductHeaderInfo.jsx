@@ -16,7 +16,7 @@ import {
   StyledModal,
   TransparentPopup,
 } from '../common';
-import { useAddProductToCartMutation } from '../../redux/services/cartApi';
+import { useAddProductToCartMutation } from '../../redux/services/cartApi/cartApi';
 import {
   useDeleteProductMutation,
   useUpdateProductDetailsMutation,
@@ -217,8 +217,8 @@ const ProductHeaderInfo = ({
   const updateProductDetailsSchema = z.object({
     name: z.string(),
     description: z.string(),
-    price: z.any(),
-    quantityInStock: z.any(),
+    price: z.coerce.number(),
+    quantityInStock: z.coerce.number(),
   });
 
   const methods = useForm({

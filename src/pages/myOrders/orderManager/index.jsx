@@ -52,7 +52,6 @@ const StatusIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
   border-radius: 50%;
   background-color: ${(props) =>
     props.active ? props.theme.primary.main : props.theme.neutral[700]};

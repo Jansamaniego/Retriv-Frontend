@@ -19,8 +19,15 @@ import { useCreateShopMutation } from '../../redux/services/shopApi';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { myProfileApi } from '../../redux/services/myProfileApi';
+import { myProfileApi } from '../../redux/services/myProfileApi/myProfileApi';
 import styled from 'styled-components';
+
+const CreateShopFlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+`;
 
 const FormFlexWrapper = styled.div`
   display: flex;
@@ -158,10 +165,18 @@ export const CreateShop = () => {
     setIsCreateShopModalOpen(false);
   };
 
+  const changeImage = (image) => {
+    setImage(image);
+  };
+
+  const applyError = (error) => {
+    setImageError(error);
+  };
+
   console.log(errors);
 
   return (
-    <Card>
+    <CreateShopFlexWrapper>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
@@ -197,9 +212,9 @@ export const CreateShop = () => {
                 name="image"
                 fileSizeLimit={5 * MB_BYTES}
                 image={image}
-                setImage={setImage}
+                changeImage={changeImage}
                 error={imageError}
-                setError={setImageError}
+                applyError={applyError}
               />
             )}
             {formStep === 3 && (
@@ -225,6 +240,6 @@ export const CreateShop = () => {
         </Form>
         <DevTool control={control} />
       </FormProvider>
-    </Card>
+    </CreateShopFlexWrapper>
   );
 };

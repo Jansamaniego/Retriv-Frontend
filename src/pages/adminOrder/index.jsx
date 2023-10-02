@@ -6,8 +6,14 @@ import moment from 'moment/moment';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 
-const DetailsStyledLink = styled(Link)`
-  text-decoration: none;
+const OrderId = styled.h6`
+  font-weight: 300;
+  cursor: pointer;
+
+  &:hover {
+    color: ${(props) => props.theme.neutral[400]};
+    text-decoration: underline;
+  }
 `;
 
 const DateFormatter = (p) => {
@@ -23,31 +29,21 @@ const PriceFormatter = (p) => {
   return <>&#8369;{p.value}</>;
 };
 
-const DetailsDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-items: center;
-`;
-
-const ActionsRenderer = (p) => {
+const OrderIdRenderer = (p) => {
   const navigate = useNavigate();
 
   const navigateOrderDetails = () => {
     navigate(`/order/${p.value}`);
   };
 
-  return (
-    <DetailsDiv>
-      <Button onClick={navigateOrderDetails}>Details</Button>
-    </DetailsDiv>
-  );
+  return <OrderId onClick={navigateOrderDetails}>{p.value}</OrderId>;
 };
 
 const OrderTable = ({ orders }) => {
   const gridRef = useRef();
   const [rowData, setRowData] = useState(orders);
   const [columnDefs, setColumnDefs] = useState([
-    { field: '_id', headerName: 'Order Id' },
+    { field: '_id', headerName: 'Order Id', cellRenderer: OrderIdRenderer },
     {
       field: 'dateOfPurchase',
       cellRenderer: DateFormatter,
@@ -60,18 +56,14 @@ const OrderTable = ({ orders }) => {
       cellRenderer: NameRenderer,
     },
     { field: 'totalPrice', cellRenderer: PriceFormatter },
-    {
-      field: '_id',
-      headerName: 'Actions',
-      cellRenderer: ActionsRenderer,
-      cellStyle: { lineHeight: 0 },
-    },
   ]);
 
   const defaultColDef = useMemo(() => ({
-    flex: 1,
     sortable: true,
     filter: true,
+    resizable: true,
+    flex: 1,
+    minWidth: 180,
   }));
 
   const rowStyle = {

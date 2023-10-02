@@ -9,7 +9,7 @@ import {
   TransparentPopup,
 } from '../../components/common';
 import { DevTool } from '@hookform/devtools';
-import { useResetPasswordMutation } from '../../redux/services/authApi';
+import { useResetPasswordMutation } from '../../redux/services/authApi/authApi';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';

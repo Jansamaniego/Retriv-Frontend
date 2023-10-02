@@ -1,4 +1,10 @@
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+  useEffect,
+} from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -21,20 +27,24 @@ const ProfileImage = styled.img`
   height: 4rem;
   border-radius: 0.5rem;
   cursor: pointer;
+  object-fit: cover;
 `;
 
 const StyledLink = styled(Link)`
+  text-overflow: ellipsis;
   text-decoration: none;
 `;
 
 const NameContainer = styled.div`
   display: flex;
   align-items: center;
+  text-overflow: ellipsis;
 `;
 
-const Name = styled.p`
+const Name = styled.h6`
   cursor: pointer;
   color: black;
+  text-overflow: ellipsis;
 
   &:hover {
     text-decoration: underline;
@@ -55,11 +65,9 @@ const ProfileImageRenderer = (p) => {
 
 const NameRenderer = (p) => {
   return (
-    <NameContainer>
-      <StyledLink to={`/user/${p.data.id}`}>
-        <Name>{p.value}</Name>
-      </StyledLink>
-    </NameContainer>
+    <StyledLink to={`/user/${p.data.id}`}>
+      <Name>{p.value}</Name>
+    </StyledLink>
   );
 };
 
@@ -72,15 +80,18 @@ const DateJoinedRenderer = (p) => {
 };
 
 const UserTable = ({ users }) => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const [rowData, setRowData] = useState(users);
   const [columnDefs, setColumnDefs] = useState([
     {
       field: 'profileImage',
       cellRenderer: ProfileImageRenderer,
-      maxWidth: 120,
+      maxWidth: 150,
     },
-    { field: 'username', cellRenderer: NameRenderer },
+    {
+      field: 'username',
+      cellRenderer: NameRenderer,
+    },
     {
       field: 'firstName',
     },
@@ -96,9 +107,11 @@ const UserTable = ({ users }) => {
   ]);
 
   const defaultColDef = useMemo(() => ({
-    flex: 1,
     sortable: true,
     filter: true,
+    resizable: true,
+    flex: 1,
+    minWidth: 160,
   }));
 
   return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSendVerificationEmailMutation } from '../../redux/services/authApi';
+import { useSendVerificationEmailMutation } from '../../redux/services/authApi/authApi';
 import { Button, Card } from '../../components/common';
 import styled from 'styled-components';
 import { useOutletContext } from 'react-router-dom';

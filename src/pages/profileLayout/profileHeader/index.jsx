@@ -14,7 +14,7 @@ import { EditIcon } from '../../../assets/icons';
 import {
   useDeleteMyAccountMutation,
   useUpdateProfileImageMutation,
-} from '../../../redux/services/myProfileApi';
+} from '../../../redux/services/myProfileApi/myProfileApi';
 
 const ProfileHeaderCard = styled(Card)`
   position: relative;

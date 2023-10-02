@@ -78,9 +78,22 @@ const ImagesPickerContainer = styled.div`
   gap: 1.6rem;
 `;
 
+const SmallImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  min-width: 10rem;
+  max-width: 15rem;
+  width: 100%;
+
+  @media (max-width: 900px) {
+    max-width: 30rem;
+  }
+`;
+
 const SmallImageContainer = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1);
   outline: ${(props) => {
     switch (props.outline) {
@@ -93,16 +106,23 @@ const SmallImageContainer = styled.div`
     }
   }};
   border-radius: 0.5rem;
-  width: 8rem;
+  width: fit-content;
   cursor: ${(props) => props.pointer && 'pointer'};
 `;
 
 const SmallImage = styled.img`
+  width: 8rem;
+  height: 6rem;
   object-fit: cover;
 `;
 
 const AddImageIcon = styled.div`
-  font-size: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8rem;
+  height: 6rem;
+  font-size: 6rem;
 `;
 
 const ProductImages = ({

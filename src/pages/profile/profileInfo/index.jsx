@@ -11,7 +11,7 @@ import {
   StyledTextarea,
   StyledModal,
 } from '../../../components/common';
-import { useUpdateDetailsMutation } from '../../../redux/services/myProfileApi';
+import { useUpdateDetailsMutation } from '../../../redux/services/myProfileApi/myProfileApi';
 import styled from 'styled-components';
 import moment from 'moment/moment';
 import { useSelector } from 'react-redux';

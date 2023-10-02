@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Card, StyledModal } from '../common';
-import { useConfirmPaymentIntentMutation } from '../../redux/services/paymentIntentApi';
 import { useState } from 'react';
 
 const OrderDetailsFlexContainer = styled.div`

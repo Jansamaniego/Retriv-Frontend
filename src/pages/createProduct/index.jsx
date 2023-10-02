@@ -25,6 +25,13 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 
+const CreateProductFlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+`;
+
 const FormFlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -175,6 +182,22 @@ export const CreateProduct = () => {
     }
   };
 
+  const changeMainImage = (image) => {
+    setMainImage(image);
+  };
+
+  const changeImages = (images) => {
+    setImages(images);
+  };
+
+  const applyMainImageError = (error) => {
+    setMainImageError(error);
+  };
+
+  const applyImagesError = (error) => {
+    setImagesError(error);
+  };
+
   const prevFormStep = () => {
     setFormStep((curr) => curr - 1);
   };
@@ -199,7 +222,7 @@ export const CreateProduct = () => {
   console.log(errors);
 
   return (
-    <Card>
+    <CreateProductFlexWrapper>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
@@ -255,18 +278,18 @@ export const CreateProduct = () => {
                 <ImageUpload
                   name="mainImage"
                   image={mainImage}
-                  setImage={setMainImage}
+                  changeImage={changeMainImage}
                   error={mainImageError}
-                  setError={setMainImageError}
+                  applyError={applyMainImageError}
                   fileSizeLimit={5 * MB_BYTES}
                 />
                 <ImageUpload
                   name="images"
                   multiple
                   images={images}
-                  setImages={setImages}
+                  changeImages={changeImages}
                   error={imagesError}
-                  setError={setImagesErrorMessage}
+                  applyError={applyImagesError}
                   fileSizeLimit={5 * MB_BYTES}
                 />
               </>
@@ -293,6 +316,6 @@ export const CreateProduct = () => {
         </Form>
         <DevTool control={control} />
       </FormProvider>
-    </Card>
+    </CreateProductFlexWrapper>
   );
 };

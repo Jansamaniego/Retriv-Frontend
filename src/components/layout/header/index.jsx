@@ -9,7 +9,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 
 import { StyledLink, ProfileImageLogo } from '../../common';
-import { useLogoutUserMutation } from '../../../redux/services/authApi';
+import { useLogoutUserMutation } from '../../../redux/services/authApi/authApi';
 import ThemeToggleButton from './themeToggleButton';
 import ProfileDropdownMenu from './profileDropdownMenu';
 import Search from './search';
@@ -180,7 +180,7 @@ const Header = () => {
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
   const dispatch = useDispatch();
 
-  const userImageLogoClickhandler = (event) => {
+  const userImageLogoClickhandler = () => {
     setIsProfileMenuOpen((value) => !value);
   };
 

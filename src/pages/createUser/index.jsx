@@ -19,6 +19,13 @@ import { useCreateUserMutation } from '../../redux/services/userApi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+const CreateUserFlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+`;
+
 const FormFlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -143,6 +150,14 @@ export const CreateUser = () => {
     setIsCreateUserModalOpen(false);
   };
 
+  const changeImage = (image) => {
+    setImage(image);
+  };
+
+  const applyError = (error) => {
+    setImageError(error);
+  };
+
   const nextFormStep = () => {
     if (formStep === 0) {
       try {
@@ -212,7 +227,7 @@ export const CreateUser = () => {
   };
 
   return (
-    <Card>
+    <CreateUserFlexWrapper>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
@@ -270,9 +285,9 @@ export const CreateUser = () => {
                 name="image"
                 fileSizeLimit={5 * MB_BYTES}
                 image={image}
-                setImage={setImage}
+                changeImage={changeImage}
                 error={imageError}
-                setError={setImageError}
+                applyError={applyError}
               />
             )}
             {formStep === 4 && (
@@ -297,6 +312,6 @@ export const CreateUser = () => {
         </Form>
         <DevTool control={control} />
       </FormProvider>
-    </Card>
+    </CreateUserFlexWrapper>
   );
 };

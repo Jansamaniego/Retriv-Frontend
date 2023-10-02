@@ -168,7 +168,7 @@ const ProductHeaderInfo = ({
     { isLoading: updateProductMainImageIsLoading },
   ] = useUpdateProductMainImageMutation();
 
-  const [updateProductImages, { isLoading: updateProductImagesIsLoading }] =
+  const [updateProductImages, { isLoading: IsLoading }] =
     useUpdateProductImagesMutation();
 
   const [quantityToPurchase, setQuantityToPurchase] = useState(1);

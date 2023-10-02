@@ -13,10 +13,17 @@ import {
   ImageUploader,
   ImageUpload,
 } from '../../components/common';
-import { useRegisterUserMutation } from '../../redux/services/authApi';
+import { useRegisterUserMutation } from '../../redux/services/authApi/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
+
+const RegisterFlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+`;
 
 const FormFlexWrapper = styled.div`
   display: flex;
@@ -57,7 +64,7 @@ export const Register = () => {
     lastName: z.string(),
     address: z.string().optional(),
     phone: z.coerce.number().optional(),
-    gender: z.enum(['male', 'female', 'other', 'undisclosed']).optional(),
+    gender: z.enum(['male', 'female', 'other', 'undisclosed']),
     dateOfBirth: z.date().optional(),
   });
 
@@ -194,6 +201,14 @@ export const Register = () => {
     setFormStep((curr) => curr - 1);
   };
 
+  const changeImage = (image) => {
+    setImage(image);
+  };
+
+  const applyError = (error) => {
+    setImageError(error);
+  };
+
   useEffect(() => {
     const currentUser = (state) => state.userState.user;
     if (!isLoading && isSuccess && currentUser) {
@@ -204,7 +219,7 @@ export const Register = () => {
   console.log(errors);
 
   return (
-    <>
+    <RegisterFlexWrapper>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
@@ -269,9 +284,9 @@ export const Register = () => {
                   name="image"
                   fileSizeLimit={5 * MB_BYTES}
                   image={image}
-                  setImage={setImage}
+                  changeImage={changeImage}
                   error={imageError}
-                  setError={setImageError}
+                  applyError={applyError}
                 />
               </>
             )}
@@ -287,6 +302,6 @@ export const Register = () => {
         </Form>
         <DevTool control={control} />
       </FormProvider>
-    </>
+    </RegisterFlexWrapper>
   );
 };

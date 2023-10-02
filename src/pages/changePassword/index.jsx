@@ -4,7 +4,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
-import { useChangePasswordMutation } from '../../redux/services/authApi';
+import { useChangePasswordMutation } from '../../redux/services/authApi/authApi';
 import { Form, useOutletContext } from 'react-router-dom';
 import {
   Button,

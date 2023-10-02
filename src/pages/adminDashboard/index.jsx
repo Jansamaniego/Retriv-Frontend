@@ -87,11 +87,11 @@ export const AdminDashboard = () => {
         <SalesAndUnitsPerMonthLineGraph monthlyData={monthlyData} />
         <SalesAndUnitsPerDayGraph dailyData={dailyData} year={queryStatsYear} />
         <SalesByCategoryGraph salesByCategoryData={salesByCategory} />
-        <StyledCard>
+        <Card>
           <h4>Total Customers: {totalCustomers}</h4>
           <h4>Total Sales for 2023: {yearlySalesTotal}</h4>
           <h4>Total Units Sold for 2023:{yearlyTotalSoldunits}</h4>
-        </StyledCard>
+        </Card>
       </OverallStatsGrid>
     </>
   );

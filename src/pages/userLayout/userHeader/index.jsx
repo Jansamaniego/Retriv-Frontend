@@ -10,7 +10,7 @@ import {
   UpdateProfileImageModal,
 } from '../../../components/common';
 import { EditIcon } from '../../../assets/icons';
-import { useUpdateProfileImageMutation } from '../../../redux/services/myProfileApi';
+import { useUpdateProfileImageMutation } from '../../../redux/services/myProfileApi/myProfileApi';
 
 const ProfileHeaderCard = styled(Card)`
   position: relative;
@@ -121,7 +121,7 @@ const UserHeader = ({ user }) => {
       </NormalDiv>
       {isProfileImageEditModalOpen && (
         <UpdateProfileImageModal
-          showModal={openProfileImageEditModal}
+          isModalOpen={isProfileImageEditModalOpen}
           closeModal={closeProfileImageEditModal}
         />
       )}

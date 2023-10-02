@@ -11,8 +11,16 @@ import { z } from 'zod';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
-import { useLoginUserMutation } from '../../redux/services/authApi';
+import { useLoginUserMutation } from '../../redux/services/authApi/authApi';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+
+const LoginFlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+`;
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -41,7 +49,7 @@ export const Login = () => {
   }, [isLoading, isSuccess, currentUser, navigate]);
 
   return (
-    <>
+    <LoginFlexWrapper>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <StyledInput placeholder="Email" type="email" name="email" />
@@ -56,6 +64,6 @@ export const Login = () => {
         </Form>
         <DevTool control={control} />
       </FormProvider>
-    </>
+    </LoginFlexWrapper>
   );
 };

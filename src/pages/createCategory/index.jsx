@@ -16,6 +16,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 import styled from 'styled-components';
 
+const CreateCategoryFlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+`;
+
 const FormFlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -120,8 +127,16 @@ export const CreateCategory = () => {
     setIsCreateCategoryModalOpen(false);
   };
 
+  const changeImage = (image) => {
+    setImage(image);
+  };
+
+  const applyError = (error) => {
+    setImageError(error);
+  };
+
   return (
-    <Card>
+    <CreateCategoryFlexWrapper>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
@@ -151,9 +166,9 @@ export const CreateCategory = () => {
                 name="image"
                 fileSizeLimit={5 * MB_BYTES}
                 image={image}
-                setImage={setImage}
+                changeImage={changeImage}
                 error={imageError}
-                setError={setImageError}
+                applyError={applyError}
               />
             )}
             {formStep === 2 && (
@@ -174,6 +189,6 @@ export const CreateCategory = () => {
         </Form>
         <DevTool control={control} />
       </FormProvider>
-    </Card>
+    </CreateCategoryFlexWrapper>
   );
 };

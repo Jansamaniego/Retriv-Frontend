@@ -7,7 +7,7 @@ import { EditIcon } from '../../assets/icons';
 import {
   useDeleteMyAccountMutation,
   useUpdateProfileImageMutation,
-} from '../../redux/services/myProfileApi';
+} from '../../redux/services/myProfileApi/myProfileApi';
 import { UpdateProfileImageModal } from '../common';
 
 const ProfileHeaderCard = styled(Card)`
@@ -152,7 +152,7 @@ const ProfileHeader = ({ user }) => {
       </NormalDiv>
       {isProfileImageEditModalOpen && (
         <UpdateProfileImageModal
-          showModal={openProfileImageEditModal}
+          isModalOpen={isProfileImageEditModalOpen}
           closeModal={closeProfileImageEditModal}
         />
       )}

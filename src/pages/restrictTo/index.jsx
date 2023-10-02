@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { useGetMeQuery } from '../../redux/services/myProfileApi';
+import { useGetMeQuery } from '../../redux/services/myProfileApi/myProfileApi';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
