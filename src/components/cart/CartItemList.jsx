@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useGetProductByIdQuery } from '../../redux/services/productApi';
+import { useGetProductByIdQuery } from '../../redux/services/productApi/productApi';
 import styled from 'styled-components';
 import { Button, QuantityTogglerInput, TransparentPopup } from '../common';
-import { useRemoveCartItemMutation } from '../../redux/services/cartApi';
+import { useRemoveCartItemMutation } from '../../redux/services/cartApi/cartApi';
 import { useEffect } from 'react';
 
 const CartItemContainer = styled.div``;

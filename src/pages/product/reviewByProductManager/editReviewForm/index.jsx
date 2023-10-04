@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, useParams } from 'react-router-dom';
-import { useUpdateReviewMutation } from '../../../../redux/services/reviewApi';
+import { useUpdateReviewMutation } from '../../../../redux/services/reviewApi/reviewApi';
 import { Button, StyledTextarea } from '../../../../components/common';
 import { DevTool } from '@hookform/devtools';
 

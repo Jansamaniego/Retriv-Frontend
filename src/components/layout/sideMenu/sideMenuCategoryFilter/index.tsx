@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useGetCategoriesQuery } from '../../../../redux/services/categoryApi';
+import { useGetCategoriesQuery } from '../../../../redux/services/categoryApi/categoryApi';
 import { useSearchParams } from 'react-router-dom';
-import { useGetProductsQuery } from '../../../../redux/services/productApi';
+import { useGetProductsQuery } from '../../../../redux/services/productApi/productApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { Loading } from '../../../common';
 import { useProductPagination } from '../../../../context/ProductPaginationContext';
@@ -62,25 +62,6 @@ const CategoryLabel = styled.label`
   cursor: pointer;
 `;
 
-const formatQueryParams = (params) => {
-  const obj = {};
-  for (const [key, value] of params.entries()) {
-    if (value !== '') obj[key] = value;
-  }
-  return obj;
-};
-
-const formatData = (data, searchParams) => {
-  return Object.entries(data).reduce((acc, [key, value]) => {
-    if (value !== '') {
-      acc[key] = value;
-    } else {
-      searchParams.delete(key);
-    }
-    return acc;
-  }, {});
-};
-
 const SideMenuCategoryFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { setCurrentPage } = useProductPagination();
@@ -89,16 +70,17 @@ const SideMenuCategoryFilter = () => {
   const { categories, isLoading: categoriesIsLoading } = useGetCategoriesQuery(
     null,
     {
-      selectFromResult: ({ data }) => {
+      selectFromResult: ({ data, isLoading }) => {
         return {
           categories: data?.results,
           totalPages: data?.totalPages,
+          isLoading: isLoading,
         };
       },
     }
   );
 
-  const handleCheckboxChange = (categoryId) => {
+  const handleCheckboxChange: (categoryId: string) => void = (categoryId) => {
     setSearchParams((prevParams) => {
       let values = prevParams.get('categories')?.split(',');
 
@@ -114,6 +96,7 @@ const SideMenuCategoryFilter = () => {
 
         if (!!values.length) {
           // set new key-value if values is still populated
+          //@ts-ignore
           prevParams.set('categories', values);
         } else {
           // delete key if values array is empty
@@ -121,6 +104,7 @@ const SideMenuCategoryFilter = () => {
         }
       } else {
         // no values for key, create new array with value
+        //@ts-ignore
         prevParams.set('categories', [categoryId]);
       }
 

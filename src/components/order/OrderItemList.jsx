@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, QuantityTogglerInput } from '../common';
 import styled from 'styled-components';
-import { useGetProductByIdQuery } from '../../redux/services/productApi';
+import { useGetProductByIdQuery } from '../../redux/services/productApi/productApi';
 import OrderItemListHeader from './OrderItemListHeader';
 
 const OrderItemListFlexWrapper = styled.main`

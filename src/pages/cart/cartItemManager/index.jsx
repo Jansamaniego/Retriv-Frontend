@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useGetCartQuery } from '../../../redux/services/cartApi';
+import { useGetCartQuery } from '../../../redux/services/cartApi/cartApi';
 import { Card, Loading } from '../../../components/common';
 import CartItemList from './cartItemList';
 import CartItemListHeader from './cartItemListHeader';

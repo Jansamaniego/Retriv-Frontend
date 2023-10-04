@@ -15,7 +15,7 @@ import {
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
-import { useCreateUserMutation } from '../../redux/services/userApi';
+import { useCreateUserMutation } from '../../redux/services/userApi/userApi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card } from '../common';
-import { useGetCategoriesQuery } from '../../redux/services/categoryApi';
+import { useGetCategoriesQuery } from '../../redux/services/categoryApi/categoryApi';
 import { useNavigate } from 'react-router-dom';
 
 const StyledCard = styled(Card)`

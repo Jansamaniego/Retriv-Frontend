@@ -14,7 +14,7 @@ import {
   useGetCategoryQuery,
   useUpdateCategoryDetailsMutation,
   useUpdateCategoryImageMutation,
-} from '../../../redux/services/categoryApi';
+} from '../../../redux/services/categoryApi/categoryApi';
 import { useState } from 'react';
 import { EditIcon } from '../../../assets/icons';
 import UpdateCategoryImageModal from './updateCategoryImageModal';

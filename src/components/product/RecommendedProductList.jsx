@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {
   productApi,
   useGetProductsQuery,
-} from '../../redux/services/productApi';
+} from '../../redux/services/productApi/productApi';
 import { Card } from '../common';
 import styled from 'styled-components';
 import { useNavigate, useSearchParams } from 'react-router-dom';

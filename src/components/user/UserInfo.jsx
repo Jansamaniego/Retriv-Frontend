@@ -15,7 +15,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 import { EditIcon } from '../../assets/icons';
-import { useUpdateUserMutation } from '../../redux/services/userApi';
+import { useUpdateUserMutation } from '../../redux/services/userApi/userApi';
 import { useSelector } from 'react-redux';
 
 const genderOptions = ['male', 'female', 'other', 'undisclosed'];

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useGetOrderByIdQuery } from '../../redux/services/orderApi';
+import { useGetOrderByIdQuery } from '../../redux/services/orderApi/orderApi';
 import OrderItemList from './orderItemList';
 import OrderTracker from './orderTracker';
 import OrderHeader from './orderHeader';

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import ProductList from './ProductList';
 import ProductSearchControls from './ProductSearchControls';
-import { useGetProductsQuery } from '../../redux/services/productApi';
+import { useGetProductsQuery } from '../../redux/services/productApi/productApi';
 import RecommendedProductList from './RecommendedProductList';
 import { Loading } from '../common';
 import { useSelector } from 'react-redux';

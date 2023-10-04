@@ -15,11 +15,11 @@ import {
   StyledModal,
   ImageUpload,
 } from '../../components/common';
-import { useCreateProductMutation } from '../../redux/services/productApi';
+import { useCreateProductMutation } from '../../redux/services/productApi/productApi';
 import {
   useGetCategoriesQuery,
   useGetCategoryQuery,
-} from '../../redux/services/categoryApi';
+} from '../../redux/services/categoryApi/categoryApi';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';

@@ -5,6 +5,7 @@ import {
   ICategoryResponse,
   ICreateCategory,
   IGetCategoriesResponse,
+  IGetCategoriesReturnObject,
   IUpdateCategoryDetails,
   IUpdateCategoryImage,
 } from './categoryApi.types';
@@ -14,21 +15,29 @@ export const categoryApi = createApi({
   baseQuery: customBaseQuery,
   tagTypes: ['Category'],
   endpoints: (builder) => ({
-    getCategories: builder.query<ICategory[], void>({
+    getCategories: builder.query<IGetCategoriesReturnObject, null>({
       query() {
         return {
           url: `/category`,
         };
       },
       transformResponse: (response: IGetCategoriesResponse) =>
-        response.categories.results,
-      providesTags: (results) =>
-        results
+        response.categories,
+      providesTags: (response) => {
+        let categories;
+        if (response) {
+          categories = response.results;
+        }
+        return categories
           ? [
-              ...results.map(({ id }) => ({ type: 'Category' as const, id })),
+              ...categories.map(({ id }) => ({
+                type: 'Category' as const,
+                id,
+              })),
               { type: 'Category', id: 'LIST' },
             ]
-          : [{ type: 'Category', id: 'LIST' }],
+          : [{ type: 'Category', id: 'LIST' }];
+      },
     }),
     getCategory: builder.query<ICategory, string>({
       query(categoryId) {

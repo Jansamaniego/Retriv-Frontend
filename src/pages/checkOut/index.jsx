@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { useGetCartQuery } from '../../redux/services/cartApi';
+import { useGetCartQuery } from '../../redux/services/cartApi/cartApi';
 import { useSelector } from 'react-redux';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { useCreatePaymentIntentMutation } from '../../redux/services/paymentIntentApi';
+import { useCreatePaymentIntentMutation } from '../../redux/services/paymentIntentApi/paymentIntentApi';
 
 import CheckOutForm from './checkOutForm';
 

@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { FilterIcon } from '../../../../assets/icons';
 import { useProductPagination } from '../../../../context/ProductPaginationContext';
-import { useGetCategoriesQuery } from '../../../../redux/services/categoryApi';
+import { useGetCategoriesQuery } from '../../../../redux/services/categoryApi/categoryApi';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import CategoryFilterModal from './categoryFIlterModal';
@@ -38,7 +38,7 @@ const CategoryFilterIconLabel = styled.h5`
 
 const MobileSideMenuCategoryFilter = () => {
   const [isCategoryFilterModalOpen, setIsCategoryFilterModalOpen] =
-    useState(false);
+    useState<boolean>(false);
 
   const showCategoryFilterModal = () => {
     setIsCategoryFilterModalOpen(true);
@@ -56,7 +56,7 @@ const MobileSideMenuCategoryFilter = () => {
       </CategoryFilterIconContainer>
       {isCategoryFilterModalOpen && (
         <CategoryFilterModal
-          showModal={showCategoryFilterModal}
+          isModalOpen={isCategoryFilterModalOpen}
           closeModal={closeCategoryFilterModal}
         />
       )}

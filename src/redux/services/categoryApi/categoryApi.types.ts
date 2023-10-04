@@ -1,10 +1,12 @@
 import { ICategory, IResponse } from 'src/types';
 
 export interface IGetCategoriesResponse extends IResponse {
-  categories: {
-    results: ICategory[];
-    totalPages: number;
-  };
+  categories: IGetCategoriesReturnObject;
+}
+
+export interface IGetCategoriesReturnObject {
+  results: ICategory[];
+  totalPages: number;
 }
 
 export interface ICategoryResponse extends IResponse {

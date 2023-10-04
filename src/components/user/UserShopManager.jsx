@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import UserShopList from './UserShopList';
-import { useGetShopsQuery } from '../../redux/services/shopApi';
+import { useGetShopsQuery } from '../../redux/services/shopApi/shopApi';
 
 const UserShopManagerGrid = styled.main`
   display: grid;

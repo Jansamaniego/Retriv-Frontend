@@ -2,7 +2,7 @@ import React from 'react';
 import {
   categoryApi,
   useGetCategoriesQuery,
-} from '../../redux/services/categoryApi';
+} from '../../redux/services/categoryApi/categoryApi';
 import styled from 'styled-components';
 import CategoryList from './CategoryList';
 import { useLoaderData } from 'react-router-dom';

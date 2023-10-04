@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import UserShopManager from './UserShopManager';
 import { Card } from '../common';
 import UserInfo from './UserInfo';
-import { useGetUserByIdQuery } from '../../redux/services/userApi';
+import { useGetUserByIdQuery } from '../../redux/services/userApi/userApi';
 import UserPageControls from './UserPageControls';
 
 const StyledCard = styled(Card)`

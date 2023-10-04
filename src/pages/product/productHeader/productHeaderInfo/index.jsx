@@ -16,13 +16,13 @@ import {
   StyledModal,
   TransparentPopup,
 } from '../../../../components/common';
-import { useAddProductToCartMutation } from '../../../../redux/services/cartApi';
+import { useAddProductToCartMutation } from '../../../../redux/services/cartApi/cartApi';
 import {
   useDeleteProductMutation,
   useUpdateProductDetailsMutation,
   useUpdateProductImagesMutation,
   useUpdateProductMainImageMutation,
-} from '../../../../redux/services/productApi';
+} from '../../../../redux/services/productApi/productApi';
 import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';

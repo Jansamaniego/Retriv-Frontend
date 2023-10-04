@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { StyledModal } from '../styledModal';
 import { MdCloudUpload } from 'react-icons/md';
 import styled from 'styled-components';
@@ -66,7 +66,9 @@ export const UpdateProfileImageModal: React.FC<Props> = ({
         } else {
           ctx.addIssue({
             code: z.ZodIssueCode.invalid_type,
-            message: `Given value does not hold a file type`,
+            message: 'Given value does not hold a file type',
+            expected: typeof File,
+            received: typeof f,
           });
         }
       }),
@@ -92,7 +94,7 @@ export const UpdateProfileImageModal: React.FC<Props> = ({
     setProfileImage(file);
   };
 
-  const onSubmitHandler = async (event: SubmitEvent) => {
+  const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(profileImage);
     const { image } = updateImageSchema.parse({ image: profileImage });

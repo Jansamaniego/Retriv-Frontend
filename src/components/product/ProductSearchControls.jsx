@@ -4,7 +4,7 @@ import { ChevronDown } from '../../assets/icons';
 import { ChevronLeft } from '../../assets/icons/chevronLeft';
 import { ChevronRight } from '../../assets/icons/chevronRight';
 import { useSearchParams } from 'react-router-dom';
-import { productApi } from '../../redux/services/productApi';
+import { productApi } from '../../redux/services/productApi/productApi';
 
 const SortBar = styled.div`
   display: flex;

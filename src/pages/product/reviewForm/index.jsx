@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useCreateReviewMutation } from '../../../redux/services/reviewApi';
+import { useCreateReviewMutation } from '../../../redux/services/reviewApi/reviewApi';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';

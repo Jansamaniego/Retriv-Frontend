@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card } from '../common';
-import { useGetProductsByShopIdQuery } from '../../redux/services/productApi';
+import { useGetProductsByShopIdQuery } from '../../redux/services/productApi/productApi';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';

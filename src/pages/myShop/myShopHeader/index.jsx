@@ -18,12 +18,12 @@ import {
   useDeleteShopMutation,
   useGetShopByIdQuery,
   useUpdateShopMutation,
-} from '../../../redux/services/shopApi';
+} from '../../../redux/services/shopApi/shopApi';
 import { Form, useNavigate } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useGetShopRatingsQuery } from '../../../redux/services/ratings/shopRatingsApi';
+import { useGetShopRatingsQuery } from '../../../redux/services/ratings/shopRatingsApi/shopRatingsApi';
 import { DevTool } from '@hookform/devtools';
 import UpdateShopImageModal from './updateShopImageModal';
 import { useDispatch, useSelector } from 'react-redux';

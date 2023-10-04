@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetOrdersQuery } from '../../../redux/services/orderApi';
+import { useGetOrdersQuery } from '../../../redux/services/orderApi/orderApi';
 import { Card } from '../../../components/common';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';

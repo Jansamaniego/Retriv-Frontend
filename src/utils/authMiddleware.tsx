@@ -3,7 +3,11 @@ import { useCookies } from 'react-cookie';
 // import FullScreenLoader from '../components/FullScreenLoader';
 import { myProfileApi } from '../redux/services/myProfileApi/myProfileApi';
 
-const AuthMiddleware = ({ children }) => {
+interface IAuthMiddleWareProps {
+  children: React.ReactNode;
+}
+
+const AuthMiddleware: React.FC<IAuthMiddleWareProps> = ({ children }) => {
   const [cookies] = useCookies(['logged_in']);
 
   const { isLoading } = myProfileApi.endpoints.getMe.useQuery(null, {

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useEffect } from 'react';
 import ProductManager from './productManager';
 import { useSelector } from 'react-redux';
-import { useGetCategoryQuery } from '../../redux/services/categoryApi';
+import { useGetCategoryQuery } from '../../redux/services/categoryApi/categoryApi';
 import { Loading } from '../../components/common';
 
 const CategoryPageFlexWrapper = styled.main`

@@ -9,14 +9,14 @@ import DeliveryAddress from './deliveryAddress';
 import CheckOutItemList from './checkOutItemList';
 import Payment from './payment';
 import OrderDetails from './orderDetails';
-import { useGetCartQuery } from '../../../redux/services/cartApi';
+import { useGetCartQuery } from '../../../redux/services/cartApi/cartApi';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   AddressElement,
   useElements,
   useStripe,
 } from '@stripe/react-stripe-js';
-import { useCreateOrderMutation } from '../../../redux/services/orderApi';
+import { useCreateOrderMutation } from '../../../redux/services/orderApi/orderApi';
 import { removeCart } from '../../../redux/features/cartSlice';
 
 const CheckoutPageFlexWrapper = styled.main`

@@ -2,7 +2,7 @@ import React from 'react';
 import ShopProductList from './shopProductList';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useGetProductsByShopIdQuery } from '../../../redux/services/productApi';
+import { useGetProductsByShopIdQuery } from '../../../redux/services/productApi/productApi';
 import { Loading } from '../../../components/common';
 
 const ShopProductManagerGrid = styled.main`

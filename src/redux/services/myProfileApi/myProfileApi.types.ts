@@ -19,9 +19,7 @@ export interface IUpdateDetails {
   dateOfBirth?: 'string';
 }
 
-export interface IUpdateProfileImage extends FormData {
-  image: File;
-}
+export interface IUpdateProfileImage extends FormData {}
 
 export interface IUpdateProfileImageResponse extends IResponse {
   user: IUser;

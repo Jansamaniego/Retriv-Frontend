@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDeleteUserMutation } from '../../../redux/services/userApi';
+import { useDeleteUserMutation } from '../../../redux/services/userApi/userApi';
 import { Button, Card, StyledModal } from '../../../components/common';
 import styled from 'styled-components';
 import { useState } from 'react';

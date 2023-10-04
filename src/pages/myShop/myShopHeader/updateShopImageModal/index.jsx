@@ -4,7 +4,7 @@ import { MdCloudUpload } from 'react-icons/md';
 import styled from 'styled-components';
 
 import { z } from 'zod';
-import { useUpdateShopImageMutation } from '../../../../redux/services/shopApi';
+import { useUpdateShopImageMutation } from '../../../../redux/services/shopApi/shopApi';
 
 const UpdateImageModalFlexContainer = styled.div`
   display: flex;

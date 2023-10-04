@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface Props {
-  marginBottom: string;
+  marginBottom?: string;
 }
 
 export const Select = styled.select<Props>`

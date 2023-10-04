@@ -26,6 +26,7 @@ const customBaseQuery: BaseQueryFn = async (args, api, extraOptions) => {
 
   console.log(result);
 
+  //@ts-ignore
   if (result.error?.data?.message === 'you are not logged in') {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();

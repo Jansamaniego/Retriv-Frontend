@@ -1,45 +1,21 @@
-export type ThemeType = {
-  grey: {
-    0: string;
-    10: string;
-    50: string;
-    100: string;
-    200: string;
-    300: string;
-    400: string;
-    500: string;
-    600: string;
-    700: string;
-    800: string;
-    900: string;
-    1000: string;
-  };
-  primary: {
-    100: string;
-    200: string;
-    300: string;
-    400: string;
-    500: string;
-    600: string;
-    700: string;
-    800: string;
-    900: string;
-  };
+import { DefaultTheme } from 'styled-components';
 
-  secondary: {
-    100: string;
-    200: string;
-    300: string;
-    400: string;
-    500: string;
-    600: string;
-    700: string;
-    800: string;
-    900: string;
-  };
-};
+interface ThemeTokens {
+  grey: IColorToken;
+  primary: IColorToken;
+  secondary: IColorToken;
+}
 
-export const tokensDark = {
+interface IColorToken {
+  [keys: string]: string;
+}
+
+type ThemeShades =
+  | keyof ThemeTokens['primary']
+  | keyof ThemeTokens['secondary']
+  | keyof ThemeTokens['grey'];
+
+export const tokensDark: ThemeTokens = {
   grey: {
     0: '#ffffff',
     10: '#f6f6f6',
@@ -81,13 +57,13 @@ export const tokensDark = {
   },
 };
 
-function reverseTokens(tokensDark: ThemeType) {
-  const reversedTokens = {};
-  Object.entries(tokensDark).forEach(([key, val]: [string, Object]) => {
-    const keys: string[] = Object.keys(val);
-    const values: string[] = Object.values(val);
+function reverseTokens(tokensDark: ThemeTokens) {
+  const reversedTokens: { [key: string]: any } = {};
+  Object.entries(tokensDark).forEach(([key, val]) => {
+    const keys: ThemeShades[] = Object.keys(val) as ThemeShades[];
+    const values: any[] = Object.values(val);
     const length = keys.length;
-    const reversedObj = {};
+    const reversedObj: IColorToken = {};
     for (let i = 0; i < length; i++) {
       reversedObj[keys[i]] = values[length - i - 1];
     }
@@ -96,7 +72,7 @@ function reverseTokens(tokensDark: ThemeType) {
   return reversedTokens;
 }
 
-export const tokensLight: ThemeType | {} = reverseTokens(tokensDark);
+export const tokensLight: { [key: string]: any } = reverseTokens(tokensDark);
 
 export const themeSettings = (mode: string) => {
   if (Object.values(tokensLight).length === 0) {

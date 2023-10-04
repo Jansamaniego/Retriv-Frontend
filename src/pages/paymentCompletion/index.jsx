@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Card } from '../../components/common';
 import styled from 'styled-components';
 import ProductManager from './productManager';
-import { useGetProductsQuery } from '../../redux/services/productApi';
+import { useGetProductsQuery } from '../../redux/services/productApi/productApi';
 import { useSearchParams } from 'react-router-dom';
 
 const PaymentCompletionFlexWrapper = styled.main`

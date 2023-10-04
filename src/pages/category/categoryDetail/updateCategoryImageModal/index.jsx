@@ -4,7 +4,7 @@ import { MdCloudUpload } from 'react-icons/md';
 import styled from 'styled-components';
 
 import { z } from 'zod';
-import { useUpdateCategoryImageMutation } from '../../../../redux/services/categoryApi';
+import { useUpdateCategoryImageMutation } from '../../../../redux/services/categoryApi/categoryApi';
 
 const UpdateImageModalFlexContainer = styled.div`
   display: flex;

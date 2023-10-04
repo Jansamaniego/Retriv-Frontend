@@ -6,7 +6,7 @@ import {
   useCancelOrderMutation,
   useGetOrderByIdQuery,
   useUpdateOrderStatusMutation,
-} from '../../redux/services/orderApi';
+} from '../../redux/services/orderApi/orderApi';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 const STATUSENUM = [

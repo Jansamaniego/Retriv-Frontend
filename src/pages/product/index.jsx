@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useGetProductByIdQuery } from '../../redux/services/productApi';
-import { useGetProductRatingsQuery } from '../../redux/services/ratings/productRatingsApi';
+import { useGetProductByIdQuery } from '../../redux/services/productApi/productApi';
+import { useGetProductRatingsQuery } from '../../redux/services/ratings/productRatingsApi/productRatingsApi';
 import ProductHeader from './productHeader';
 import ProductShop from './productShop';
 import ReviewByProductManager from './reviewByProductManager';

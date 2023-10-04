@@ -9,7 +9,7 @@ import {
 } from '../../components/common';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useCreateCategoryMutation } from '../../redux/services/categoryApi';
+import { useCreateCategoryMutation } from '../../redux/services/categoryApi/categoryApi';
 import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

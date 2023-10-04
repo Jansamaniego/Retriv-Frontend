@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetShopsQuery } from '../../../../redux/services/shopApi';
+import { useGetShopsQuery } from '../../../../redux/services/shopApi/shopApi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button, Card } from '../../../../components/common';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import UserHeader from './userHeader';
-import { useGetUserByIdQuery } from '../../redux/services/userApi';
+import { useGetUserByIdQuery } from '../../redux/services/userApi/userApi';
 
 export const UserLayout = () => {
   const { userId } = useParams();

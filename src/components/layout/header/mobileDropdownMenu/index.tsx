@@ -7,6 +7,11 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import CategoryFilterModal from '../../sideMenu/mobileSideMenuCategoryFilter/categoryFIlterModal';
 
+interface MobileDropdownMenuProps {
+  setIsMobileMenuOpen: (isMobileMenuOpen: boolean) => void;
+  showCategoryFilterModal: () => void;
+}
+
 const MobileDropdownMenuContainer = styled.nav`
   width: 100%;
   height: 100%;
@@ -53,14 +58,13 @@ const StyledXMarkIcon = styled(XMarkIcon)`
   cursor: pointer;
 `;
 
-const MobileDropdownMenu = ({
+const MobileDropdownMenu: React.FC<MobileDropdownMenuProps> = ({
   setIsMobileMenuOpen,
   showCategoryFilterModal,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-
-  const [isFilterOptionOpen, setIsFilterOptionOpen] = useState(false);
+  const [isFilterOptionOpen, setIsFilterOptionOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (searchParams.size) {
@@ -77,8 +81,6 @@ const MobileDropdownMenu = ({
     setIsMobileMenuOpen(false);
     navigate('/register');
   };
-
-  console.log(searchParams.size);
 
   return (
     <>

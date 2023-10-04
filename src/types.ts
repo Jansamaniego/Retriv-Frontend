@@ -73,6 +73,7 @@ export interface IProduct {
 }
 
 export interface ICategory {
+  _id: string;
   id: string;
   name: string;
   description: string;
@@ -94,12 +95,12 @@ export interface ICart {
   id: string;
   _id: string;
   email: string;
-  items: CartItem[];
+  items: ICartItem[];
   totalPrice: number;
   totalQuantity: number;
 }
 
-interface CartItem {
+interface ICartItem {
   id: string;
   _id: string;
   product: IProduct | string;

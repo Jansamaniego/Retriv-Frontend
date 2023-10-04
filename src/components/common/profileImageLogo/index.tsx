@@ -31,17 +31,18 @@ const ProfileImage = styled.img`
   }
 `;
 
-export const ProfileImageLogo = forwardRef<Ref, ProfileImageLogoProps>(
-  ({ profileImage, onClick, size = '4.5rem', ...props }, ref) => {
-    return (
-      <ProfileImageLogoContainer size={size}>
-        <ProfileImage
-          src={profileImage}
-          alt="profile image logo"
-          onClick={onClick}
-          ref={ref}
-        />
-      </ProfileImageLogoContainer>
-    );
-  }
-);
+export const ProfileImageLogo = forwardRef<
+  HTMLImageElement,
+  ProfileImageLogoProps
+>(({ profileImage, onClick, size = '4.5rem', ...props }, ref) => {
+  return (
+    <ProfileImageLogoContainer size={size}>
+      <ProfileImage
+        src={profileImage}
+        alt="profile image logo"
+        onClick={onClick}
+        ref={ref}
+      />
+    </ProfileImageLogoContainer>
+  );
+});

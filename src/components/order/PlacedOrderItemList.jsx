@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, QuantityTogglerInput } from '../common';
 import styled from 'styled-components';
-import { useGetProductByIdQuery } from '../../redux/services/productApi';
+import { useGetProductByIdQuery } from '../../redux/services/productApi/productApi';
 
 const PlacedOrderItemListFlexWrapper = styled.main`
   display: flex;

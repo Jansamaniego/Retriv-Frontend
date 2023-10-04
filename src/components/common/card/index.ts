@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface Props {
-  backgroundColor?: boolean;
+  backgroundColor?: string;
 }
 
 export const Card = styled.div<Props>`

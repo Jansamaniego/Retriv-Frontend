@@ -12,7 +12,7 @@ import {
   useGetReviewsByProductIdQuery,
   useGetReviewByIdQuery,
   useDeleteReviewMutation,
-} from '../../../redux/services/reviewApi';
+} from '../../../redux/services/reviewApi/reviewApi';
 import { EditIcon, StarGradientIcon, XMarkIcon } from '../../../assets/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';

@@ -12,7 +12,7 @@ import ProductHeaderInfo from './productHeaderInfo';
 
 import UpdateProductMainImageModal from './updateProductMainImageModal';
 import AddProductImagesModal from './addProductImagesModal';
-import { useDeleteProductImageMutation } from '../../../redux/services/productApi';
+import { useDeleteProductImageMutation } from '../../../redux/services/productApi/productApi';
 import ProductImages from './productImages';
 
 const ProductHeaderCard = styled(Card)``;

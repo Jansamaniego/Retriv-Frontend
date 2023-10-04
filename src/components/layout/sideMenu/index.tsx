@@ -14,6 +14,12 @@ import {
 } from '../../../assets/icons';
 import SideMenuCategoryFilter from './sideMenuCategoryFilter';
 import MobileSideMenuCategoryFilter from './mobileSideMenuCategoryFilter';
+import { RootState } from 'src/redux/store';
+
+interface IStyledMainMenuDropDownProps {
+  onClick: () => void;
+  to?: string;
+}
 
 const SideMenuMain = styled.aside`
   display: flex;
@@ -81,8 +87,25 @@ const SubMenuLinkLabel = styled.h5`
   }
 `;
 
-const StyledMainMenuLinkWithDropDown = styled(StyledMainMenuLink)`
+const StyledMainMenuDropDown = styled.div<IStyledMainMenuDropDownProps>`
+  text-decoration: none;
+  color: ${(props) => props.theme.primary.main};
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  padding: 1.6rem 0.8rem;
+  border-radius: 0.5rem;
   justify-content: space-between;
+
+  &:hover {
+    background-color: ${(props) => props.theme.neutral[800]};
+  }
+
+  @media (max-width: 1300px) {
+    flex-direction: column;
+    gap: 0;
+    padding: 2.4rem 3.2rem;
+  }
 `;
 
 const DropDownIcon = styled.div`
@@ -101,8 +124,8 @@ const MainLink = styled.div`
   }
 `;
 
-const ProfileSubMenu = ({ userRole }) => {
-  const currentUser = useSelector((state) => state.userState.user);
+const ProfileSubMenu: React.FC<{ userRole?: string }> = ({ userRole }) => {
+  const currentUser = useSelector((state: RootState) => state.userState.user);
 
   return (
     <>
@@ -121,7 +144,7 @@ const ProfileSubMenu = ({ userRole }) => {
   );
 };
 
-const UserSubMenu = ({ userRole }) => {
+const UserSubMenu: React.FC<{ userRole?: string }> = ({ userRole }) => {
   return (
     <>
       <SubMenuLink to="user-table">
@@ -135,7 +158,7 @@ const UserSubMenu = ({ userRole }) => {
 };
 
 const SideMenu = () => {
-  const loggedInUser = useSelector((state) => state.userState.user);
+  const loggedInUser = useSelector((state: RootState) => state.userState.user);
 
   const [currentUser, setCurrentUser] = useState(loggedInUser);
   const [isProfileSubMenuOpen, setIsProfileSubMenuOpen] = useState(false);
@@ -176,7 +199,7 @@ const SideMenu = () => {
             <DashBoardIcon width="3rem" />
             <MenuLinkLabel>Dashboard</MenuLinkLabel>
           </StyledMainMenuLink>
-          <StyledMainMenuLinkWithDropDown
+          <StyledMainMenuDropDown
             onClick={() => setIsUserSubMenuOpen((value) => !value)}
           >
             <MainLink>
@@ -190,7 +213,7 @@ const SideMenu = () => {
                 <ChevronUp width="2rem" />
               )}
             </DropDownIcon>
-          </StyledMainMenuLinkWithDropDown>
+          </StyledMainMenuDropDown>
           {isUserSubMenuOpen && <UserSubMenu />}
           <StyledMainMenuLink to="/order-table">
             <DashBoardIcon width="3rem" />
@@ -202,7 +225,7 @@ const SideMenu = () => {
           </StyledMainMenuLink>
         </>
       )}
-      <StyledMainMenuLinkWithDropDown
+      <StyledMainMenuDropDown
         onClick={() => setIsProfileSubMenuOpen((value) => !value)}
       >
         <MainLink>
@@ -216,7 +239,7 @@ const SideMenu = () => {
             <ChevronUp width="2rem" />
           )}
         </DropDownIcon>
-      </StyledMainMenuLinkWithDropDown>
+      </StyledMainMenuDropDown>
       {isProfileSubMenuOpen && <ProfileSubMenu />}
       {role === 'seller' && (
         <StyledMainMenuLink to="/my-shop">

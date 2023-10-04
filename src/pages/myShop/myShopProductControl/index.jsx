@@ -8,7 +8,7 @@ import {
 } from '../../../redux/services/myProfileApi/myProfileApi';
 import { Button, Card, StyledModal } from '../../../components/common';
 import styled from 'styled-components';
-import { useDeleteShopMutation } from '../../../redux/services/shopApi';
+import { useDeleteShopMutation } from '../../../redux/services/shopApi/shopApi';
 import { removeShop } from '../../../redux/features/shopSlice';
 
 const MyShopProductControlsFlexWrapper = styled.div`

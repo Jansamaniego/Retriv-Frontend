@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from '../../../components/common';
-import { useGetOrderByIdQuery } from '../../../redux/services/orderApi';
+import { useGetOrderByIdQuery } from '../../../redux/services/orderApi/orderApi';
 import styled from 'styled-components';
 import OrderInfo from './orderInfo';
 import OrderControl from './orderControl';

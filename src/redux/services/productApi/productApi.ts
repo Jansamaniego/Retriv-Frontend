@@ -25,11 +25,9 @@ export const productApi = createApi({
   endpoints: (builder) => ({
     getProducts: builder.query<IProduct[], string>({
       query(queryString) {
-        console.log(queryString);
         return { url: `/product?${queryString || ''}`, credentials: 'include' };
       },
       transformResponse: (response: IGetProductsResponse) => {
-        console.log(response);
         return response.products.results;
       },
       providesTags: (results) => {

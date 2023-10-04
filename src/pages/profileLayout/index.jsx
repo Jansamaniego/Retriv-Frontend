@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet, useParams } from 'react-router-dom';
 import ProfileHeader from './profileHeader';
-import { useGetUserByIdQuery } from '../../redux/services/userApi';
+import { useGetUserByIdQuery } from '../../redux/services/userApi/userApi';
 import { Loading } from '../../components/common';
 
 export const ProfileLayout = () => {

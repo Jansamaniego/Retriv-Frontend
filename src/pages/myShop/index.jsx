@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import MyShopHeader from './myShopHeader';
 import styled from 'styled-components';
 import MyShopProductManager from './myShopProductManager';
-import { useGetShopByIdQuery } from '../../redux/services/shopApi';
+import { useGetShopByIdQuery } from '../../redux/services/shopApi/shopApi';
 import MyShopProductControl from './myShopProductControl';
 
 const ShopPageContainer = styled.main`

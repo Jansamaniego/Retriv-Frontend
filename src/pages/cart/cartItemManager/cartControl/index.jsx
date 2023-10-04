@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card, StyledModal } from '../../../../components/common';
 import { useNavigate } from 'react-router-dom';
-import { useDeleteCartMutation } from '../../../../redux/services/cartApi';
+import { useDeleteCartMutation } from '../../../../redux/services/cartApi/cartApi';
 
 const CartDetailsFlexWrapper = styled.main`
   display: flex;

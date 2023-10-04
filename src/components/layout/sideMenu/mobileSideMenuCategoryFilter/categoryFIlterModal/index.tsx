@@ -4,8 +4,14 @@ import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useProductPagination } from '../../../../../context/ProductPaginationContext';
-import { useGetCategoriesQuery } from '../../../../../redux/services/categoryApi';
+import { useGetCategoriesQuery } from '../../../../../redux/services/categoryApi/categoryApi';
 import { useEffect } from 'react';
+import { ICategory } from 'src/types';
+
+interface ICategoryFilterModalProps {
+  isModalOpen: boolean;
+  closeModal: () => void;
+}
 
 const CategoryFilterList = styled.ul`
   display: grid;
@@ -45,29 +51,36 @@ const CategoryLabel = styled.div`
   cursor: pointer;
 `;
 
-const CategoryFilterModal = ({ showModal, closeModal }) => {
+const CategoryFilterModal: React.FC<ICategoryFilterModalProps> = ({
+  isModalOpen,
+  closeModal,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [categoryFilterArray, setCategoryFilterArray] = useState([]);
+  const [categoryFilterArray, setCategoryFilterArray] = useState<string[]>([]);
   const { setCurrentPage } = useProductPagination();
 
-  const { categories, isLoading: categoriesIsLoading } = useGetCategoriesQuery(
-    null,
-    {
-      selectFromResult: ({ data }) => {
-        return {
-          categories: data?.results,
-          totalPages: data?.totalPages,
-        };
-      },
-    }
-  );
+  const {
+    categories,
+    totalPages,
+    isLoading: categoriesIsLoading,
+  } = useGetCategoriesQuery(null, {
+    selectFromResult: ({ data, isLoading }) => {
+      return {
+        categories: data?.results,
+        totalPages: data?.totalPages,
+        isLoading: isLoading,
+      };
+    },
+  });
 
   useEffect(() => {
     const selectedCategories = searchParams.get('categories')?.split(',');
     setCategoryFilterArray(selectedCategories ? selectedCategories : []);
   }, [searchParams]);
 
-  const handleCheckboxOnClickHandler = (categoryId) => {
+  const handleCheckboxOnClickHandler: (
+    categoryId: string
+  ) => string[] | void = (categoryId) => {
     setCategoryFilterArray((prevValue) => {
       let values = [...prevValue];
 
@@ -98,7 +111,7 @@ const CategoryFilterModal = ({ showModal, closeModal }) => {
   const categoryFilterOnClickHandler = () => {
     setSearchParams((prevParams) => {
       if (categoryFilterArray.length !== 0) {
-        prevParams.set('categories', categoryFilterArray);
+        prevParams.set('categories', categoryFilterArray.join('&'));
       } else {
         prevParams.delete('categories');
       }
@@ -112,12 +125,12 @@ const CategoryFilterModal = ({ showModal, closeModal }) => {
 
   return (
     <StyledModal
-      showModal={showModal}
+      isModalOpen={isModalOpen}
       closeModal={closeModal}
       onClick={categoryFilterOnClickHandler}
     >
       <CategoryFilterList>
-        {categories.map((category) => (
+        {categories.map((category: ICategory) => (
           <CategoryFilter key={category._id}>
             <CategoryLabel>
               <CategoryCheckBoxContainer

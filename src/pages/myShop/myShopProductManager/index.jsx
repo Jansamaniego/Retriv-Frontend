@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetProductsByShopIdQuery } from '../../../redux/services/productApi';
+import { useGetProductsByShopIdQuery } from '../../../redux/services/productApi/productApi';
 import styled from 'styled-components';
 import MyShopProductList from './myShopProductList';
 import { Button, Card } from '../../../components/common';

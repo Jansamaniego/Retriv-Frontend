@@ -13,7 +13,7 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
-import { useGetUsersQuery } from '../../redux/services/userApi';
+import { useGetUsersQuery } from '../../redux/services/userApi/userApi';
 import moment from 'moment/moment';
 import { Card } from '../../components/common';
 

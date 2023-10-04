@@ -22,7 +22,7 @@ import {
   useUpdateProductDetailsMutation,
   useUpdateProductImagesMutation,
   useUpdateProductMainImageMutation,
-} from '../../redux/services/productApi';
+} from '../../redux/services/productApi/productApi';
 import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';

@@ -39,7 +39,7 @@ export const shopApi = createApi({
     }),
     getShopById: builder.query<IShop, string>({
       query(shopId) {
-        console.log(shopId);
+
         return {
           url: `/shop/${shopId}`,
         };

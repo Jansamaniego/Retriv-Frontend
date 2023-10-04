@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useGetOverallStatsQuery } from '../../redux/services/stats/overallStatsApi';
+import { useGetOverallStatsQuery } from '../../redux/services/stats/overallStatsApi/overallStatsApi';
 import styled, { useTheme } from 'styled-components';
 import { Card, Select } from '../../components/common';
 import moment from 'moment/moment';

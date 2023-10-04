@@ -1,5 +1,5 @@
 import React, { useRef, useState, useMemo } from 'react';
-import { useGetOrdersQuery } from '../../redux/services/orderApi';
+import { useGetOrdersQuery } from '../../redux/services/orderApi/orderApi';
 import { AgGridReact } from 'ag-grid-react';
 import { Button, Card } from '../../components/common';
 import moment from 'moment/moment';

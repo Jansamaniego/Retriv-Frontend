@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetShopsQuery } from '../../redux/services/shopApi';
+import { useGetShopsQuery } from '../../redux/services/shopApi/shopApi';
 import { Card } from '../common';
 
 const ShopCard = ({ children }) => {

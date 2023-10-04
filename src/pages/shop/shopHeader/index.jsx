@@ -8,7 +8,7 @@ import {
   ProductsSoldIcon,
   StarRatingIcon,
 } from '../../../assets/icons';
-import { useGetShopRatingsQuery } from '../../../redux/services/ratings/shopRatingsApi';
+import { useGetShopRatingsQuery } from '../../../redux/services/ratings/shopRatingsApi/shopRatingsApi';
 
 const ShopHeaderFlexWrapper = styled.div`
   display: flex;

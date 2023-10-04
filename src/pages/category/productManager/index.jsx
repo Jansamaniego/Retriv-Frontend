@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import ProductList from './productList';
-import { useGetProductsQuery } from '../../../redux/services/productApi';
+import { useGetProductsQuery } from '../../../redux/services/productApi/productApi';
 import { useSelector } from 'react-redux';
 import { Pagination, Loading } from '../../../components/common';
 import { useState } from 'react';

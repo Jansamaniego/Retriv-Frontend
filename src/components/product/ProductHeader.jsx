@@ -8,7 +8,7 @@ import ProductHeaderInfo from './ProductHeaderInfo';
 import { EditIcon, XMarkIcon } from '../../assets/icons';
 import UpdateProductMainImageModal from './UpdateProductMainImageModal';
 import AddProductImagesModal from './AddProductImagesModal';
-import { useDeleteProductImageMutation } from '../../redux/services/productApi';
+import { useDeleteProductImageMutation } from '../../redux/services/productApi/productApi';
 
 const ProductHeaderCard = styled(Card)``;
 

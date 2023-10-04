@@ -1,6 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { IUser } from 'src/types';
 
-const initialState = {
+export interface IInitialUserState {
+  user: IUser | null;
+}
+
+interface ISetUser {
+  user: IUser;
+}
+
+const initialState: IInitialUserState = {
   user: null,
 };
 
@@ -8,9 +17,10 @@ export const userSlice = createSlice({
   initialState,
   name: 'userSlice',
   reducers: {
-    logout: () => initialState,
-    setUser: (state, { payload: user }) => {
-      state.user = user;
+    logout: (state: IInitialUserState, action: PayloadAction<void>) =>
+      initialState,
+    setUser: (state: IInitialUserState, action: PayloadAction<ISetUser>) => {
+      state.user = action.payload.user;
     },
   },
 });

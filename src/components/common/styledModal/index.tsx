@@ -11,9 +11,9 @@ interface Props {
   isModalOpen: boolean;
   closeModal: () => void;
   children?: React.ReactNode;
-  isLoading: boolean;
-  withButtons: boolean;
-  withCloseButton: boolean;
+  isLoading?: boolean;
+  withButtons?: boolean;
+  withCloseButton?: boolean;
   onClick?: () => void | undefined;
 }
 

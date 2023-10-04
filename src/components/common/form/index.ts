@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-interface Props extends HTMLFormElement {}
-
-export const Form = styled.form<Props>`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;

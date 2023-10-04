@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetUsersQuery } from '../../redux/services/userApi';
+import { useGetUsersQuery } from '../../redux/services/userApi/userApi';
 import { Card } from '../common';
 import styled from 'styled-components';
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { useGetShopByIdQuery } from '../../../redux/services/shopApi';
-import { useGetShopRatingsQuery } from '../../../redux/services/ratings/shopRatingsApi';
-import { useGetShopStatsQuery } from '../../../redux/services/stats/shopStatsApi';
+import { useGetShopByIdQuery } from '../../../redux/services/shopApi/shopApi';
+import { useGetShopRatingsQuery } from '../../../redux/services/ratings/shopRatingsApi/shopRatingsApi';
+import { useGetShopStatsQuery } from '../../../redux/services/stats/shopStatsApi/shopStatsApi';
 import {
   Card,
   ContentFlexWrapper,
