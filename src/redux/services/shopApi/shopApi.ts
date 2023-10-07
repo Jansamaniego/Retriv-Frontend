@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import customBaseQuery from '../../../utils/customBaseQuery';
 import { myProfileApi } from '../myProfileApi/myProfileApi';
 import { removeShop, setShop } from '../../features/shopSlice';
-import { IShop } from 'src/types';
+import { IResponse, IShop } from 'src/types';
 import {
   ICreateShopResponse,
   ICreateShop,
@@ -13,6 +13,7 @@ import {
   IUpdateShopImageResponse,
   IUpdateShopImage,
   IDeleteShopResponse,
+  IShopWithOwnerPickValues,
 } from './shopApi.types';
 
 export const shopApi = createApi({
@@ -20,7 +21,7 @@ export const shopApi = createApi({
   baseQuery: customBaseQuery,
   tagTypes: ['Shop'],
   endpoints: (builder) => ({
-    getShops: builder.query<IShop[], void>({
+    getShops: builder.query<IShopWithOwnerPickValues[], void>({
       query() {
         return {
           url: '/shop',
@@ -37,9 +38,8 @@ export const shopApi = createApi({
           : [{ type: 'Shop', id: 'LIST' }];
       },
     }),
-    getShopById: builder.query<IShop, string>({
+    getShopById: builder.query<IShopWithOwnerPickValues, string>({
       query(shopId) {
-
         return {
           url: `/shop/${shopId}`,
         };
@@ -134,7 +134,7 @@ export const shopApi = createApi({
         }
       },
     }),
-    deleteShop: builder.mutation<IDeleteShopResponse, string>({
+    deleteShop: builder.mutation<IResponse, string>({
       query(id) {
         return {
           url: `/shop/${id}`,

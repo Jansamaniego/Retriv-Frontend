@@ -2,13 +2,15 @@ import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
 
 interface InputWrapperProps {
-  marginBottom: string;
+  marginBottom?: number | string;
 }
 
 interface StyledInputProps {
+  id?: string;
   name: string;
-  type: string;
-  marginBottom: string;
+  type?: string;
+  placeholder?: string;
+  marginBottom?: number | string;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -16,7 +18,7 @@ const InputWrapper = styled.div<InputWrapperProps>`
   flex-direction: column;
   gap: 0.8rem;
   margin-bottom: ${(props) =>
-    props.marginBottom || props.marginBottom === '0'
+    props.marginBottom || props.marginBottom === 0
       ? props.marginBottom
       : '0.8rem'};
   width: 100%;
@@ -41,7 +43,7 @@ const Input = styled.input`
 export const StyledInput: React.FC<StyledInputProps> = ({
   name,
   type = 'text',
-  marginBottom,
+  marginBottom = 0,
   ...props
 }) => {
   const {

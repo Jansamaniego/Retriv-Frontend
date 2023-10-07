@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Select } from '../select';
 
 interface CountrySelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  placeHolder: string;
+  placeholder?: string;
   name: string;
 }
 
@@ -13,7 +13,7 @@ const StyledSelect = styled(Select)`
 `;
 
 export const CountrySelect: React.FC<CountrySelectProps> = ({
-  placeHolder = 'Select country',
+  placeholder = 'Select country',
   name,
   ...props
 }) => {

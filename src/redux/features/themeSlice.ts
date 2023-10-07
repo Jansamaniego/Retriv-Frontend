@@ -4,10 +4,6 @@ interface IInitialThemeState {
   theme: string;
 }
 
-interface ISetTheme {
-  theme: string;
-}
-
 const initialState: IInitialThemeState = {
   theme: 'light',
 };
@@ -16,8 +12,8 @@ export const themeSlice = createSlice({
   initialState,
   name: 'themeSlice',
   reducers: {
-    setTheme: (state, action: PayloadAction<ISetTheme>) => {
-      state.theme = action.payload.theme;
+    setTheme: (state, action: PayloadAction<string>) => {
+      state.theme = action.payload;
     },
   },
 });

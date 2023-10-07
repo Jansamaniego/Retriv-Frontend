@@ -26,7 +26,7 @@ export const cartApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data: cart } = await queryFulfilled;
-          await dispatch(setCart(cart));
+           dispatch(setCart(cart));
         } catch (error) {
           console.log(error);
         }

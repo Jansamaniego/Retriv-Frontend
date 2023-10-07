@@ -7,8 +7,8 @@ interface ProfileImageLogoContainerProps {
 
 interface ProfileImageLogoProps {
   profileImage: string;
-  onClick: () => void;
-  size: string;
+  onClick?: () => void;
+  size?: string;
 }
 
 const ProfileImageLogoContainer = styled.div<ProfileImageLogoContainerProps>`

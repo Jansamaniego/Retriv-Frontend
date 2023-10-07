@@ -13,10 +13,7 @@ export interface ICategoryResponse extends IResponse {
   category: ICategory;
 }
 
-export interface ICreateCategory {
-  name: string;
-  description: string;
-}
+export interface ICreateCategory extends FormData {}
 
 export interface IUpdateCategoryDetails {
   categoryId: string;
@@ -24,7 +21,4 @@ export interface IUpdateCategoryDetails {
   description: string;
 }
 
-export interface IUpdateCategoryImage extends FormData {
-  id: string;
-  image: File;
-}
+export interface IUpdateCategoryImage extends FormData {}

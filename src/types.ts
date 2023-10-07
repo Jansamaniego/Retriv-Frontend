@@ -33,7 +33,7 @@ export interface IUser {
   gender: 'male' | 'female' | 'other' | 'undisclosed';
   profileImage: string;
   profileImageId: String;
-  defaultShop: IShop | string;
+  defaultShop: string;
   preferredCategories: string[];
 }
 
@@ -52,6 +52,7 @@ export interface IShop {
   productsQuantity: number;
   totalUnitsSold: number;
   totalSales: number;
+  createdAt?: Date;
 }
 
 export interface IProduct {
@@ -100,13 +101,13 @@ export interface ICart {
   totalQuantity: number;
 }
 
-interface ICartItem {
+export interface ICartItem {
   id: string;
   _id: string;
-  product: IProduct | string;
+  product: string;
   totalProductQuantity: number;
   totalProductPrice: number;
-  shop: IShop | string;
+  shop: string;
   shopOnwer: IUser | string;
   category: ICategory | string;
 }
@@ -114,8 +115,8 @@ interface ICartItem {
 export interface IOrder {
   id: string;
   _id: string;
-  products: IProduct[] | string[];
-  user: IUser | string;
+  products: ICartItem[];
+  user: IUser;
   totalPrice: number;
   totalQuantity: number;
   isPaid: boolean;

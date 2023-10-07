@@ -16,6 +16,7 @@ import {
   IDeleteProductImage,
   IDeleteProduct,
   IDeleteProductResponse,
+  IGetProductsTransformedResponse,
 } from './productApi.types';
 
 export const productApi = createApi({
@@ -23,17 +24,20 @@ export const productApi = createApi({
   baseQuery: customBaseQuery,
   tagTypes: ['Product'],
   endpoints: (builder) => ({
-    getProducts: builder.query<IProduct[], string>({
+    getProducts: builder.query<IGetProductsTransformedResponse, string>({
       query(queryString) {
         return { url: `/product?${queryString || ''}`, credentials: 'include' };
       },
       transformResponse: (response: IGetProductsResponse) => {
-        return response.products.results;
+        return response.products;
       },
       providesTags: (results) => {
-        return results
+        return results?.results
           ? [
-              ...results.map(({ id }) => ({ type: 'Product' as const, id })),
+              ...results.results.map(({ id }) => ({
+                type: 'Product' as const,
+                id,
+              })),
               { type: 'Product', id: 'LIST' },
             ]
           : [{ type: 'Product', id: 'LIST' }];

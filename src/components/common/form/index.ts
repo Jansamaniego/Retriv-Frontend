@@ -1,6 +1,9 @@
+import { FormHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-export const Form = styled.form`
+interface IFormProps extends FormHTMLAttributes<HTMLFormElement> {}
+
+export const Form = styled.form<IFormProps>`
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -11,6 +11,7 @@ import {
   IUpdateReviewResponse,
   IDeleteReview,
   IDeleteReviewResponse,
+  IReviewWithUserPickValues,
 } from './reviewApi.types';
 
 export const reviewApi = createApi({
@@ -18,7 +19,10 @@ export const reviewApi = createApi({
   baseQuery: customBaseQuery,
   tagTypes: ['Review'],
   endpoints: (builder) => ({
-    getReviewsByProductId: builder.query<IReview[], IGetReviewsByProductId>({
+    getReviewsByProductId: builder.query<
+      IReviewWithUserPickValues[],
+      IGetReviewsByProductId
+    >({
       query({ shopId, productId }) {
         return { url: `shop/${shopId}/product/${productId}/review` };
       },
@@ -36,7 +40,7 @@ export const reviewApi = createApi({
           : [{ type: 'Review', id: productId }];
       },
     }),
-    getReviewById: builder.query<IReview, string>({
+    getReviewById: builder.query<IReviewWithUserPickValues, string>({
       query(reviewId) {
         return {
           url: `review/${reviewId}`,

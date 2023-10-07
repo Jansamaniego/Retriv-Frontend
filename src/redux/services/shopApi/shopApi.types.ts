@@ -1,48 +1,60 @@
-import { IResponse, IShop } from 'src/types';
+import { IResponse, IShop, IUser } from 'src/types';
+
+export interface IShopWithOwnerPickValues {
+  _id: string;
+  id: string;
+  name: string;
+  address: string;
+  phone: number;
+  slug?: string;
+  shopImage: string;
+  shopImageId: string;
+  description: string;
+  owner: Pick<
+    IUser,
+    '_id' | 'username' | 'email' | 'firstName' | 'lastName' | 'profileImage'
+  >;
+  dateCreated: Date;
+  productsQuantity: number;
+  totalUnitsSold: number;
+  totalSales: number;
+  createdAt: Date;
+}
 
 export interface IGetShopsResponse extends IResponse {
   shops: {
-    results: IShop[];
+    results: IShopWithOwnerPickValues[];
     totalPages: number;
   };
 }
 
 export interface IGetShopByIdResponse extends IResponse {
-  shop: IShop;
+  shop: IShopWithOwnerPickValues;
 }
 
 export interface ICreateShopResponse extends IResponse {
   shop: IShop;
 }
 
-export interface ICreateShop extends FormData {
-  image: File;
-  name: string;
-  address: string;
-  description: string;
-  phone: string;
-}
+export interface ICreateShop extends FormData {}
 
 export interface IUpdateShopResponse extends IResponse {
-  shop: IShop;
+  shop: IShopWithOwnerPickValues;
 }
 
 export interface IUpdateShop {
   name: string;
   address: string;
   description: string;
-  phone: string;
+  phone: number;
   id: string;
 }
 
 export interface IUpdateShopImageResponse extends IResponse {
-  shop: IShop;
+  shop: IShopWithOwnerPickValues;
 }
 
-export interface IUpdateShopImage extends FormData {
-  id: string;
-  image: File;
-}
+export interface IUpdateShopImage extends FormData {}
 
 export interface IDeleteShopResponse extends IResponse {
   shop: IShop;

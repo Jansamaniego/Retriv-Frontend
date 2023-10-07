@@ -1,7 +1,7 @@
 import { IUser, IToken, IResponse } from 'src/types';
 
 export interface ILogin {
-  username: string;
+  email: string;
   password: string;
 }
 

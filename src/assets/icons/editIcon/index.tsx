@@ -2,9 +2,10 @@ import React, { Ref, forwardRef } from 'react';
 
 interface Props {
   width: string;
+  onClick?: () => any;
 }
 
-export const EditIcon: React.FC<Props> = forwardRef<Ref<SVGSVGElement>, Props>(
+export const EditIcon: React.FC<Props> = forwardRef<SVGSVGElement, Props>(
   ({ ...props }, ref) => {
     return (
       <svg

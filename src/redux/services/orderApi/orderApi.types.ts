@@ -20,6 +20,7 @@ export interface ICreateOrder {
     postalCode: string;
     address: string;
   };
+  paymentIntent?: string;
 }
 
 export interface IUpdateOrderStatus {

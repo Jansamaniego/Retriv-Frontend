@@ -5,10 +5,6 @@ interface IInitialCartState {
   cart: ICart | null;
 }
 
-interface ISetCart {
-  cart: ICart;
-}
-
 interface IIncrementCartItem {
   cartItemId: string;
 }
@@ -29,8 +25,8 @@ export const cartSlice = createSlice({
   initialState,
   name: 'cartSlice',
   reducers: {
-    setCart: (state, action: PayloadAction<ISetCart>) => {
-      state.cart = action.payload.cart;
+    setCart: (state, action: PayloadAction<ICart>) => {
+      state.cart = action.payload;
     },
     incrementCartItem: (state, action: PayloadAction<IIncrementCartItem>) => {
       if (state.cart) {

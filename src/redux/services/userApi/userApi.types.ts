@@ -1,8 +1,39 @@
 import { IResponse, IUser } from 'src/types';
 
+interface IModifiedShop {
+  name: string;
+  address: string;
+  shopImage: string;
+  shopImageId: string;
+}
+
+export interface IUserWithModifiedShops {
+  id: string;
+  _id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password?: string;
+  role: 'user' | 'admin' | 'seller';
+  shops?: IModifiedShop[];
+  isEmailVerified: boolean;
+  passwordChangedAt?: string;
+  dateJoined: string;
+  address?: string;
+  phone?: string;
+  dateOfBirth?: string;
+  avgShopRating?: number;
+  gender: 'male' | 'female' | 'other' | 'undisclosed';
+  profileImage: string;
+  profileImageId: String;
+  defaultShop: string;
+  preferredCategories: string[];
+}
+
 export interface IGetUsersResponse extends IResponse {
   users: {
-    results: IUser[];
+    results: IUserWithModifiedShops[];
     totalPages: number;
   };
 }
@@ -15,19 +46,7 @@ export interface ICreateUserResponse extends IResponse {
   user: IUser;
 }
 
-export interface ICreateUser {
-  username: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-  firstName: string;
-  lastName: string;
-  gender: 'male' | 'female' | 'other' | 'undisclosed';
-  image: File;
-  address?: string;
-  phone?: string;
-  dateOfBirth?: Date;
-}
+export interface ICreateUser extends FormData {}
 
 export interface IUpdateUserResponse extends IResponse {
   user: IUser;

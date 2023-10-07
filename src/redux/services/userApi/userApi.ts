@@ -9,6 +9,7 @@ import {
   IUpdateUserResponse,
   IUpdateUser,
   IDeleteUserResponse,
+  IUserWithModifiedShops,
 } from './userApi.types';
 
 export const userApi = createApi({
@@ -16,7 +17,7 @@ export const userApi = createApi({
   baseQuery: customBaseQuery,
   tagTypes: ['User'],
   endpoints: (builder) => ({
-    getUsers: builder.query<IUser[], null>({
+    getUsers: builder.query<IUserWithModifiedShops[], null>({
       query() {
         return {
           url: '/user',

@@ -1,7 +1,8 @@
 import React from 'react';
 
 interface Props {
-  width: string;
+  width?: string;
+  strokeWidth?: string;
 }
 
 export const CartIcon: React.FC<Props> = (props) => {

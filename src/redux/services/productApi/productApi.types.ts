@@ -7,6 +7,11 @@ export interface IGetProductsResponse extends IResponse {
   };
 }
 
+export interface IGetProductsTransformedResponse {
+  results: IProduct[];
+  totalPages: number;
+}
+
 export interface IGetProductsByShopIdResponse extends IResponse {
   products: {
     results: IProduct[];
@@ -29,7 +34,7 @@ export interface ICreateProductResponse extends IResponse {
 
 export interface ICreateProduct {
   shopId: string;
-  formData: ICreateProductFormEntries;
+  formData: FormData;
 }
 
 interface ICreateProductFormEntries extends FormData {

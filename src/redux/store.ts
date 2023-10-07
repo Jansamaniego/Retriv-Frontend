@@ -22,6 +22,7 @@ import userReducer from './features/userSlice';
 import shopReducer from './features/shopSlice';
 import themeReducer from './features/themeSlice';
 import cartReducer from './features/cartSlice';
+import { useDispatch } from 'react-redux';
 
 export const store = configureStore({
   reducer: {
@@ -69,5 +70,7 @@ export const store = configureStore({
 });
 
 setupListeners(store.dispatch);
+
+export const useAppDispatch: () => typeof store.dispatch = useDispatch;
 
 export type RootState = ReturnType<typeof store.getState>;

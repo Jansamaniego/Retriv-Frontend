@@ -1,7 +1,8 @@
 import React from 'react';
 
 interface Props {
-  width: string;
+  width?: string;
+  onClick?: () => void;
 }
 
 export const SearchIcon: React.FC<Props> = (props) => {

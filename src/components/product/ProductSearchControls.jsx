@@ -181,10 +181,12 @@ const ProductSearchControls = ({
 
   useEffect(() => {
     setSearchParams((params) => {
-      return {
-        ...formatQueryParams(params),
-        page: Number(currentPage),
-      };
+      params.set('page', Number(currentPage));
+      return params;
+      // return {
+      //   ...formatQueryParams(params),
+      //   page: Number(currentPage),
+      // };
     });
   }, [currentPage]);
 
@@ -194,54 +196,69 @@ const ProductSearchControls = ({
 
   const sortByRelevanceClickHandler = () => {
     setSearchParams((params) => {
-      return {
-        ...formatQueryParams(params),
-        sortBy: 'relevance',
-        sort: -1,
-      };
+      params.set('sortBy', 'relevance');
+      params.set('sort', -1);
+      return params;
+      // return {
+      //   ...formatQueryParams(params),
+      //   sortBy: 'relevance',
+      //   sort: -1,
+      // };
     });
     handlePageChange(1);
   };
 
   const sortByLatestClickHandler = () => {
     setSearchParams((params) => {
-      return {
-        ...formatQueryParams(params),
-        sortBy: 'latest',
-        sort: -1,
-      };
+      params.set('sortBy', 'latest');
+      params.set('sort', -1);
+      return params;
+      // return {
+      //   ...formatQueryParams(params),
+      //   sortBy: 'latest',
+      //   sort: -1,
+      // };
     });
     handlePageChange(1);
   };
   const sortByTopSalesClickHandler = () => {
     setSearchParams((params) => {
-      return {
-        ...formatQueryParams(params),
-        sortBy: 'top-sales',
-        sort: -1,
-      };
+      params.set('sortBy', 'top-sales');
+      params.set('sort', -1);
+      return params;
+      // return {
+      //   ...formatQueryParams(params),
+      //   sortBy: 'top-sales',
+      //   sort: -1,
+      // };
     });
     handlePageChange(1);
   };
 
   const sortByPriceOptionLowToHighClickHandler = () => {
     setSearchParams((params) => {
-      return {
-        ...formatQueryParams(params),
-        sortBy: 'price',
-        sort: 1,
-      };
+      params.set('sortBy', 'price');
+      params.set('sort', 1);
+      return params;
+      // return {
+      //   ...formatQueryParams(params),
+      //   sortBy: 'price',
+      //   sort: 1,
+      // };
     });
     handlePageChange(1);
   };
 
   const sortByPriceOptionHighToLowClickHandler = () => {
     setSearchParams((params) => {
-      return {
-        ...formatQueryParams(params),
-        sortBy: 'price',
-        sort: -1,
-      };
+      params.set('sortBy', 'price');
+      params.set('sort', -1);
+      return params;
+      // return {
+      //   ...formatQueryParams(params),
+      //   sortBy: 'price',
+      //   sort: -1,
+      // };
     });
     handlePageChange(1);
   };

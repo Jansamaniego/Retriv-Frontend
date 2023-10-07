@@ -1,8 +1,21 @@
-import { IResponse, IReview } from 'src/types';
+import { IProduct, IResponse, IReview, IShop, IUser } from 'src/types';
+
+export interface IReviewWithUserPickValues {
+  id: string;
+  _id: string;
+  product: IProduct | string;
+  shop: IShop | string;
+  reviewText: string;
+  rating: number;
+  user: Pick<
+    IUser,
+    '_id' | 'firstName' | 'lastName' | 'profileImage' | 'profileImageId'
+  >;
+}
 
 export interface IGetReviewsByProductIdResponse extends IResponse {
   reviews: {
-    results: IReview[];
+    results: IReviewWithUserPickValues[];
     totalPages: number;
   };
 }
@@ -13,7 +26,7 @@ export interface IGetReviewsByProductId {
 }
 
 export interface IGetReviewByIdResponse extends IResponse {
-  review: IReview;
+  review: IReviewWithUserPickValues;
 }
 
 export interface ICreateReviewResponse extends IResponse {
@@ -28,7 +41,7 @@ export interface ICreateReview {
 }
 
 export interface IUpdateReviewResponse extends IResponse {
-  review: IReview;
+  review: IReviewWithUserPickValues;
 }
 
 export interface IUpdateReview {

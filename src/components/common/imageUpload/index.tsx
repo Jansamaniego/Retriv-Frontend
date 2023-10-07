@@ -6,11 +6,11 @@ type EmptyString = '' | null | undefined;
 
 interface ImageUploadProps {
   name: string;
-  multiple: boolean;
-  image: File;
-  changeImage: (image: File | EmptyString) => void;
-  images: File[] | [];
-  changeImages: (images: File[] | []) => void;
+  multiple?: boolean;
+  image?: File | EmptyString;
+  changeImage?: (image: File | EmptyString) => void;
+  images?: File[] | [];
+  changeImages?: (images: File[] | []) => void;
   error: {
     isError: boolean;
     message: string;
@@ -82,7 +82,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   };
 
   const handleImageChange = async (event: ChangeEvent) => {
-    if (multiple) {
+    if (multiple && changeImages) {
       const files = (event.target as HTMLInputElement).files;
 
       const imagesArray = Array.from(files || []).map((file) => file);
@@ -126,7 +126,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
       changeImages(imagesArray);
       applyError({ isError: false, message: '' });
-    } else {
+    } else if (!multiple && changeImage) {
       let file: File | null = null;
 
       const files = (event.target as HTMLInputElement).files;

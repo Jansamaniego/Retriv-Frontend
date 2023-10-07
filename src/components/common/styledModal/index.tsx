@@ -14,7 +14,7 @@ interface Props {
   isLoading?: boolean;
   withButtons?: boolean;
   withCloseButton?: boolean;
-  onClick?: () => void | undefined;
+  onClick?: () => void | Promise<void> | undefined;
 }
 
 const Background = styled.div`

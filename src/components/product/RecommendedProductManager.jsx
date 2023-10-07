@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { Pagination } from '../common';
 import { useState } from 'react';
 import { useProductPagination } from '../../context/ProductPaginationContext';
+import { current } from '@reduxjs/toolkit';
 
 const ProductManagerGrid = styled.main`
   display: grid;
@@ -53,10 +54,12 @@ const RecommendedProductManager = () => {
 
   useEffect(() => {
     setSearchParams((params) => {
-      return {
-        ...formatQueryParams(params),
-        page: Number(currentPage),
-      };
+      params.set('page', Number(currentPage));
+      return params;
+      // return {
+      //   ...formatQueryParams(params),
+      //   page: Number(currentPage),
+      // };
     });
   }, [currentPage]);
 
