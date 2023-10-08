@@ -3,6 +3,7 @@ import React from 'react';
 interface Props {
   width: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export const XMarkIcon: React.FC<Props> = (props) => {

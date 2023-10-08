@@ -1,3 +1,5 @@
+import { IShopWithOwnerPickValues } from './redux/services/shopApi/shopApi.types';
+
 export interface IResponse {
   type: string;
   message: string;
@@ -22,7 +24,7 @@ export interface IUser {
   email: string;
   password?: string;
   role: 'user' | 'admin' | 'seller';
-  shops?: IShop[] | string[] | [];
+  shops?: IShop[] | string[] | [] | IShopWithOwnerPickValues[];
   isEmailVerified: boolean;
   passwordChangedAt?: string;
   dateJoined: string;
@@ -71,6 +73,7 @@ export interface IProduct {
   shopOnwer: IUser | string;
   quantityInStock: number;
   quantitySold: number;
+  isOutOfStock: boolean;
 }
 
 export interface ICategory {
@@ -108,7 +111,7 @@ export interface ICartItem {
   totalProductQuantity: number;
   totalProductPrice: number;
   shop: string;
-  shopOnwer: IUser | string;
+  shopOwner: string;
   category: ICategory | string;
 }
 

@@ -6,9 +6,26 @@ import moment from 'moment/moment';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { IOrder } from 'src/types';
+import {
+  CellRangeParams,
+  CellRendererSelectorFunc,
+  ColDef,
+  ColGroupDef,
+  GetCellRendererInstancesParams,
+  ValueFormatterFunc,
+  ValueFormatterParams,
+} from 'ag-grid-community';
 
 interface IOrderTableProps {
-  orders: IOrder[];
+  orders: IFormattedOrder[];
+}
+
+interface IFormattedOrder {
+  _id: string;
+  dateOfPurchase: Date | undefined;
+  status: string | undefined;
+  user: { email: string };
+  totalPrice: number;
 }
 
 const OrderId = styled.h6`
@@ -21,20 +38,20 @@ const OrderId = styled.h6`
   }
 `;
 
-const DateFormatter = (p) => {
+const DateFormatter = (p: ValueFormatterParams) => {
   return <>{moment(p.value, 'YYYYMMDD').fromNow()}</>;
 };
 
-const NameRenderer = (p) => {
+const NameRenderer = (p: ValueFormatterParams) => {
   const { username } = p.data.user;
   return <>{username}</>;
 };
 
-const PriceFormatter = (p) => {
+const PriceFormatter = (p: ValueFormatterParams) => {
   return <>&#8369;{p.value}</>;
 };
 
-const OrderIdRenderer = (p) => {
+const OrderIdRenderer = (p: ValueFormatterParams) => {
   const navigate = useNavigate();
 
   const navigateOrderDetails = () => {
@@ -47,7 +64,7 @@ const OrderIdRenderer = (p) => {
 const OrderTable: React.FC<IOrderTableProps> = ({ orders }) => {
   const gridRef = useRef(null);
   const [rowData, setRowData] = useState(orders);
-  const [columnDefs, setColumnDefs] = useState([
+  const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: '_id', headerName: 'Order Id', cellRenderer: OrderIdRenderer },
     {
       field: 'dateOfPurchase',
@@ -62,6 +79,8 @@ const OrderTable: React.FC<IOrderTableProps> = ({ orders }) => {
     },
     { field: 'totalPrice', cellRenderer: PriceFormatter },
   ]);
+
+  console.log(rowData);
 
   const defaultColDef = useMemo(
     () => ({
@@ -99,7 +118,22 @@ const OrderTable: React.FC<IOrderTableProps> = ({ orders }) => {
 };
 
 export const AdminOrder = () => {
-  const { data: orders, isLoading } = useGetOrdersQuery();
+  const { orders, isLoading } = useGetOrdersQuery(undefined, {
+    selectFromResult: ({ data, isLoading }) => {
+      return {
+        orders: data?.map((order) => {
+          return {
+            _id: order._id,
+            dateOfPurchase: order.dateOfPurchase,
+            status: order.status,
+            user: { email: order.user.email },
+            totalPrice: order.totalPrice,
+          };
+        }),
+        isLoading,
+      };
+    },
+  });
 
   if (isLoading) return <h2>Loading...</h2>;
 

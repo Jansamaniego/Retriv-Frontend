@@ -1,5 +1,3 @@
-import { DefaultTheme } from 'styled-components';
-
 interface ThemeTokens {
   grey: IColorToken;
   primary: IColorToken;
@@ -75,9 +73,6 @@ function reverseTokens(tokensDark: ThemeTokens) {
 export const tokensLight: { [key: string]: any } = reverseTokens(tokensDark);
 
 export const themeSettings = (mode: string) => {
-  if (Object.values(tokensLight).length === 0) {
-    return;
-  }
   return {
     mode: mode,
     ...(mode === 'dark'

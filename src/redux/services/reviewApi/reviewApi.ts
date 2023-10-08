@@ -12,6 +12,7 @@ import {
   IDeleteReview,
   IDeleteReviewResponse,
   IReviewWithUserPickValues,
+  IGetReviewsByProductIdTransformedResponse,
 } from './reviewApi.types';
 
 export const reviewApi = createApi({
@@ -20,19 +21,19 @@ export const reviewApi = createApi({
   tagTypes: ['Review'],
   endpoints: (builder) => ({
     getReviewsByProductId: builder.query<
-      IReviewWithUserPickValues[],
+      IGetReviewsByProductIdTransformedResponse,
       IGetReviewsByProductId
     >({
       query({ shopId, productId }) {
         return { url: `shop/${shopId}/product/${productId}/review` };
       },
       transformResponse: (response: IGetReviewsByProductIdResponse) => {
-        return response.reviews.results;
+        return response.reviews;
       },
       providesTags: (results, error, { productId }) => {
-        return results
+        return results?.results
           ? [
-              ...results.map(({ id }) => {
+              ...results?.results?.map(({ id }) => {
                 return { type: 'Review' as const, id };
               }),
               { type: 'Review', id: productId },

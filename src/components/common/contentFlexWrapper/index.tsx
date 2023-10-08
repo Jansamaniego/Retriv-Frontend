@@ -2,16 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface ContentFlexWrapperProps {
-  justifyContent: string;
-  gap: string;
-  columnBreakPoint: string;
-  children: React.ReactNode;
+  justifyContent?: string;
+  gap?: string;
+  columnBreakPoint?: string;
+  children?: React.ReactNode;
 }
 
 interface FlexWrapperProps {
-  justifyContent: string;
-  gap: string;
-  columnBreakPoint: string;
+  justifyContent?: string;
+  gap?: string;
+  columnBreakPoint?: string;
 }
 
 const ContentFlexContainer = styled.div`

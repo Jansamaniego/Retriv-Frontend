@@ -9,14 +9,14 @@ export interface IUpdateDetailsResponse extends IResponse {
 }
 
 export interface IUpdateDetails {
-  firstName: 'string';
-  lastName: 'string';
-  username: 'string';
-  email: 'string';
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
   gender: 'male' | 'female' | 'other' | 'undisclosed';
-  address?: 'string';
-  phone?: 'string';
-  dateOfBirth?: 'string';
+  address?: string;
+  phone?: string;
+  dateOfBirth?: Date;
 }
 
 export interface IUpdateProfileImage extends FormData {}

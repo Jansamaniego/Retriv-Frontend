@@ -20,6 +20,11 @@ export interface IGetReviewsByProductIdResponse extends IResponse {
   };
 }
 
+export interface IGetReviewsByProductIdTransformedResponse {
+  results: IReviewWithUserPickValues[];
+  totalPages: number;
+}
+
 export interface IGetReviewsByProductId {
   shopId: string;
   productId: string;

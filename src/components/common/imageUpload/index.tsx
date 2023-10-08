@@ -135,6 +135,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
         file = files[0];
       }
 
+      console.log(file);
+
       if (!file) {
         applyError({
           isError: true,

@@ -14,6 +14,7 @@ import {
   IUpdateShopImage,
   IDeleteShopResponse,
   IShopWithOwnerPickValues,
+  IGetShopsTransformedResponse,
 } from './shopApi.types';
 
 export const shopApi = createApi({
@@ -21,18 +22,20 @@ export const shopApi = createApi({
   baseQuery: customBaseQuery,
   tagTypes: ['Shop'],
   endpoints: (builder) => ({
-    getShops: builder.query<IShopWithOwnerPickValues[], void>({
+    getShops: builder.query<IGetShopsTransformedResponse, string | void>({
       query() {
         return {
           url: '/shop',
         };
       },
-      transformResponse: (response: IGetShopsResponse) =>
-        response.shops.results,
+      transformResponse: (response: IGetShopsResponse) => response.shops,
       providesTags: (results) => {
-        return results
+        return results?.results
           ? [
-              ...results.map(({ id }) => ({ type: 'Shop' as const, id })),
+              ...results?.results?.map(({ id }) => ({
+                type: 'Shop' as const,
+                id,
+              })),
               { type: 'Shop', id: 'LIST' },
             ]
           : [{ type: 'Shop', id: 'LIST' }];

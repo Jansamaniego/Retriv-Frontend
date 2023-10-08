@@ -11,17 +11,17 @@ export interface IloginResponse extends IResponse {
 }
 
 export interface IRegister extends FormData {
-  username: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-  firstName: string;
-  lastName: string;
-  gender: 'male' | 'female' | 'other' | 'undisclosed';
-  image: File;
-  address?: string;
-  phone?: string;
-  dateOfBirth?: Date;
+  // username: string;
+  // email: string;
+  // password: string;
+  // passwordConfirmation: string;
+  // firstName: string;
+  // lastName: string;
+  // gender: 'male' | 'female' | 'other' | 'undisclosed';
+  // image: File;
+  // address?: string;
+  // phone?: string;
+  // dateOfBirth?: Date;
 }
 
 export interface IRegisterResponse extends IResponse {

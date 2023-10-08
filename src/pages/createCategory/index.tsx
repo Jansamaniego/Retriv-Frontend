@@ -90,7 +90,6 @@ export const CreateCategory = () => {
   } = methods;
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    console.log(data);
     if (!image) {
       return;
     }
@@ -100,118 +99,118 @@ export const CreateCategory = () => {
 
     for (const key in mutatedData) {
       formData.append(key, mutatedData[key as keyof IMutatedData]);
-
-      await createCategory(formData);
-
-      if (!isLoading) {
-        navigate('/category');
-      }
     }
 
-    const nextFormStep = () => {
-      if (formStep === 0) {
-        try {
-          const canNext = createCategorySchema.parse({
-            name: watch('name'),
-            description: watch('description'),
-          });
+    await createCategory(formData);
 
-          if (canNext) {
-            setFormStep((curr) => curr + 1);
-          }
-        } catch (error) {
-          console.log(error);
-        }
+    if (!isLoading) {
+      navigate('/category');
+    }
+  };
 
-        return;
-      }
+  const nextFormStep = () => {
+    if (formStep === 0) {
+      try {
+        const canNext = createCategorySchema.parse({
+          name: watch('name'),
+          description: watch('description'),
+        });
 
-      if (formStep === 1) {
-        if (image) {
+        if (canNext) {
           setFormStep((curr) => curr + 1);
         }
-
-        return;
+      } catch (error) {
+        console.log(error);
       }
-    };
 
-    const prevFormStep = () => {
-      setFormStep((curr) => curr - 1);
-    };
+      return;
+    }
 
-    const openCreateCategoryModal = () => {
-      setIsCreateCategoryModalOpen(true);
-    };
+    if (formStep === 1) {
+      if (image) {
+        setFormStep((curr) => curr + 1);
+      }
 
-    const closeCreateCategoryModal = () => {
-      setIsCreateCategoryModalOpen(false);
-    };
-
-    const changeImage: (image: File | EmptyString) => void = (image) => {
-      setImage(image);
-    };
-
-    const applyError: (
-      error: { isError: boolean; message: string } | null
-    ) => void = (error) => {
-      setImageError(error);
-    };
-
-    return (
-      <CreateCategoryFlexWrapper>
-        <FormProvider {...methods}>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <FormFlexWrapper>
-              <div>
-                <ButtonFlexWrapper>
-                  {formStep !== 0 && (
-                    <Button onClick={prevFormStep} type="button">
-                      prev
-                    </Button>
-                  )}
-                  {formStep !== 2 && (
-                    <Button type="button" onClick={nextFormStep}>
-                      next
-                    </Button>
-                  )}
-                </ButtonFlexWrapper>
-              </div>
-              <h5>{TITLE[formStep as keyof ITitle]}</h5>
-              {formStep === 0 && (
-                <>
-                  <StyledInput placeholder="Name" name="name" />
-                  <StyledInput placeholder="Description" name="description" />
-                </>
-              )}
-              {formStep === 1 && (
-                <ImageUpload
-                  name="image"
-                  fileSizeLimit={5 * MB_BYTES}
-                  image={image}
-                  changeImage={changeImage}
-                  error={imageError}
-                  applyError={applyError}
-                />
-              )}
-              {formStep === 2 && (
-                <Button type="button" onClick={openCreateCategoryModal} large>
-                  create category
-                </Button>
-              )}
-              {isCreateCategoryModalOpen && (
-                <StyledModal
-                  isModalOpen={isCreateCategoryModalOpen}
-                  closeModal={closeCreateCategoryModal}
-                  isLoading={isLoading}
-                >
-                  Are you sure you want to create this category?
-                </StyledModal>
-              )}
-            </FormFlexWrapper>
-          </Form>
-          <DevTool control={control} />
-        </FormProvider>
-      </CreateCategoryFlexWrapper>
-    );
+      return;
+    }
   };
+
+  const prevFormStep = () => {
+    setFormStep((curr) => curr - 1);
+  };
+
+  const openCreateCategoryModal = () => {
+    setIsCreateCategoryModalOpen(true);
+  };
+
+  const closeCreateCategoryModal = () => {
+    setIsCreateCategoryModalOpen(false);
+  };
+
+  const changeImage: (image: File | EmptyString) => void = (image) => {
+    setImage(image);
+  };
+
+  const applyError: (
+    error: { isError: boolean; message: string } | null
+  ) => void = (error) => {
+    setImageError(error);
+  };
+
+  return (
+    <CreateCategoryFlexWrapper>
+      <FormProvider {...methods}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <FormFlexWrapper>
+            <div>
+              <ButtonFlexWrapper>
+                {formStep !== 0 && (
+                  <Button onClick={prevFormStep} type="button">
+                    prev
+                  </Button>
+                )}
+                {formStep !== 2 && (
+                  <Button type="button" onClick={nextFormStep}>
+                    next
+                  </Button>
+                )}
+              </ButtonFlexWrapper>
+            </div>
+            <h5>{TITLE[formStep as keyof ITitle]}</h5>
+            {formStep === 0 && (
+              <>
+                <StyledInput placeholder="Name" name="name" />
+                <StyledInput placeholder="Description" name="description" />
+              </>
+            )}
+            {formStep === 1 && (
+              <ImageUpload
+                name="image"
+                fileSizeLimit={5 * MB_BYTES}
+                image={image}
+                changeImage={changeImage}
+                error={imageError}
+                applyError={applyError}
+              />
+            )}
+            {formStep === 2 && (
+              <Button type="button" onClick={openCreateCategoryModal} large>
+                create category
+              </Button>
+            )}
+            {isCreateCategoryModalOpen && (
+              <StyledModal
+                isModalOpen={isCreateCategoryModalOpen}
+                closeModal={closeCreateCategoryModal}
+                isLoading={isLoading}
+              >
+                Are you sure you want to create this category?
+              </StyledModal>
+            )}
+          </FormFlexWrapper>
+        </Form>
+        <DevTool control={control} />
+      </FormProvider>
+    </CreateCategoryFlexWrapper>
+  );
 };

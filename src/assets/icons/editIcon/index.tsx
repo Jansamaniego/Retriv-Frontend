@@ -3,6 +3,7 @@ import React, { Ref, forwardRef } from 'react';
 interface Props {
   width: string;
   onClick?: () => any;
+  disabled?: boolean;
 }
 
 export const EditIcon: React.FC<Props> = forwardRef<SVGSVGElement, Props>(

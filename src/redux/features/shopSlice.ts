@@ -1,14 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { setUser, logout } from './userSlice';
 import { IShop } from 'src/types';
+import { IShopWithOwnerPickValues } from '../services/shopApi/shopApi.types';
 
 interface IInitialShopState {
-  currentShop: IShop | null;
-  userShops: IShop[] | string[];
-}
-
-interface ISetShop {
-  shop: IShop;
+  currentShop: IShopWithOwnerPickValues | IShop | null;
+  userShops: IShopWithOwnerPickValues[] | string[] | IShop[];
 }
 
 const initialState: IInitialShopState = {
@@ -20,8 +17,8 @@ export const shopSlice = createSlice({
   initialState,
   name: 'shopSlice',
   reducers: {
-    setShop: (state, action: PayloadAction<ISetShop>) => {
-      state.currentShop = action.payload.shop;
+    setShop: (state, action: PayloadAction<IShopWithOwnerPickValues>) => {
+      state.currentShop = action.payload;
     },
     removeShop: (state, action: PayloadAction<void>) => {
       if (
@@ -36,8 +33,8 @@ export const shopSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(setUser, (state, action) => {
-      if (action.payload.user.shops) {
-        state.userShops = action.payload.user.shops;
+      if (action?.payload?.shops) {
+        state.userShops = action.payload.shops;
       }
     });
     builder.addCase(logout, () => initialState);

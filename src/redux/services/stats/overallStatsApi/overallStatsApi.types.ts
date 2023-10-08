@@ -10,6 +10,8 @@ export interface IOverallStats {
   year: number;
   monthlyData: IMonthlyData[];
   dailyData: IDailyData[];
+  yearlyTotalSoldUnits: number;
+  createdAt: Date;
   salesByCategory: {
     [keys: number]: number;
   };

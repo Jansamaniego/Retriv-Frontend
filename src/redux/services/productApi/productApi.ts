@@ -86,7 +86,8 @@ export const productApi = createApi({
       IUpdateProductDetailsResponse,
       IUpdateProductDetails
     >({
-      query({ productId, shopId, body }) {
+      query(data) {
+        const { productId, shopId, ...body } = data;
         return {
           url: `shop/${shopId}/product/${productId}`,
           method: 'PATCH',

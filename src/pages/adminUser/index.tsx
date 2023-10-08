@@ -16,6 +16,12 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useGetUsersQuery } from '../../redux/services/userApi/userApi';
 import moment from 'moment/moment';
 import { Card } from '../../components/common';
+import { ColDef, ValueFormatterParams } from 'ag-grid-community';
+import { IUserWithModifiedShops } from 'src/redux/services/userApi/userApi.types';
+
+interface IUserTableProps {
+  users: IUserWithModifiedShops[];
+}
 
 const ProfileImageContainer = styled.div`
   display: flex;
@@ -51,7 +57,7 @@ const Name = styled.h6`
   }
 `;
 
-const ProfileImageRenderer = (p) => {
+const ProfileImageRenderer = (p: ValueFormatterParams) => {
   return (
     <>
       <ProfileImageContainer>
@@ -63,7 +69,7 @@ const ProfileImageRenderer = (p) => {
   );
 };
 
-const NameRenderer = (p) => {
+const NameRenderer = (p: ValueFormatterParams) => {
   return (
     <StyledLink to={`/user/${p.data.id}`}>
       <Name>{p.value}</Name>
@@ -71,18 +77,18 @@ const NameRenderer = (p) => {
   );
 };
 
-const PhoneRenderer = (p) => {
+const PhoneRenderer = (p: ValueFormatterParams) => {
   return p.value ? <>{p.value}</> : <>{'N/A'}</>;
 };
 
-const DateJoinedRenderer = (p) => {
+const DateJoinedRenderer = (p: ValueFormatterParams) => {
   return <>{moment(p.value).format('MMM DD YYYY')}</>;
 };
 
-const UserTable = ({ users }) => {
+const UserTable: React.FC<IUserTableProps> = ({ users }) => {
   const gridRef = useRef(null);
   const [rowData, setRowData] = useState(users);
-  const [columnDefs, setColumnDefs] = useState([
+  const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     {
       field: 'profileImage',
       cellRenderer: ProfileImageRenderer,

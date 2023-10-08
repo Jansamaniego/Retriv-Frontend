@@ -51,34 +51,20 @@ export interface IUpdateProductDetailsResponse extends IResponse {
   product: IProduct;
 }
 
-export interface IUpdateProductDetails extends IResponse {
+export interface IUpdateProductDetails {
   shopId: string;
   productId: string;
-  body: {
-    name: string;
-    description: string;
-    price: number;
-    quantityInStock: number;
-  };
+  name: string;
+  description: string;
+  price: number;
+  quantityInStock: number;
 }
 
-export interface IUpdateProductMainImage extends FormData {
-  shopId: string;
-  productId: string;
-  image: File;
-}
+export interface IUpdateProductMainImage extends FormData {}
 
-export interface IUpdateProductImages extends FormData {
-  shopId: string;
-  productId: string;
-  images: File[];
-}
+export interface IUpdateProductImages extends FormData {}
 
-export interface IAddProductImages extends FormData {
-  shopId: string;
-  productId: string;
-  images: File[];
-}
+export interface IAddProductImages extends FormData {}
 
 export interface IDeleteProductImage {
   shopId: string;

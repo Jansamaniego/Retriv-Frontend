@@ -1,5 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IUser } from 'src/types';
+import { IShopWithOwnerPickValues } from '../services/shopApi/shopApi.types';
+
+interface ITransformedUser extends IUser {
+  shop: IShopWithOwnerPickValues;
+}
 
 export interface IInitialUserState {
   user: IUser | null;
@@ -19,8 +24,8 @@ export const userSlice = createSlice({
   reducers: {
     logout: (state: IInitialUserState, action: PayloadAction<void>) =>
       initialState,
-    setUser: (state: IInitialUserState, action: PayloadAction<ISetUser>) => {
-      state.user = action.payload.user;
+    setUser: (state: IInitialUserState, action: PayloadAction<IUser>) => {
+      state.user = action.payload;
     },
   },
 });

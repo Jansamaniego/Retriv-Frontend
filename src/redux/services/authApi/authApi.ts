@@ -112,7 +112,7 @@ export const authApi = createApi({
         return result ? [{ type: 'User' as const, id: result.id }] : [];
       },
     }),
-    sendVerificationEmail: builder.mutation<IResponse, null>({
+    sendVerificationEmail: builder.mutation<IResponse, void>({
       query() {
         return {
           url: 'auth/send-verification-email',

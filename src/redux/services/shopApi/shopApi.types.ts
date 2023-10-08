@@ -28,6 +28,11 @@ export interface IGetShopsResponse extends IResponse {
   };
 }
 
+export interface IGetShopsTransformedResponse {
+  results: IShopWithOwnerPickValues[];
+  totalPages: number;
+}
+
 export interface IGetShopByIdResponse extends IResponse {
   shop: IShopWithOwnerPickValues;
 }
