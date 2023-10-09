@@ -262,9 +262,9 @@ const CartItemList: React.FC<ICartItemListProps> = ({ cartItems }) => {
     ) => (
       <CartItemItem
         key={id}
-        productId={typeof product === 'string' ? product : product.id}
+        productId={product}
         cartItemIndex={idx}
-        shopId={typeof shop === 'string' ? shop : shop.id}
+        shopId={shop}
         totalProductPrice={totalProductPrice}
         totalProductQuantity={totalProductQuantity}
       />

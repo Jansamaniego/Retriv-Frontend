@@ -5,7 +5,7 @@ import { IShopWithOwnerPickValues } from '../services/shopApi/shopApi.types';
 
 interface IInitialShopState {
   currentShop: IShopWithOwnerPickValues | IShop | null;
-  userShops: IShopWithOwnerPickValues[] | string[] | IShop[];
+  userShops: IShopWithOwnerPickValues[] | IShop[];
 }
 
 const initialState: IInitialShopState = {
@@ -17,7 +17,10 @@ export const shopSlice = createSlice({
   initialState,
   name: 'shopSlice',
   reducers: {
-    setShop: (state, action: PayloadAction<IShopWithOwnerPickValues>) => {
+    setShop: (
+      state,
+      action: PayloadAction<IShopWithOwnerPickValues | IShop>
+    ) => {
       state.currentShop = action.payload;
     },
     removeShop: (state, action: PayloadAction<void>) => {

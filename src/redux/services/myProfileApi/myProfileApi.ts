@@ -44,17 +44,20 @@ export const myProfileApi = createApi({
           dispatch(setUser(user));
 
           await dispatch(
-            cartApi.endpoints.getCart.initiate(null, { forceRefetch: true })
+            cartApi.endpoints.getCart.initiate(undefined, {
+              forceRefetch: true,
+            })
           );
 
           if (defaultShop && role === 'seller') {
-            if (typeof defaultShop !== 'string') {
+            if (typeof defaultShop === 'string') {
               const { data: shop } = await dispatch(
-                shopApi.endpoints.getShopById.initiate(defaultShop.id, {
+                shopApi.endpoints.getShopById.initiate(defaultShop, {
                   forceRefetch: true,
                 })
               );
               const currentShop = store.getState().shopState.currentShop;
+              if (!shop) return;
               if (!currentShop) {
                 dispatch(setShop(shop));
               }

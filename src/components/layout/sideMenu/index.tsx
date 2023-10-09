@@ -96,6 +96,7 @@ const StyledMainMenuDropDown = styled.div<IStyledMainMenuDropDownProps>`
   padding: 1.6rem 0.8rem;
   border-radius: 0.5rem;
   justify-content: space-between;
+  cursor: pointer;
 
   &:hover {
     background-color: ${(props) => props.theme.neutral[800]};

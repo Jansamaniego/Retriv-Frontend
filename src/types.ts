@@ -24,7 +24,7 @@ export interface IUser {
   email: string;
   password?: string;
   role: 'user' | 'admin' | 'seller';
-  shops?: IShop[] | string[] | [] | IShopWithOwnerPickValues[];
+  shops?: IShop[] | IShopWithOwnerPickValues[];
   isEmailVerified: boolean;
   passwordChangedAt?: string;
   dateJoined: string;

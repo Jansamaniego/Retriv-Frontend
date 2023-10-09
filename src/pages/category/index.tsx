@@ -3,7 +3,7 @@ import CategoryDetail from './categoryDetail';
 import { useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import ProductManager from './productManager';
+import ProductManager from '../../components/product/productManager';
 import { useSelector } from 'react-redux';
 import { useGetCategoryQuery } from '../../redux/services/categoryApi/categoryApi';
 import { Loading } from '../../components/common';
@@ -49,7 +49,7 @@ export const Category = () => {
   return (
     <CategoryPageFlexWrapper>
       <CategoryDetail category={category} />
-      <ProductManager />
+      <ProductManager isProductSearchControlsOpen={false} />
     </CategoryPageFlexWrapper>
   );
 };

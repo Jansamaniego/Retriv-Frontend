@@ -1,11 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from '../common';
+import { Card } from '../../../common';
 import { useDispatch, useSelector } from 'react-redux';
 import { forwardRef } from 'react';
-import { setShop } from '../../redux/features/shopSlice';
+import { setShop } from '../../../../redux/features/shopSlice';
 import { useNavigate } from 'react-router-dom';
-import { PlusIcon } from '../../assets/icons';
+import { PlusIcon } from '../../../../assets/icons';
+import { RootState } from 'src/redux/store';
+import { IShopWithOwnerPickValues } from 'src/redux/services/shopApi/shopApi.types';
+import { IShop } from 'src/types';
+
+interface IShopPickerDropdownMenuListProps {
+  userShops: IShopWithOwnerPickValues[] | IShop[];
+  currentShop: IShopWithOwnerPickValues | IShop;
+}
+
+interface IShopPickerDropdownMenuItemProps {
+  id: string;
+}
 
 const ShopPickerDropdownMenuContainer = styled(Card)`
   display: flex;
@@ -76,12 +88,16 @@ const AddShopText = styled.h5`
   font-weight: 400;
 `;
 
-const ShopPickerDropdownMenuItem = ({ id }) => {
+const ShopPickerDropdownMenuItem: React.FC<
+  IShopPickerDropdownMenuItemProps
+> = ({ id }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userShop = useSelector((state) =>
+  const userShop = useSelector((state: RootState) =>
     state.shopState.userShops.find((userShop) => userShop._id === id)
   );
+
+  if (!userShop) return <h3>shop is not found</h3>;
 
   const { name, shopImage, productsQuantity, totalUnitsSold } = userShop;
 
@@ -110,38 +126,47 @@ const ShopPickerDropdownMenuItem = ({ id }) => {
   );
 };
 
-const ShopPickerDropdownMenuList = ({ userShops, currentShop }) => {
+const ShopPickerDropdownMenuList: React.FC<
+  IShopPickerDropdownMenuListProps
+> = ({ userShops, currentShop }) => {
   return userShops.map(({ _id }) => (
     <ShopPickerDropdownMenuItem key={_id} id={_id} />
   ));
 };
 
-const ShopPickerDropdownMenu = forwardRef(({ ...props }, ref) => {
-  const navigate = useNavigate();
-  const { currentShop, userShops } = useSelector((state) => state.shopState);
+const ShopPickerDropdownMenu = forwardRef<HTMLDivElement>(
+  ({ ...props }, ref) => {
+    const navigate = useNavigate();
+    const { currentShop, userShops = [] } = useSelector(
+      (state: RootState) => state.shopState
+    );
 
-  const navigateCreateShopPage = () => {
-    navigate('/create-shop');
-  };
+    const navigateCreateShopPage = () => {
+      navigate('/create-shop');
+    };
 
-  return (
-    <ShopPickerDropdownMenuContainer ref={ref}>
-      {userShops && userShops.length !== 0 && (
-        <ShopPickerDropdownMenuList
-          userShops={userShops}
-          currentShop={currentShop}
-        />
-      )}
-      <ShopPickerDropdownMenuItemContainer onClick={navigateCreateShopPage}>
-        <AddShopFlexWrapper>
-          <PlusIconContainer>
-            <PlusIcon width="5rem" strokeWidth="0.2rem" />
-          </PlusIconContainer>
-          <AddShopText>Add New Shop</AddShopText>
-        </AddShopFlexWrapper>
-      </ShopPickerDropdownMenuItemContainer>
-    </ShopPickerDropdownMenuContainer>
-  );
-});
+    if (!currentShop || !userShops || userShops.length === 0)
+      return <h3> No shops found</h3>;
+
+    return (
+      <ShopPickerDropdownMenuContainer ref={ref}>
+        {userShops && userShops.length !== 0 && (
+          <ShopPickerDropdownMenuList
+            userShops={userShops}
+            currentShop={currentShop}
+          />
+        )}
+        <ShopPickerDropdownMenuItemContainer onClick={navigateCreateShopPage}>
+          <AddShopFlexWrapper>
+            <PlusIconContainer>
+              <PlusIcon width="5rem" strokeWidth="0.2rem" />
+            </PlusIconContainer>
+            <AddShopText>Add New Shop</AddShopText>
+          </AddShopFlexWrapper>
+        </ShopPickerDropdownMenuItemContainer>
+      </ShopPickerDropdownMenuContainer>
+    );
+  }
+);
 
 export default ShopPickerDropdownMenu;

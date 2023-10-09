@@ -14,7 +14,7 @@ import ThemeToggleButton from './themeToggleButton';
 import ProfileDropdownMenu from './profileDropdownMenu';
 import Search from './search';
 import { CartIcon, SearchIcon, StoreIcon } from '../../../assets/icons';
-import ShopPickerDropdownMenu from '../../shop/ShopPickerDropdownMenu';
+import ShopPickerDropdownMenu from './shopPickerDropdownMenu';
 import MobileMenuIcon from '../../../assets/icons/mobileMenuIcon';
 import MobileDropdownMenu from './mobileDropdownMenu';
 import CategoryFilterModal from '../sideMenu/mobileSideMenuCategoryFilter/categoryFIlterModal';

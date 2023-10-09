@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IUser } from 'src/types';
 import { IShopWithOwnerPickValues } from '../services/shopApi/shopApi.types';
+import { IUserWithModifiedShops } from '../services/userApi/userApi.types';
 
 interface ITransformedUser extends IUser {
   shop: IShopWithOwnerPickValues;
@@ -11,7 +12,7 @@ export interface IInitialUserState {
 }
 
 interface ISetUser {
-  user: IUser;
+  user: IUserWithModifiedShops;
 }
 
 const initialState: IInitialUserState = {

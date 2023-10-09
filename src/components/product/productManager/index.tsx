@@ -5,9 +5,13 @@ import ProductList from './productList';
 import { useGetProductsQuery } from '../../../redux/services/productApi/productApi';
 import { useSelector } from 'react-redux';
 import { Pagination, Loading } from '../../../components/common';
-import { useState } from 'react';
 import { useProductPagination } from '../../../context/ProductPaginationContext';
 import { RootState } from 'src/redux/store';
+import ProductSearchControls from './productSearchControls';
+
+interface IProductManagerProps {
+  isProductSearchControlsOpen?: boolean;
+}
 
 const ProductManagerGrid = styled.main`
   display: grid;
@@ -37,7 +41,9 @@ const ProductManagerGrid = styled.main`
 //   return obj;
 // };
 
-const ProductManager = () => {
+const ProductManager: React.FC<IProductManagerProps> = ({
+  isProductSearchControlsOpen,
+}) => {
   const currentUser = useSelector((state: RootState) => state.userState.user);
   const { currentPage, setCurrentPage, totalPages, setTotalPages } =
     useProductPagination();
@@ -53,6 +59,8 @@ const ProductManager = () => {
         };
       },
     });
+
+  console.log(totalProductPages);
 
   useEffect(() => {
     if (totalProductPages) {
@@ -95,13 +103,13 @@ const ProductManager = () => {
 
   return (
     <>
-      {/* {searchParams.size ? (
+      {isProductSearchControlsOpen && searchParams.size ? (
         <ProductSearchControls
           totalPages={totalPages}
           handlePageChange={handlePageChange}
           currentPage={currentPage}
         />
-      ) : null} */}
+      ) : null}
       <ProductManagerGrid>
         <ProductList products={products} />
       </ProductManagerGrid>

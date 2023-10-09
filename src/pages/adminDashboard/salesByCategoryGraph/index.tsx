@@ -1,5 +1,5 @@
 import React from 'react';
-import PieGraph from '../../../components/graph/PieGraph';
+import PieGraph from './pieGraph';
 import { Card } from '../../../components/common';
 import styled from 'styled-components';
 

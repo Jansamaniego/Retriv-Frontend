@@ -1,8 +1,16 @@
 import { ResponsivePie } from '@nivo/pie';
-import { useTheme } from 'styled-components';
 
-const PieGraph = ({ data }) => {
-  const theme = useTheme();
+interface IPieGraphProps {
+  data: IFormattedSalesByCategoryObject[];
+}
+
+interface IFormattedSalesByCategoryObject {
+  id: string;
+  label: string;
+  value: number;
+}
+
+const PieGraph: React.FC<IPieGraphProps> = ({ data }) => {
   return (
     <ResponsivePie
       data={[

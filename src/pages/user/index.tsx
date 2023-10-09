@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import UserShopManager from './userShopManager';
+import UserShopManager from '../../components/user/userShopManager';
 import { Card } from '../../components/common';
 import UserInfo from './userInfo';
 import { useGetUserByIdQuery } from '../../redux/services/userApi/userApi';

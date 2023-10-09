@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useMemo, useState } from 'react';
-import LineGraph from '../../../components/graph/LineGraph';
+import LineGraph from './lineGraph';
 import { Card, Select } from '../../../components/common';
 import styled, { useTheme } from 'styled-components';
 import moment from 'moment';

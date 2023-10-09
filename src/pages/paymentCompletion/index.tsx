@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Card, Loading } from '../../components/common';
 import styled from 'styled-components';
-import ProductManager from './productManager';
+import ProductManager from '../../components/product/productManager';
 import { useGetProductsQuery } from '../../redux/services/productApi/productApi';
 import { useSearchParams } from 'react-router-dom';
 
@@ -50,7 +50,7 @@ export const PaymentCompletion = () => {
       <Card>
         <h4>Please check out our other products:</h4>
       </Card>
-      <ProductManager />
+      <ProductManager isProductSearchControlsOpen={false} />
     </PaymentCompletionFlexWrapper>
   );
 };

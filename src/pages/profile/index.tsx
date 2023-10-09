@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Card } from '../../components/common';
-import UserShopManager from './userShopManager';
+import UserShopManager from '../../components/user/userShopManager';
 import ProfileInfo from './profileInfo';
 import { RootState } from 'src/redux/store';
 
@@ -46,7 +46,9 @@ export const Profile = () => {
   const [isProfileTabOpen, setIsProfileTabOpen] = useState(true);
   const loggedInUser = useSelector((state: RootState) => state.userState.user);
 
-  const { role } = loggedInUser || {};
+  if (!loggedInUser) return <h3>User is not found</h3>;
+
+  const { role } = loggedInUser;
 
   return (
     <ProfilePageFlexWrapper>
