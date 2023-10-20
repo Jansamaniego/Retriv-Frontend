@@ -1,18 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IUser } from 'src/types';
-import { IShopWithOwnerPickValues } from '../services/shopApi/shopApi.types';
-import { IUserWithModifiedShops } from '../services/userApi/userApi.types';
 
-interface ITransformedUser extends IUser {
-  shop: IShopWithOwnerPickValues;
-}
+import { IUser } from 'types';
+import { IShopWithOwnerPickValues } from 'redux/services/shopApi/shopApi.types';
+import { IUserWithModifiedShops } from 'redux/services/userApi/userApi.types';
 
 export interface IInitialUserState {
   user: IUser | null;
-}
-
-interface ISetUser {
-  user: IUserWithModifiedShops;
 }
 
 const initialState: IInitialUserState = {

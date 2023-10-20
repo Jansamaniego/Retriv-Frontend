@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import z from 'zod';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { DevTool } from '@hookform/devtools';
+import { useNavigate } from 'react-router-dom';
+
+import { useCreateUserMutation } from 'redux/services/userApi/userApi';
 import {
   Form,
   StyledInput,
   PasswordInput,
   Button,
   Select,
-  StyledLink,
-  Card,
   StyledModal,
   ImageUpload,
-} from '../../components/common';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { DevTool } from '@hookform/devtools';
-import { useCreateUserMutation } from '../../redux/services/userApi/userApi';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+} from 'components/common';
 
 interface FormValues {
   username: string;
@@ -90,7 +89,7 @@ export const CreateUser = () => {
     message: string;
   } | null>(null);
   const [isCreateUserModalOpen, setIsCreateUserModalOpen] = useState(false);
-  const [createUser, { isLoading, isSuccess }] = useCreateUserMutation();
+  const [createUser, { isLoading }] = useCreateUserMutation();
 
   const modelSchema = z.object({
     username: z.string(),

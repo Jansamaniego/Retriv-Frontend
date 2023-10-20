@@ -1,6 +1,10 @@
+import { TextareaHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-export const StyledTextarea = styled.textarea`
+interface StyledTextAreaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
+
+export const StyledTextarea = styled.textarea<StyledTextAreaProps>`
   padding: 0.4rem 0.8rem;
   border: 0.1rem solid ${(props) => props.theme.primary.main};
   border-radius: 0.5rem;

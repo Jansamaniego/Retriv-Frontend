@@ -1,9 +1,10 @@
 import React from 'react';
-import { Card } from '../../../components/common';
-import { useGetOrderByIdQuery } from '../../../redux/services/orderApi/orderApi';
 import styled from 'styled-components';
-import OrderInfo from './orderInfo';
-import OrderControl from './orderControl';
+
+import { useGetOrderByIdQuery } from 'redux/services/orderApi/orderApi';
+import { Card, Loading } from 'components/common';
+import OrderInfo from 'pages/order/orderDetails/orderInfo';
+import OrderControl from 'pages/order/orderDetails/orderControl';
 
 interface IOrderDetailsProps {
   orderId: string;
@@ -18,7 +19,7 @@ const OrderDetailsFLexWrapper = styled.div`
 const OrderDetails: React.FC<IOrderDetailsProps> = ({ orderId }) => {
   const { data: order, isLoading } = useGetOrderByIdQuery(orderId);
 
-  if (isLoading) return <h4>Loading...</h4>;
+  if (isLoading) return <Loading />;
 
   if (!order) return <h4>Order is not found</h4>;
 

@@ -1,4 +1,4 @@
-import { IResponse, IUser } from 'src/types';
+import { IResponse, IUser } from 'types';
 
 export interface IGetMeResponse extends IResponse {
   user: IUser;

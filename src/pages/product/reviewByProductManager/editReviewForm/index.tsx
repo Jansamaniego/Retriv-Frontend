@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { StarGradientIcon } from '../../../../assets/icons';
 import { z } from 'zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, useParams } from 'react-router-dom';
-import { useUpdateReviewMutation } from '../../../../redux/services/reviewApi/reviewApi';
-import { Button, StyledTextarea } from '../../../../components/common';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
-import { IReviewWithUserPickValues } from 'src/redux/services/reviewApi/reviewApi.types';
+
+import { IReviewWithUserPickValues } from 'redux/services/reviewApi/reviewApi.types';
+import { useUpdateReviewMutation } from 'redux/services/reviewApi/reviewApi';
+import { StarGradientIcon } from 'assets/icons';
+import { Button, StyledTextarea } from 'components/common';
 
 interface IEditReviewFormProps {
   review: IReviewWithUserPickValues;
@@ -51,7 +52,7 @@ const EditReviewForm: React.FC<IEditReviewFormProps> = ({
   review,
   deactivateEditReviewMode,
 }) => {
-  const { shopId, productId } = useParams();
+  const { productId } = useParams();
   const [updateReview, { isLoading }] = useUpdateReviewMutation();
   const [hover, setHover] = useState<number | null>(0);
 

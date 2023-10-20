@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../utils/customBaseQuery';
-import { IReview } from 'src/types';
+
+import customBaseQuery from 'utils/customBaseQuery';
+import { IReview } from 'types';
 import {
   IGetReviewsByProductIdResponse,
   IGetReviewsByProductId,
@@ -13,7 +14,7 @@ import {
   IDeleteReviewResponse,
   IReviewWithUserPickValues,
   IGetReviewsByProductIdTransformedResponse,
-} from './reviewApi.types';
+} from 'redux/services/reviewApi/reviewApi.types';
 
 export const reviewApi = createApi({
   reducerPath: 'reviewApi',

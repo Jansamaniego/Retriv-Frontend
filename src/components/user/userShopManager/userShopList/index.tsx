@@ -1,13 +1,14 @@
 import React from 'react';
-import { useGetShopsQuery } from '../../../../redux/services/shopApi/shopApi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, Card } from '../../../../components/common';
 import moment from 'moment';
-import { setShop } from '../../../../redux/features/shopSlice';
 import { useDispatch } from 'react-redux';
-import { IShop } from 'src/types';
-import { IShopWithOwnerPickValues } from 'src/redux/services/shopApi/shopApi.types';
+
+import { IShop } from 'types';
+import { IShopWithOwnerPickValues } from 'redux/services/shopApi/shopApi.types';
+import { useGetShopsQuery } from 'redux/services/shopApi/shopApi';
+import { setShop } from 'redux/features/shopSlice';
+import { Card, Loading } from 'components/common';
 
 interface IUserShopListProps {
   shops: IShop[] | IShopWithOwnerPickValues[];
@@ -65,23 +66,25 @@ const ShopInfoStats = styled.div`
 const UserShopItem: React.FC<IUserShopItemProps> = ({ id, queryFilter }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { shop } = useGetShopsQuery(queryFilter.toString(), {
-    selectFromResult: ({ data }) => {
+
+  const { shop, isLoading } = useGetShopsQuery(queryFilter.toString(), {
+    selectFromResult: ({ data, isLoading }) => {
       return {
         shop: data?.results?.find((shop) => shop.id === id),
+        isLoading,
       };
     },
   });
 
+  if (isLoading) return <Loading />;
+
   if (!shop) return <h3>Shop is not found</h3>;
 
   const {
-    address,
     dateCreated,
     name,
     productsQuantity,
     shopImage,
-    totalSales,
     totalUnitsSold,
   } = shop;
 

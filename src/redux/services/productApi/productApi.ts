@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../utils/customBaseQuery';
-import { IProduct, IResponse, IShop } from 'src/types';
+
+import customBaseQuery from 'utils/customBaseQuery';
+import { IProduct, IResponse } from 'types';
 import {
   IGetProductsByShopIdResponse,
   IGetProductsResponse,
@@ -17,7 +18,7 @@ import {
   IDeleteProduct,
   IDeleteProductResponse,
   IGetProductsTransformedResponse,
-} from './productApi.types';
+} from 'redux/services/productApi/productApi.types';
 
 export const productApi = createApi({
   reducerPath: 'productApi',

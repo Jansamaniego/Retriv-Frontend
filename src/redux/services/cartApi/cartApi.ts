@@ -1,13 +1,13 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../utils/customBaseQuery';
-import { removeCart, setCart } from '../../features/cartSlice';
-import { myProfileApi } from '../myProfileApi/myProfileApi';
-import { ICart } from 'src/types';
+
+import customBaseQuery from 'utils/customBaseQuery';
+import { ICart } from 'types';
 import {
   IAddProductToCart,
   ICartResponse,
   IRemoveCartItem,
-} from './cartApi.types';
+} from 'redux/services/cartApi/cartApi.types';
+import { removeCart, setCart } from 'redux/features/cartSlice';
 
 export const cartApi = createApi({
   reducerPath: 'cartApi',
@@ -26,7 +26,7 @@ export const cartApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data: cart } = await queryFulfilled;
-           dispatch(setCart(cart));
+          dispatch(setCart(cart));
         } catch (error) {
           console.log(error);
         }

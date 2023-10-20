@@ -2,8 +2,8 @@ import React from 'react';
 import { useTheme } from 'styled-components';
 
 interface Props {
-  gradient: number;
-  width: string;
+  gradient?: number;
+  width?: string;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 }

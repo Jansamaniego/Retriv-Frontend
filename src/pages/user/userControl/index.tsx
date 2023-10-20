@@ -1,9 +1,9 @@
-import React from 'react';
-import { useDeleteUserMutation } from '../../../redux/services/userApi/userApi';
-import { Button, Card, StyledModal } from '../../../components/common';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useDeleteUserMutation } from 'redux/services/userApi/userApi';
+import { Button, Card, StyledModal } from 'components/common';
 
 interface IUserControlProps {
   userId: string;

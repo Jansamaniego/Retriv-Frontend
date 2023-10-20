@@ -1,4 +1,4 @@
-import { IProduct, IResponse } from 'src/types';
+import { IProduct, IResponse } from 'types';
 
 export interface IGetProductStats {
   shopId: string;

@@ -1,6 +1,7 @@
+import { SelectHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-interface Props {
+interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
   marginBottom?: number | string;
 }
 

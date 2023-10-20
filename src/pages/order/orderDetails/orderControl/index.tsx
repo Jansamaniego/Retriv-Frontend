@@ -1,14 +1,14 @@
 import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { Button, Select, StyledModal } from '../../../../components/common';
+import { useNavigate } from 'react-router-dom';
+
+import { RootState } from 'redux/store';
 import {
   useCancelOrderMutation,
-  useGetOrderByIdQuery,
   useUpdateOrderStatusMutation,
-} from '../../../../redux/services/orderApi/orderApi';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { RootState } from 'src/redux/store';
+} from 'redux/services/orderApi/orderApi';
+import { Button, Select, StyledModal } from 'components/common';
 
 interface IOrderControlProps {
   orderId: string;
@@ -45,18 +45,16 @@ const StyledButton = styled(Button)`
 
 const OrderControl: React.FC<IOrderControlProps> = ({ orderId, status }) => {
   const navigate = useNavigate();
+  const loggedInUser = useSelector((state: RootState) => state.userState.user);
   const [isUpdateOrderStatusModalOpen, setIsUpdateOrderStatusModalOpen] =
     useState(false);
   const [isCancelOrderModalOpen, setIsCancelOrderModalOpen] = useState(false);
+  const [orderStatus, setOrderStatus] = useState(status);
   const [updateOrderStatus, { isLoading: updateOrderStatusIsLoading }] =
     useUpdateOrderStatusMutation();
   const [cancelOrder, { isLoading: cancelOrderIsLoading }] =
     useCancelOrderMutation();
-  const loggedInUser = useSelector((state: RootState) => state.userState.user);
-  const [orderStatus, setOrderStatus] = useState(status);
   const { role } = loggedInUser || {};
-
-  console.log(status);
 
   const updateOrderStatusOnClickHandler = async () => {
     if (STATUSENUM.includes(orderStatus)) {

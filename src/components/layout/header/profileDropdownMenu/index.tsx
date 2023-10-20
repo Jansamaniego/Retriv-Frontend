@@ -1,9 +1,10 @@
-import React, { useRef, useEffect, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
-import { Card, StyledLink, ProfileImageLogo } from '../../../common';
-import { useLogoutUserMutation } from '../../../../redux/services/authApi/authApi';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IUser } from 'src/types';
+
+import { IUser } from 'types';
+import { useLogoutUserMutation } from 'redux/services/authApi/authApi';
+import { StyledLink, ProfileImageLogo } from 'components/common';
 
 interface IProfileDropdownMenuProps {
   isProfileMenuOpen: boolean;
@@ -57,20 +58,6 @@ const ProfileSection = styled.div`
   gap: 1.6rem;
 `;
 
-const ProfileImageLogoContainer = styled.div`
-  max-width: 4rem;
-  position: relative;
-`;
-
-const ProfileImage = styled.img`
-  border-radius: 50%;
-  cursor: pointer;
-
-  &:active {
-    outline: 0.1rem solid ${(props) => props.theme.neutral.main};
-  }
-`;
-
 const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -90,10 +77,11 @@ const MenuLinksContainer = styled.div`
 const ProfileDropdownMenu = forwardRef<
   HTMLDivElement,
   IProfileDropdownMenuProps
->(({ isProfileMenuOpen, user, closeProfileMenu }, ref) => {
+>(({ isProfileMenuOpen, user }, ref) => {
   const navigate = useNavigate();
-  const [logout, { isLoading }] = useLogoutUserMutation();
+  const [logout] = useLogoutUserMutation();
   const { pathname } = useLocation();
+
   const { profileImage, firstName, lastName, email, role } = user;
 
   const logoutOnClickHandler = async () => {

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
-import Header from './header';
-import Footer from './footer';
-import SideMenu from './sideMenu';
+import React from 'react';
 import styled from 'styled-components';
+import { Outlet } from 'react-router-dom';
+
 import { ProductPaginationProvider } from '../../context/ProductPaginationContext';
+import Header from 'components/layout/header';
+import Footer from 'components/layout/footer';
+import SideMenu from 'components/layout/sideMenu';
 
 const ContentFlex = styled.section`
   display: flex;
@@ -29,6 +30,7 @@ const RootLayout = () => {
           <Outlet />
         </OutletContainer>
       </ContentFlex>
+      <Footer />
     </ProductPaginationProvider>
   );
 };

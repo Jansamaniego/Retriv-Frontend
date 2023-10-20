@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
+import { InputHTMLAttributes } from 'react';
 
 interface InputWrapperProps {
   marginBottom?: number | string;
 }
 
-interface StyledInputProps {
+interface StyledInputProps extends InputHTMLAttributes<HTMLInputElement> {
   id?: string;
   name: string;
   type?: string;

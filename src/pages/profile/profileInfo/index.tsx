@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useOutletContext } from 'react-router-dom';
-import { z } from 'zod';
-import { DevTool } from '@hookform/devtools';
-import {
-  StyledInput,
-  Button,
-  Card,
-  StyledTextarea,
-  StyledModal,
-} from '../../../components/common';
-import { useUpdateDetailsMutation } from '../../../redux/services/myProfileApi/myProfileApi';
 import styled from 'styled-components';
 import moment from 'moment/moment';
 import { useSelector } from 'react-redux';
-import { EditIcon } from '../../../assets/icons';
-import { RootState } from 'src/redux/store';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { DevTool } from '@hookform/devtools';
+
+import { RootState } from 'redux/store';
+import { useUpdateDetailsMutation } from 'redux/services/myProfileApi/myProfileApi';
+import { StyledInput, StyledModal } from 'components/common';
+import { EditIcon } from 'assets/icons';
 
 interface IEditProfileModalProps {
   isModalOpen: boolean;
@@ -43,8 +37,6 @@ interface FormValues {
   dateOfBirth: string;
 }
 
-const genderOptions = ['male', 'female', 'other', 'undisclosed'];
-
 const UserInfoHeading = styled.div`
   grid-column: 1 / span 3;
 `;
@@ -63,10 +55,6 @@ const UserData = styled.section`
 
 const UserDataValueFlexWrapper = styled.div`
   display: flex;
-`;
-
-const UserDataInputFlexWrapper = styled.div`
-  flex-direction: column;
 `;
 
 const Value = styled.h6`
@@ -198,11 +186,7 @@ const ProfileInfo = () => {
     resolver: zodResolver(profileInfoSchema),
   });
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, control } = methods;
 
   const openEditModal = () => {
     setIsEditModalOpen(true);

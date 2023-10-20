@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import MyShopHeader from './myShopHeader';
 import styled from 'styled-components';
-import MyShopProductManager from './myShopProductManager';
-import { useGetShopByIdQuery } from '../../redux/services/shopApi/shopApi';
-import MyShopProductControl from './myShopProductControl';
-import { RootState } from 'src/redux/store';
+
+import { RootState } from 'redux/store';
+import { useGetShopByIdQuery } from 'redux/services/shopApi/shopApi';
+import MyShopProductManager from 'pages/myShop/myShopProductManager';
+import MyShopProductControl from 'pages/myShop/myShopProductControl';
+import MyShopHeader from 'pages/myShop/myShopHeader';
+import { Loading } from 'components/common';
 
 const ShopPageContainer = styled.main`
   display: flex;
@@ -14,9 +16,7 @@ const ShopPageContainer = styled.main`
 `;
 
 export const MyShop = () => {
-  const { currentShop, userShops } = useSelector(
-    (state: RootState) => state.shopState
-  );
+  const { currentShop } = useSelector((state: RootState) => state.shopState);
 
   const {
     data: shop,
@@ -28,7 +28,9 @@ export const MyShop = () => {
     refetch();
   }, [currentShop]);
 
-  if (!currentShop || !shop || isLoading) return <h3>Loading...</h3>;
+  if (isLoading) return <Loading />;
+
+  if (!currentShop || !shop) return <h3>Shop is not found</h3>;
 
   return (
     <ShopPageContainer>

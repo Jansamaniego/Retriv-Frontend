@@ -1,14 +1,14 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { cartApi } from '../cartApi/cartApi';
-import customBaseQuery from '../../../utils/customBaseQuery';
-import { removeCart } from '../../features/cartSlice';
-import { IOrder } from 'src/types';
+
+import customBaseQuery from 'utils/customBaseQuery';
+import { IOrder } from 'types';
 import {
   ICreateOrder,
   IGetOrdersResponse,
   IOrderResponse,
   IUpdateOrderStatus,
-} from './orderApi.types';
+} from 'redux/services/orderApi/orderApi.types';
+import { removeCart } from 'redux/features/cartSlice';
 
 export const orderApi = createApi({
   reducerPath: 'orderApi',

@@ -1,12 +1,13 @@
 import React from 'react';
-import { Loading, StyledModal } from '../../../../common';
 import styled from 'styled-components';
+
+import { Loading, StyledModal } from 'components/common';
 import { useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
-import { useProductPagination } from '../../../../../context/ProductPaginationContext';
-import { useGetCategoriesQuery } from '../../../../../redux/services/categoryApi/categoryApi';
-import { useEffect } from 'react';
-import { ICategory } from 'src/types';
+import { useState, useEffect } from 'react';
+
+import { ICategory } from 'types';
+import { useProductPagination } from 'context/ProductPaginationContext';
+import { useGetCategoriesQuery } from 'redux/services/categoryApi/categoryApi';
 
 interface ICategoryFilterModalProps {
   isModalOpen: boolean;
@@ -59,19 +60,18 @@ const CategoryFilterModal: React.FC<ICategoryFilterModalProps> = ({
   const [categoryFilterArray, setCategoryFilterArray] = useState<string[]>([]);
   const { setCurrentPage } = useProductPagination();
 
-  const {
-    categories,
-    totalPages,
-    isLoading: categoriesIsLoading,
-  } = useGetCategoriesQuery(null, {
-    selectFromResult: ({ data, isLoading }) => {
-      return {
-        categories: data?.results,
-        totalPages: data?.totalPages,
-        isLoading: isLoading,
-      };
-    },
-  });
+  const { categories, isLoading: categoriesIsLoading } = useGetCategoriesQuery(
+    null,
+    {
+      selectFromResult: ({ data, isLoading }) => {
+        return {
+          categories: data?.results,
+          totalPages: data?.totalPages,
+          isLoading: isLoading,
+        };
+      },
+    }
+  );
 
   useEffect(() => {
     const selectedCategories = searchParams.get('categories')?.split(',');

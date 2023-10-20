@@ -1,26 +1,21 @@
-import React, { useEffect } from 'react';
+import { useState } from 'react';
+import styled from 'styled-components';
 import z from 'zod';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+
+import { useCreateShopMutation } from 'redux/services/shopApi/shopApi';
+import { myProfileApi } from 'redux/services/myProfileApi/myProfileApi';
 import {
   Form,
   StyledInput,
-  PasswordInput,
   Button,
-  Select,
-  StyledLink,
-  Card,
   StyledModal,
   ImageUpload,
-} from '../../components/common';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+} from 'components/common';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
-import { useCreateShopMutation } from '../../redux/services/shopApi/shopApi';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { myProfileApi } from '../../redux/services/myProfileApi/myProfileApi';
-import styled from 'styled-components';
-import { useAppDispatch } from 'src/redux/store';
+import { useAppDispatch } from 'redux/store';
 
 interface FormValues {
   name: string;
@@ -80,7 +75,7 @@ export const CreateShop = () => {
     isError: boolean;
     message: string;
   } | null>(null);
-  const [createShop, { isLoading, isSuccess }] = useCreateShopMutation();
+  const [createShop, { isLoading }] = useCreateShopMutation();
 
   const createShopSchema = z.object({
     name: z.string().min(2),
@@ -108,7 +103,6 @@ export const CreateShop = () => {
     handleSubmit,
     control,
     watch,
-    formState: { errors },
   } = methods;
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
@@ -201,8 +195,6 @@ export const CreateShop = () => {
   ) => void = (error) => {
     setImageError(error);
   };
-
-  console.log(errors);
 
   return (
     <CreateShopFlexWrapper>

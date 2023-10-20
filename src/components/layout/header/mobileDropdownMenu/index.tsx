@@ -1,11 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { StyledLink } from '../../../common';
-import { XMarkIcon } from '../../../../assets/icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import CategoryFilterModal from '../../sideMenu/mobileSideMenuCategoryFilter/categoryFIlterModal';
+
+import { XMarkIcon } from 'assets/icons';
 
 interface MobileDropdownMenuProps {
   setIsMobileMenuOpen: (isMobileMenuOpen: boolean) => void;
@@ -20,8 +17,6 @@ const MobileDropdownMenuContainer = styled.nav`
   top: 0;
   left: 0;
   display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
   z-index: 999;
 `;
 
@@ -31,7 +26,6 @@ const MobileDropdownMenuFlexWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
 `;
 
 const MobileNavOptionContainer = styled.div`
@@ -64,7 +58,7 @@ const MobileDropdownMenu: React.FC<MobileDropdownMenuProps> = ({
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [isFilterOptionOpen, setIsFilterOptionOpen] = useState<boolean>(false);
+  const [isFilterOptionOpen, setIsFilterOptionOpen] = useState(false);
 
   useEffect(() => {
     if (searchParams.size) {

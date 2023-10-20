@@ -1,4 +1,4 @@
-import { IUser, IToken, IResponse } from 'src/types';
+import { IUser, IToken, IResponse } from 'types';
 
 export interface ILogin {
   email: string;

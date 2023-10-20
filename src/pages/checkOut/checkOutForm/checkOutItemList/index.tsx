@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Card, QuantityTogglerInput } from '../../../../components/common';
+import React from 'react';
 import styled from 'styled-components';
-import { useGetProductByIdQuery } from '../../../../redux/services/productApi/productApi';
-import CheckOutItemListHeader from './checkOutItemListHeader';
-import { ICartItem, IProduct, IShop } from 'src/types';
+
+import { ICartItem } from 'types';
+import { useGetProductByIdQuery } from 'redux/services/productApi/productApi';
+import { Card } from 'components/common';
+import CheckOutItemListHeader from 'pages/checkOut/checkOutForm/checkOutItemList/checkOutItemListHeader';
 
 interface CheckOutItemListProps {
   items: ICartItem[];
@@ -81,15 +82,6 @@ const CheckOutItemImage = styled.img`
   width: 16rem;
   height: 12rem;
   object-fit: cover;
-`;
-
-const CheckOutItemDetailContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 10rem;
-  max-width: 30rem;
-  width: 100%;
 `;
 
 const CheckOutItemNameContainer = styled.div`

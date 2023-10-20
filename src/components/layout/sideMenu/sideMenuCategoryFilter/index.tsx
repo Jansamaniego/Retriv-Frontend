@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useGetCategoriesQuery } from '../../../../redux/services/categoryApi/categoryApi';
 import { useSearchParams } from 'react-router-dom';
-import { useGetProductsQuery } from '../../../../redux/services/productApi/productApi';
-import { useDispatch, useSelector } from 'react-redux';
-import { Loading } from '../../../common';
-import { useProductPagination } from '../../../../context/ProductPaginationContext';
+
+import { useGetCategoriesQuery } from 'redux/services/categoryApi/categoryApi';
+import { useProductPagination } from 'context/ProductPaginationContext';
+import { Loading } from 'components/common';
 
 const SideMenuCategoryFilterContainer = styled.div`
   padding-top: 1.6rem;
@@ -113,7 +112,9 @@ const SideMenuCategoryFilter = () => {
     setCurrentPage(1);
   };
 
-  if (categoriesIsLoading || !categories) return <Loading />;
+  if (categoriesIsLoading) return <Loading />;
+
+  if (!categories) return <h3>No categories found</h3>;
 
   return (
     <SideMenuCategoryFilterContainer>

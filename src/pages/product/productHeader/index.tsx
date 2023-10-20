@@ -1,21 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-
-import {
-  Card,
-  ContentFlexWrapper,
-  StyledModal,
-} from '../../../components/common';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import DisplayImageModal from './displayImageModal';
 
-import ProductHeaderInfo from './productHeaderInfo';
-
-import UpdateProductMainImageModal from './updateProductMainImageModal';
-import AddProductImagesModal from './addProductImagesModal';
-import { useDeleteProductImageMutation } from '../../../redux/services/productApi/productApi';
-import ProductImages from './productImages';
-import { IProduct } from 'src/types';
-import { IProductRatings } from 'src/redux/services/ratings/productRatingsApi/productRatingsApi.types';
+import { IProduct } from 'types';
+import { IProductRatings } from 'redux/services/ratings/productRatingsApi/productRatingsApi.types';
+import { useDeleteProductImageMutation } from 'redux/services/productApi/productApi';
+import { Card, ContentFlexWrapper, StyledModal } from 'components/common';
+import DisplayImageModal from 'pages/product/productHeader/displayImageModal';
+import ProductHeaderInfo from 'pages/product/productHeader/productHeaderInfo';
+import UpdateProductMainImageModal from 'pages/product/productHeader/updateProductMainImageModal';
+import AddProductImagesModal from 'pages/product/productHeader/addProductImagesModal';
+import ProductImages from 'pages/product/productHeader/productImages';
 
 interface IProductHeaderProps {
   product: IProduct;

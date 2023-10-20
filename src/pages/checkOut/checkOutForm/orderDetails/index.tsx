@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, StyledModal } from '../../../../components/common';
-import { useState } from 'react';
+
+import { Button, Card, StyledModal } from 'components/common';
 
 interface OrderDetailsProps {
   totalPrice: number;
@@ -24,10 +24,6 @@ const OrderDetailContainer = styled.div`
   width: 100%;
 `;
 
-const OrderDetailLabel = styled.h5``;
-
-const OrderDetailValue = styled.h5``;
-
 const OrderDetails: React.FC<OrderDetailsProps> = ({
   totalPrice,
   totalQuantity,
@@ -47,12 +43,12 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
     <Card>
       <OrderDetailsFlexContainer>
         <OrderDetailContainer>
-          <OrderDetailLabel>Units total:</OrderDetailLabel>
-          <OrderDetailValue>{totalQuantity} units</OrderDetailValue>
+          <h5>Units total:</h5>
+          <h5>{totalQuantity} units</h5>
         </OrderDetailContainer>
         <OrderDetailContainer>
-          <OrderDetailLabel>Payment total:</OrderDetailLabel>
-          <OrderDetailValue>&#8369;{totalPrice}</OrderDetailValue>
+          <h5>Payment total:</h5>
+          <h5>&#8369;{totalPrice}</h5>
         </OrderDetailContainer>
         <Button onClick={openCreateOrderModal} disabled={isLoading}>
           Place Order

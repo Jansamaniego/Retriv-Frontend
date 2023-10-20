@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { z } from 'zod';
+import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { DevTool } from '@hookform/devtools';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { RootState } from 'redux/store';
+import { useLoginUserMutation } from 'redux/services/authApi/authApi';
 import {
   Button,
   StyledInput,
   PasswordInput,
   Form,
   StyledLink,
-} from '../../components/common';
-import { z } from 'zod';
-import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { DevTool } from '@hookform/devtools';
-import { useLoginUserMutation } from '../../redux/services/authApi/authApi';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { RootState } from 'src/redux/store';
+} from 'components/common';
 
 interface FormValues {
   email: string;

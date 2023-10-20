@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from '../../../../components/common';
-import { useGetCategoriesQuery } from '../../../../redux/services/categoryApi/categoryApi';
 import { useNavigate } from 'react-router-dom';
-import { ICategory } from 'src/types';
+
+import { ICategory } from 'types';
+import { Card, Loading } from 'components/common';
+import { useGetCategoriesQuery } from 'redux/services/categoryApi/categoryApi';
 
 interface ICategoryListProps {
   categories: ICategory[];
@@ -53,13 +54,16 @@ const CategoryCard: React.FC<ICategoryCardProps> = ({ children, onClick }) => {
 
 const CategoryItem: React.FC<ICategoryItemProps> = ({ id }) => {
   const navigate = useNavigate();
-  const { category } = useGetCategoriesQuery(null, {
-    selectFromResult: ({ data }) => {
+  const { category, isLoading } = useGetCategoriesQuery(null, {
+    selectFromResult: ({ data, isLoading }) => {
       return {
         category: data?.results?.find((category) => category._id === id),
+        isLoading,
       };
     },
   });
+
+  if (isLoading) return <Loading />;
 
   if (!category) return <h1>Category is not found</h1>;
 

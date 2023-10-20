@@ -1,4 +1,4 @@
-interface ThemeTokens {
+ interface ThemeTokens {
   grey: IColorToken;
   primary: IColorToken;
   secondary: IColorToken;

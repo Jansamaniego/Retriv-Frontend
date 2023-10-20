@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
-import { Card } from '../../../common';
 import { useDispatch, useSelector } from 'react-redux';
-import { forwardRef } from 'react';
-import { setShop } from '../../../../redux/features/shopSlice';
 import { useNavigate } from 'react-router-dom';
-import { PlusIcon } from '../../../../assets/icons';
-import { RootState } from 'src/redux/store';
-import { IShopWithOwnerPickValues } from 'src/redux/services/shopApi/shopApi.types';
-import { IShop } from 'src/types';
+
+import { IShop } from 'types';
+import { IShopWithOwnerPickValues } from 'redux/services/shopApi/shopApi.types';
+import { RootState } from 'redux/store';
+import { setShop } from 'redux/features/shopSlice';
+import { Card } from 'components/common';
+import { PlusIcon } from 'assets/icons';
 
 interface IShopPickerDropdownMenuListProps {
   userShops: IShopWithOwnerPickValues[] | IShop[];
@@ -128,45 +128,43 @@ const ShopPickerDropdownMenuItem: React.FC<
 
 const ShopPickerDropdownMenuList: React.FC<
   IShopPickerDropdownMenuListProps
-> = ({ userShops, currentShop }) => {
+> = ({ userShops }) => {
   return userShops.map(({ _id }) => (
     <ShopPickerDropdownMenuItem key={_id} id={_id} />
   ));
 };
 
-const ShopPickerDropdownMenu = forwardRef<HTMLDivElement>(
-  ({ ...props }, ref) => {
-    const navigate = useNavigate();
-    const { currentShop, userShops = [] } = useSelector(
-      (state: RootState) => state.shopState
-    );
+const ShopPickerDropdownMenu = forwardRef<HTMLDivElement>((props, ref) => {
+  const navigate = useNavigate();
+  const { currentShop, userShops = [] } = useSelector(
+    (state: RootState) => state.shopState
+  );
 
-    const navigateCreateShopPage = () => {
-      navigate('/create-shop');
-    };
+  const navigateCreateShopPage = () => {
+    navigate('/create-shop');
+  };
 
-    if (!currentShop || !userShops || userShops.length === 0)
-      return <h3> No shops found</h3>;
+  if (!currentShop || !userShops || userShops.length === 0)
+    return <h3> No shops found</h3>;
 
-    return (
-      <ShopPickerDropdownMenuContainer ref={ref}>
-        {userShops && userShops.length !== 0 && (
-          <ShopPickerDropdownMenuList
-            userShops={userShops}
-            currentShop={currentShop}
-          />
-        )}
-        <ShopPickerDropdownMenuItemContainer onClick={navigateCreateShopPage}>
-          <AddShopFlexWrapper>
-            <PlusIconContainer>
-              <PlusIcon width="5rem" strokeWidth="0.2rem" />
-            </PlusIconContainer>
-            <AddShopText>Add New Shop</AddShopText>
-          </AddShopFlexWrapper>
-        </ShopPickerDropdownMenuItemContainer>
-      </ShopPickerDropdownMenuContainer>
-    );
-  }
-);
+  return (
+    <ShopPickerDropdownMenuContainer ref={ref}>
+      {userShops && userShops.length !== 0 && (
+        <ShopPickerDropdownMenuList
+          userShops={userShops}
+          currentShop={currentShop}
+        />
+      )}
+      <ShopPickerDropdownMenuItemContainer onClick={navigateCreateShopPage}>
+        <AddShopFlexWrapper>
+          <PlusIconContainer>
+            <PlusIcon width="5rem" strokeWidth="0.2rem" />
+          </PlusIconContainer>
+          <AddShopText>Add New Shop</AddShopText>
+        </AddShopFlexWrapper>
+      </ShopPickerDropdownMenuItemContainer>
+    </ShopPickerDropdownMenuContainer>
+  );
+});
 
 export default ShopPickerDropdownMenu;

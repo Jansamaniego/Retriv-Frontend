@@ -1,12 +1,10 @@
 import React, { ChangeEvent, FormEventHandler, useRef, useState } from 'react';
-import { StyledModal, Form, Button } from '../../../../components/common';
-import { MdCloudUpload } from 'react-icons/md';
 import styled from 'styled-components';
-
+import { MdCloudUpload } from 'react-icons/md';
 import { z } from 'zod';
-import { useUpdateShopImageMutation } from '../../../../redux/services/shopApi/shopApi';
-import { useUpdateProductMainImageMutation } from '../../../../redux/services/productApi/productApi';
-import { SubmitHandler } from 'react-hook-form';
+
+import { useUpdateProductMainImageMutation } from 'redux/services/productApi/productApi';
+import { StyledModal, Form, Button } from 'components/common';
 
 interface IUpdateProductMainImageModalProps {
   isModalOpen: boolean;
@@ -39,7 +37,7 @@ const MB_BYTES = 1000000;
 const UpdateProductMainImageModal: React.FC<
   IUpdateProductMainImageModalProps
 > = ({ isModalOpen, closeModal, shopId, productId }) => {
-  const [updateProductMainImage, { isLoading, data }] =
+  const [updateProductMainImage, { isLoading }] =
     useUpdateProductMainImageMutation();
 
   const inputRef = useRef<HTMLInputElement | null>(null);

@@ -1,10 +1,8 @@
-import { useSearchParams } from 'react-router-dom';
-import { FilterIcon } from '../../../../assets/icons';
-import { useProductPagination } from '../../../../context/ProductPaginationContext';
-import { useGetCategoriesQuery } from '../../../../redux/services/categoryApi/categoryApi';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import CategoryFilterModal from './categoryFIlterModal';
+
+import { FilterIcon } from 'assets/icons';
+import CategoryFilterModal from 'components/category/categoryFilterModal';
 
 const CategoryFilterIconContainer = styled.div`
   display: none;

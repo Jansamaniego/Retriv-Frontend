@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ICart } from 'src/types';
+
+import { ICart } from 'types';
 
 interface IInitialCartState {
   cart: ICart | null;

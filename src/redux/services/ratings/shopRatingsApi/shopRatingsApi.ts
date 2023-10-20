@@ -1,6 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../../utils/customBaseQuery';
-import { IGetShopRatingsResponse, IShopRatings } from './shopRatingsApi.types';
+
+import customBaseQuery from 'utils/customBaseQuery';
+import {
+  IGetShopRatingsResponse,
+  IShopRatings,
+} from 'redux/services/ratings/shopRatingsApi/shopRatingsApi.types';
 
 export const shopRatingsApi = createApi({
   reducerPath: 'shopRatingsApi',

@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 interface Props {
-  isActive: boolean;
+  to?: string;
+  isActive?: boolean;
 }
 
 export const StyledLink = styled(Link)<Props>`

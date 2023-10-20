@@ -1,4 +1,4 @@
-import { IResponse } from 'src/types';
+import { IResponse } from 'types';
 
 export interface ICreatePaymentIntentResponse extends IResponse {
   clientSecret: string;

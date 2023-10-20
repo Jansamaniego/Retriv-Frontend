@@ -1,4 +1,4 @@
-import React, { forwardRef, Ref } from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
 interface ProfileImageLogoContainerProps {
@@ -42,6 +42,7 @@ export const ProfileImageLogo = forwardRef<
         alt="profile image logo"
         onClick={onClick}
         ref={ref}
+        {...props}
       />
     </ProfileImageLogoContainer>
   );

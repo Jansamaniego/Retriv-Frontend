@@ -1,19 +1,18 @@
-import React from 'react';
-import { z } from 'zod';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
+import { z } from 'zod';
+import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
+
+import { useResetPasswordMutation } from 'redux/services/authApi/authApi';
 import {
   Button,
   Form,
   PasswordInput,
   TransparentPopup,
-} from '../../components/common';
-import { DevTool } from '@hookform/devtools';
-import { useResetPasswordMutation } from '../../redux/services/authApi/authApi';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { CheckIcon } from '../../assets/icons';
+} from 'components/common';
+import { CheckIcon } from 'assets/icons';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
@@ -26,7 +25,7 @@ export const ResetPassword = () => {
   const navigate = useNavigate();
   const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
   const [resetPassword, { isLoading, isSuccess }] = useResetPasswordMutation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const resetToken = searchParams.get('token') || '';
   const resetPasswordSchema = z

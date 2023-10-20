@@ -1,20 +1,12 @@
 import React, { useRef, useState, useMemo } from 'react';
-import { useGetOrdersQuery } from '../../redux/services/orderApi/orderApi';
-import { AgGridReact } from 'ag-grid-react';
-import { Button, Card } from '../../components/common';
 import moment from 'moment/moment';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import { IOrder } from 'src/types';
-import {
-  CellRangeParams,
-  CellRendererSelectorFunc,
-  ColDef,
-  ColGroupDef,
-  GetCellRendererInstancesParams,
-  ValueFormatterFunc,
-  ValueFormatterParams,
-} from 'ag-grid-community';
+import { useNavigate } from 'react-router-dom';
+import { ColDef, ValueFormatterParams } from 'ag-grid-community';
+import { AgGridReact } from 'ag-grid-react';
+
+import { useGetOrdersQuery } from 'redux/services/orderApi/orderApi';
+import { Card, Loading } from 'components/common';
 
 interface IOrderTableProps {
   orders: IFormattedOrder[];
@@ -63,8 +55,8 @@ const OrderIdRenderer = (p: ValueFormatterParams) => {
 
 const OrderTable: React.FC<IOrderTableProps> = ({ orders }) => {
   const gridRef = useRef(null);
-  const [rowData, setRowData] = useState(orders);
-  const [columnDefs, setColumnDefs] = useState<ColDef[]>([
+  const [rowData] = useState(orders);
+  const [columnDefs] = useState<ColDef[]>([
     { field: '_id', headerName: 'Order Id', cellRenderer: OrderIdRenderer },
     {
       field: 'dateOfPurchase',
@@ -79,8 +71,6 @@ const OrderTable: React.FC<IOrderTableProps> = ({ orders }) => {
     },
     { field: 'totalPrice', cellRenderer: PriceFormatter },
   ]);
-
-  console.log(rowData);
 
   const defaultColDef = useMemo(
     () => ({
@@ -135,7 +125,7 @@ export const AdminOrder = () => {
     },
   });
 
-  if (isLoading) return <h2>Loading...</h2>;
+  if (isLoading) return <Loading />;
 
   if (!orders || orders.length === 0)
     return (

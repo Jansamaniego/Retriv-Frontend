@@ -45,6 +45,8 @@ const ModalWrapper = styled.div`
   flex-direction: column;
 `;
 
+const CloseButtonContainer = styled.div``;
+
 const CloseButton = styled.button`
   background-color: transparent;
   border: 0;
@@ -111,8 +113,13 @@ export const StyledModal: React.FC<Props> = ({
     isModalOpen && (
       <Background onClick={onBackgroundClick} ref={backgroundRef}>
         <ModalWrapper>
+          {withCloseButton && (
+            <CloseButtonContainer>
+              <CloseButton onClick={closeModal}>&times;</CloseButton>
+            </CloseButtonContainer>
+          )}
           <ContentContainer>{children}</ContentContainer>
-          {withButtons ? (
+          {withButtons && (
             <ControlContainer>
               <Button type="button" onClick={closeModal} disabled={isLoading}>
                 Cancel
@@ -125,10 +132,7 @@ export const StyledModal: React.FC<Props> = ({
                 {onClick ? 'Confirm' : 'Submit'}
               </Button>
             </ControlContainer>
-          ) : null}
-          {withCloseButton ? (
-            <CloseButton onClick={closeModal}>&times;</CloseButton>
-          ) : null}
+          )}
         </ModalWrapper>
       </Background>
     )

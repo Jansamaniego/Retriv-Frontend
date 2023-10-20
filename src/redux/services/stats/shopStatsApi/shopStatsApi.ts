@@ -1,10 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../../utils/customBaseQuery';
+
+import customBaseQuery from 'utils/customBaseQuery';
 import {
   IGetShopStats,
   IGetshopStatsResponse,
   IShopStats,
-} from './shopStatsApi.types';
+} from 'redux/services/stats/shopStatsApi/shopStatsApi.types';
 
 export const shopStatsApi = createApi({
   reducerPath: 'shopStatsApi',

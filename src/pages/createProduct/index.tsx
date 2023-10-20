@@ -1,29 +1,24 @@
-import React from 'react';
+import { useState } from 'react';
+import styled from 'styled-components';
 import { z } from 'zod';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
+
+import { RootState } from 'redux/store';
+import { useCreateProductMutation } from 'redux/services/productApi/productApi';
+import { useGetCategoriesQuery } from 'redux/services/categoryApi/categoryApi';
 import {
   Card,
   Form,
   StyledInput,
-  PasswordInput,
   Button,
   Select,
-  StyledLink,
   ImageUpload,
   StyledModal,
-} from '../../components/common';
-import { useCreateProductMutation } from '../../redux/services/productApi/productApi';
-import {
-  useGetCategoriesQuery,
-  useGetCategoryQuery,
-} from '../../redux/services/categoryApi/categoryApi';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import styled from 'styled-components';
-import { RootState } from 'src/redux/store';
+} from 'components/common';
 
 interface ITitle {
   [props: string]: string;

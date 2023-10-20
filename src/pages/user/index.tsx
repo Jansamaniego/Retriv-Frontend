@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import UserShopManager from '../../components/user/userShopManager';
-import { Card } from '../../components/common';
-import UserInfo from './userInfo';
-import { useGetUserByIdQuery } from '../../redux/services/userApi/userApi';
-import UserControl from './userControl';
+
+import { useGetUserByIdQuery } from 'redux/services/userApi/userApi';
+import UserShopManager from 'components/user/userShopManager';
+import { Card, Loading } from 'components/common';
+import UserInfo from 'pages/user/userInfo';
+import UserControl from 'pages/user/userControl';
 
 interface UserPageTabProps {
   isActive: boolean;
@@ -48,7 +49,7 @@ export const User = () => {
   const { userId = '' } = useParams();
   const { data: user, isLoading } = useGetUserByIdQuery(userId);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <Loading />;
 
   if (!user) return <h3>User is not found</h3>;
 

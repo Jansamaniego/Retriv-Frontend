@@ -1,18 +1,20 @@
 import React from 'react';
-import { useGetOrdersQuery } from '../../../redux/services/orderApi/orderApi';
-import { Card, Loading } from '../../../components/common';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
+
+import { IOrder } from 'types';
+import { useGetOrdersQuery } from 'redux/services/orderApi/orderApi';
+import { RootState } from 'redux/store';
 import {
   Delivered,
   NotProcessed,
   OutForDelivery,
   Processing,
   Shipped,
-} from '../../../assets/icons';
-import moment from 'moment';
-import { RootState } from 'src/redux/store';
+} from 'assets/icons';
+import { Card, Loading } from 'components/common';
 
 interface IStatusIconContainerProps {
   active?: boolean;
@@ -70,25 +72,21 @@ const StatusIconContainer = styled.div<IStatusIconContainerProps>`
 
 const OrderItem: React.FC<IOrderItemProps> = ({ id }) => {
   const navigate = useNavigate();
-  const { order } = useGetOrdersQuery(undefined, {
-    selectFromResult: ({ data }) => {
-      console.log(data);
+  const { order, isLoading } = useGetOrdersQuery(undefined, {
+    selectFromResult: ({ data, isLoading }) => {
       return {
         order: data?.find((order) => order._id === id),
+        isLoading,
       };
     },
   });
 
+  if (isLoading) return <Loading />;
+
   if (!order) return <h3>Order is not found</h3>;
 
-  const {
-    dateOfPurchase,
-    products,
-    status,
-    totalPrice,
-    totalQuantity,
-    paymentMethod,
-  } = order;
+  const { dateOfPurchase, status, totalPrice, totalQuantity, paymentMethod } =
+    order;
 
   const navigateOrder = () => {
     navigate(`/order/${id}`);
@@ -138,7 +136,7 @@ const OrderList = () => {
     },
   });
 
-  if (!isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
 
   if (!orders) return <h3>Order are not found</h3>;
 
@@ -146,24 +144,7 @@ const OrderList = () => {
 };
 
 const OrderManager = () => {
-  // const res = useGetOrdersQuery(null, {
-  //   selectFromResult: ({ data }) => {
-  //     return {
-  //       orders:
-  //         currentUser &&
-  //         data?.results?.find((order) => order.user === currentUser.id),
-  //     };
-  //   },
-  // });
-  const { data: orders, isLoading } = useGetOrdersQuery();
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await refetch();
-  //   };
-
-  //   fetchData();
-  // }, [refetch, currentUser]);
+  const { isLoading } = useGetOrdersQuery();
 
   if (isLoading) {
     return <h3>Loading...</h3>;

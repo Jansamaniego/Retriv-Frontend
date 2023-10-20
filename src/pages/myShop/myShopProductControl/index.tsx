@@ -1,18 +1,17 @@
-import React from 'react';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import { IShopWithOwnerPickValues } from 'redux/services/shopApi/shopApi.types';
+import { RootState, useAppDispatch } from 'redux/store';
 import {
   myProfileApi,
   useUpdateDefaultShopMutation,
-} from '../../../redux/services/myProfileApi/myProfileApi';
-import { Button, Card, StyledModal } from '../../../components/common';
-import styled from 'styled-components';
-import { useDeleteShopMutation } from '../../../redux/services/shopApi/shopApi';
-import { removeShop } from '../../../redux/features/shopSlice';
-import { RootState, useAppDispatch } from 'src/redux/store';
-import { IShop } from 'src/types';
-import { IShopWithOwnerPickValues } from 'src/redux/services/shopApi/shopApi.types';
+} from 'redux/services/myProfileApi/myProfileApi';
+import { useDeleteShopMutation } from 'redux/services/shopApi/shopApi';
+import { removeShop } from 'redux/features/shopSlice';
+import { Button, Card, StyledModal } from 'components/common';
 
 interface IMyShopProductControlProps {
   currentShop: IShopWithOwnerPickValues;
@@ -32,15 +31,12 @@ const MyShopProductControl: React.FC<IMyShopProductControlProps> = ({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const currentUser = useSelector((state: RootState) => state.userState.user);
-  const [
-    deleteShop,
-    { isLoading: deleteShopIsLoading, isSuccess: deleteShopIsSuccess },
-  ] = useDeleteShopMutation();
+  const [deleteShop, { isLoading: deleteShopIsLoading }] =
+    useDeleteShopMutation();
   const [isDeleteShopModalOpen, setIsDeleteShopModalOpen] = useState(false);
   const [isUpdateDefaultShopModalOpen, setIsUpdateDefaultShopModalOpen] =
     useState(false);
-  const [updateDefaultShop, { isLoading, isSuccess }] =
-    useUpdateDefaultShopMutation();
+  const [updateDefaultShop, { isLoading }] = useUpdateDefaultShopMutation();
 
   const { _id: shopId, name } = currentShop;
 

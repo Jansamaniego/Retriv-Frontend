@@ -1,14 +1,14 @@
-import React, { ChangeEvent, useState } from 'react';
-import { useGetProductByIdQuery } from '../../../../redux/services/productApi/productApi';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import styled from 'styled-components';
+
+import { ICartItem } from 'types';
+import { useGetProductByIdQuery } from 'redux/services/productApi/productApi';
+import { useRemoveCartItemMutation } from 'redux/services/cartApi/cartApi';
 import {
   Button,
   QuantityTogglerInput,
   TransparentPopup,
-} from '../../../../components/common';
-import { useRemoveCartItemMutation } from '../../../../redux/services/cartApi/cartApi';
-import { useEffect } from 'react';
-import { ICartItem } from 'src/types';
+} from 'components/common';
 
 interface ICartItemListProps {
   cartItems: ICartItem[];

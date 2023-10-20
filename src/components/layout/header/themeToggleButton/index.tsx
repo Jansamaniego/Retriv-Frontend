@@ -1,8 +1,8 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTheme } from '../../../../redux/features/themeSlice';
-import { RootState } from 'src/redux/store';
+
+import { setTheme } from 'redux/features/themeSlice';
+import { RootState } from 'redux/store';
 
 interface IToggleContainerProps {
   mode: string;

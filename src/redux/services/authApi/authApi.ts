@@ -1,7 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../utils/customBaseQuery';
-import { logout } from '../../features/userSlice';
-import { myProfileApi } from '../myProfileApi/myProfileApi';
+
+import customBaseQuery from 'utils/customBaseQuery';
 import {
   IloginResponse,
   ILogin,
@@ -12,8 +11,10 @@ import {
   IChangePasswordResponse,
   IChangePassword,
   IVerifyEmailResponse,
-} from './authApi.types';
-import { IResponse, IUser } from 'src/types';
+} from 'redux/services/authApi/authApi.types';
+import { IResponse, IUser } from 'types';
+import { myProfileApi } from 'redux/services/myProfileApi/myProfileApi';
+import { logout } from 'redux/features/userSlice';
 
 export const authApi = createApi({
   reducerPath: 'authApi',

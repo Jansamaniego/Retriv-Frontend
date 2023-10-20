@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { BsArrowLeftCircleFill, BsArrowRightCircleFill } from 'react-icons/bs';
+import React from 'react';
 import styled from 'styled-components';
+import { BsArrowLeftCircleFill, BsArrowRightCircleFill } from 'react-icons/bs';
 
 interface IIndicatorProps {
   inactive: boolean;

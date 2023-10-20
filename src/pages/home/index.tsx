@@ -1,7 +1,6 @@
-import React from 'react';
-import { PageFlexColumnWrapper } from '../../components/common';
-import ProductManager from '../../components/product/productManager';
-import CategoryManager from '../../components/category/categoryManager';
+import { PageFlexColumnWrapper } from 'components/common';
+import ProductManager from 'components/product/productManager';
+import CategoryManager from 'components/category/categoryManager';
 
 export const Home = () => {
   return (

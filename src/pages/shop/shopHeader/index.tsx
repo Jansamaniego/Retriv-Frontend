@@ -1,18 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, ProfileImageLogo } from '../../../components/common';
+import moment from 'moment';
+
+import { IShopWithOwnerPickValues } from 'redux/services/shopApi/shopApi.types';
+import { IShopRatings } from 'redux/services/ratings/shopRatingsApi/shopRatingsApi.types';
+import { Card } from 'components/common';
 import {
   DateIcon,
-  EditIcon,
   ProductIcon,
   ProductsSoldIcon,
   StarRatingIcon,
-} from '../../../assets/icons';
-import { useGetShopRatingsQuery } from '../../../redux/services/ratings/shopRatingsApi/shopRatingsApi';
-import { IShop } from 'src/types';
-import { IShopWithOwnerPickValues } from 'src/redux/services/shopApi/shopApi.types';
-import moment from 'moment';
-import { IShopRatings } from 'src/redux/services/ratings/shopRatingsApi/shopRatingsApi.types';
+} from 'assets/icons';
 
 interface IShopHeaderProps {
   shop: IShopWithOwnerPickValues;
@@ -133,7 +131,6 @@ const ShopStat = styled.h5`
 
 const ShopHeader: React.FC<IShopHeaderProps> = ({ shop, shopRatings }) => {
   const {
-    id,
     shopImage,
     name,
     description,

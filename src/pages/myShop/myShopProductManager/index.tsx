@@ -1,9 +1,9 @@
 import React from 'react';
-import { useGetProductsByShopIdQuery } from '../../../redux/services/productApi/productApi';
 import styled from 'styled-components';
-import MyShopProductList from './myShopProductList';
-import { Button, Card } from '../../../components/common';
-import { useNavigate } from 'react-router-dom';
+
+import { useGetProductsByShopIdQuery } from 'redux/services/productApi/productApi';
+import { Card } from 'components/common';
+import MyShopProductList from 'pages/myShop/myShopProductManager/myShopProductList';
 
 interface IMyShopProductManagerProps {
   shopId: string;

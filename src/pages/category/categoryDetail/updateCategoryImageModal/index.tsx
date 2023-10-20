@@ -1,10 +1,10 @@
-import React, { ChangeEvent, FormEventHandler, useRef, useState } from 'react';
-import { StyledModal, Form, Button } from '../../../../components/common';
-import { MdCloudUpload } from 'react-icons/md';
+import React, { ChangeEvent, useRef, useState } from 'react';
 import styled from 'styled-components';
-
 import { z } from 'zod';
-import { useUpdateCategoryImageMutation } from '../../../../redux/services/categoryApi/categoryApi';
+import { MdCloudUpload } from 'react-icons/md';
+
+import { StyledModal, Form, Button } from 'components/common';
+import { useUpdateCategoryImageMutation } from 'redux/services/categoryApi/categoryApi';
 
 interface IUpdateCategoryImageModalProps {
   isModalOpen: boolean;
@@ -94,7 +94,7 @@ const UpdateCategoryImageModal: React.FC<IUpdateCategoryImageModalProps> = ({
     const formData = new FormData();
     formData.append('id', id);
     formData.append('image', image);
-    const response = await updateCategoryImage(formData);
+    await updateCategoryImage(formData);
     if (!isLoading) {
       closeModal();
     }

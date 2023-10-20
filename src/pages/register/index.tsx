@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { z } from 'zod';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
+
+import { RootState } from 'redux/store';
+import { useRegisterUserMutation } from 'redux/services/authApi/authApi';
 import {
   Form,
   StyledInput,
@@ -11,13 +17,7 @@ import {
   Select,
   StyledLink,
   ImageUpload,
-} from '../../components/common';
-import { useRegisterUserMutation } from '../../redux/services/authApi/authApi';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import styled from 'styled-components';
-import { RootState } from 'src/redux/store';
-import { useSelector } from 'react-redux';
+} from 'components/common';
 
 interface FormValues {
   username: string;
@@ -262,8 +262,6 @@ export const Register = () => {
       navigate('/');
     }
   }, [isLoading, isSuccess, navigate]);
-
-  console.log(errors);
 
   return (
     <RegisterFlexWrapper>

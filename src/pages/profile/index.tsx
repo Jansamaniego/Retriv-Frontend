@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Card } from '../../components/common';
-import UserShopManager from '../../components/user/userShopManager';
-import ProfileInfo from './profileInfo';
-import { RootState } from 'src/redux/store';
+
+import { Card } from 'components/common';
+import UserShopManager from 'components/user/userShopManager';
+import ProfileInfo from 'pages/profile/profileInfo';
+import { RootState } from 'redux/store';
 
 interface ProfilePageTabProps {
   isActive: boolean;

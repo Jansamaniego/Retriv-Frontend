@@ -1,13 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styled from 'styled-components';
-import { useGetCartQuery } from '../../redux/services/cartApi/cartApi';
-import { useSelector } from 'react-redux';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { useCreatePaymentIntentMutation } from '../../redux/services/paymentIntentApi/paymentIntentApi';
 
-import CheckOutForm from './checkOutForm';
-import { RootState } from 'src/redux/store';
+import { useGetCartQuery } from 'redux/services/cartApi/cartApi';
+import { useCreatePaymentIntentMutation } from 'redux/services/paymentIntentApi/paymentIntentApi';
+import CheckOutForm from 'pages/checkOut/checkOutForm';
 
 interface IAppearance {
   theme: 'stripe' | 'flat' | 'night' | 'none' | undefined;
@@ -19,12 +16,9 @@ export const CheckOut = () => {
   const initialized = useRef(false);
   const [clientSecret, setClientSecret] = useState<string>('');
   const [paymentIntentId, setPaymentIntentId] = useState<string>('');
-  const loggedInUser = useSelector((state: RootState) => state.userState.user);
   const { data: cart, isLoading } = useGetCartQuery();
-  const [
-    createPaymentIntent,
-    { isLoading: createPaymentIntentIsLoading, data },
-  ] = useCreatePaymentIntentMutation();
+  const [createPaymentIntent, { isLoading: createPaymentIntentIsLoading }] =
+    useCreatePaymentIntentMutation();
 
   const appearance: IAppearance = {
     theme: 'stripe',
@@ -38,11 +32,13 @@ export const CheckOut = () => {
 
       const fetchData = async () => {
         if (!isLoading) {
-          await createPaymentIntent(totalPrice || 0);
+          const res = await createPaymentIntent(totalPrice!);
 
           if (!createPaymentIntentIsLoading && !clientSecret) {
-            setClientSecret(data?.clientSecret || '');
-            setPaymentIntentId(data?.paymentIntentId || '');
+            if ('data' in res) {
+              setClientSecret(res?.data?.clientSecret || '');
+              setPaymentIntentId(res?.data?.paymentIntentId || '');
+            }
           }
         }
       };
@@ -53,8 +49,6 @@ export const CheckOut = () => {
 
   if (isLoading || createPaymentIntentIsLoading || !clientSecret)
     return <h1>Loading...</h1>;
-
-  console.log(clientSecret);
 
   return (
     clientSecret && (

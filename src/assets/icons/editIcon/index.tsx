@@ -1,7 +1,7 @@
 import React, { Ref, forwardRef } from 'react';
 
 interface Props {
-  width: string;
+  width?: string;
   onClick?: () => any;
   disabled?: boolean;
 }

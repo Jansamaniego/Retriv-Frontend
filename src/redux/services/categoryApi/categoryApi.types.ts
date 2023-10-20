@@ -1,4 +1,4 @@
-import { ICategory, IResponse } from 'src/types';
+import { ICategory, IResponse } from 'types';
 
 export interface IGetCategoriesResponse extends IResponse {
   categories: IGetCategoriesReturnObject;

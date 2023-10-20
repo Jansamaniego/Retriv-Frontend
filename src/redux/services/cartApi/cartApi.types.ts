@@ -1,4 +1,4 @@
-import { ICart, IResponse } from 'src/types';
+import { ICart, IResponse } from 'types';
 
 export interface ICartResponse extends IResponse {
   cart: ICart;

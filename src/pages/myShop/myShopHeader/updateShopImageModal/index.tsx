@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FormEventHandler, useRef, useState } from 'react';
-import { StyledModal, Form, Button } from '../../../../components/common';
-import { MdCloudUpload } from 'react-icons/md';
-import styled from 'styled-components';
-
 import { z } from 'zod';
-import { useUpdateShopImageMutation } from '../../../../redux/services/shopApi/shopApi';
+import styled from 'styled-components';
+import { MdCloudUpload } from 'react-icons/md';
+
+import { useUpdateShopImageMutation } from 'redux/services/shopApi/shopApi';
+import { StyledModal, Form, Button } from 'components/common';
 
 interface IUpdateShopImageModalProps {
   isModalOpen: boolean;
@@ -40,7 +40,7 @@ const UpdateShopImageModal: React.FC<IUpdateShopImageModalProps> = ({
   closeModal,
   id,
 }) => {
-  const [updateShopImage, { isLoading, data }] = useUpdateShopImageMutation();
+  const [updateShopImage, { isLoading }] = useUpdateShopImageMutation();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [shopImage, setShopImage] = useState<File | EmptyString>();
 

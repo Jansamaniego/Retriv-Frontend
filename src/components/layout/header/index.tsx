@@ -1,26 +1,18 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {
-  Link as ReactRouterDomLink,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { StyledLink, ProfileImageLogo } from '../../common';
-import { useLogoutUserMutation } from '../../../redux/services/authApi/authApi';
-import ThemeToggleButton from './themeToggleButton';
-import ProfileDropdownMenu from './profileDropdownMenu';
-import Search from './search';
-import { CartIcon, SearchIcon, StoreIcon } from '../../../assets/icons';
-import ShopPickerDropdownMenu from './shopPickerDropdownMenu';
-import MobileMenuIcon from '../../../assets/icons/mobileMenuIcon';
-import MobileDropdownMenu from './mobileDropdownMenu';
-import CategoryFilterModal from '../sideMenu/mobileSideMenuCategoryFilter/categoryFIlterModal';
-import { Button } from 'semantic-ui-react';
-import MobileSearch from './mobileSearch';
-import { RootState } from 'src/redux/store';
+import { RootState } from 'redux/store';
+import { StyledLink, ProfileImageLogo, Button } from 'components/common';
+import { CartIcon, SearchIcon, StoreIcon, MobileMenuIcon } from 'assets/icons';
+import CategoryFilterModal from 'components/category/categoryFilterModal';
+import ThemeToggleButton from 'components/layout/header/themeToggleButton';
+import ProfileDropdownMenu from 'components/layout/header/profileDropdownMenu';
+import ShopPickerDropdownMenu from 'components/layout/header/shopPickerDropdownMenu';
+import Search from 'components/layout/header/search';
+import MobileDropdownMenu from 'components/layout/header/mobileDropdownMenu';
+import MobileSearch from 'components/layout/header/mobileSearch';
 
 interface ILogoContainerProps {
   isMobileSearchOpen: boolean;
@@ -173,9 +165,8 @@ const Header = () => {
   const shopIconRef = useRef<HTMLDivElement>(null);
   const shopPickerDropdownRef = useRef<HTMLDivElement>(null);
   const mobileSearchRef = useRef<HTMLFormElement>(null);
-  const { userShops, currentShop } = useSelector(
-    (state: RootState) => state.shopState
-  );
+  const { userShops } = useSelector((state: RootState) => state.shopState);
+  const loggedInUser = useSelector((state: RootState) => state.userState.user);
   const cart = useSelector((state: RootState) => state.cartState.cart);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
@@ -184,9 +175,6 @@ const Header = () => {
   const [isShopPickerDropdownMenuOpen, setIsShopPickerDropdownMenuOpen] =
     useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const loggedInUser = useSelector((state: RootState) => state.userState.user);
-  const [logoutUser, { isLoading }] = useLogoutUserMutation();
-  const dispatch = useDispatch();
 
   const userImageLogoClickhandler = () => {
     setIsProfileMenuOpen((value) => !value);
@@ -261,10 +249,7 @@ const Header = () => {
         <MobileMenuIconContainer onClick={() => setIsMobileMenuOpen((s) => !s)}>
           <StyledMobileMenuIcon width="5rem" />
         </MobileMenuIconContainer>
-        <LogoContainer
-          isMobileSearchOpen={isMobileSearchOpen}
-          // onClick={navigateHome}
-        >
+        <LogoContainer isMobileSearchOpen={isMobileSearchOpen}>
           <StyledLink to="/" isActive={pathname === '/'}>
             <h1>Retriv</h1>
           </StyledLink>

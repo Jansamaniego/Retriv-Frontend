@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
-import ProductList from './productList';
-import { useGetProductsQuery } from '../../../redux/services/productApi/productApi';
 import { useSelector } from 'react-redux';
-import { Pagination, Loading } from '../../../components/common';
-import { useProductPagination } from '../../../context/ProductPaginationContext';
-import { RootState } from 'src/redux/store';
-import ProductSearchControls from './productSearchControls';
+
+import { useGetProductsQuery } from 'redux/services/productApi/productApi';
+import { useProductPagination } from 'context/ProductPaginationContext';
+import { RootState } from 'redux/store';
+import { Pagination, Loading } from 'components/common';
+import ProductList from 'components/product/productManager/productList';
+import ProductSearchControls from 'components/product/productManager/productSearchControls';
 
 interface IProductManagerProps {
   isProductSearchControlsOpen?: boolean;
@@ -32,22 +33,13 @@ const ProductManagerGrid = styled.main`
     grid-template-columns: repeat(1, minmax(20.8rem, 1fr));
   }
 `;
-
-// const formatQueryParams = (params) => {
-//   const obj = {};
-//   for (const [key, value] of params.entries()) {
-//     if (value !== '') obj[key] = value;
-//   }
-//   return obj;
-// };
-
 const ProductManager: React.FC<IProductManagerProps> = ({
   isProductSearchControlsOpen,
 }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const currentUser = useSelector((state: RootState) => state.userState.user);
   const { currentPage, setCurrentPage, totalPages, setTotalPages } =
     useProductPagination();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const { products, totalProductPages, isLoading, refetch } =
     useGetProductsQuery(searchParams.size ? searchParams.toString() : '', {
@@ -60,8 +52,6 @@ const ProductManager: React.FC<IProductManagerProps> = ({
       },
     });
 
-  console.log(totalProductPages);
-
   useEffect(() => {
     if (totalProductPages) {
       setTotalPages(totalProductPages);
@@ -73,10 +63,6 @@ const ProductManager: React.FC<IProductManagerProps> = ({
       setSearchParams((params) => {
         params.set('page', currentPage.toString());
         return params;
-        // return {
-        //   ...formatQueryParams(params),
-        //   page: Number(currentPage),
-        // };
       });
     }
   }, [currentPage]);

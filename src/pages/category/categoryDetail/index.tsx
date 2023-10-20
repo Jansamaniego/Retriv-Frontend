@@ -1,28 +1,19 @@
-import React, { useEffect } from 'react';
-import { Form, useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Form, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-  Button,
-  Card,
-  Loading,
-  StyledInput,
-  StyledModal,
-  ProfileImageLogo,
-} from '../../../components/common';
-import {
-  useDeleteCategoryMutation,
-  useGetCategoryQuery,
-  useUpdateCategoryDetailsMutation,
-  useUpdateCategoryImageMutation,
-} from '../../../redux/services/categoryApi/categoryApi';
-import { useState } from 'react';
-import { EditIcon } from '../../../assets/icons';
-import UpdateCategoryImageModal from './updateCategoryImageModal';
-import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
-import { ICategory } from 'src/types';
+
+import { ICategory } from 'types';
+import {
+  useDeleteCategoryMutation,
+  useUpdateCategoryDetailsMutation,
+} from 'redux/services/categoryApi/categoryApi';
+import { Button, Card, StyledInput, StyledModal } from 'components/common';
+import { EditIcon } from 'assets/icons';
+import UpdateCategoryImageModal from 'pages/category/categoryDetail/updateCategoryImageModal';
 
 interface ICategoryDetailProps {
   category: ICategory;
@@ -60,11 +51,6 @@ const ShopImage = styled.img`
   object-fit: cover;
 `;
 
-const ShopDataInputFlexWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const ShopInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -92,10 +78,6 @@ const StyledEditIcon = styled(EditIcon)`
   cursor: pointer;
   right: 0.2rem;
   bottom: 0.05rem;
-`;
-
-const ButtonFlexWrapper = styled.div`
-  display: flex;
 `;
 
 const EditIconButton = styled.button`

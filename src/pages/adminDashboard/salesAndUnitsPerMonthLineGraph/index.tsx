@@ -1,9 +1,10 @@
 import React, { ChangeEvent, useMemo, useState } from 'react';
-import LineGraph from './lineGraph';
-import { Card, Select } from '../../../components/common';
 import styled, { useTheme } from 'styled-components';
 import moment from 'moment';
 import { Serie } from '@nivo/line';
+
+import { Card, Select } from 'components/common';
+import LineGraph from 'pages/adminDashboard/salesAndUnitsPerMonthLineGraph/lineGraph';
 
 interface ISalesAndUnitsPerMonthLineGraphProps {
   monthlyData: {

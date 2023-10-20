@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface Props {
-  width: string;
+  width?: string;
 }
 
 export const Shipped: React.FC<Props> = (props) => {

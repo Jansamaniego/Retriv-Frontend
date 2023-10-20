@@ -1,38 +1,30 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
+import { Form, useNavigate } from 'react-router-dom';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { DevTool } from '@hookform/devtools';
+
+import { IShopWithOwnerPickValues } from 'redux/services/shopApi/shopApi.types';
+import { useAppDispatch } from 'redux/store';
+import { useGetShopRatingsQuery } from 'redux/services/ratings/shopRatingsApi/shopRatingsApi';
+import { myProfileApi } from 'redux/services/myProfileApi/myProfileApi';
 import {
-  Button,
-  Card,
-  StyledInput,
-  StyledModal,
-  ProfileImageLogo,
-} from '../../../components/common';
+  useDeleteShopMutation,
+  useUpdateShopMutation,
+} from 'redux/services/shopApi/shopApi';
+import { removeShop } from 'redux/features/shopSlice';
+import { Card, StyledInput, StyledModal } from 'components/common';
 import {
   DateIcon,
   EditIcon,
   ProductIcon,
   ProductsSoldIcon,
   StarRatingIcon,
-} from '../../../assets/icons';
-import {
-  useDeleteShopMutation,
-  useGetShopByIdQuery,
-  useUpdateShopMutation,
-} from '../../../redux/services/shopApi/shopApi';
-import { Form, useNavigate } from 'react-router-dom';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useGetShopRatingsQuery } from '../../../redux/services/ratings/shopRatingsApi/shopRatingsApi';
-import { DevTool } from '@hookform/devtools';
-import UpdateShopImageModal from './updateShopImageModal';
-import { useDispatch, useSelector } from 'react-redux';
-import { myProfileApi } from '../../../redux/services/myProfileApi/myProfileApi';
-import { removeShop } from '../../../redux/features/shopSlice';
-import { useAppDispatch } from 'src/redux/store';
-import { IShop } from 'src/types';
-import moment from 'moment';
-import { IShopWithOwnerPickValues } from 'src/redux/services/shopApi/shopApi.types';
+} from 'assets/icons';
+import UpdateShopImageModal from 'pages/myShop/myShopHeader/updateShopImageModal';
 
 interface IMyShopHeaderProps {
   shop: IShopWithOwnerPickValues;
@@ -115,11 +107,6 @@ const ShopInfoContainer = styled.div`
   }
 `;
 
-const ShopDataInputFlexWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -170,10 +157,6 @@ const ShopStat = styled.h5`
   font-weight: 300;
 `;
 
-const ButtonFlexWrapper = styled.div`
-  display: flex;
-`;
-
 const EditIconButton = styled.button`
   display: flex;
   align-items: center;
@@ -196,7 +179,7 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
 
   const [
     deleteShop,
-    { isLoading: deleteShopIsLoading, isSuccess: deleteShopIsSuccess },
+    { isLoading: deleteShopIsLoading},
   ] = useDeleteShopMutation();
 
   const [updateShop, { isLoading: updateShopIsLoading }] =
@@ -244,10 +227,8 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
 
   const {
     handleSubmit,
-    register,
     reset,
     control,
-    formState: { errors },
   } = methods;
 
   useEffect(() => {
@@ -315,10 +296,6 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
     closeEditModal();
   };
 
-  const openDeleteShopModal = () => {
-    setIsDeleteShopModalOpen(true);
-  };
-
   const closeDeleteShopModal = () => {
     setIsDeleteShopModalOpen(false);
   };
@@ -352,7 +329,6 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
 
   const { ratingsAverage, ratingsQuantity } = shopRatings;
 
-  console.log(isEditModalOpen);
 
   return (
     <FormProvider {...methods}>

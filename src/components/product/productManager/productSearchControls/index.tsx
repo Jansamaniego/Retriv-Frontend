@@ -221,14 +221,6 @@ const MiniPageControllerNextButton = styled.button`
   border-radius: 0.5rem;
 `;
 
-// const formatQueryParams = (params) => {
-//   const obj = {};
-//   for (const [key, value] of params.entries()) {
-//     if (value !== '') obj[key] = value;
-//   }
-//   return obj;
-// };
-
 const ProductSearchControls: React.FC<IProductSearchControlsProps> = ({
   totalPages,
   handlePageChange,
@@ -241,10 +233,6 @@ const ProductSearchControls: React.FC<IProductSearchControlsProps> = ({
     setSearchParams((params) => {
       params.set('page', currentPage.toString());
       return params;
-      // return {
-      //   ...formatQueryParams(params),
-      //   page: Number(currentPage),
-      // };
     });
   }, [currentPage]);
 
@@ -257,11 +245,6 @@ const ProductSearchControls: React.FC<IProductSearchControlsProps> = ({
       params.set('sortBy', 'relevance');
       params.set('sort', '-1');
       return params;
-      // return {
-      //   ...formatQueryParams(params),
-      //   sortBy: 'relevance',
-      //   sort: -1,
-      // };
     });
     handlePageChange(1);
   };
@@ -271,11 +254,6 @@ const ProductSearchControls: React.FC<IProductSearchControlsProps> = ({
       params.set('sortBy', 'latest');
       params.set('sort', '-1');
       return params;
-      // return {
-      //   ...formatQueryParams(params),
-      //   sortBy: 'latest',
-      //   sort: -1,
-      // };
     });
     handlePageChange(1);
   };
@@ -284,11 +262,6 @@ const ProductSearchControls: React.FC<IProductSearchControlsProps> = ({
       params.set('sortBy', 'top-sales');
       params.set('sort', '-1');
       return params;
-      // return {
-      //   ...formatQueryParams(params),
-      //   sortBy: 'top-sales',
-      //   sort: -1,
-      // };
     });
     handlePageChange(1);
   };
@@ -298,11 +271,6 @@ const ProductSearchControls: React.FC<IProductSearchControlsProps> = ({
       params.set('sortBy', 'price');
       params.set('sort', '1');
       return params;
-      // return {
-      //   ...formatQueryParams(params),
-      //   sortBy: 'price',
-      //   sort: 1,
-      // };
     });
     handlePageChange(1);
   };
@@ -312,11 +280,6 @@ const ProductSearchControls: React.FC<IProductSearchControlsProps> = ({
       params.set('sort', 'price');
       params.set('sort', '-1');
       return params;
-      // return {
-      //   ...formatQueryParams(params),
-      //   sortBy: 'price',
-      //   sort: -1,
-      // };
     });
     handlePageChange(1);
   };

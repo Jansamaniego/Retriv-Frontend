@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import moment from 'moment/moment';
-import { useOutletContext } from 'react-router-dom';
-import {
-  Button,
-  Card,
-  StyledInput,
-  StyledModal,
-  StyledTextarea,
-} from '../../../components/common';
 import { z } from 'zod';
-import { useUpdateDetailsMutation } from '../../../redux/services/myProfileApi/myProfileApi';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
-import { EditIcon } from '../../../assets/icons';
-import { useUpdateUserMutation } from '../../../redux/services/userApi/userApi';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/redux/store';
-import { useUser } from 'src/pages/profileLayout';
+
+import { RootState } from 'redux/store';
+import { useUpdateDetailsMutation } from 'redux/services/myProfileApi/myProfileApi';
+import { useUpdateUserMutation } from 'redux/services/userApi/userApi';
+import { Button, StyledInput } from 'components/common';
+import { EditIcon } from 'assets/icons';
+import { useUser } from 'pages/profileLayout';
 
 interface FormValues {
   username: string;
@@ -30,8 +24,6 @@ interface FormValues {
   gender: 'male' | 'female' | 'other' | 'undisclosed';
   dateOfBirth: string;
 }
-
-const genderOptions = ['male', 'female', 'other', 'undisclosed'];
 
 const UserInfoHeading = styled.div`
   grid-column: 1 / span 3;
@@ -73,13 +65,8 @@ const EditIconButton = styled.button`
 const UserInfo = () => {
   const { user } = useUser();
   const loggedInUser = useSelector((state: RootState) => state.userState.user);
-  const [updateUser, { isLoading: adminUpdateIsLoading }] =
-    useUpdateUserMutation();
-  const [updateDetails, { isLoading: userUpdateIsLoading }] =
-    useUpdateDetailsMutation();
   const [isAdmin, setIsAdmin] = useState(false);
   const [isEditMode, setisEditMode] = useState(false);
-  // const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isEditFirstNameMode, setIsEditFirstNameMode] = useState(false);
   const [isEditLastNameMode, setIsEditLastNameMode] = useState(false);
   const [isEditUsernameMode, setIsEditUsernameMode] = useState(false);
@@ -88,6 +75,8 @@ const UserInfo = () => {
   const [isEditPhoneMode, setIsEditPhoneMode] = useState(false);
   const [isEditDateOfBirthMode, setIsEditDateOfBirthMode] = useState(false);
   const [isEditAddressMode, setIsEditAddressMode] = useState(false);
+  const [updateUser] = useUpdateUserMutation();
+  const [updateDetails] = useUpdateDetailsMutation();
 
   const { firstName, lastName, username, gender, email, id = '' } = user || {};
 
@@ -129,11 +118,7 @@ const UserInfo = () => {
     resolver: zodResolver(userInfoSchema),
   });
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, control } = methods;
 
   const enableEditFirstNameMode = () => {
     setIsEditFirstNameMode(true);
@@ -239,14 +224,6 @@ const UserInfo = () => {
     if (isEditDateOfBirthMode) return disableEditDateOfBirthMode();
     if (isEditAddressMode) return disableEditAddressMode();
   };
-
-  // const openModal = () => {
-  //   setIsEditModalOpen(true);
-  // };
-
-  // const closeModal = () => {
-  //   setIsEditModalOpen(false);
-  // };
 
   return (
     <>
@@ -505,15 +482,6 @@ const UserInfo = () => {
               </div>
             )}
           </UserData>
-          {/* {isEditModalOpen && (
-            <StyledModal
-              showModal={isEditModalOpen}
-              closeModal={closeModal}
-              isLoading={isLoading}
-            >
-              Are you sure you want to submit changes to user details?
-            </StyledModal>
-          )} */}
         </form>
         <DevTool control={control} />
       </FormProvider>

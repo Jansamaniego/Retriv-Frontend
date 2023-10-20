@@ -1,4 +1,4 @@
-import { IShop, IResponse } from 'src/types';
+import { IShop, IResponse } from 'types';
 
 export interface IGetShopStats {
   shopId: string;

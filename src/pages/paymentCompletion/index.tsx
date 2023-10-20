@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { Card, Loading } from '../../components/common';
-import styled from 'styled-components';
-import ProductManager from '../../components/product/productManager';
-import { useGetProductsQuery } from '../../redux/services/productApi/productApi';
 import { useSearchParams } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { useGetProductsQuery } from 'redux/services/productApi/productApi';
+import { Card, Loading } from 'components/common';
+import ProductManager from 'components/product/productManager';
 
 const PaymentCompletionFlexWrapper = styled.main`
   display: flex;
@@ -11,15 +11,8 @@ const PaymentCompletionFlexWrapper = styled.main`
   gap: 1.6rem;
 `;
 
-const ProductManagerGrid = styled.main`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  column-gap: 1.6rem;
-  row-gap: 1.6rem;
-`;
-
 export const PaymentCompletion = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { products, isLoading } = useGetProductsQuery(
     searchParams.size ? searchParams.toString() : '',
     {
@@ -33,9 +26,7 @@ export const PaymentCompletion = () => {
     }
   );
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  if (isLoading) return <Loading />;
 
   if (!products || products.length === 0 || !Array.isArray(products)) {
     return <h3>No products found</h3>;

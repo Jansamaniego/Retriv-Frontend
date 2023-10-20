@@ -5,6 +5,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   secondary?: boolean;
   large?: boolean;
   superLarge?: boolean;
+  isMobileSearchOpen?: boolean;
   children: React.ReactNode;
 }
 

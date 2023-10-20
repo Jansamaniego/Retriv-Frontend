@@ -1,7 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { setUser, logout } from './userSlice';
-import { IShop } from 'src/types';
-import { IShopWithOwnerPickValues } from '../services/shopApi/shopApi.types';
+
+import { IShop } from 'types';
+import { IShopWithOwnerPickValues } from 'redux/services/shopApi/shopApi.types';
+import { setUser, logout } from 'redux/features/userSlice';
 
 interface IInitialShopState {
   currentShop: IShopWithOwnerPickValues | IShop | null;

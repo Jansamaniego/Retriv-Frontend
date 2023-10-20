@@ -1,13 +1,10 @@
 import React, { ChangeEvent, useState } from 'react';
-import {
-  Card,
-  Loading,
-  QuantityTogglerInput,
-} from '../../../components/common';
 import styled from 'styled-components';
-import { useGetProductByIdQuery } from '../../../redux/services/productApi/productApi';
-import OrderItemListHeader from './orderItemListHeader';
-import { ICartItem, IProduct } from 'src/types';
+
+import { ICartItem } from 'types';
+import { useGetProductByIdQuery } from 'redux/services/productApi/productApi';
+import { Card, Loading, QuantityTogglerInput } from 'components/common';
+import OrderItemListHeader from 'pages/order/orderItemList/orderItemListHeader';
 
 interface IOrderItemListProps {
   items: ICartItem[];
@@ -25,8 +22,6 @@ const OrderItemListFlexWrapper = styled.main`
   flex-direction: column;
   gap: 2rem;
 `;
-
-const OrderItemContainer = styled.div``;
 
 const OrderItemFlexWrapper = styled.div`
   display: flex;
@@ -95,11 +90,6 @@ const OrderItemDetailContainer = styled.div`
   max-width: 30rem;
   width: 100%;
 `;
-const OrderItemName = styled.h5``;
-
-const OrderItemUnitPrice = styled.h5``;
-
-const OrderItemTotalPrice = styled.h5``;
 
 const OrderItemItem: React.FC<IOrderItemItemProps> = ({
   productId,
@@ -109,6 +99,7 @@ const OrderItemItem: React.FC<IOrderItemItemProps> = ({
 }) => {
   const [quantityToPurchase, setQuantityToPurchase] =
     useState(totalProductQuantity);
+
   const { data: product, isLoading } = useGetProductByIdQuery({
     shopId,
     productId,
@@ -133,7 +124,7 @@ const OrderItemItem: React.FC<IOrderItemItemProps> = ({
   const { name, mainImage, price } = product;
 
   return (
-    <OrderItemContainer>
+    <div>
       <OrderItemFlexWrapper>
         <OrderItemImageWrapper>
           <OrderItemImageContainer>
@@ -141,10 +132,10 @@ const OrderItemItem: React.FC<IOrderItemItemProps> = ({
           </OrderItemImageContainer>
         </OrderItemImageWrapper>
         <OrderItemDetailContainer>
-          <OrderItemName>{name}</OrderItemName>
+          <h5>{name}</h5>
         </OrderItemDetailContainer>
         <OrderItemDetailContainer>
-          <OrderItemUnitPrice>&#8369;{price}</OrderItemUnitPrice>
+          <h5>&#8369;{price}</h5>
         </OrderItemDetailContainer>
         <OrderItemDetailContainer>
           <QuantityTogglerInput
@@ -155,10 +146,10 @@ const OrderItemItem: React.FC<IOrderItemItemProps> = ({
           />
         </OrderItemDetailContainer>
         <OrderItemDetailContainer>
-          <OrderItemTotalPrice>&#8369;{totalProductPrice}</OrderItemTotalPrice>
+          <h5>&#8369;{totalProductPrice}</h5>
         </OrderItemDetailContainer>
       </OrderItemFlexWrapper>
-    </OrderItemContainer>
+    </div>
   );
 };
 

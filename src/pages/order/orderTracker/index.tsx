@@ -1,13 +1,14 @@
 import React from 'react';
-import { Card } from '../../../components/common';
 import styled from 'styled-components';
+
+import { Card } from 'components/common';
 import {
   Delivered,
   NotProcessed,
   OutForDelivery,
   Processing,
   Shipped,
-} from '../../../assets/icons';
+} from 'assets/icons';
 
 interface ITrackerPointProps {
   active: boolean;
@@ -153,8 +154,6 @@ const TrackerLine = styled.div<ITrackerLineProps>`
   background-color: ${(props) =>
     props.active ? props.theme.primary.main : props.theme.neutral[700]};
   height: 0.4rem;
-  /* min-width: 1rem;
-  max-width: 30rem; */
   width: 100%;
 `;
 

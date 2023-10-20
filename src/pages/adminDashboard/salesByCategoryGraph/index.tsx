@@ -1,7 +1,8 @@
 import React from 'react';
-import PieGraph from './pieGraph';
-import { Card } from '../../../components/common';
 import styled from 'styled-components';
+
+import { Card } from 'components/common';
+import PieGraph from 'pages/adminDashboard/salesByCategoryGraph/pieGraph';
 
 interface ISalesByCategoryGraph {
   salesByCategoryData: {

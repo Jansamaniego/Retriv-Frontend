@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
-// import FullScreenLoader from '../components/FullScreenLoader';
-import { myProfileApi } from '../redux/services/myProfileApi/myProfileApi';
+
+import { myProfileApi } from 'redux/services/myProfileApi/myProfileApi';
 
 interface IAuthMiddleWareProps {
   children: React.ReactNode;

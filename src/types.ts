@@ -1,4 +1,4 @@
-import { IShopWithOwnerPickValues } from './redux/services/shopApi/shopApi.types';
+import { IShopWithOwnerPickValues } from 'redux/services/shopApi/shopApi.types';
 
 export interface IResponse {
   type: string;

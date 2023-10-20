@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
-import {
-  Button,
-  Card,
-  Socials,
-  StyledModal,
-  UpdateProfileImageModal,
-} from '../../../components/common';
-import { EditIcon } from '../../../assets/icons';
-import { IUser } from 'src/types';
+
+import { IUser } from 'types';
+import { Card, Socials, UpdateProfileImageModal } from 'components/common';
+import { EditIcon } from 'assets/icons';
 
 interface IUserHeaderProps {
   user: IUser;
@@ -76,8 +69,6 @@ const UserHeaderInfo = styled.div`
   gap: 0.6rem;
 `;
 
-const UserHeaderSubInfo = styled.div``;
-
 const UserHeaderInfoName = styled.h4`
   font-weight: 700;
 `;
@@ -107,7 +98,7 @@ const UserHeader: React.FC<IUserHeaderProps> = ({ user }) => {
       <ColoredDiv />
       <NormalDiv>
         <ProfileImageContainer>
-          {profileImage ? <ProfileImage src={profileImage} /> : null}
+          {profileImage && <ProfileImage src={profileImage} />}
           <StyledEditIcon width="2rem" onClick={openProfileImageEditModal} />
         </ProfileImageContainer>
         <UserHeaderInfoFlexContainer>
@@ -117,10 +108,10 @@ const UserHeader: React.FC<IUserHeaderProps> = ({ user }) => {
                 {firstName} {lastName}
               </UserHeaderInfoName>
             </div>
-            <UserHeaderSubInfo>
+            <div>
               <UserHeaderInfoEmail>{email}</UserHeaderInfoEmail>
               <UserHeaderInfoRole>{role}</UserHeaderInfoRole>
-            </UserHeaderSubInfo>
+            </div>
           </UserHeaderInfo>
           <Socials />
         </UserHeaderInfoFlexContainer>

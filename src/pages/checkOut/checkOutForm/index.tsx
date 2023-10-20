@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { z } from 'zod';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { DevTool } from '@hookform/devtools';
 import { Form, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useElements, useStripe } from '@stripe/react-stripe-js';
+import { z } from 'zod';
+import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
-import DeliveryAddress from './deliveryAddress';
-import CheckOutItemList from './checkOutItemList';
-import Payment from './payment';
-import OrderDetails from './orderDetails';
-import { useGetCartQuery } from '../../../redux/services/cartApi/cartApi';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  AddressElement,
-  useElements,
-  useStripe,
-} from '@stripe/react-stripe-js';
-import { useCreateOrderMutation } from '../../../redux/services/orderApi/orderApi';
-import { removeCart } from '../../../redux/features/cartSlice';
-import { RootState } from 'src/redux/store';
+
+import { RootState } from 'redux/store';
+import { useGetCartQuery } from 'redux/services/cartApi/cartApi';
+import { useCreateOrderMutation } from 'redux/services/orderApi/orderApi';
+import DeliveryAddress from 'pages/checkOut/checkOutForm/deliveryAddress';
+import CheckOutItemList from 'pages/checkOut/checkOutForm/checkOutItemList';
+import Payment from 'pages/checkOut/checkOutForm/payment';
+import OrderDetails from 'pages/checkOut/checkOutForm/orderDetails';
 
 interface CheckOutFormProps {
   paymentIntentId: string;
@@ -39,7 +35,6 @@ const CheckoutPageFlexWrapper = styled.main`
 `;
 
 const CheckOutForm: React.FC<CheckOutFormProps> = ({ paymentIntentId }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const loggedInUser = useSelector((state: RootState) => state.userState.user);
   const { data: cart, isLoading } = useGetCartQuery();
@@ -71,13 +66,7 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ paymentIntentId }) => {
     resolver: zodResolver(orderSchema),
   });
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = methods;
-
-  const { address: userAddress } = loggedInUser || {};
+  const { handleSubmit, control } = methods;
 
   const { items, totalPrice, totalQuantity } = cart || {};
 

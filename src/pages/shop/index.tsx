@@ -1,11 +1,11 @@
-import React from 'react';
-import { useGetShopByIdQuery } from '../../redux/services/shopApi/shopApi';
-import ShopHeader from './shopHeader';
-import { useParams } from 'react-router-dom';
-import { useGetShopRatingsQuery } from '../../redux/services/ratings/shopRatingsApi/shopRatingsApi';
 import styled from 'styled-components';
-import ShopProductManager from './shopProductManager';
-import { Loading } from '../../components/common';
+import { useParams } from 'react-router-dom';
+
+import { useGetShopByIdQuery } from 'redux/services/shopApi/shopApi';
+import { useGetShopRatingsQuery } from 'redux/services/ratings/shopRatingsApi/shopRatingsApi';
+import { Loading } from 'components/common';
+import ShopHeader from 'pages/shop/shopHeader';
+import ShopProductManager from 'pages/shop/shopProductManager';
 
 const ShopContainer = styled.main`
   display: flex;

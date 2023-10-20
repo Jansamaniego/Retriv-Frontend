@@ -1,8 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../utils/customBaseQuery';
-import { myProfileApi } from '../myProfileApi/myProfileApi';
-import { removeShop, setShop } from '../../features/shopSlice';
-import { IResponse, IShop } from 'src/types';
+
+import { IResponse } from 'types';
 import {
   ICreateShopResponse,
   ICreateShop,
@@ -12,10 +10,11 @@ import {
   IUpdateShop,
   IUpdateShopImageResponse,
   IUpdateShopImage,
-  IDeleteShopResponse,
   IShopWithOwnerPickValues,
   IGetShopsTransformedResponse,
-} from './shopApi.types';
+} from 'redux/services/shopApi/shopApi.types';
+import customBaseQuery from 'utils/customBaseQuery';
+import { myProfileApi } from '../myProfileApi/myProfileApi';
 
 export const shopApi = createApi({
   reducerPath: 'shopApi',
@@ -62,16 +61,6 @@ export const shopApi = createApi({
         };
       },
       invalidatesTags: [{ type: 'Shop', id: 'LIST' }],
-      // async onQueryStarted(args, { dispatch, queryFulfilled }) {
-      //   try {
-      //     await queryFulfilled;
-      //     await dispatch(
-      //       myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
-      //     );
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // },
     }),
     updateShop: builder.mutation<IUpdateShopResponse, IUpdateShop>({
       query(body) {
@@ -146,19 +135,6 @@ export const shopApi = createApi({
         };
       },
       invalidatesTags: [{ type: 'Shop', id: 'LIST' }],
-      // async onQueryStarted(args, { dispatch, queryFulfilled }) {
-      //   try {
-      //     await queryFulfilled;
-
-      //     await dispatch(
-      //       myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
-      //     );
-
-      //     dispatch(removeShop());
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // },
     }),
   }),
 });

@@ -1,12 +1,12 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useGetOrderByIdQuery } from '../../redux/services/orderApi/orderApi';
-import OrderItemList from './orderItemList';
-import OrderTracker from './orderTracker';
-import OrderHeader from './orderHeader';
-import OrderDetails from './orderDetails';
-import { Loading } from 'src/components/common';
+
+import { useGetOrderByIdQuery } from 'redux/services/orderApi/orderApi';
+import { Loading } from 'components/common';
+import OrderItemList from 'pages/order/orderItemList';
+import OrderTracker from 'pages/order/orderTracker';
+import OrderHeader from 'pages/order/orderHeader';
+import OrderDetails from 'pages/order/orderDetails';
 
 const PlacedOrderPageFlexWrapper = styled.main`
   display: flex;

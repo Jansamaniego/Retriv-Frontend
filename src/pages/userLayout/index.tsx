@@ -1,8 +1,8 @@
-import React from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import UserHeader from './userHeader';
-import { useGetUserByIdQuery } from '../../redux/services/userApi/userApi';
-import { IUser } from 'src/types';
+
+import { IUser } from 'types';
+import { useGetUserByIdQuery } from 'redux/services/userApi/userApi';
+import UserHeader from 'pages/userLayout/userHeader';
 
 type ContextType = { user: IUser | null };
 

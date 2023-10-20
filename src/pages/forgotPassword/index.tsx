@@ -1,16 +1,11 @@
 import { useState, useEffect } from 'react';
-import {
-  Button,
-  Form,
-  StyledInput,
-  TransparentPopup,
-} from '../../components/common';
-import { FormProvider, SubmitHandler } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
-import { useForgotPasswordMutation } from '../../redux/services/authApi/authApi';
+
+import { useForgotPasswordMutation } from 'redux/services/authApi/authApi';
+import { Button, Form, StyledInput, TransparentPopup } from 'components/common';
 
 interface FormValues {
   email: string;

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useGetCartQuery } from '../../../redux/services/cartApi/cartApi';
-import { Card, Loading } from '../../../components/common';
-import CartItemList from './cartItemList';
-import CartItemListHeader from './cartItemListHeader';
-import CartControl from './cartControl';
+
+import { useGetCartQuery } from 'redux/services/cartApi/cartApi';
+import { Card, Loading } from 'components/common';
+import CartItemList from 'pages/cart/cartItemManager/cartItemList';
+import CartItemListHeader from 'pages/cart/cartItemManager/cartItemListHeader';
+import CartControl from 'pages/cart/cartItemManager/cartControl';
 
 const CartItemListFlexWrapper = styled.main`
   display: flex;
@@ -25,7 +26,7 @@ const CartItemManager: React.FC = () => {
 
   if (!cart) return <Card>Your shopping cart is empty.</Card>;
 
-  const { items, totalPrice, totalQuantity } = cart || {};
+  const { items, totalPrice, totalQuantity } = cart;
 
   return (
     <CartPageFlexWrapper>

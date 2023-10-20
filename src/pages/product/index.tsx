@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useGetProductByIdQuery } from '../../redux/services/productApi/productApi';
-import { useGetProductRatingsQuery } from '../../redux/services/ratings/productRatingsApi/productRatingsApi';
-import ProductHeader from './productHeader';
-import ProductShop from './productShop';
-import ReviewByProductManager from './reviewByProductManager';
-import ReviewForm from './reviewForm';
 import { useSelector } from 'react-redux';
-import { Loading, PageFlexColumnWrapper } from '../../components/common';
-import { RootState } from 'src/redux/store';
+
+import { RootState } from 'redux/store';
+import { useGetProductByIdQuery } from 'redux/services/productApi/productApi';
+import { useGetProductRatingsQuery } from 'redux/services/ratings/productRatingsApi/productRatingsApi';
+import { Loading, PageFlexColumnWrapper } from 'components/common';
+import ProductHeader from 'pages/product/productHeader';
+import ProductShop from 'pages/product/productShop';
+import ReviewByProductManager from 'pages/product/reviewByProductManager';
+import ReviewForm from 'pages/product/reviewForm';
 
 export const Product = () => {
   const { shopId = '', productId = '' } = useParams();
   const currentUser = useSelector((state: RootState) => state.userState.user);
-  const { currentShop, userShops } = useSelector(
-    (state: RootState) => state.shopState
-  );
+  const { currentShop } = useSelector((state: RootState) => state.shopState);
   const [isUserReviewExists, setIsUserReviewExists] = useState(false);
   const [isOwner, setIsOwner] = useState(
     currentShop ? currentShop.id === shopId : false

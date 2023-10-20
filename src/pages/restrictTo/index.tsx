@@ -1,8 +1,8 @@
-import Cookies from 'js-cookie';
-import { useGetMeQuery } from '../../redux/services/myProfileApi/myProfileApi';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useState } from 'react';
 import { useEffect } from 'react';
+import Cookies from 'js-cookie';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+
+import { useGetMeQuery } from 'redux/services/myProfileApi/myProfileApi';
 
 interface IRestrictToProps {
   allowedRoles: string[];
@@ -43,6 +43,4 @@ export const RestrictTo: React.FC<IRestrictToProps> = ({ allowedRoles }) => {
   ) : (
     <Navigate to="login" replace state={{ from: location }} />
   );
-
-  // return <Navigate to="login" replace state={{ from: location }} />;
 };

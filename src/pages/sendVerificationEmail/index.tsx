@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useSendVerificationEmailMutation } from '../../redux/services/authApi/authApi';
-import { Button, Card } from '../../components/common';
 import styled from 'styled-components';
-import { useOutletContext } from 'react-router-dom';
-import { IUser } from 'src/types';
-import { useUser } from '../profileLayout';
+
+import { useSendVerificationEmailMutation } from 'redux/services/authApi/authApi';
+import { Button, Card } from 'components/common';
+import { useUser } from 'pages/profileLayout';
 
 const SendVerificationEmailHeading = styled.h4`
   padding-bottom: 1.6rem;

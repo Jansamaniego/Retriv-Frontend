@@ -1,10 +1,5 @@
-import React from 'react';
-import {
-  Card,
-  StyledInput,
-  CountrySelect,
-} from '../../../../components/common';
 import styled from 'styled-components';
+import { Card, StyledInput, CountrySelect } from 'components/common';
 
 const DeliveryAddressFlexWrapper = styled.main`
   display: grid;
@@ -22,10 +17,8 @@ const DeliveryAddressFlexWrapper = styled.main`
 
 const StyledInputContainer = styled.div`
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
   gap: 1.6rem;
-
   max-width: 30rem;
 `;
 
@@ -37,31 +30,6 @@ const StyledStyledInput = styled(StyledInput)`
 
 const DeliveryAddressLabel = styled.label`
   font-weight: 700;
-`;
-
-const CountryAndPostalCodeWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 3.2rem;
-`;
-
-const CountryStyledInputContainer = styled.div`
-  display: flex;
-  /* justify-content: space-between; */
-  align-items: center;
-  /* max-width: 50%; */
-  gap: 1.6rem;
-  max-width: 30rem;
-`;
-
-const PostalCodeStyledInputContainer = styled.div`
-  /* max-width: 50%; */
-  display: flex;
-  /* justify-content: space-between; */
-  align-items: center;
-  gap: 1.6rem;
-  max-width: 30rem;
 `;
 
 const PostalCodeAddressLabel = styled.label`
@@ -77,16 +45,16 @@ const DeliveryAddress = () => {
           <DeliveryAddressLabel htmlFor="address">Address</DeliveryAddressLabel>
           <StyledStyledInput id="address" name="address" />
         </StyledInputContainer>
-        <CountryStyledInputContainer>
+        <StyledInputContainer>
           <DeliveryAddressLabel htmlFor="country">Country</DeliveryAddressLabel>
           <CountrySelect name="country" id="country" />
-        </CountryStyledInputContainer>
-        <PostalCodeStyledInputContainer>
+        </StyledInputContainer>
+        <StyledInputContainer>
           <PostalCodeAddressLabel htmlFor="postalCode">
             Postal Code
           </PostalCodeAddressLabel>
           <StyledStyledInput id="postalCode" name="postalCode" />
-        </PostalCodeStyledInputContainer>
+        </StyledInputContainer>
         <StyledInputContainer>
           <DeliveryAddressLabel htmlFor="phone">Phone</DeliveryAddressLabel>
           <StyledStyledInput id="phone" name="phone" />

@@ -1,9 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../../utils/customBaseQuery';
+
+import customBaseQuery from 'utils/customBaseQuery';
 import {
   IGetOverallStatsResponse,
   IOverallStats,
-} from './overallStatsApi.types';
+} from 'redux/services/stats/overallStatsApi/overallStatsApi.types';
 
 export const overallStatsApi = createApi({
   reducerPath: 'overallStatsApi',

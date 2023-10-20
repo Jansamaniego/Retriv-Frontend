@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { IUser } from 'types';
+import { IReviewWithUserPickValues } from 'redux/services/reviewApi/reviewApi.types';
 import {
-  Button,
+  useGetReviewsByProductIdQuery,
+  useGetReviewByIdQuery,
+  useDeleteReviewMutation,
+} from 'redux/services/reviewApi/reviewApi';
+import {
   Card,
   StyledModal,
   ProfileImageLogo,
   Loading,
   ContentFlexWrapper,
-} from '../../../components/common';
-import {
-  useGetReviewsByProductIdQuery,
-  useGetReviewByIdQuery,
-  useDeleteReviewMutation,
-} from '../../../redux/services/reviewApi/reviewApi';
-import { EditIcon, StarGradientIcon, XMarkIcon } from '../../../assets/icons';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { FormProvider, useForm } from 'react-hook-form';
-import EditReviewForm from './editReviewForm';
-import { IReview, IUser } from 'src/types';
-import { IReviewWithUserPickValues } from 'src/redux/services/reviewApi/reviewApi.types';
+} from 'components/common';
+import { EditIcon, StarGradientIcon, XMarkIcon } from 'assets/icons';
+import EditReviewForm from 'pages/product/reviewByProductManager/editReviewForm';
 
 interface IReviewByProductManagerProps {
   shopId: string;
@@ -43,21 +41,6 @@ interface IReviewCardProps {
 }
 
 const StyledCard = styled(Card)``;
-
-const ReviewWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const ReviewContainer = styled.main`
-  /* position: relative; */
-  display: flex;
-  gap: 1.6rem;
-  align-items: flex-start;
-  width: 100%;
-  min-width: 100rem;
-  max-width: 145rem;
-`;
 
 const XMarkIconButton = styled.button`
   position: absolute;
@@ -211,10 +194,6 @@ const ReviewByProductItem: React.FC<IReviewByProductItemProps> = ({
     setIsEditReviewMode(false);
   };
 
-  const openDeleteReviewModal = () => {
-    setIsDeleteReviewModalOpen(true);
-  };
-
   const closeDeleteReviewModal = () => {
     setIsDeleteReviewModalOpen(false);
   };
@@ -307,7 +286,7 @@ const ReviewByProductManager: React.FC<IReviewByProductManagerProps> = ({
   currentUser,
   setIsUserReviewExists,
 }) => {
-  const { reviews, totalPages, isLoading } = useGetReviewsByProductIdQuery(
+  const { reviews, isLoading } = useGetReviewsByProductIdQuery(
     {
       shopId,
       productId,

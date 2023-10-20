@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../utils/customBaseQuery';
-import { IUser } from 'src/types';
+
+import customBaseQuery from 'utils/customBaseQuery';
+import { IUser } from 'types';
 import {
   ICreateUserResponse,
   ICreateUser,
@@ -10,7 +11,7 @@ import {
   IUpdateUser,
   IDeleteUserResponse,
   IUserWithModifiedShops,
-} from './userApi.types';
+} from 'redux/services/userApi/userApi.types';
 
 export const userApi = createApi({
   reducerPath: 'userApi',

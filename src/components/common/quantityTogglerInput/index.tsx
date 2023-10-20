@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
-import { MinusIcon, PlusIcon } from 'src/assets/icons';
+
+import { MinusIcon, PlusIcon } from 'assets/icons';
 
 interface Props {
   decrementQuantityToggle: () => void;

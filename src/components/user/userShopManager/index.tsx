@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import UserShopList from './userShopList';
-import { useGetShopsQuery } from '../../../redux/services/shopApi/shopApi';
-import { IUser } from 'src/types';
+
+import { IUser } from 'types';
+import { useGetShopsQuery } from 'redux/services/shopApi/shopApi';
+import UserShopList from 'components/user/userShopManager/userShopList';
 
 interface IUserShopManagerProps {
   user: IUser;

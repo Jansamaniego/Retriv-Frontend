@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import { IUser } from 'types';
 import {
-  Button,
+  useDeleteMyAccountMutation,
+  useUpdateProfileImageMutation,
+} from 'redux/services/myProfileApi/myProfileApi';
+import {
   Card,
   Socials,
   StyledModal,
   UpdateProfileImageModal,
-  StyledLink,
-} from '../../../components/common';
-import { EditIcon } from '../../../assets/icons';
-import {
-  useDeleteMyAccountMutation,
-  useUpdateProfileImageMutation,
-} from '../../../redux/services/myProfileApi/myProfileApi';
-import { IUser } from 'src/types';
+} from 'components/common';
+import { EditIcon } from 'assets/icons';
 
 interface ProfileHeaderProps {
   user: IUser;
@@ -29,8 +27,6 @@ const ProfileHeaderCard = styled(Card)`
   flex-direction: column;
   align-items: center;
 `;
-
-const CardFlexWrapper = styled.div``;
 
 const ColoredDiv = styled.div`
   width: 100%;
@@ -160,8 +156,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
   const [updateProfileImage, { isLoading }] = useUpdateProfileImageMutation();
   const [isProfileImageEditModalOpen, setIsProfileImageEditModalOpen] =
     useState(false);
-  const [deleteMyAccount, { isLoading: DeleteMyAccountIsLoading }] =
-    useDeleteMyAccountMutation();
+  const [deleteMyAccount] = useDeleteMyAccountMutation();
 
   const { profileImage, firstName, lastName, email, role } = user;
 

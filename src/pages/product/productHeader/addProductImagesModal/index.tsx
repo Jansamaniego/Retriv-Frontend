@@ -1,15 +1,10 @@
 import React, { ChangeEvent, FormEventHandler, useRef, useState } from 'react';
-import { StyledModal, Form, Button } from '../../../../components/common';
-import { MdCloudUpload } from 'react-icons/md';
 import styled from 'styled-components';
-
+import { MdCloudUpload } from 'react-icons/md';
 import { z } from 'zod';
-import { useUpdateShopImageMutation } from '../../../../redux/services/shopApi/shopApi';
-import {
-  useAddProductImagesMutation,
-  useUpdateProductMainImageMutation,
-} from '../../../../redux/services/productApi/productApi';
-import { SubmitHandler } from 'react-hook-form';
+
+import { useAddProductImagesMutation } from 'redux/services/productApi/productApi';
+import { StyledModal, Form, Button } from 'components/common';
 
 interface IAddProductImagesModalProps {
   isModalOpen: boolean;
@@ -45,7 +40,7 @@ const AddProductImagesModal: React.FC<IAddProductImagesModalProps> = ({
   shopId,
   productId,
 }) => {
-  const [addProductImages, { isLoading, data }] = useAddProductImagesMutation();
+  const [addProductImages, { isLoading }] = useAddProductImagesMutation();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -100,11 +95,9 @@ const AddProductImagesModal: React.FC<IAddProductImagesModalProps> = ({
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    console.log('hey');
     const { images } = addProductImagesSchema.parse({
       images: productImages,
     });
-    console.log(images);
     const formData = new FormData();
     formData.append('shopId', shopId);
     formData.append('productId', productId);
@@ -115,8 +108,6 @@ const AddProductImagesModal: React.FC<IAddProductImagesModalProps> = ({
     await addProductImages(formData);
     closeModal();
   };
-
-  console.log(productImages);
 
   return (
     <StyledModal

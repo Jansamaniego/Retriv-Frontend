@@ -1,4 +1,4 @@
-import { IResponse, IShop } from 'src/types';
+import { IResponse, IShop } from 'types';
 
 export interface IGetShopRatingsResponse extends IResponse {
   shopRatings: IShopRatings;

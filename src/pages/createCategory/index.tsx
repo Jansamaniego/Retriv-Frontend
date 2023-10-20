@@ -1,20 +1,19 @@
-import React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { DevTool } from '@hookform/devtools';
+import styled from 'styled-components';
+
+import { useCreateCategoryMutation } from '../../redux/services/categoryApi/categoryApi';
 import {
-  Card,
   Form,
   StyledInput,
   StyledModal,
   Button,
   ImageUpload,
 } from '../../components/common';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { useCreateCategoryMutation } from '../../redux/services/categoryApi/categoryApi';
-import { z } from 'zod';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { DevTool } from '@hookform/devtools';
-import styled from 'styled-components';
 
 interface FormValues {
   name: string;
@@ -81,13 +80,7 @@ export const CreateCategory = () => {
     mode: 'onBlur',
   });
 
-  const {
-    handleSubmit,
-    register,
-    control,
-    watch,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, control, watch } = methods;
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (!image) {

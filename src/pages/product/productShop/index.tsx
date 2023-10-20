@@ -1,15 +1,15 @@
 import React from 'react';
-import { useGetShopByIdQuery } from '../../../redux/services/shopApi/shopApi';
-import { useGetShopRatingsQuery } from '../../../redux/services/ratings/shopRatingsApi/shopRatingsApi';
-import { useGetShopStatsQuery } from '../../../redux/services/stats/shopStatsApi/shopStatsApi';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
+import { useGetShopByIdQuery } from 'redux/services/shopApi/shopApi';
+import { useGetShopRatingsQuery } from 'redux/services/ratings/shopRatingsApi/shopRatingsApi';
 import {
   Card,
   ContentFlexWrapper,
   Loading,
   ProfileImageLogo,
-} from '../../../components/common';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+} from 'components/common';
 
 interface IProductShop {
   shopId: string;
@@ -28,17 +28,9 @@ const ProductShopPreviewContainer = styled.section`
   margin-bottom: 2.4rem;
 `;
 
-const ProductShopNameContainer = styled.div``;
-
-const ProductShopName = styled.h5``;
-
-const ProductShopDescriptionContainer = styled.div``;
-
 const ProductShopDescription = styled.h5`
   font-weight: 300;
 `;
-
-const ProductShopInfo = styled.div``;
 
 const ProductShopStatsFlexWrapper = styled.div`
   display: flex;
@@ -72,8 +64,6 @@ const Tag = styled.h6`
   font-weight: 300;
 `;
 
-const Value = styled.h6``;
-
 const ProductShop: React.FC<IProductShop> = ({ shopId }) => {
   const navigate = useNavigate();
   const { data: shop, isLoading: shopIsLoading } = useGetShopByIdQuery(shopId);
@@ -101,7 +91,7 @@ const ProductShop: React.FC<IProductShop> = ({ shopId }) => {
         justifyContent="space-between"
         columnBreakPoint="900px"
       >
-        <ProductShopInfo>
+        <div>
           <ProductShopInfoFlex>
             <ProfileImageLogo
               profileImage={shopImage}
@@ -109,36 +99,36 @@ const ProductShop: React.FC<IProductShop> = ({ shopId }) => {
               onClick={navigateShop}
             />
             <ProductShopPreviewContainer>
-              <ProductShopNameContainer>
-                <ProductShopName>{name}</ProductShopName>
-              </ProductShopNameContainer>
-              <ProductShopDescriptionContainer>
+              <div>
+                <h5>{name}</h5>
+              </div>
+              <div>
                 <ProductShopDescription>{description}</ProductShopDescription>
-              </ProductShopDescriptionContainer>
+              </div>
             </ProductShopPreviewContainer>
           </ProductShopInfoFlex>
-        </ProductShopInfo>
+        </div>
         <ProductShopStatsFlexWrapper>
           <ProductShopStats>
             <ProductShopStatsItemContainer>
               <ProductShopStatsItem>
                 <Tag>Average Ratings </Tag>
-                <Value>{ratingsAverage}</Value>
+                <h6>{ratingsAverage}</h6>
               </ProductShopStatsItem>
             </ProductShopStatsItemContainer>
             <ProductShopStatsItemContainer>
               <ProductShopStatsItem>
-                <Tag>Ratings</Tag> <Value>{ratingsQuantity}</Value>
+                <Tag>Ratings</Tag> <h6>{ratingsQuantity}</h6>
               </ProductShopStatsItem>
             </ProductShopStatsItemContainer>
             <ProductShopStatsItemContainer>
               <ProductShopStatsItem>
-                <Tag> Products</Tag> <Value>{productsQuantity}</Value>
+                <Tag> Products</Tag> <h6>{productsQuantity}</h6>
               </ProductShopStatsItem>
             </ProductShopStatsItemContainer>
             <ProductShopStatsItemContainer>
               <ProductShopStatsItem>
-                <Tag> Products Sold</Tag> <Value>{totalUnitsSold}</Value>
+                <Tag> Products Sold</Tag> <h6>{totalUnitsSold}</h6>
               </ProductShopStatsItem>
             </ProductShopStatsItemContainer>
           </ProductShopStats>

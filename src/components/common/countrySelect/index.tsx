@@ -1,7 +1,7 @@
 import React, { SelectHTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
-import { Select } from '../select';
+import { Select } from 'components/common/select';
 
 interface CountrySelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   placeholder?: string;

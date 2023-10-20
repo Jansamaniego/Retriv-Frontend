@@ -1,11 +1,7 @@
-import React from 'react';
-import {
-  categoryApi,
-  useGetCategoriesQuery,
-} from '../../../redux/services/categoryApi/categoryApi';
 import styled from 'styled-components';
+
+import { useGetCategoriesQuery } from 'redux/services/categoryApi/categoryApi';
 import CategoryList from './categoryList';
-import { useLoaderData } from 'react-router-dom';
 
 const CategoryManagerGrid = styled.main`
   display: grid;
@@ -15,7 +11,7 @@ const CategoryManagerGrid = styled.main`
 `;
 
 const CategoryManager = () => {
-  const { categories, totalPages, isLoading } = useGetCategoriesQuery(null, {
+  const { categories, isLoading } = useGetCategoriesQuery(null, {
     selectFromResult: ({ data, isLoading }) => {
       return {
         categories: data?.results,

@@ -1,23 +1,16 @@
-import React, {
-  useState,
-  useMemo,
-  useCallback,
-  useRef,
-  useEffect,
-} from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
+import moment from 'moment/moment';
 import { AgGridReact } from 'ag-grid-react';
+import { ColDef, ValueFormatterParams } from 'ag-grid-community';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
-import { useGetUsersQuery } from '../../redux/services/userApi/userApi';
-import moment from 'moment/moment';
-import { Card } from '../../components/common';
-import { ColDef, ValueFormatterParams } from 'ag-grid-community';
-import { IUserWithModifiedShops } from 'src/redux/services/userApi/userApi.types';
+import { IUserWithModifiedShops } from 'redux/services/userApi/userApi.types';
+import { useGetUsersQuery } from 'redux/services/userApi/userApi';
+import { Card } from 'components/common';
 
 interface IUserTableProps {
   users: IUserWithModifiedShops[];
@@ -39,12 +32,6 @@ const ProfileImage = styled.img`
 const StyledLink = styled(Link)`
   text-overflow: ellipsis;
   text-decoration: none;
-`;
-
-const NameContainer = styled.div`
-  display: flex;
-  align-items: center;
-  text-overflow: ellipsis;
 `;
 
 const Name = styled.h6`
@@ -87,8 +74,8 @@ const DateJoinedRenderer = (p: ValueFormatterParams) => {
 
 const UserTable: React.FC<IUserTableProps> = ({ users }) => {
   const gridRef = useRef(null);
-  const [rowData, setRowData] = useState(users);
-  const [columnDefs, setColumnDefs] = useState<ColDef[]>([
+  const [rowData] = useState(users);
+  const [columnDefs] = useState<ColDef[]>([
     {
       field: 'profileImage',
       cellRenderer: ProfileImageRenderer,

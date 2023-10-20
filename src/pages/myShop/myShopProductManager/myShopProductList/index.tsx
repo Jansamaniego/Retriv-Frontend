@@ -1,13 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Card } from '../../../../components/common';
-import { useGetProductsByShopIdQuery } from '../../../../redux/services/productApi/productApi';
-import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { current } from '@reduxjs/toolkit';
-import { IProduct } from 'src/types';
-import { RootState } from 'src/redux/store';
+import styled from 'styled-components';
+
+import { IProduct } from 'types';
+import { RootState } from 'redux/store';
+import { useGetProductsByShopIdQuery } from 'redux/services/productApi/productApi';
+import { Card } from 'components/common';
 
 interface IMyShopProductListProps {
   products: IProduct[];

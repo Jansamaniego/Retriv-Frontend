@@ -1,9 +1,9 @@
-import { PaymentElement } from '@stripe/react-stripe-js';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useStripe, useElements } from '@stripe/react-stripe-js';
-import { Card } from '../../../../components/common';
+import { PaymentElement } from '@stripe/react-stripe-js';
 import { useFormContext } from 'react-hook-form';
+
+import { Card } from 'components/common';
 
 interface PaymentComponentProps {
   selected: boolean;
@@ -43,8 +43,6 @@ const PaymentMethodTitleContainer = styled.div`
   justify-content: center;
 `;
 
-const PaymentMethodTitleWrapper = styled.div``;
-
 const PaymentMethodTitle = styled.h4`
   color: ${(props) => props.theme.neutral[0]};
 `;
@@ -56,8 +54,6 @@ const PaymentMethodSelectionContainer = styled.div`
   gap: 1.6rem;
   cursor: pointer;
 `;
-
-const PaymentMethodSelectionWrapper = styled.div``;
 
 const PaymentMethodCashSelectionWrapper = styled.div<PaymentComponentProps>`
   display: flex;
@@ -92,16 +88,8 @@ const PaymentMethodCardSelection = styled.h5<PaymentComponentProps>`
 `;
 
 const Payment: React.FC<PaymentProps> = ({ isCash, setIsCash }) => {
-  const stripe = useStripe();
-  const elements = useElements();
-
-  const [message, setMessage] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const {
-    register,
-    formState: { errors },
-    setValue,
-  } = useFormContext();
+  const [message] = useState(null);
+  const { register, setValue } = useFormContext();
 
   const cashSelectionOnClickHandler = () => {
     setIsCash(true);
@@ -118,20 +106,18 @@ const Payment: React.FC<PaymentProps> = ({ isCash, setIsCash }) => {
       <PaymentFlexWrapper>
         <PaymentMethodSelectContainer>
           <PaymentMethodTitleContainer>
-            <PaymentMethodTitleWrapper>
+            <div>
               <PaymentMethodTitle>Payment Method</PaymentMethodTitle>
-            </PaymentMethodTitleWrapper>
+            </div>
           </PaymentMethodTitleContainer>
           <PaymentMethodSelectionContainer>
-            <PaymentMethodSelectionWrapper
-              onClick={cashSelectionOnClickHandler}
-            >
+            <div onClick={cashSelectionOnClickHandler}>
               <PaymentMethodCashSelectionWrapper selected={isCash}>
                 <PaymentMethodCashSelection selected={isCash}>
                   Cash on Delivery
                 </PaymentMethodCashSelection>
               </PaymentMethodCashSelectionWrapper>
-            </PaymentMethodSelectionWrapper>
+            </div>
             <PaymentMethodSelectionContainer>
               <PaymentMethodCardSelectionWrapper
                 selected={isCash}
@@ -145,11 +131,9 @@ const Payment: React.FC<PaymentProps> = ({ isCash, setIsCash }) => {
             <input type="hidden" {...register('paymentMethod')} />
           </PaymentMethodSelectionContainer>
         </PaymentMethodSelectContainer>
-
-        {isCash ? null : (
+        {!isCash && (
           <>
             <PaymentElement id="payment-element" />
-            {/* Show any error or success messages */}
             {message && <div id="payment-message">{message}</div>}
           </>
         )}

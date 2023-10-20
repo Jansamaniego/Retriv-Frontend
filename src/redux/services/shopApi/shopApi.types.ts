@@ -1,4 +1,4 @@
-import { IResponse, IShop, IUser } from 'src/types';
+import { IResponse, IShop, IUser } from 'types';
 
 export interface IShopWithOwnerPickValues {
   _id: string;

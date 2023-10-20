@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../utils/customBaseQuery';
-import { ICategory } from 'src/types';
+import { ICategory } from 'types';
+
+import customBaseQuery from 'utils/customBaseQuery';
 import {
   ICategoryResponse,
   ICreateCategory,
@@ -8,7 +9,7 @@ import {
   IGetCategoriesReturnObject,
   IUpdateCategoryDetails,
   IUpdateCategoryImage,
-} from './categoryApi.types';
+} from 'redux/services/categoryApi/categoryApi.types';
 
 export const categoryApi = createApi({
   reducerPath: 'categoryApi',

@@ -1,22 +1,21 @@
-import React from 'react';
-import { useVerifyEmailMutation } from '../../redux/services/authApi/authApi';
-import { Button, TransparentPopup, Card } from '../../components/common';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { CheckIcon } from '../../assets/icons';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
+import { RootState } from 'redux/store';
+import { useVerifyEmailMutation } from 'redux/services/authApi/authApi';
+import { Button, TransparentPopup, Card } from 'components/common';
+import { CheckIcon } from 'assets/icons';
 
 export const VerifyEmail = () => {
   const navigate = useNavigate();
   const currentUser = useSelector((state: RootState) => state.userState.user);
   const [isEmailVerificationComplete, setIsEmailVerificationComplete] =
     useState(false);
-  const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
+  const [isTransparentPopupOpen] = useState(false);
   const [verifyEmail, { isLoading, isSuccess }] = useVerifyEmailMutation();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const emailToken = searchParams.get('token') || '';
 
@@ -32,8 +31,6 @@ export const VerifyEmail = () => {
       }, 6000);
     }
   }, [isLoading, isSuccess, currentUser, navigate]);
-
-  console.log(isTransparentPopupOpen);
 
   return (
     <Card>

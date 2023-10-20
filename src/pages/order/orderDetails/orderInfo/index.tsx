@@ -1,6 +1,7 @@
 import React from 'react';
-import { IOrder } from 'src/types';
 import styled from 'styled-components';
+
+import { IOrder } from 'types';
 
 interface IOrderInfoProps {
   order: IOrder;

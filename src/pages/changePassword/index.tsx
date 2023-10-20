@@ -1,19 +1,18 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useForm, FormProvider } from 'react-hook-form';
 import { z } from 'zod';
+import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
-import { useChangePasswordMutation } from '../../redux/services/authApi/authApi';
-import { Form, useOutletContext } from 'react-router-dom';
+import { Form } from 'react-router-dom';
+
+import { useChangePasswordMutation } from 'redux/services/authApi/authApi';
 import {
   Button,
   Card,
   PasswordInput,
   TransparentPopup,
-} from '../../components/common';
-import { useState } from 'react';
-import { useEffect } from 'react';
+} from 'components/common';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
@@ -78,7 +77,6 @@ export const ChangePassword = () => {
   const { handleSubmit, control } = methods;
 
   const onSubmit: (data: FormValues) => void = async (data) => {
-    console.log('hit');
     await changePassword(data);
   };
 

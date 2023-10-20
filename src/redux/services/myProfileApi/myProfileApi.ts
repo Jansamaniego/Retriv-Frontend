@@ -1,11 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import customBaseQuery from '../../../utils/customBaseQuery';
-import { logout, setUser } from '../../features/userSlice';
-import { shopApi } from '../shopApi/shopApi';
-import { setShop } from '../../features/shopSlice';
-import { cartApi } from '../cartApi/cartApi';
-import { store } from '../../store';
-import { IUser } from 'src/types';
+
+import customBaseQuery from 'utils/customBaseQuery';
+import { store } from 'redux/store';
+import { IUser } from 'types';
 import {
   IGetMeResponse,
   IUpdateDetailsResponse,
@@ -14,7 +11,11 @@ import {
   IUpdateProfileImage,
   IUpdateDefaultShopResponse,
   IDeleteMyAccountResponse,
-} from './myProfileApi.types';
+} from 'redux/services/myProfileApi/myProfileApi.types';
+import { cartApi } from 'redux/services/cartApi/cartApi';
+import { shopApi } from 'redux/services/shopApi/shopApi';
+import { logout, setUser } from 'redux/features/userSlice';
+import { setShop } from 'redux/features/shopSlice';
 
 export const myProfileApi = createApi({
   reducerPath: 'myProfileApi',

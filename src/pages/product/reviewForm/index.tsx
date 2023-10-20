@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useCreateReviewMutation } from '../../../redux/services/reviewApi/reviewApi';
+import { z } from 'zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { DevTool } from '@hookform/devtools';
+
+import { useCreateReviewMutation } from 'redux/services/reviewApi/reviewApi';
 import {
   Button,
   Card,
   ContentFlexWrapper,
   StyledTextarea,
-} from '../../../components/common';
-import { Form } from 'react-router-dom';
-import { StarGradientIcon } from '../../../assets/icons';
+} from 'components/common';
+import { StarGradientIcon } from 'assets/icons';
 
 interface IReviewFormProps {
   shopId: string;

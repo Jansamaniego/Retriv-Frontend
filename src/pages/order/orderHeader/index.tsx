@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from '../../../components/common';
 import moment from 'moment';
+
+import { Card } from 'components/common';
 
 interface IOrderHeaderProps {
   orderId: string;

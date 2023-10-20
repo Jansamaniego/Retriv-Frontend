@@ -1,32 +1,24 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import {
-  CheckIcon,
-  EditIcon,
-  MinusIcon,
-  PlusIcon,
-  StarGradientIcon,
-} from '../../../../assets/icons';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { useAddProductToCartMutation } from 'redux/services/cartApi/cartApi';
+import {
+  useDeleteProductMutation,
+  useUpdateProductDetailsMutation,
+} from 'redux/services/productApi/productApi';
+import { CheckIcon, EditIcon, StarGradientIcon } from 'assets/icons';
 import {
   Button,
-  Form,
   QuantityTogglerInput,
   Socials,
   StyledInput,
   StyledModal,
   TransparentPopup,
-} from '../../../../components/common';
-import { useAddProductToCartMutation } from '../../../../redux/services/cartApi/cartApi';
-import {
-  useDeleteProductMutation,
-  useUpdateProductDetailsMutation,
-  useUpdateProductImagesMutation,
-  useUpdateProductMainImageMutation,
-} from '../../../../redux/services/productApi/productApi';
-import { useNavigate } from 'react-router-dom';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+} from 'components/common';
 
 interface IProductHeaderInfoProps {
   productId: string;
@@ -71,8 +63,6 @@ const FlexWrapper = styled.div`
   display: flex;
 `;
 
-const ProductInfoName = styled.h3``;
-
 const ProductInfoStatsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -102,24 +92,14 @@ const ProductInfoStatsRatingQuantityContainer = styled.div`
   justify-content: center;
 `;
 
-const ProductInfoStatsRatingQuantity = styled.h5``;
-
 const ProductInfoStatsProductsSoldContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-const ProductInfoStatsProductsSold = styled.h5``;
-
 const DescriptionContainer = styled.div`
   margin-top: 2.4rem;
 `;
-
-const Description = styled.h6``;
-
-const PriceContainer = styled.div``;
-
-const Price = styled.h4``;
 
 const EditIconButton = styled.button`
   display: flex;
@@ -140,21 +120,9 @@ const QuantityControllerContainer = styled.section`
   margin-top: 2.4rem;
 `;
 
-const QuantityContainer = styled.div``;
-
-const Quantity = styled.h6``;
-
-const QuantityInStockContainer = styled.div``;
-
-const QuantityInStock = styled.h6``;
-
-const AddToCartButtonContainer = styled.div``;
-
 const AddToCartButton = styled(Button)`
   margin-bottom: 2.4rem;
 `;
-
-const RemoveProductButton = styled(Button)``;
 
 const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
   productId,
@@ -171,30 +139,9 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const [
-    addProductToCart,
-    { isLoading: addProductIsLoading, isSuccess: addProductIsSuccess },
-  ] = useAddProductToCartMutation();
-
-  const [
-    deleteProduct,
-    { isLoading: deleteProductIsLoading, isSuccess: deleteProductIsSuccess },
-  ] = useDeleteProductMutation();
-
-  const [updateProductDetails, { isLoading: updateProductDetailsIsLoading }] =
-    useUpdateProductDetailsMutation();
-
-  const [
-    updateProductMainImage,
-    { isLoading: updateProductMainImageIsLoading },
-  ] = useUpdateProductMainImageMutation();
-
-  const [updateProductImages, { isLoading: IsLoading }] =
-    useUpdateProductImagesMutation();
-
   const [quantityToPurchase, setQuantityToPurchase] = useState(1);
   const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
-  const [avgRating, setAvgRating] = useState(ratingsAverage * 10);
+  const [avgRating] = useState(ratingsAverage * 10);
   const [isDeleteProductModalOpen, setIsDeleteProductModalOpen] =
     useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -203,6 +150,16 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
   const [isEditPriceMode, setIsEditPriceMode] = useState(false);
   const [isEditQuantityInStockMode, setIsEditQuantityInStockMode] =
     useState(false);
+
+  const [
+    addProductToCart,
+    { isLoading: addProductIsLoading, isSuccess: addProductIsSuccess },
+  ] = useAddProductToCartMutation();
+
+  const [deleteProduct, { isLoading: deleteProductIsLoading }] =
+    useDeleteProductMutation();
+
+  const [updateProductDetails] = useUpdateProductDetailsMutation();
 
   const updateProductDetailsSchema = z.object({
     name: z.string(),
@@ -221,11 +178,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
     resolver: zodResolver(updateProductDetailsSchema),
   });
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit } = methods;
 
   const enableEditNameMode = () => {
     setIsEditNameMode(true);
@@ -310,7 +263,6 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
   };
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    console.log(data);
     await updateProductDetails({ productId, shopId, ...data });
 
     if (isEditNameMode) return disableEditNameMode();
@@ -341,7 +293,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
             ) : (
               <>
                 <ProductDataValueFlexWrapper>
-                  <ProductInfoName>{name}</ProductInfoName>
+                  <h3>{name}</h3>
                   {isOwner && (
                     <EditIconButton
                       onClick={enableEditNameMode}
@@ -369,14 +321,10 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                 </ProductInfoStatsAvgRatingStars>
               </ProductInfoStatsAvgRating>
               <ProductInfoStatsRatingQuantityContainer>
-                <ProductInfoStatsRatingQuantity>
-                  {ratingsQuantity} Ratings
-                </ProductInfoStatsRatingQuantity>
+                <h5>{ratingsQuantity} Ratings</h5>
               </ProductInfoStatsRatingQuantityContainer>
               <ProductInfoStatsProductsSoldContainer>
-                <ProductInfoStatsProductsSold>
-                  {quantitySold} Sold
-                </ProductInfoStatsProductsSold>
+                <h5>{quantitySold} Sold</h5>
               </ProductInfoStatsProductsSoldContainer>
             </ProductInfoStatsContainer>
             <DescriptionContainer>
@@ -399,7 +347,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
               ) : (
                 <>
                   <ProductDataValueFlexWrapper>
-                    <Description>{description}</Description>
+                    <h6>{description}</h6>
                     {isOwner && (
                       <EditIconButton
                         onClick={enableEditDescriptionMode}
@@ -426,7 +374,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
               </ProductDataInputFlexWrapper>
             ) : (
               <ProductDataValueFlexWrapper>
-                <Price> &#8369;{price}</Price>
+                <h4> &#8369;{price}</h4>
                 {isOwner && (
                   <EditIconButton
                     onClick={enableEditPriceMode}
@@ -439,29 +387,29 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
             )}
             {isOwner && (
               <>
-                <AddToCartButtonContainer>
-                  <RemoveProductButton
+                <div>
+                  <Button
                     onClick={openDeleteProductModal}
                     disabled={deleteProductIsLoading}
                   >
                     Remove Product
-                  </RemoveProductButton>
-                </AddToCartButtonContainer>
+                  </Button>
+                </div>
               </>
             )}
             <>
               <QuantityControllerContainer>
-                <QuantityContainer>
-                  <Quantity>Quantity</Quantity>
-                </QuantityContainer>
+                <div>
+                  <h6>Quantity</h6>
+                </div>
                 <QuantityTogglerInput
                   decrementQuantityToggle={decrementQuantityToPurchase}
                   incrementQuantityToggle={incrementQuantityToPurchase}
                   onChangeHandler={changeQuantityToPurchase}
                   QuantityInputValue={quantityToPurchase}
                 />
-                <QuantityInStockContainer>
-                  <QuantityInStockContainer>
+                <div>
+                  <div>
                     {isEditQuantityInStockMode ? (
                       <>
                         <ProductDataInputFlexWrapper>
@@ -481,11 +429,11 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                     ) : (
                       <>
                         <ProductDataValueFlexWrapper>
-                          <QuantityInStock>
+                          <h6>
                             {isOutOfStock
                               ? 'Out of stock'
                               : `${quantityInStock} units available`}
-                          </QuantityInStock>
+                          </h6>
                           {isOwner && (
                             <EditIconButton
                               onClick={enableEditQuantityInStockMode}
@@ -497,18 +445,18 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                         </ProductDataValueFlexWrapper>
                       </>
                     )}
-                  </QuantityInStockContainer>
-                </QuantityInStockContainer>
+                  </div>
+                </div>
               </QuantityControllerContainer>
               {!isOwner && (
-                <AddToCartButtonContainer>
+                <div>
                   <AddToCartButton
                     onClick={addToCartOnClickHandler}
                     disabled={addProductIsLoading}
                   >
                     Add To Cart
                   </AddToCartButton>
-                </AddToCartButtonContainer>
+                </div>
               )}
             </>
             <Socials />

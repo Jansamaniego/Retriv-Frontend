@@ -1,10 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  FacebookIcon,
-  InstagramIcon,
-  TwitterIcon,
-} from '../../../assets/icons';
+
+import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
 
 const SocialsFlexContainer = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import { IProduct, IResponse, IReview, IShop, IUser } from 'src/types';
+import { IProduct, IResponse, IReview, IShop, IUser } from 'types';
 
 export interface IReviewWithUserPickValues {
   id: string;

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { StyledModal } from '../../../../components/common';
-import DisplayImageModalCarousel from './displayImageModalCarousel';
-import DisplayImageModalMenu from './displayImageModalMenu';
+import { StyledModal } from 'components/common';
+import DisplayImageModalCarousel from 'pages/product/productHeader/displayImageModal/displayImageModalCarousel';
+import DisplayImageModalMenu from 'pages/product/productHeader/displayImageModal/displayImageModalMenu';
 
 interface IDisplayImageModal {
   displayImage: string;

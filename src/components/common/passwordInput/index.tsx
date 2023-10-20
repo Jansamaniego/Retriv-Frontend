@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { InputHTMLAttributes, useState } from 'react';
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
 
@@ -6,8 +6,8 @@ interface ToggleButtonProps {
   secondary?: boolean;
 }
 
-interface PasswordInputProps {
-  placeholder: string;
+interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  placeholder?: string;
   name: string;
 }
 

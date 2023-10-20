@@ -1,4 +1,4 @@
-import { IOrder, IResponse } from 'src/types';
+import { IOrder, IResponse } from 'types';
 
 export interface IGetOrdersResponse extends IResponse {
   orders: {

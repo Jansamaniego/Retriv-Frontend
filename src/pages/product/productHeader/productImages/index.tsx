@@ -1,7 +1,8 @@
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { EditIcon, XMarkIcon } from '../../../../assets/icons';
-import { IProduct } from 'src/types';
+
+import { IProduct } from 'types';
+import { EditIcon, XMarkIcon } from 'assets/icons';
 
 interface ISmallImageProps {
   onMouseEnter: (event: MouseEvent) => void;
@@ -102,18 +103,6 @@ const ImagesPickerContainer = styled.div`
   gap: 1.6rem;
 `;
 
-const SmallImageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  min-width: 10rem;
-  max-width: 15rem;
-  width: 100%;
-
-  @media (max-width: 900px) {
-    max-width: 30rem;
-  }
-`;
-
 const SmallImageContainer = styled.div<ISmallImageContainerProps>`
   display: flex;
   justify-content: center;
@@ -191,8 +180,6 @@ const ProductImages: React.FC<IProductImagesProps> = ({
   const showDeleteProductImageModal = () => {
     setIsDeleteProductImageModalOpen(true);
   };
-
-  console.log(productImages.length <= 9);
 
   return (
     <ImagesWrapper>

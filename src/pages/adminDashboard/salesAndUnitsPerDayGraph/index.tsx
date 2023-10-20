@@ -1,10 +1,11 @@
 import React, { ChangeEvent, useMemo, useState } from 'react';
-import { Card, Select } from '../../../components/common';
 import styled, { useTheme } from 'styled-components';
 import moment from 'moment';
+import { ResponsiveLine, Serie } from '@nivo/line';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ResponsiveLine, Serie } from '@nivo/line';
+
+import { Card, Select } from 'components/common';
 
 interface ISalesAndUnitsPerDayGraphProps {
   dailyData: {

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { RootState } from 'redux/store';
 import {
   DashBoardIcon,
   HomeIcon,
@@ -11,10 +12,9 @@ import {
   UserIcon,
   ChevronUp,
   ChevronDown,
-} from '../../../assets/icons';
-import SideMenuCategoryFilter from './sideMenuCategoryFilter';
-import MobileSideMenuCategoryFilter from './mobileSideMenuCategoryFilter';
-import { RootState } from 'src/redux/store';
+} from 'assets/icons';
+import SideMenuCategoryFilter from 'components/layout/sideMenu/sideMenuCategoryFilter';
+import MobileSideMenuCategoryFilter from 'components/layout/sideMenu/mobileSideMenuCategoryFilter';
 
 interface IStyledMainMenuDropDownProps {
   onClick: () => void;
@@ -29,7 +29,6 @@ const SideMenuMain = styled.aside`
   padding: 2.4rem;
   border-radius: 0.5rem;
   background-color: ${(props) => props.theme.neutral.background};
-  /* min-height: 120rem; */
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
 
   @media (max-width: 1300px) {
@@ -121,7 +120,6 @@ const MainLink = styled.div`
   @media (max-width: 1300px) {
     flex-direction: column;
     gap: 0;
-    /* padding: 2.4rem 3.2rem; */
   }
 `;
 

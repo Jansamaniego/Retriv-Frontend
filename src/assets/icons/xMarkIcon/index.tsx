@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface Props {
-  width: string;
+  width?: string;
   onClick?: () => void;
   disabled?: boolean;
 }

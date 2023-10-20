@@ -1,15 +1,14 @@
 import { DevTool } from '@hookform/devtools';
-import React, { forwardRef } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { forwardRef, useEffect } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
-import { useProductPagination } from '../../../../context/ProductPaginationContext';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styled from 'styled-components';
-import { Button } from 'semantic-ui-react';
-import { SearchIcon } from '../../../../assets/icons';
-import { useState } from 'react';
-import { useEffect } from 'react';
+
+import { useProductPagination } from 'context/ProductPaginationContext';
+import { SearchIcon } from 'assets/icons';
+import { Button } from 'components/common';
 
 interface IMobileSearchProps {
   isMobileSearchOpen: boolean;
@@ -21,10 +20,6 @@ type FormValues = {
 
 interface IStyledFormProps {
   isMobileSearchOpen: boolean;
-}
-
-interface queryParamsObj {
-  [keys: string]: string;
 }
 
 const StyledForm = styled.form<IStyledFormProps>`
@@ -69,35 +64,11 @@ const SearchIconButton = styled(Button)`
   height: 4rem;
 `;
 
-function formatQueryParams(params: URLSearchParams) {
-  const obj: queryParamsObj = {};
-  for (const [key, value] of params.entries() as IterableIterator<
-    [string, string]
-  >) {
-    if (value !== '') obj[key] = value;
-  }
-  return obj;
-}
-
-const formatData = (data: FormValues, searchParams: URLSearchParams) => {
-  return Object.entries(data).reduce(
-    (acc: { [keys: string]: string }, [key, value]) => {
-      if (value !== '') {
-        acc[key] = value;
-      } else {
-        searchParams.delete(key);
-      }
-      return acc;
-    },
-    {}
-  );
-};
-
 const MobileSearch = forwardRef<HTMLFormElement, IMobileSearchProps>(
   ({ isMobileSearchOpen }, ref) => {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const { currentPage, setCurrentPage } = useProductPagination();
+    const { setCurrentPage } = useProductPagination();
 
     const searchQuerySchema = z.object({
       search: z.string(),
@@ -107,13 +78,7 @@ const MobileSearch = forwardRef<HTMLFormElement, IMobileSearchProps>(
       resolver: zodResolver(searchQuerySchema),
     });
 
-    const {
-      handleSubmit,
-      control,
-      register,
-      setValue,
-      formState: { errors },
-    } = methods;
+    const { handleSubmit, control, register, setValue } = methods;
 
     useEffect(() => {
       const searchString = searchParams.get('search');
@@ -128,12 +93,6 @@ const MobileSearch = forwardRef<HTMLFormElement, IMobileSearchProps>(
         params.set('sortBy', 'relevance');
         params.set('sort', '-1');
         return params;
-        // return {
-        //   ...formatQueryParams(params),
-        //   ...formatData(data, searchParams),
-        //   sortBy: 'relevance',
-        //   sort: -1,
-        // };
       });
       setCurrentPage(1);
     };

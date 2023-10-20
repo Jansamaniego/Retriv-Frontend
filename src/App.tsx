@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { ThemeProvider } from 'styled-components';
 import {
-  BrowserRouterProps,
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  RouteObject,
   RouterProvider,
 } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import GlobalStyle from './components/globalStyles';
-import { ThemeProvider } from 'styled-components';
-import { themeSettings } from './components/theme';
-import RootLayout from './components/layout';
-import AuthMiddleware from './utils/authMiddleware';
+import { useSelector } from 'react-redux';
+
+import AuthMiddleware from 'utils/authMiddleware';
+import { RootState } from 'redux/store';
+import GlobalStyle from 'components/globalStyles';
+import { themeSettings } from 'components/theme';
+import RootLayout from 'components/layout';
 import {
   Home,
   MyShop,
@@ -47,7 +47,6 @@ import {
   Register,
   ResetPassword,
 } from './pages';
-import { RootState } from './redux/store';
 
 const App: React.FC = () => {
   const { theme = 'light' } = useSelector(

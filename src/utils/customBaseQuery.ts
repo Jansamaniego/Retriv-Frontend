@@ -1,7 +1,8 @@
-import { BaseQueryFn, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query';
+import { BaseQueryFn, fetchBaseQuery } from '@reduxjs/toolkit/query';
 import { Mutex } from 'async-mutex';
-import { logout } from '../redux/features/userSlice';
 import Cookies from 'js-cookie';
+
+import { logout } from 'redux/features/userSlice';
 
 const baseUrl = `${process.env.REACT_APP_API_BASE_URL}/api`;
 

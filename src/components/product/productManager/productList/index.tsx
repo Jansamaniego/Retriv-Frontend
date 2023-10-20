@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
-import {
-  productApi,
-  useGetProductsQuery,
-} from '../../../../redux/services/productApi/productApi';
-import { Card, Loading } from '../../../../components/common';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { IProduct } from 'src/types';
+
+import { IProduct } from 'types';
+import { useGetProductsQuery } from 'redux/services/productApi/productApi';
+import { Card, Loading } from 'components/common';
 
 interface IProductListProps {
   products: IProduct[];
@@ -24,7 +21,6 @@ interface IProductCardProps {
 
 const StyledCard = styled(Card)`
   min-height: 12vh;
-  /* padding: 1rem; */
 
   &:hover {
     cursor: pointer;
@@ -80,7 +76,7 @@ const ProductCard: React.FC<IProductCardProps> = ({ children, onClick }) => {
 };
 
 const ProductItem: React.FC<IProductItemProps> = ({ id }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
 

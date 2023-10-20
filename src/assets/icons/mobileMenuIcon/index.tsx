@@ -1,10 +1,10 @@
 import React from 'react';
 
 interface Props {
-  width: string;
+  width?: string;
 }
 
-const MobileMenuIcon: React.FC<Props> = (props) => {
+export const MobileMenuIcon: React.FC<Props> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,4 +24,3 @@ const MobileMenuIcon: React.FC<Props> = (props) => {
   );
 };
 
-export default MobileMenuIcon;

@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { DevTool } from '@hookform/devtools';
 import { useSearchParams } from 'react-router-dom';
 
-import { Button } from '../../../common';
-import { SearchIcon } from '../../../../assets/icons';
-import { useProductPagination } from '../../../../context/ProductPaginationContext';
-import { useEffect } from 'react';
+import { useProductPagination } from 'context/ProductPaginationContext';
+import { Button } from 'components/common';
+import { SearchIcon } from 'assets/icons';
 
 type FormValues = {
   search: string;
@@ -54,29 +52,10 @@ const SearchIconButton = styled(Button)`
   justify-content: center;
 `;
 
-// const formatQueryParams = (params) => {
-//   const obj = {};
-//   for (const [key, value] of params.entries()) {
-//     if (value !== '') obj[key] = value;
-//   }
-//   return obj;
-// };
-
-// const formatData = (data, searchParams) => {
-//   return Object.entries(data).reduce((acc, [key, value]) => {
-//     if (value !== '') {
-//       acc[key] = value;
-//     } else {
-//       searchParams.delete(key);
-//     }
-//     return acc;
-//   }, {});
-// };
-
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { currentPage, setCurrentPage } = useProductPagination();
+  const { setCurrentPage } = useProductPagination();
 
   const searchQuerySchema = z.object({
     search: z.string(),
@@ -86,13 +65,7 @@ const Search = () => {
     resolver: zodResolver(searchQuerySchema),
   });
 
-  const {
-    handleSubmit,
-    control,
-    register,
-    setValue,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, control, register, setValue } = methods;
 
   useEffect(() => {
     const searchString = searchParams.get('search');
@@ -107,12 +80,6 @@ const Search = () => {
       params.set('sortBy', 'relevance');
       params.set('sort', '-1');
       return params;
-      // return {
-      //   ...formatQueryParams(params),
-      //   ...formatData(data, searchParams),
-      //   sortBy: 'relevance',
-      //   sort: -1,
-      // };
     });
     setCurrentPage(1);
   };

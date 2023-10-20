@@ -1,15 +1,12 @@
-import React, { useState, useMemo, ChangeEvent } from 'react';
-import { useGetOverallStatsQuery } from '../../redux/services/stats/overallStatsApi/overallStatsApi';
+import React, { useState, ChangeEvent } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { Card, Select } from '../../components/common';
 import moment from 'moment/moment';
-import SalesAndUnitsPerMonthLineGraph from './salesAndUnitsPerMonthLineGraph';
-import SalesAndUnitsPerDayGraph from './salesAndUnitsPerDayGraph';
-import SalesByCategoryGraph from './salesByCategoryGraph';
 
-const StyledCard = styled(Card)`
-  height: 60rem;
-`;
+import { useGetOverallStatsQuery } from 'redux/services/stats/overallStatsApi/overallStatsApi';
+import { Card, Select } from 'components/common';
+import SalesAndUnitsPerMonthLineGraph from 'pages/adminDashboard/salesAndUnitsPerMonthLineGraph';
+import SalesAndUnitsPerDayGraph from 'pages/adminDashboard/salesAndUnitsPerDayGraph';
+import SalesByCategoryGraph from 'pages/adminDashboard/salesByCategoryGraph';
 
 const YearSelectContainer = styled.div`
   position: absolute;
@@ -33,8 +30,6 @@ const OverallStatsGrid = styled.main`
 `;
 
 export const AdminDashboard = () => {
-  const theme = useTheme();
-
   const [queryStatsYear, setQueryStatsYear] = useState<number>(
     new Date().getFullYear()
   );
@@ -54,7 +49,6 @@ export const AdminDashboard = () => {
     salesByCategory,
     createdAt,
     totalCustomers,
-    year,
     yearlySalesTotal,
     yearlyTotalSoldUnits,
   } = overallStats;
