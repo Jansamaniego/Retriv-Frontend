@@ -4,7 +4,7 @@ import { HttpResponse, http } from 'msw';
 export const productHandlers = [
   http.get(retrivApi('shop/:shopId/product/:productId'), (req) => {
     const { shopId, productId } = req.params;
-    console.log('intercepted baby!!!!!!!!!!!!!');
+    console.log('intercepted');
     return HttpResponse.json(
       {
         data: {
