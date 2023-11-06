@@ -22,7 +22,15 @@ interface ICartItemItemProps {
   totalProductQuantity: number;
 }
 
-const CartItemContainer = styled.div``;
+const CartItemListFlexWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0;
+  list-style: none;
+`;
+
+const CartItemContainer = styled.li``;
 
 const CartItemFlexWrapper = styled.div`
   display: flex;
@@ -255,20 +263,24 @@ const CartItemItem: React.FC<ICartItemItemProps> = ({
 };
 
 const CartItemList: React.FC<ICartItemListProps> = ({ cartItems }) => {
-  return cartItems.map(
-    (
-      { product, shop, _id: id, totalProductPrice, totalProductQuantity },
-      idx
-    ) => (
-      <CartItemItem
-        key={id}
-        productId={product}
-        cartItemIndex={idx}
-        shopId={shop}
-        totalProductPrice={totalProductPrice}
-        totalProductQuantity={totalProductQuantity}
-      />
-    )
+  return (
+    <CartItemListFlexWrapper>
+      {cartItems.map(
+        (
+          { product, shop, _id: id, totalProductPrice, totalProductQuantity },
+          idx
+        ) => (
+          <CartItemItem
+            key={id}
+            productId={product}
+            cartItemIndex={idx}
+            shopId={shop}
+            totalProductPrice={totalProductPrice}
+            totalProductQuantity={totalProductQuantity}
+          />
+        )
+      )}
+    </CartItemListFlexWrapper>
   );
 };
 

@@ -7,12 +7,6 @@ import CartItemList from 'pages/cart/cartItemManager/cartItemList';
 import CartItemListHeader from 'pages/cart/cartItemManager/cartItemListHeader';
 import CartControl from 'pages/cart/cartItemManager/cartControl';
 
-const CartItemListFlexWrapper = styled.main`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
-
 const CartPageFlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,9 +26,7 @@ const CartItemManager: React.FC = () => {
     <CartPageFlexWrapper>
       <CartItemListHeader />
       <Card>
-        <CartItemListFlexWrapper>
-          <CartItemList cartItems={items} />
-        </CartItemListFlexWrapper>
+        <CartItemList cartItems={items} />
       </Card>
       <CartControl totalPrice={totalPrice} totalQuantity={totalQuantity} />
     </CartPageFlexWrapper>

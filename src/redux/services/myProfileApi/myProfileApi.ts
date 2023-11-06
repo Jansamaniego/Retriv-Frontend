@@ -1,7 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import customBaseQuery from 'utils/customBaseQuery';
-import { store } from 'redux/store';
 import { IUser } from 'types';
 import {
   IGetMeResponse,
@@ -36,7 +35,7 @@ export const myProfileApi = createApi({
         console.log(result);
         return result ? [{ type: 'User', id: result.id }] : [];
       },
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+      async onQueryStarted(args, { dispatch, queryFulfilled, getState }) {
         try {
           const { data: user } = await queryFulfilled;
 
@@ -57,11 +56,10 @@ export const myProfileApi = createApi({
                   forceRefetch: true,
                 })
               );
-              const currentShop = store.getState().shopState.currentShop;
+
               if (!shop) return;
-              if (!currentShop) {
-                dispatch(setShop(shop));
-              }
+
+              dispatch(setShop(shop));
             }
           }
         } catch (error) {

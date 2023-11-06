@@ -102,6 +102,7 @@ const OrderTable: React.FC<IOrderTableProps> = ({ orders }) => {
         animateRows={true}
         rowSelection="single"
         rowStyle={rowStyle}
+        data-testid="adminOrderTable"
       />
     </div>
   );

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Card, StyledModal } from 'components/common';
 import { useDeleteCartMutation } from 'redux/services/cartApi/cartApi';
 
-interface ICartControlProps {
+export interface ICartControlProps {
   totalPrice: number;
   totalQuantity: number;
 }
@@ -87,6 +87,7 @@ const CartControl: React.FC<ICartControlProps> = ({
   const navigate = useNavigate();
   const [isDeleteCartModalOpen, setIsDeleteCartModalOpen] = useState(false);
   const [deleteCart, { isLoading }] = useDeleteCartMutation();
+
   const navigateToCheckOut = () => {
     navigate('/checkout');
   };
@@ -109,7 +110,7 @@ const CartControl: React.FC<ICartControlProps> = ({
         <CartDetailsControls>
           <CartDetailsDeleteButtonContainer>
             <CartDetailsDeleteButton onClick={openDeleteCartModal}>
-              Delete
+              Delete Cart
             </CartDetailsDeleteButton>
           </CartDetailsDeleteButtonContainer>
         </CartDetailsControls>
@@ -133,7 +134,7 @@ const CartControl: React.FC<ICartControlProps> = ({
           isLoading={isLoading}
           onClick={deleteCartOnClickHandler}
         >
-          Are you sure you want to delete your cart?
+          <h5>Are you sure you want to delete your cart?</h5>
         </StyledModal>
       )}
     </Card>

@@ -11,7 +11,7 @@
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.54.1",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/react": "^13.0.1",
     "@testing-library/user-event": "^13.5.0",
     "@types/js-cookie": "^3.0.4",
     "@types/react": "^18.2.22",
@@ -71,6 +71,10 @@
     "@types/react-query": "^1.2.9",
     "@types/styled-components": "^5.1.27",
     "jest-fetch-mock": "^3.0.3",
+    "msw": "^2.0.2",
     "typescript": "^5.2.2"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
