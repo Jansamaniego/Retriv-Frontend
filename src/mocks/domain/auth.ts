@@ -1,7 +1,7 @@
 import retrivApi from 'mocks/baseUrls';
-import { http } from 'msw';
+import { rest } from 'msw';
 
 export const authHandlers = [
-  http.post(retrivApi('auth/login'), () => {}),
-  http.post(retrivApi('auth/signup'), () => {}),
+  rest.post(retrivApi('auth/login'), () => {}),
+  rest.post(retrivApi('auth/signup'), () => {}),
 ];

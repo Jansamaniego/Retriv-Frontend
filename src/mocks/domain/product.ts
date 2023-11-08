@@ -1,8 +1,8 @@
 import retrivApi from 'mocks/baseUrls';
-import { HttpResponse, http } from 'msw';
+import { rest } from 'msw';
 
 export const productHandlers = [
-  http.get(retrivApi('shop/:shopId/product/:productId'), (req) => {
+  rest.get(retrivApi('shop/:shopId/product/:productId'), (req) => {
     const { shopId, productId } = req.params;
     console.log('intercepted');
     return HttpResponse.json(
