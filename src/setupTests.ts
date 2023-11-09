@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
 import { fetch, Headers, Request, Response } from 'cross-fetch';
+
 import { handlers } from 'mocks/handlers';
-import { setupServer } from 'msw/lib/node';
+import { setupServer } from 'msw/node';
 
 import { TextEncoder, TextDecoder } from 'util';
 
@@ -14,10 +15,19 @@ Object.assign(global, { TextDecoder, TextEncoder });
 export const server = setupServer(...handlers);
 
 // Enable the API mocking before tests.
-beforeAll(() => server.listen());
+beforeAll(() => {
+  server.listen();
+
+  console.log('server listening');
+});
 
 // Reset any runtime request handlers we may add during the tests.
-afterEach(() => server.resetHandlers());
+afterEach(() => {
+  server.resetHandlers();
+});
 
 // Disable the API mocking after the tests finished.
-afterAll(() => server.close());
+afterAll(() => {
+  server.close();
+  console.log('server close');
+});

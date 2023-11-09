@@ -54,8 +54,6 @@ const customBaseQuery: BaseQueryFn = async (args, api, extraOptions) => {
     }
   }
 
-  console.log(result);
-
   return result;
 };
 

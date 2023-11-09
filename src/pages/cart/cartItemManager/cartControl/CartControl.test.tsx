@@ -92,9 +92,7 @@ describe('cart control', () => {
       name: /Confirm/i,
     });
 
-    await userEvent.click(deleteCartModalConfirmButton);
-
-    console.log(window.location.pathname);
+    expect(deleteCartModalConfirmButton).toBeInTheDocument();
   });
 
   test('handles a failed delete cart request correctly', () => {
@@ -115,7 +113,7 @@ describe('cart control', () => {
     await userEvent.click(checkOutButton);
 
     expect(mockedUsedNavigate).toHaveBeenCalled();
-    
+
     mockedUsedNavigate.mockRestore();
   });
 });

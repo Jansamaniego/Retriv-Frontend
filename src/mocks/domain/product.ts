@@ -1,23 +1,20 @@
 import retrivApi from 'mocks/baseUrls';
+import { db } from 'mocks/mockDb/mockDb';
 import { rest } from 'msw';
 
 export const productHandlers = [
-  rest.get(retrivApi('shop/:shopId/product/:productId'), (req) => {
-    const { shopId, productId } = req.params;
-    console.log('intercepted');
-    return HttpResponse.json(
-      {
-        data: {
-          product: {
-            product: productId,
-            shop: shopId,
-            _id: productId,
-            totalProductPrice: 3232,
-            totalProductQuantity: 4,
-          },
-        },
-      },
-      { status: 200, statusText: 'product is found successfully' }
-    );
+  rest.get(retrivApi('shop/:shopId/product/:productId'), (req, res, ctx) => {
+    let mockedProduct;
+    mockedProduct = db.product.findFirst({
+      where: { id: { equals: '123' } },
+    });
+
+    console.log(mockedProduct);
+
+    if (!mockedProduct) {
+      mockedProduct = db.product.create({ id: '123' });
+    }
+
+    return res(ctx.json({ product: mockedProduct }));
   }),
 ];

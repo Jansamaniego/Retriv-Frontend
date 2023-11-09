@@ -68,6 +68,8 @@
     ]
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.2.0",
+    "@mswjs/data": "^0.15.0",
     "@types/react-query": "^1.2.9",
     "@types/styled-components": "^5.1.27",
     "jest-fetch-mock": "^3.0.3",

@@ -3,7 +3,7 @@ const jestConfig = {
   testEnvironment: 'jsdom',
   rootDir: 'src',
   testMatch: ['**/?(*.)+(spec|test).+(ts|tsx|js)'],
-  setupFilesAfterEnv: ['<rootDir>/jestSetup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
   moduleNameMapper: {
     '^src/(.+)$': '<rootDir>/$1',
   },
