@@ -4,12 +4,19 @@ import { db } from 'mocks/mockDb/mockDb';
 import { rest } from 'msw';
 
 export const cartHandlers = [
-  rest.delete(retrivApi('cart'), (req, res, ctx) => {
-    db.cart.create({
-      items: ['12345'],
-    });
+  rest.get(retrivApi('cart'), (req, res, ctx) => {
+    const cart = db.cart.findFirst({ where: { id: { equals: '123' } } });
 
-    
+    return res(ctx.json({ cart }));
+  }),
+  rest.delete(retrivApi('cart'), (req, res, ctx) => {
+    const deletedCart = db.cart.delete({ where: { id: { equals: '123' } } });
+
+    return res(
+      ctx.json({
+        cart: deletedCart,
+      })
+    );
   }),
 
   rest.delete(

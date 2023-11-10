@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import CartControl, { ICartControlProps } from '.';
 import { renderWithProviders } from 'testUtils';
+import { db } from 'mocks/mockDb/mockDb';
 
 const mockedUsedNavigate = jest.fn();
 
@@ -19,6 +20,18 @@ describe('cart control', () => {
   };
 
   const { totalPrice, totalQuantity } = cartControlProps;
+
+  db.cart.create({
+    id: '123',
+    items: [
+      {
+        product: '1234',
+      },
+      {
+        product: '5678',
+      },
+    ],
+  });
 
   test('renders correctly', () => {
     renderWithProviders(
@@ -93,12 +106,14 @@ describe('cart control', () => {
     });
 
     expect(deleteCartModalConfirmButton).toBeInTheDocument();
-  });
 
-  test('handles a failed delete cart request correctly', () => {
-    renderWithProviders(
-      <CartControl totalPrice={totalPrice} totalQuantity={totalQuantity} />
-    );
+    userEvent.click(deleteCartModalConfirmButton);
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    const deletedCart = db.cart.findFirst({ where: { id: { equals: '123' } } });
+
+    expect(deletedCart).toBeNull();
   });
 
   test('navigates to checkout', async () => {

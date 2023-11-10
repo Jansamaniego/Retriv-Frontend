@@ -18,7 +18,12 @@ const CartItemManager: React.FC = () => {
 
   if (isLoading) return <Loading />;
 
-  if (!cart) return <Card>Your shopping cart is empty.</Card>;
+  if (!cart)
+    return (
+      <Card>
+        <h2>Your shopping cart is empty.</h2>
+      </Card>
+    );
 
   const { items, totalPrice, totalQuantity } = cart;
 

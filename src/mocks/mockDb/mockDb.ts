@@ -6,7 +6,7 @@ const modelDictionary = {
   cart: {
     id: primaryKey(faker.datatype.uuid),
     email: () => faker.internet.email(),
-    items: () => [faker.string.numeric(5)],
+    items: () => new Array(),
     totalPrice: () => faker.number.int(5),
     totalQuantity: () => faker.number.int(1),
   },
@@ -45,6 +45,14 @@ const modelDictionary = {
     quantityInStock: () => faker.number.int(3),
     quantitySold: () => faker.number.int(2),
     isOutOfStock: () => false,
+  },
+
+  category: {
+    id: primaryKey(faker.datatype.uuid),
+    name: () => 'test category',
+    description: () => faker.word.words.toString(),
+    image: () => faker.string.alphanumeric(8),
+    imageId: () => faker.string.alphanumeric(8),
   },
 };
 

@@ -116,6 +116,7 @@ const UpdateCategoryImageModal: React.FC<IUpdateCategoryImageModalProps> = ({
               <MdCloudUpload color="#1475cf" size={150} />
             )}
             <input
+              aria-label="updateCategoryImage"
               type="file"
               ref={inputRef}
               style={{ display: 'none' }}

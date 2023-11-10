@@ -37,7 +37,7 @@ describe('cart item item', () => {
       where: { id: { equals: '123' } },
     });
 
-    const { rerender } = renderWithProviders(
+    renderWithProviders(
       <CartItemItem cartItemIndex={0} cartItem={cartItemData!} />
     );
 
