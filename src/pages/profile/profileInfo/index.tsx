@@ -155,8 +155,6 @@ const ProfileInfo = () => {
     }
   }, [loggedInUser]);
 
-  console.log(loggedInUser);
-
   const profileInfoSchema = z.object({
     firstName: z.string(),
     lastName: z.string(),
@@ -357,22 +355,24 @@ const ProfileInfo = () => {
                 )}
               </UserDataValueFlexWrapper>
             </div>
-            <div>
+            {!loggedInUser?.isGoogleAccount && (
               <div>
-                <h5>email:</h5>
+                <div>
+                  <h5>email:</h5>
+                </div>
+                <UserDataValueFlexWrapper>
+                  <Value>{email}</Value>
+                  {isLoggedInUser && (
+                    <EditIconButton
+                      onClick={enableEditEmailMode}
+                      disabled={isEditModalOpen}
+                    >
+                      <EditIcon width="2rem" />
+                    </EditIconButton>
+                  )}
+                </UserDataValueFlexWrapper>
               </div>
-              <UserDataValueFlexWrapper>
-                <Value>{email}</Value>
-                {isLoggedInUser && (
-                  <EditIconButton
-                    onClick={enableEditEmailMode}
-                    disabled={isEditModalOpen}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
-                )}
-              </UserDataValueFlexWrapper>
-            </div>
+            )}
             <div>
               <div>
                 <h5>phone:</h5>

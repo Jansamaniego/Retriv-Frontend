@@ -131,9 +131,11 @@ const ProfileSubMenu: React.FC<{ userRole?: string }> = ({ userRole }) => {
       <SubMenuLink to="profile">
         <SubMenuLinkLabel>User Info</SubMenuLinkLabel>
       </SubMenuLink>
-      <SubMenuLink to="/profile/change-password">
-        <SubMenuLinkLabel>Change Password</SubMenuLinkLabel>
-      </SubMenuLink>
+      {!currentUser?.isGoogleAccount && (
+        <SubMenuLink to="/profile/change-password">
+          <SubMenuLinkLabel>Change Password</SubMenuLinkLabel>
+        </SubMenuLink>
+      )}
       {currentUser && !currentUser.isEmailVerified && (
         <SubMenuLink to="/profile/send-verification-email">
           <SubMenuLinkLabel> Verify Email</SubMenuLinkLabel>

@@ -17,7 +17,7 @@ interface IProfileDropdownMenuContainerProps {
 }
 
 const ProfileDropdownMenuContainer = styled.div<IProfileDropdownMenuContainerProps>`
-  max-width: 30rem;
+  max-width: fit-content;
   width: 100%;
   position: absolute;
   display: ${(props) => (props.isProfileMenuOpen ? 'flex' : 'none')};
@@ -98,10 +98,10 @@ const ProfileDropdownMenu = forwardRef<
         <ProfileSection>
           <ProfileImageLogo profileImage={profileImage} size="6rem" />
           <UserInfo>
-            <h5>
+            <h6>
               {firstName} {lastName}
-            </h5>
-            <h5>{email}</h5>
+            </h6>
+            <h6>{email}</h6>
             <StyledLink to="/profile" isActive={pathname === '/profile'}>
               Manage your account
             </StyledLink>

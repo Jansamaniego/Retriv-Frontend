@@ -133,6 +133,7 @@ export const myProfileApi = createApi({
 
 export const {
   useGetMeQuery,
+  useLazyGetMeQuery,
   useUpdateDetailsMutation,
   useUpdateProfileImageMutation,
   useUpdateDefaultShopMutation,

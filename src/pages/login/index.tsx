@@ -17,6 +17,8 @@ import {
   StyledLink,
 } from 'components/common';
 
+const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/api`;
+
 interface FormValues {
   email: string;
   password: string;
@@ -56,6 +58,10 @@ export const Login = () => {
     }
   }, [isLoading, isSuccess, currentUser, navigate]);
 
+  const googleSignInOnClickHandler = () => {
+    window.open(`${BASE_URL}/auth/google/url`, '_self');
+  };
+
   return (
     <LoginFlexWrapper>
       <FormProvider {...methods}>
@@ -77,6 +83,9 @@ export const Login = () => {
         </Form>
         <DevTool control={control} />
       </FormProvider>
+      <Button onClick={googleSignInOnClickHandler}>
+        Sign in with google instead.
+      </Button>
     </LoginFlexWrapper>
   );
 };

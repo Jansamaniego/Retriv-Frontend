@@ -37,6 +37,7 @@ export interface IUser {
   profileImageId: String;
   defaultShop: string;
   preferredCategories: string[];
+  isGoogleAccount?: boolean;
 }
 
 export interface IShop {
