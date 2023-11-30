@@ -18,6 +18,7 @@ import {
   StyledLink,
   ImageUpload,
 } from 'components/common';
+import RegisterStepTracker from './registerStepTracker';
 
 interface FormValues {
   username: string;
@@ -62,12 +63,25 @@ const RegisterFlexWrapper = styled.div`
 const FormFlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   justify-content: center;
   width: 100%;
 `;
 
+const FlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const ImageUploadWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const ButtonFlexWrapper = styled.div`
   display: flex;
+  justify-content: flex-end;
 `;
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -268,24 +282,10 @@ export const Register = () => {
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
-            <div>
-              <ButtonFlexWrapper>
-                {formStep !== 0 && (
-                  <Button onClick={prevFormStep} type="button">
-                    prev
-                  </Button>
-                )}
-                {formStep !== 4 && (
-                  <Button onClick={nextFormStep} type="button">
-                    next
-                  </Button>
-                )}
-              </ButtonFlexWrapper>
-            </div>
-
+            <RegisterStepTracker formStep={formStep} />
             <h5>{TITLE[formStep]}</h5>
             {formStep === 0 && (
-              <>
+              <FlexWrapper>
                 <StyledInput placeholder="Username" name="username" />
                 <StyledInput placeholder="Email" type="email" name="email" />
                 <PasswordInput name="password" placeholder="Password" />
@@ -293,10 +293,10 @@ export const Register = () => {
                   name="passwordConfirmation"
                   placeholder="Confirm password"
                 />
-              </>
+              </FlexWrapper>
             )}
             {formStep === 1 && (
-              <>
+              <FlexWrapper>
                 <StyledInput placeholder="First Name" name="firstName" />
                 <StyledInput placeholder="Last Name" name="lastName" />
                 <Select {...register('gender')}>
@@ -312,19 +312,16 @@ export const Register = () => {
                   type="date"
                   name="dateOfBirth"
                 />
-                {errors.dateOfBirth?.message && (
-                  <p>{errors.dateOfBirth?.message}</p>
-                )}
-              </>
+              </FlexWrapper>
             )}
             {formStep === 2 && (
-              <>
+              <FlexWrapper>
                 <StyledInput placeholder="Address" name="address" />
                 <StyledInput placeholder="Phone" name="phone" />
-              </>
+              </FlexWrapper>
             )}
             {formStep === 3 && (
-              <>
+              <ImageUploadWrapper>
                 <ImageUpload
                   name="image"
                   fileSizeLimit={5 * MB_BYTES}
@@ -333,16 +330,25 @@ export const Register = () => {
                   error={imageError}
                   applyError={applyError}
                 />
-              </>
+              </ImageUploadWrapper>
             )}
-            {formStep === 4 && (
-              <Button type="submit" disabled={isLoading}>
-                Register
-              </Button>
-            )}
-            <StyledLink to="/login" isActive={pathname === '/login'}>
-              Have an account already? Log in instead!
-            </StyledLink>
+            <ButtonFlexWrapper>
+              {formStep !== 0 && (
+                <Button onClick={prevFormStep} type="button">
+                  prev
+                </Button>
+              )}
+              {formStep !== 4 && (
+                <Button onClick={nextFormStep} type="button">
+                  next
+                </Button>
+              )}
+              {formStep === 4 && (
+                <Button type="submit" disabled={isLoading}>
+                  Register
+                </Button>
+              )}
+            </ButtonFlexWrapper>
           </FormFlexWrapper>
         </Form>
         <DevTool control={control} />

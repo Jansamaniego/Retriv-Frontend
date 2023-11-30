@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { SVGProps } from 'react';
 
-interface Props {
-  width?: string;
-  onClick?: () => void;
+type SVGElementProps = SVGProps<SVGSVGElement>;
+
+interface Props extends SVGElementProps {
   disabled?: boolean;
 }
 

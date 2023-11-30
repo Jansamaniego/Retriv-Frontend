@@ -142,6 +142,7 @@ export const shopApi = createApi({
 export const {
   useGetShopsQuery,
   useGetShopByIdQuery,
+  useLazyGetShopByIdQuery,
   useCreateShopMutation,
   useUpdateShopMutation,
   useUpdateShopImageMutation,

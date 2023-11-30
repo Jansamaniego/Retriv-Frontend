@@ -22,6 +22,7 @@ export const shopSlice = createSlice({
       state,
       action: PayloadAction<IShopWithOwnerPickValues | IShop>
     ) => {
+      console.log(action.payload);
       state.currentShop = action.payload;
     },
     removeShop: (state, action: PayloadAction<void>) => {

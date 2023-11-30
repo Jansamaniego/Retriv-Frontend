@@ -56,9 +56,17 @@ export const myProfileApi = createApi({
                   forceRefetch: true,
                 })
               );
-
+              console.log(shop);
               if (!shop) return;
-
+              dispatch(setShop(shop));
+            } else if (typeof defaultShop !== 'string') {
+              const { data: shop } = await dispatch(
+                shopApi.endpoints.getShopById.initiate(defaultShop._id, {
+                  forceRefetch: true,
+                })
+              );
+              console.log(shop);
+              if (!shop) return;
               dispatch(setShop(shop));
             }
           }

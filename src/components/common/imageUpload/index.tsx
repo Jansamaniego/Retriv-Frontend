@@ -20,6 +20,7 @@ interface ImageUploadProps {
 }
 
 export const ImageUploadContainer = styled.div`
+  width: fit-content;
   padding: 1.6rem;
   border: 1px solid ${(props) => props.theme.neutral.main};
   border-radius: 0.5rem;

@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { SVGProps } from 'react';
 import { useTheme } from 'styled-components';
 
-interface Props {
-  gradient?: number;
-  width?: string;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
+type SVGElementProps = SVGProps<SVGSVGElement>;
+
+interface Props extends SVGElementProps {
+  gradient: number;
 }
 
 export const StarGradientIcon: React.FC<Props> = ({ gradient, ...props }) => {

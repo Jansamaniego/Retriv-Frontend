@@ -1,12 +1,12 @@
-import React, { Ref, forwardRef } from 'react';
+import React, { SVGProps, forwardRef } from 'react';
 
-interface Props {
-  width?: string;
-  onClick?: () => any;
+type SVGElementProps = SVGProps<SVGSVGElement>;
+
+interface Props extends SVGElementProps {
   disabled?: boolean;
 }
 
-export const EditIcon: React.FC<Props> = forwardRef<SVGSVGElement, Props>(
+export const EditIcon = React.forwardRef<SVGSVGElement, Props>(
   ({ ...props }, ref) => {
     return (
       <svg

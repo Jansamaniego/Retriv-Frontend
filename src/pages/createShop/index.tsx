@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'redux/store';
+import CreateShopStepTracker from './createShopStepTracker';
 
 interface FormValues {
   name: string;
@@ -48,12 +49,25 @@ const CreateShopFlexWrapper = styled.div`
 const FormFlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   justify-content: center;
   width: 100%;
 `;
 
+const FlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const ImageUploadWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const ButtonFlexWrapper = styled.div`
   display: flex;
+  justify-content: flex-end;
 `;
 
 const MB_BYTES = 1000000;
@@ -99,11 +113,7 @@ export const CreateShop = () => {
     mode: 'onBlur',
   });
 
-  const {
-    handleSubmit,
-    control,
-    watch,
-  } = methods;
+  const { handleSubmit, control, watch } = methods;
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (!image) {
@@ -197,11 +207,38 @@ export const CreateShop = () => {
   };
 
   return (
-    <CreateShopFlexWrapper>
-      <FormProvider {...methods}>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormFlexWrapper>
-            <div>
+    <>
+      <CreateShopFlexWrapper>
+        <FormProvider {...methods}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <FormFlexWrapper>
+              <CreateShopStepTracker formStep={formStep} />
+              <h5>{TITLE[formStep as keyof ITitle]}</h5>
+              {formStep === 0 && (
+                <FlexWrapper>
+                  <StyledInput placeholder="Name" name="name" />
+                  <StyledInput placeholder="Description" name="description" />
+                </FlexWrapper>
+              )}
+              {formStep === 1 && (
+                <FlexWrapper>
+                  <StyledInput placeholder="Address" name="address" />
+                  <StyledInput placeholder="phone" type="number" name="phone" />
+                </FlexWrapper>
+              )}
+              {formStep === 2 && (
+                <ImageUploadWrapper>
+                  <ImageUpload
+                    name="image"
+                    fileSizeLimit={5 * MB_BYTES}
+                    image={image}
+                    changeImage={changeImage}
+                    error={imageError}
+                    applyError={applyError}
+                  />
+                </ImageUploadWrapper>
+              )}
+
               <ButtonFlexWrapper>
                 {formStep !== 0 && (
                   <Button onClick={prevFormStep} type="button">
@@ -213,41 +250,17 @@ export const CreateShop = () => {
                     next
                   </Button>
                 )}
+                {formStep === 3 && (
+                  <Button
+                    onClick={openCreateShopModal}
+                    type="button"
+                    disabled={isLoading}
+                  >
+                    Create Shop
+                  </Button>
+                )}
               </ButtonFlexWrapper>
-            </div>
-            <h5>{TITLE[formStep as keyof ITitle]}</h5>
-            {formStep === 0 && (
-              <>
-                <StyledInput placeholder="Name" name="name" />
-                <StyledInput placeholder="Description" name="description" />
-              </>
-            )}
-            {formStep === 1 && (
-              <>
-                <StyledInput placeholder="Address" name="address" />
-                <StyledInput placeholder="phone" type="number" name="phone" />
-              </>
-            )}
-            {formStep === 2 && (
-              <ImageUpload
-                name="image"
-                fileSizeLimit={5 * MB_BYTES}
-                image={image}
-                changeImage={changeImage}
-                error={imageError}
-                applyError={applyError}
-              />
-            )}
-            {formStep === 3 && (
-              <Button
-                onClick={openCreateShopModal}
-                type="button"
-                disabled={isLoading}
-              >
-                Create Shop
-              </Button>
-            )}
-
+            </FormFlexWrapper>
             {isCreateShopModalOpen && (
               <StyledModal
                 isModalOpen={isCreateShopModalOpen}
@@ -257,10 +270,10 @@ export const CreateShop = () => {
                 Are you sure you want to create this Shop?
               </StyledModal>
             )}
-          </FormFlexWrapper>
-        </Form>
-        <DevTool control={control} />
-      </FormProvider>
-    </CreateShopFlexWrapper>
+          </Form>
+          <DevTool control={control} />
+        </FormProvider>
+      </CreateShopFlexWrapper>
+    </>
   );
 };

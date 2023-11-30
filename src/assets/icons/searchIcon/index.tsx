@@ -1,11 +1,8 @@
-import React from 'react';
+import React, { SVGProps } from 'react';
 
-interface Props {
-  width?: string;
-  onClick?: () => void;
-}
+type SVGElementProps = SVGProps<SVGSVGElement>;
 
-export const SearchIcon: React.FC<Props> = (props) => {
+export const SearchIcon: React.FC<SVGElementProps> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

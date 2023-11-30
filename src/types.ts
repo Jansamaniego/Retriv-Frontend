@@ -35,7 +35,7 @@ export interface IUser {
   gender: 'male' | 'female' | 'other' | 'undisclosed';
   profileImage: string;
   profileImageId: String;
-  defaultShop: string;
+  defaultShop: string | IShop;
   preferredCategories: string[];
   isGoogleAccount?: boolean;
 }

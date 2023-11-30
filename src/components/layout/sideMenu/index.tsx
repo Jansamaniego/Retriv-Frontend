@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { RootState } from 'redux/store';
@@ -25,6 +25,8 @@ const SideMenuMain = styled.aside`
   display: flex;
   flex-direction: column;
   max-width: 60ch;
+  width: 100%;
+  height: fit-content;
 
   padding: 2.4rem;
   border-radius: 0.5rem;
@@ -33,6 +35,7 @@ const SideMenuMain = styled.aside`
 
   @media (max-width: 1300px) {
     padding: 0;
+    max-width: 30ch;
   }
 
   @media (max-width: 600px) {
@@ -161,6 +164,8 @@ const UserSubMenu: React.FC<{ userRole?: string }> = ({ userRole }) => {
 const SideMenu = () => {
   const loggedInUser = useSelector((state: RootState) => state.userState.user);
 
+  const { pathname } = useLocation();
+
   const [currentUser, setCurrentUser] = useState(loggedInUser);
   const [isProfileSubMenuOpen, setIsProfileSubMenuOpen] = useState(false);
   const [isUserSubMenuOpen, setIsUserSubMenuOpen] = useState(false);
@@ -168,6 +173,8 @@ const SideMenu = () => {
   useEffect(() => {
     setCurrentUser(loggedInUser);
   }, [loggedInUser]);
+
+  console.log(pathname);
 
   if (!currentUser) {
     return (
@@ -180,7 +187,7 @@ const SideMenu = () => {
           <SignupIcon width="3rem" />
           <MenuLinkLabel>Sign up!</MenuLinkLabel>
         </StyledMainMenuLink>
-        <SideMenuCategoryFilter />
+        {pathname === '/' && <SideMenuCategoryFilter />}
         <MobileSideMenuCategoryFilter />
       </SideMenuMain>
     );
@@ -254,7 +261,7 @@ const SideMenu = () => {
           <MenuLinkLabel>Start Selling!</MenuLinkLabel>
         </StyledMainMenuLink>
       )}
-      <SideMenuCategoryFilter />
+      {pathname === '/' && <SideMenuCategoryFilter />}
       <MobileSideMenuCategoryFilter />
     </SideMenuMain>
   );

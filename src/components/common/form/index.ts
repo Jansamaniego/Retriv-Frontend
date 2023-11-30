@@ -7,8 +7,8 @@ export const Form = styled.form<IFormProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 75ch;
+  width: fit-content;
+  max-width: 125ch;
   background: ${(props) => props.theme.neutral[900]};
   box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1);
   padding: 1.6rem;

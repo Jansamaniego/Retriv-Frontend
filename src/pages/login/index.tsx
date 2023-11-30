@@ -16,6 +16,7 @@ import {
   Form,
   StyledLink,
 } from 'components/common';
+import { GoogleIcon } from 'assets/icons';
 
 const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/api`;
 
@@ -29,6 +30,39 @@ const LoginFlexWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100%;
+`;
+
+const FlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+`;
+
+const GoogleOAuthButton = styled.button`
+  display: flex;
+  border-radius: 0.5rem;
+  width: 100%;
+
+  padding: 0.8rem 1.2rem;
+
+  &:hover {
+    cursor: pointer;
+    background: ${(props) => props.theme.neutral[700]};
+  }
+
+  &:active {
+    box-shadow: inset 0 20px 30px 0 rgba(0, 0, 0, 0.1);
+    background: none;
+  }
+`;
+
+const GoogleOAuthFlexWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  gap: 1.6rem;
 `;
 
 export const Login = () => {
@@ -66,26 +100,36 @@ export const Login = () => {
     <LoginFlexWrapper>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <StyledInput placeholder="Email" type="email" name="email" />
-          <PasswordInput name="password" placeholder="Password" />
+          <FlexWrapper>
+            <StyledInput placeholder="Email" type="email" name="email" />
+            <PasswordInput name="password" placeholder="Password" />
+          </FlexWrapper>
           <StyledLink
             to="/forgot-password"
             isActive={pathname === '/forgot-password'}
           >
             Forgot your password?
           </StyledLink>
-          <Button type="submit" disabled={isLoading}>
-            Login
-          </Button>
-          <StyledLink to="/register" isActive={pathname === '/register'}>
-            Don't have an account yet? Sign up now!
-          </StyledLink>
+          <FlexWrapper>
+            <Button type="submit" disabled={isLoading}>
+              Login
+            </Button>
+            <GoogleOAuthButton
+              onClick={googleSignInOnClickHandler}
+              type="button"
+            >
+              <GoogleOAuthFlexWrapper>
+                <GoogleIcon width="3rem" height="3rem" />
+                <h6>Continue with Google</h6>
+              </GoogleOAuthFlexWrapper>
+            </GoogleOAuthButton>
+            <StyledLink to="/register" isActive={pathname === '/register'}>
+              Don't have an account yet? Sign up now!
+            </StyledLink>
+          </FlexWrapper>
         </Form>
         <DevTool control={control} />
       </FormProvider>
-      <Button onClick={googleSignInOnClickHandler}>
-        Sign in with google instead.
-      </Button>
     </LoginFlexWrapper>
   );
 };

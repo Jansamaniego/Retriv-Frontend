@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { SVGProps } from 'react';
 
-interface Props {
-  width?: string;
-}
+type SVGElementProps = SVGProps<SVGSVGElement>;
 
-export const UserIcon: React.FC<Props> = (props) => {
+export const UserIcon: React.FC<SVGElementProps> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

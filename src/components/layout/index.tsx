@@ -11,9 +11,8 @@ const ContentFlex = styled.section`
   display: flex;
   justify-content: space-between;
   gap: 1.6rem;
-  margin-top: 9rem;
-  margin: 9rem auto 0 auto;
-  padding: 0 1.6rem;
+  padding: 9rem 1.6rem 0 1.6rem;
+  height: calc(100vh - 9rem);
 `;
 
 const OutletContainer = styled.div`

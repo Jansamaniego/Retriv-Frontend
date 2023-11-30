@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { RootState } from 'redux/store';
-import { useGetShopByIdQuery } from 'redux/services/shopApi/shopApi';
+import {
+  useGetShopByIdQuery,
+  useLazyGetShopByIdQuery,
+} from 'redux/services/shopApi/shopApi';
 import MyShopProductManager from 'pages/myShop/myShopProductManager';
 import MyShopProductControl from 'pages/myShop/myShopProductControl';
 import MyShopHeader from 'pages/myShop/myShopHeader';
@@ -18,17 +21,14 @@ const ShopPageContainer = styled.main`
 export const MyShop = () => {
   const { currentShop } = useSelector((state: RootState) => state.shopState);
 
-  const {
-    data: shop,
-    isLoading,
-    refetch,
-  } = useGetShopByIdQuery(currentShop!._id);
+  const [trigger, { data: shop }] = useLazyGetShopByIdQuery();
 
   useEffect(() => {
-    refetch();
+    if (!currentShop) return;
+    trigger(currentShop!._id);
   }, [currentShop]);
 
-  if (isLoading) return <Loading />;
+  console.log(shop);
 
   if (!currentShop || !shop) return <h3>Shop is not found</h3>;
 

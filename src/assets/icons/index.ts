@@ -37,3 +37,4 @@ export * from './shipped';
 export * from './outForDelivery';
 export * from './delivered';
 export * from './mobileMenuIcon';
+export * from './googleIcon';

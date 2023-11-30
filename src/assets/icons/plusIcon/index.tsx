@@ -1,11 +1,8 @@
-import React from 'react';
+import React, { SVGProps } from 'react';
 
-interface Props {
-  width?: string;
-  strokeWidth?: string;
-}
+type SVGElementProps = SVGProps<SVGSVGElement>;
 
-export const PlusIcon: React.FC<Props> = ({
+export const PlusIcon: React.FC<SVGElementProps> = ({
   strokeWidth = '1.5',
   ...props
 }) => {
