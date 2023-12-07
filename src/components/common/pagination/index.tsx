@@ -1,10 +1,50 @@
-import React, { useState } from 'react';
+import React, { ButtonHTMLAttributes, useState } from 'react';
+import styled from 'styled-components';
 
 interface PaginationProps {
   totalPages: number;
   currentPage: number;
   onPageChange: (newPage: number) => void;
 }
+
+interface PaginationButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
+  isActive?: boolean;
+  isPageNumber?: boolean;
+}
+
+const PaginationContainer = styled.div`
+  display: flex;
+`;
+
+const PaginationButton = styled.button<PaginationButtonProps>`
+  width: ${(props) => (props.isPageNumber ? '4rem' : '8rem')};
+  color: ${(props) =>
+    props.disabled ? props.theme.neutral[400] : props.theme.neutral[100]};
+  background: ${(props) =>
+    props.disabled ? props.theme.neutral[500] : props.theme.neutral[800]};
+  font-weight: ${(props) => (props.disabled ? '300' : '500')};
+  cursor: ${(props) => {
+    return props.disabled ? 'inherit' : 'pointer';
+  }};
+  box-shadow: none;
+  border: none;
+  border-radius: 0.5rem;
+  white-space: none;
+  font-size: 1.6rem;
+  padding: 0.4rem;
+  box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background: ${(props) =>
+      props.disabled ? props.theme.neutral[500] : props.theme.neutral[600]};
+  }
+
+  &:active {
+    background: ${(props) =>
+      props.disabled ? props.theme.neutral[500] : props.theme.neutral[700]};
+  }
+`;
 
 export const Pagination: React.FC<PaginationProps> = ({
   totalPages,
@@ -26,13 +66,14 @@ export const Pagination: React.FC<PaginationProps> = ({
 
     for (let page = startPage; page <= endPage; page++) {
       buttons.push(
-        <button
+        <PaginationButton
           key={page}
           onClick={() => handlePageChange(page)}
-          className={page === currentPage ? 'active' : ''}
+          disabled={page === currentPage}
+          isPageNumber={true}
         >
           {page}
-        </button>
+        </PaginationButton>
       );
     }
 
@@ -40,20 +81,20 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="pagination">
-      <button
+    <PaginationContainer>
+      <PaginationButton
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
         Previous
-      </button>
+      </PaginationButton>
       {renderPaginationButtons()}
-      <button
+      <PaginationButton
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
         Next
-      </button>
-    </div>
+      </PaginationButton>
+    </PaginationContainer>
   );
 };

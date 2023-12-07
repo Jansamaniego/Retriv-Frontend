@@ -186,6 +186,7 @@ const CartItemItem: React.FC<ICartItemItemProps> = ({
   if (!product) return <h1>No product found!</h1>;
 
   const decrementQuantityToPurchase = () => {
+    if (quantityToPurchase <= 1) return;
     setQuantityToPurchase((value) => Number(value) - 1);
   };
 

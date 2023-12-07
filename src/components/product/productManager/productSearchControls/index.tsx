@@ -74,6 +74,15 @@ const SortByOption = styled.div`
   box-sizing: border-box;
   cursor: pointer;
 
+  &:hover {
+    background: ${(props) => props.theme.neutral[500]};
+  }
+
+  &:active {
+    box-shadow: inset 0 20px 30px 0 rgba(0, 0, 0, 0.1);
+    background: ${(props) => props.theme.neutral[600]};
+  }
+
   @media (max-width: 900px) {
     width: clamp(10rem, 6.296rem + 9.877vw, 30rem);
   }
@@ -98,6 +107,15 @@ const SortByPriceOption = styled.div`
   background: ${(props) => props.theme.neutral[600]};
   margin-left: 1.2rem;
   cursor: pointer;
+
+  &:hover {
+    background: ${(props) => props.theme.neutral[500]};
+  }
+
+  &:active {
+    box-shadow: inset 0 20px 30px 0 rgba(0, 0, 0, 0.1);
+    background: ${(props) => props.theme.neutral[600]};
+  }
 
   @media (max-width: 900px) {
     width: fit-content;
@@ -203,6 +221,15 @@ const MiniPageControllerPrevButton = styled.button`
   transition: background-color 0.1s cubic-bezier(0.4, 0, 0.6, 1);
   border: 1px solid rgba(0, 0, 0, 0.09);
   border-radius: 0.5rem;
+
+  &:hover {
+    background: ${(props) => props.theme.neutral[500]};
+  }
+
+  &:active {
+    box-shadow: inset 0 20px 30px 0 rgba(0, 0, 0, 0.1);
+    background: ${(props) => props.theme.neutral[600]};
+  }
 `;
 
 const MiniPageControllerNextButton = styled.button`
@@ -219,6 +246,15 @@ const MiniPageControllerNextButton = styled.button`
   transition: background-color 0.1s cubic-bezier(0.4, 0, 0.6, 1);
   border: 1px solid rgba(0, 0, 0, 0.09);
   border-radius: 0.5rem;
+
+  &:hover {
+    background: ${(props) => props.theme.neutral[500]};
+  }
+
+  &:active {
+    box-shadow: inset 0 20px 30px 0 rgba(0, 0, 0, 0.1);
+    background: ${(props) => props.theme.neutral[600]};
+  }
 `;
 
 const ProductSearchControls: React.FC<IProductSearchControlsProps> = ({

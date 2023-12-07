@@ -14,12 +14,13 @@ export const productRatingsApi = createApi({
   endpoints: (builder) => ({
     getProductRatings: builder.query<IProductRatings, IGetProductRatings>({
       query({ shopId, productId }) {
+        console.log(shopId, productId);
         return {
           url: `shop/${shopId}/product/${productId}/product-ratings`,
         };
       },
       transformResponse: (response: IGetProductRatingsResponse) => {
-        return response.productRatings;
+        return response?.productRatings;
       },
     }),
   }),

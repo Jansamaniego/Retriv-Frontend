@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { IUser } from 'types';
+import { IReview, IUser } from 'types';
 import { IReviewWithUserPickValues } from 'redux/services/reviewApi/reviewApi.types';
 import {
   useGetReviewsByProductIdQuery,

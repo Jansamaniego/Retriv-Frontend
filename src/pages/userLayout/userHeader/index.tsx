@@ -55,6 +55,10 @@ const StyledEditIcon = styled(EditIcon)`
   cursor: pointer;
   right: 0.2rem;
   bottom: 0.05rem;
+
+  &:hover {
+    color: ${(props) => props.theme.primary.main};
+  }
 `;
 
 const UserHeaderInfoFlexContainer = styled.div`

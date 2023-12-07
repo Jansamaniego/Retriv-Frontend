@@ -49,6 +49,15 @@ const CategoryCheckBoxContainer = styled.div`
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem;
+  border-radius: 0.5rem;
+
+  &:hover {
+    background: ${(props) => props.theme.neutral[800]};
+  }
+  
+  &:active {
+    box-shadow: inset 0 20px 30px 0 rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const CategoryCheckBox = styled.input.attrs({ type: 'checkbox' })`

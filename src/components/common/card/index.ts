@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 interface Props {
   backgroundColor?: string;
+  hoverAnimate?: boolean;
 }
 
 export const Card = styled.div<Props>`

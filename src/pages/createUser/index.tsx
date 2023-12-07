@@ -16,6 +16,7 @@ import {
   StyledModal,
   ImageUpload,
 } from 'components/common';
+import CreateUserStepTracker from './createUserStepTracker';
 
 interface FormValues {
   username: string;
@@ -62,6 +63,12 @@ const FormFlexWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
+`;
+
+const FlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 const ButtonFlexWrapper = styled.div`
@@ -270,21 +277,10 @@ export const CreateUser = () => {
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
-            {formStep !== 4 && (
-              <div>
-                <ButtonFlexWrapper>
-                  {formStep !== 0 && (
-                    <Button onClick={prevFormStep}>prev</Button>
-                  )}
-                  {formStep !== 4 && (
-                    <Button onClick={nextFormStep}>next</Button>
-                  )}
-                </ButtonFlexWrapper>
-              </div>
-            )}
+            <CreateUserStepTracker formStep={formStep} />
             <h5>{TITLE[formStep]}</h5>
             {formStep === 0 && (
-              <>
+              <FlexWrapper>
                 <StyledInput placeholder="Username" name="username" />
                 <StyledInput placeholder="Email" name="email" />
                 <PasswordInput name="password" placeholder="Password" />
@@ -292,10 +288,10 @@ export const CreateUser = () => {
                   name="passwordConfirmation"
                   placeholder="Confirm password"
                 />
-              </>
+              </FlexWrapper>
             )}
             {formStep === 1 && (
-              <>
+              <FlexWrapper>
                 <StyledInput placeholder="firstName" name="firstName" />
                 <StyledInput placeholder="lastName" name="lastName" />
                 <Select {...register('gender')}>
@@ -311,13 +307,13 @@ export const CreateUser = () => {
                   type="date"
                   name="dateOfBirth"
                 />
-              </>
+              </FlexWrapper>
             )}
             {formStep === 2 && (
-              <>
+              <FlexWrapper>
                 <StyledInput placeholder="Address" name="address" />
                 <StyledInput placeholder="Phone" type="number" name="phone" />
-              </>
+              </FlexWrapper>
             )}
             {formStep === 3 && (
               <ImageUpload
@@ -329,15 +325,19 @@ export const CreateUser = () => {
                 applyError={applyError}
               />
             )}
-            {formStep === 4 && (
-              <Button
-                type="button"
-                disabled={isLoading}
-                onClick={openCreateUserModal}
-              >
-                Create User
-              </Button>
-            )}
+            <ButtonFlexWrapper>
+              {formStep !== 0 && <Button onClick={prevFormStep}>prev</Button>}
+              {formStep !== 4 && <Button onClick={nextFormStep}>next</Button>}
+              {formStep === 4 && (
+                <Button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={openCreateUserModal}
+                >
+                  Create User
+                </Button>
+              )}
+            </ButtonFlexWrapper>
           </FormFlexWrapper>
           {isCreateUserModalOpen && (
             <StyledModal

@@ -221,7 +221,10 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
   };
 
   const decrementQuantityToPurchase = () => {
-    setQuantityToPurchase((value) => Number(value) - 1);
+    if (quantityToPurchase <= 1) return;
+    setQuantityToPurchase((value) => {
+      return Number(value) - 1;
+    });
   };
 
   const incrementQuantityToPurchase = () => {
@@ -386,16 +389,15 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
               </ProductDataValueFlexWrapper>
             )}
             {isOwner && (
-              <>
-                <div>
-                  <Button
-                    onClick={openDeleteProductModal}
-                    disabled={deleteProductIsLoading}
-                  >
-                    Remove Product
-                  </Button>
-                </div>
-              </>
+              <div>
+                <Button
+                  large
+                  onClick={openDeleteProductModal}
+                  disabled={deleteProductIsLoading}
+                >
+                  Delete Product
+                </Button>
+              </div>
             )}
             <>
               <QuantityControllerContainer>
@@ -411,39 +413,35 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                 <div>
                   <div>
                     {isEditQuantityInStockMode ? (
-                      <>
-                        <ProductDataInputFlexWrapper>
-                          <StyledInput
-                            placeholder="Quantity in stock"
-                            name="quantityInStock"
-                            marginBottom={0}
-                          />
-                          <FlexWrapper>
-                            <Button onClick={disableEditQuantityInStockMode}>
-                              Cancel
-                            </Button>
-                            <Button type="submit">Update</Button>
-                          </FlexWrapper>
-                        </ProductDataInputFlexWrapper>
-                      </>
+                      <ProductDataInputFlexWrapper>
+                        <StyledInput
+                          placeholder="Quantity in stock"
+                          name="quantityInStock"
+                          marginBottom={0}
+                        />
+                        <FlexWrapper>
+                          <Button onClick={disableEditQuantityInStockMode}>
+                            Cancel
+                          </Button>
+                          <Button type="submit">Update</Button>
+                        </FlexWrapper>
+                      </ProductDataInputFlexWrapper>
                     ) : (
-                      <>
-                        <ProductDataValueFlexWrapper>
-                          <h6>
-                            {isOutOfStock
-                              ? 'Out of stock'
-                              : `${quantityInStock} units available`}
-                          </h6>
-                          {isOwner && (
-                            <EditIconButton
-                              onClick={enableEditQuantityInStockMode}
-                              disabled={isEditMode}
-                            >
-                              <EditIcon width="2rem" />
-                            </EditIconButton>
-                          )}
-                        </ProductDataValueFlexWrapper>
-                      </>
+                      <ProductDataValueFlexWrapper>
+                        <h6>
+                          {isOutOfStock
+                            ? 'Out of stock'
+                            : `${quantityInStock} units available`}
+                        </h6>
+                        {isOwner && (
+                          <EditIconButton
+                            onClick={enableEditQuantityInStockMode}
+                            disabled={isEditMode}
+                          >
+                            <EditIcon width="2rem" />
+                          </EditIconButton>
+                        )}
+                      </ProductDataValueFlexWrapper>
                     )}
                   </div>
                 </div>

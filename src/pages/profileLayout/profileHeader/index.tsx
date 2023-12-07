@@ -59,6 +59,8 @@ const ProfileImageContainer = styled.div`
   left: 8rem;
   top: 16rem;
 
+  z-index: 10;
+
   @media (max-width: 1030px) {
     position: static;
     transform: translateY(-5rem);
@@ -73,11 +75,24 @@ const ProfileImage = styled.img`
   height: 18rem;
 `;
 
-const StyledEditIcon = styled(EditIcon)`
-  position: absolute;
+const EditIconButton = styled.button`
+  display: flex;
+  position: relative;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  background: none;
+  color: ${(props) =>
+    props.disabled ? props.theme.neutral.light : props.theme.neutral.text};
+  border: none;
+  padding: 0;
+  font: inherit;
   cursor: pointer;
-  right: 0.2rem;
-  bottom: 0.05rem;
+  bottom: 1.5rem;
+
+  &:hover {
+    color: ${(props) => props.theme.neutral[500]};
+  }
 `;
 
 const UserHeaderInfoFlexContainer = styled.div`
@@ -189,7 +204,9 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
       <ColoredDiv />
       <ProfileImageContainer>
         {profileImage ? <ProfileImage src={profileImage} /> : null}
-        <StyledEditIcon width="2rem" onClick={openProfileImageEditModal} />
+        <EditIconButton>
+          <EditIcon width="2rem" onClick={openProfileImageEditModal} />
+        </EditIconButton>
       </ProfileImageContainer>
       <NormalDiv>
         <UserHeaderInfoFlexContainer>

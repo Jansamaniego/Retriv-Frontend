@@ -14,6 +14,7 @@ import {
   Button,
   ImageUpload,
 } from '../../components/common';
+import CreateCategoryStepTracker from './createCategoryStepTracker';
 
 interface FormValues {
   name: string;
@@ -44,6 +45,12 @@ const FormFlexWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
+`;
+
+const FlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 const ButtonFlexWrapper = styled.div`
@@ -155,26 +162,13 @@ export const CreateCategory = () => {
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
-            <div>
-              <ButtonFlexWrapper>
-                {formStep !== 0 && (
-                  <Button onClick={prevFormStep} type="button">
-                    prev
-                  </Button>
-                )}
-                {formStep !== 2 && (
-                  <Button type="button" onClick={nextFormStep}>
-                    next
-                  </Button>
-                )}
-              </ButtonFlexWrapper>
-            </div>
+            <CreateCategoryStepTracker formStep={formStep} />
             <h5>{TITLE[formStep as keyof ITitle]}</h5>
             {formStep === 0 && (
-              <>
+              <FlexWrapper>
                 <StyledInput placeholder="Name" name="name" />
                 <StyledInput placeholder="Description" name="description" />
-              </>
+              </FlexWrapper>
             )}
             {formStep === 1 && (
               <ImageUpload
@@ -186,21 +180,33 @@ export const CreateCategory = () => {
                 applyError={applyError}
               />
             )}
-            {formStep === 2 && (
-              <Button type="button" onClick={openCreateCategoryModal} large>
-                create category
-              </Button>
-            )}
-            {isCreateCategoryModalOpen && (
-              <StyledModal
-                isModalOpen={isCreateCategoryModalOpen}
-                closeModal={closeCreateCategoryModal}
-                isLoading={isLoading}
-              >
-                Are you sure you want to create this category?
-              </StyledModal>
-            )}
+            <ButtonFlexWrapper>
+              {formStep !== 0 && (
+                <Button onClick={prevFormStep} type="button">
+                  prev
+                </Button>
+              )}
+              {formStep !== 2 && (
+                <Button type="button" onClick={nextFormStep}>
+                  next
+                </Button>
+              )}
+              {formStep === 2 && (
+                <Button type="button" onClick={openCreateCategoryModal} large>
+                  create category
+                </Button>
+              )}
+            </ButtonFlexWrapper>
           </FormFlexWrapper>
+          {isCreateCategoryModalOpen && (
+            <StyledModal
+              isModalOpen={isCreateCategoryModalOpen}
+              closeModal={closeCreateCategoryModal}
+              isLoading={isLoading}
+            >
+              Are you sure you want to create this category?
+            </StyledModal>
+          )}
         </Form>
         <DevTool control={control} />
       </FormProvider>

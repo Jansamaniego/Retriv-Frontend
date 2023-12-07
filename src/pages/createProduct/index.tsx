@@ -19,6 +19,7 @@ import {
   ImageUpload,
   StyledModal,
 } from 'components/common';
+import CreateProductStepTracker from './createProductStepTracker';
 
 interface ITitle {
   [props: string]: string;
@@ -56,6 +57,12 @@ const FormFlexWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
+`;
+
+const FlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 const ButtonFlexWrapper = styled.div`
@@ -250,36 +257,22 @@ export const CreateProduct = () => {
         <h1>Loading...</h1>
       </Card>
     );
-  console.log(errors);
 
   return (
     <CreateProductFlexWrapper>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
-            <div>
-              <ButtonFlexWrapper>
-                {formStep !== 0 && (
-                  <Button onClick={prevFormStep} type="button">
-                    prev
-                  </Button>
-                )}
-                {formStep !== 3 && (
-                  <Button type="button" onClick={nextFormStep}>
-                    next
-                  </Button>
-                )}
-              </ButtonFlexWrapper>
-            </div>
+            <CreateProductStepTracker formStep={formStep} />
             <h5>{TITLE[formStep as keyof ITitle]}</h5>
             {formStep === 0 && (
-              <>
+              <FlexWrapper>
                 <StyledInput placeholder="name" name="name" />
                 <StyledInput placeholder="Description" name="description" />
-              </>
+              </FlexWrapper>
             )}
             {formStep === 1 && (
-              <>
+              <FlexWrapper>
                 <StyledInput placeholder="Price" type="number" name="price" />
                 <StyledInput
                   placeholder="Quantity in stock"
@@ -304,7 +297,7 @@ export const CreateProduct = () => {
                 {errors.category?.message && (
                   <p>{errors.category?.message.toString()}</p>
                 )}
-              </>
+              </FlexWrapper>
             )}
             {formStep === 2 && (
               <>
@@ -327,25 +320,37 @@ export const CreateProduct = () => {
                 />
               </>
             )}
-            {formStep === 3 && (
-              <Button
-                onClick={openCreateProductModal}
-                disabled={productIsLoading}
-                type="button"
-              >
-                Add Product
-              </Button>
-            )}
-            {isCreateProductModalOpen && (
-              <StyledModal
-                isModalOpen={isCreateProductModalOpen}
-                closeModal={closeCreateProductModal}
-                isLoading={productIsLoading}
-              >
-                Are you sure you want to create this product?
-              </StyledModal>
-            )}
+            <ButtonFlexWrapper>
+              {formStep !== 0 && (
+                <Button onClick={prevFormStep} type="button">
+                  prev
+                </Button>
+              )}
+              {formStep !== 3 && (
+                <Button type="button" onClick={nextFormStep}>
+                  next
+                </Button>
+              )}
+              {formStep === 3 && (
+                <Button
+                  onClick={openCreateProductModal}
+                  disabled={productIsLoading}
+                  type="button"
+                >
+                  Add Product
+                </Button>
+              )}
+            </ButtonFlexWrapper>
           </FormFlexWrapper>
+          {isCreateProductModalOpen && (
+            <StyledModal
+              isModalOpen={isCreateProductModalOpen}
+              closeModal={closeCreateProductModal}
+              isLoading={productIsLoading}
+            >
+              Are you sure you want to create this product?
+            </StyledModal>
+          )}
         </Form>
         <DevTool control={control} />
       </FormProvider>

@@ -40,9 +40,20 @@ const ModalWrapper = styled.div`
   border-radius: 0.5rem;
   z-index: 1000;
   display: flex;
-  padding: 1.6rem;
+  padding: 3.2rem;
   gap: 2.4rem;
   flex-direction: column;
+
+  animation: pop-up 0.3s ease;
+
+  @keyframes pop-up {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(100%);
+    }
+  }
 `;
 
 const CloseButtonContainer = styled.div``;
@@ -53,7 +64,7 @@ const CloseButton = styled.button`
   font-size: 3rem;
   cursor: pointer;
   position: absolute;
-  right: 0.2rem;
+  right: 0.6rem;
   top: 0;
 `;
 

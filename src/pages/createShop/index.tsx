@@ -238,7 +238,6 @@ export const CreateShop = () => {
                   />
                 </ImageUploadWrapper>
               )}
-
               <ButtonFlexWrapper>
                 {formStep !== 0 && (
                   <Button onClick={prevFormStep} type="button">

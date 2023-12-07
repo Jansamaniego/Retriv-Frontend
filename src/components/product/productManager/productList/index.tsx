@@ -21,9 +21,18 @@ interface IProductCardProps {
 
 const StyledCard = styled(Card)`
   min-height: 12vh;
+  transition: 0.3s;
 
   &:hover {
     cursor: pointer;
+    transform: scale(1.08);
+    transform-origin: center;
+    box-shadow: 0 30px 45px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: translateY(-10px);
+    transition: 0.2s;
   }
 `;
 
@@ -72,7 +81,11 @@ const ProductInfoDetails = styled.div`
 `;
 
 const ProductCard: React.FC<IProductCardProps> = ({ children, onClick }) => {
-  return <StyledCard onClick={onClick}>{children}</StyledCard>;
+  return (
+    <StyledCard onClick={onClick} hoverAnimate={true}>
+      {children}
+    </StyledCard>
+  );
 };
 
 const ProductItem: React.FC<IProductItemProps> = ({ id }) => {

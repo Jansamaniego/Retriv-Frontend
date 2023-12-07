@@ -29,7 +29,7 @@ export const reviewApi = createApi({
         return { url: `shop/${shopId}/product/${productId}/review` };
       },
       transformResponse: (response: IGetReviewsByProductIdResponse) => {
-        return response.reviews;
+        return response?.reviews;
       },
       providesTags: (results, error, { productId }) => {
         return results?.results

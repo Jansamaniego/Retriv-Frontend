@@ -64,6 +64,10 @@ const StyledMainMenuLink = styled(Link)`
     background-color: ${(props) => props.theme.neutral[800]};
   }
 
+  &:active {
+    box-shadow: inset 0 20px 30px 0 rgba(0, 0, 0, 0.1);
+  }
+
   @media (max-width: 1300px) {
     flex-direction: column;
     gap: 0;
@@ -173,8 +177,6 @@ const SideMenu = () => {
   useEffect(() => {
     setCurrentUser(loggedInUser);
   }, [loggedInUser]);
-
-  console.log(pathname);
 
   if (!currentUser) {
     return (

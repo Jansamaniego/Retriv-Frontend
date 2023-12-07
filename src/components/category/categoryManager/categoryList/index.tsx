@@ -22,9 +22,17 @@ interface ICategoryCardProps {
 const StyledCard = styled(Card)`
   min-height: 10vh;
   padding: 1rem;
+  transition: 0.3s;
 
   &:hover {
     cursor: pointer;
+    transform: scale(1.08);
+    transform-origin: center;
+    box-shadow: 0 30px 45px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: translateY(-10px);
   }
 `;
 
@@ -46,7 +54,9 @@ const CategoryImage = styled.img`
   object-fit: fill;
 `;
 
-const CategoryName = styled.h6``;
+const CategoryName = styled.h6`
+  color: ${(props) => props.theme.neutral[300]};
+`;
 
 const CategoryCard: React.FC<ICategoryCardProps> = ({ children, onClick }) => {
   return <StyledCard onClick={onClick}>{children}</StyledCard>;
