@@ -12,8 +12,13 @@ export interface IGetProductsTransformedResponse {
   totalPages: number;
 }
 
+export interface IGetProductsByShopId {
+  shopId: string;
+  queryString: string;
+}
+
 export interface IGetProductsByShopIdResponse extends IResponse {
-  products: {
+  results: {
     results: IProduct[];
     totalPages: number;
   };

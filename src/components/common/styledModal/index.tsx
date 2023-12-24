@@ -66,6 +66,10 @@ const CloseButton = styled.button`
   position: absolute;
   right: 0.6rem;
   top: 0;
+
+  &:hover {
+    color: ${(props) => props.theme.neutral[500]};
+  }
 `;
 
 const ContentContainer = styled.div`

@@ -107,11 +107,8 @@ const ReviewForm: React.FC<IReviewFormProps> = ({ shopId, productId }) => {
             </div>
             <div>
               <h6>Please leave a comment about the product:</h6>
-              <StyledTextarea {...register('reviewText')} />
+              <StyledTextarea name="reviewText" placeholder='review' />
             </div>
-            {errors['reviewText']?.message && (
-              <p>{errors['reviewText']?.message.toString()}</p>
-            )}
             <Button type="submit" disabled={isLoading} large>
               Submit Review
             </Button>

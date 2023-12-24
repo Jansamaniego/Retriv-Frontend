@@ -18,6 +18,7 @@ import {
   IDeleteProduct,
   IDeleteProductResponse,
   IGetProductsTransformedResponse,
+  IGetProductsByShopId,
 } from 'redux/services/productApi/productApi.types';
 
 export const productApi = createApi({
@@ -44,17 +45,24 @@ export const productApi = createApi({
           : [{ type: 'Product', id: 'LIST' }];
       },
     }),
-    getProductsByShopId: builder.query<IProduct[], string>({
-      query(shopId) {
+    getProductsByShopId: builder.query<
+      IGetProductsTransformedResponse,
+      IGetProductsByShopId
+    >({
+      query({ shopId, queryString }) {
         return {
-          url: `shop/${shopId}/product/all`,
+          url: `shop/${shopId}/product/all?${queryString || ''}`,
         };
       },
       transformResponse: (response: IGetProductsByShopIdResponse) => {
-        return response.products.results;
+        console.log(response);
+        return response.results;
       },
-      providesTags: (result, error, shopId) => [
-        { type: 'Product' as const, id: shopId },
+      providesTags: (result, error, { shopId }) => [
+        {
+          type: 'Product' as const,
+          id: shopId,
+        },
       ],
     }),
     getProductById: builder.query<IProduct, IGetProductById>({

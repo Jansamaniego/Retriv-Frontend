@@ -32,6 +32,10 @@ const LoginFlexWrapper = styled.div`
   min-height: 100%;
 `;
 
+const ErrorText = styled.h6`
+  color: ${(props) => props.theme.primary.main};
+`;
+
 const FlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -69,7 +73,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const currentUser = useSelector((state: RootState) => state.userState.user);
-  const [loginUser, { isLoading, isSuccess }] = useLoginUserMutation();
+  const [loginUser, { isLoading, isSuccess, isError }] = useLoginUserMutation();
 
   const loginSchema = z.object({
     email: z.string().email(),
@@ -96,13 +100,24 @@ export const Login = () => {
     window.open(`${BASE_URL}/auth/google/url`, '_self');
   };
 
+  console.log(isError);
+
   return (
     <LoginFlexWrapper>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FlexWrapper>
-            <StyledInput placeholder="Email" type="email" name="email" />
-            <PasswordInput name="password" placeholder="Password" />
+            <StyledInput
+              placeholder="Email"
+              type="email"
+              name="email"
+              isRegister={false}
+            />
+            <PasswordInput
+              name="password"
+              placeholder="Password"
+              isRegister={false}
+            />
           </FlexWrapper>
           <StyledLink
             to="/forgot-password"
@@ -110,6 +125,7 @@ export const Login = () => {
           >
             Forgot your password?
           </StyledLink>
+          {isError && <ErrorText>Incorrect Email or password</ErrorText>}
           <FlexWrapper>
             <Button type="submit" disabled={isLoading}>
               Login

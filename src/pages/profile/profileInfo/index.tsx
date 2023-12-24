@@ -9,8 +9,14 @@ import { DevTool } from '@hookform/devtools';
 
 import { RootState } from 'redux/store';
 import { useUpdateDetailsMutation } from 'redux/services/myProfileApi/myProfileApi';
-import { StyledInput, StyledModal } from 'components/common';
-import { EditIcon } from 'assets/icons';
+import {
+  Select,
+  StyledInput,
+  StyledModal,
+  StyledTextarea,
+} from 'components/common';
+import { EditIconButton } from 'components/common/editIconButton';
+import GenderSelect from 'components/common/genderSelect';
 
 interface IEditProfileModalProps {
   isModalOpen: boolean;
@@ -61,19 +67,6 @@ const Value = styled.h6`
   padding: 0.4rem 0.8rem;
 `;
 
-const EditIconButton = styled.button`
-  display: flex;
-  align-items: center;
-  background: none;
-  color: ${(props) =>
-    props.disabled ? props.theme.neutral.light : props.theme.neutral.text};
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: ${(props) => (props.disabled ? 'inherit' : 'pointer')};
-  outline: inherit;
-`;
-
 const EditProfileModal: React.FC<IEditProfileModalProps> = ({
   isModalOpen,
   closeModal,
@@ -94,36 +87,69 @@ const EditProfileModal: React.FC<IEditProfileModalProps> = ({
       isLoading={isLoading}
     >
       {isEditFirstNameMode && (
-        <StyledInput
-          placeholder="First Name"
-          name="firstName"
-          marginBottom={0}
-        />
+        <>
+          <h4>First name</h4>
+          <StyledInput
+            placeholder="First Name"
+            name="firstName"
+            marginBottom={0}
+          />
+        </>
       )}
       {isEditLastNameMode && (
-        <StyledInput placeholder="Last Name" name="lastName" marginBottom={0} />
+        <>
+          <h4>Last name</h4>
+          <StyledInput
+            placeholder="Last Name"
+            name="lastName"
+            marginBottom={0}
+          />
+        </>
       )}
       {isEditUsernameMode && (
-        <StyledInput placeholder="User Name" name="username" marginBottom={0} />
+        <>
+          <h4>Username</h4>
+          <StyledInput
+            placeholder="User Name"
+            name="username"
+            marginBottom={0}
+          />
+        </>
       )}
       {isEditEmailMode && (
-        <StyledInput placeholder="Email" name="email" marginBottom={0} />
+        <>
+          <h4>Email</h4>
+          <StyledInput placeholder="Email" name="email" marginBottom={0} />
+        </>
       )}
       {isEditGenderMode && (
-        <StyledInput placeholder="Gender" name="gender" marginBottom={0} />
+        <>
+          <h4>Gender</h4>
+          <GenderSelect name="gender" />
+        </>
       )}
       {isEditPhoneMode && (
-        <StyledInput placeholder="Phone" name="phone" marginBottom={0} />
+        <>
+          <h4>Phone</h4>
+          <StyledInput placeholder="Phone" name="phone" marginBottom={0} />
+        </>
       )}
       {isEditDateOfBirthMode && (
-        <StyledInput
-          placeholder="Date of birth"
-          name="dateOfBirth"
-          marginBottom={0}
-        />
+        <>
+          <h4>Date of birth</h4>
+          <StyledInput
+            placeholder="Date of birth"
+            type="date"
+            name="dateOfBirth"
+            marginBottom={0}
+          />
+        </>
       )}
       {isEditAddressMode && (
-        <StyledInput placeholder="Address" name="address" marginBottom={0} />
+        <>
+          <h4>Address</h4>
+          <StyledTextarea placeholder="Address" name="address" />
+        </>
       )}
     </StyledModal>
   );
@@ -161,7 +187,7 @@ const ProfileInfo = () => {
     username: z.string().min(6),
     email: z.string().email(),
     phone: z.string().optional().nullable(),
-    dateOfBirth: z.string().optional().nullable(),
+    dateOfBirth: z.coerce.string().optional().nullable(),
     address: z.string().optional().nullable(),
     gender: z.enum(['male', 'female', 'other', 'undisclosed']).optional(),
   });
@@ -315,11 +341,12 @@ const ProfileInfo = () => {
                 <Value>{firstName}</Value>
                 {isLoggedInUser && (
                   <EditIconButton
-                    onClick={enableEditFirstNameMode}
-                    disabled={isEditModalOpen}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
+                    buttonProps={{
+                      onClick: enableEditFirstNameMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
                 )}
               </UserDataValueFlexWrapper>
             </div>
@@ -331,11 +358,12 @@ const ProfileInfo = () => {
                 <Value>{lastName}</Value>
                 {isLoggedInUser && (
                   <EditIconButton
-                    onClick={enableEditLastNameMode}
-                    disabled={isEditModalOpen}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
+                    buttonProps={{
+                      onClick: enableEditLastNameMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
                 )}
               </UserDataValueFlexWrapper>
             </div>
@@ -347,11 +375,12 @@ const ProfileInfo = () => {
                 <Value>{username}</Value>
                 {isLoggedInUser && (
                   <EditIconButton
-                    onClick={enableEditUsernameMode}
-                    disabled={isEditModalOpen}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
+                    buttonProps={{
+                      onClick: enableEditUsernameMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
                 )}
               </UserDataValueFlexWrapper>
             </div>
@@ -364,11 +393,12 @@ const ProfileInfo = () => {
                   <Value>{email}</Value>
                   {isLoggedInUser && (
                     <EditIconButton
-                      onClick={enableEditEmailMode}
-                      disabled={isEditModalOpen}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
+                      buttonProps={{
+                        onClick: enableEditEmailMode,
+                        disabled: isEditModalOpen,
+                      }}
+                      svgProps={{ width: '2rem' }}
+                    />
                   )}
                 </UserDataValueFlexWrapper>
               </div>
@@ -381,11 +411,12 @@ const ProfileInfo = () => {
                 <Value>{phone ? phone : 'N/A'}</Value>
                 {isLoggedInUser && (
                   <EditIconButton
-                    onClick={enableEditPhoneMode}
-                    disabled={isEditModalOpen}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
+                    buttonProps={{
+                      onClick: enableEditPhoneMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
                 )}
               </UserDataValueFlexWrapper>
             </div>
@@ -397,11 +428,12 @@ const ProfileInfo = () => {
                 <Value>{dateOfBirth ? dateOfBirth : 'N/A'}</Value>
                 {isLoggedInUser && (
                   <EditIconButton
-                    onClick={enableEditDateOfBirthMode}
-                    disabled={isEditModalOpen}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
+                    buttonProps={{
+                      onClick: enableEditDateOfBirthMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
                 )}
               </UserDataValueFlexWrapper>
             </div>
@@ -413,11 +445,12 @@ const ProfileInfo = () => {
                 <Value>{gender}</Value>
                 {isLoggedInUser && (
                   <EditIconButton
-                    onClick={enableEditGenderMode}
-                    disabled={isEditModalOpen}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
+                    buttonProps={{
+                      onClick: enableEditGenderMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
                 )}
               </UserDataValueFlexWrapper>
             </div>
@@ -429,11 +462,12 @@ const ProfileInfo = () => {
                 <Value>{address ? address : 'N/A'}</Value>
                 {isLoggedInUser && (
                   <EditIconButton
-                    onClick={enableEditAddressMode}
-                    disabled={isEditModalOpen}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
+                    buttonProps={{
+                      onClick: enableEditAddressMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
                 )}
               </UserDataValueFlexWrapper>
             </div>

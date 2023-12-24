@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { IReview, IUser } from 'types';
+import { IUser } from 'types';
 import { IReviewWithUserPickValues } from 'redux/services/reviewApi/reviewApi.types';
 import {
   useGetReviewsByProductIdQuery,
@@ -16,8 +16,9 @@ import {
   Loading,
   ContentFlexWrapper,
 } from 'components/common';
-import { EditIcon, StarGradientIcon, XMarkIcon } from 'assets/icons';
 import EditReviewForm from 'pages/product/reviewByProductManager/editReviewForm';
+import { EditIconButton } from 'components/common/editIconButton';
+import { StarGradientIcon, XMarkIcon } from 'assets/icons';
 
 interface IReviewByProductManagerProps {
   shopId: string;
@@ -43,45 +44,16 @@ interface IReviewCardProps {
 const StyledCard = styled(Card)``;
 
 const XMarkIconButton = styled.button`
-  position: absolute;
-  right: 0.8rem;
-  top: 0.4rem;
   display: flex;
   align-items: center;
   border-radius: 0.5rem;
   padding: 0.2rem;
+  width: fit-content;
   border: ${(props) =>
     props.disabled
       ? `1px solid ${props.theme.neutral.light}`
       : `1px solid ${props.theme.neutral[0]}`};
   cursor: ${(props) => (props.disabled ? 'inherit' : 'pointer')};
-
-  &:hover {
-    border: ${(props) =>
-      props.disabled
-        ? `1px solid ${props.theme.neutral.light}`
-        : `1px solid ${props.theme.neutral[200]}`};
-  }
-`;
-
-const EditIconButton = styled.button`
-  /* position: absolute; */
-  left: 22.5rem;
-  top: 0.5rem;
-  background-color: ${(props) => props.theme.neutral[700]};
-  display: flex;
-  align-items: center;
-  border-radius: 0.5rem;
-  color: ${(props) =>
-    props.disabled ? props.theme.neutral.light : props.theme.neutral.text};
-  border: ${(props) =>
-    props.disabled
-      ? `1px solid ${props.theme.neutral.light}`
-      : `1px solid ${props.theme.neutral[0]}`};
-  padding: 0.2rem;
-  font: inherit;
-  cursor: ${(props) => (props.disabled ? 'inherit' : 'pointer')};
-  outline: inherit;
 
   &:hover {
     border: ${(props) =>
@@ -92,16 +64,6 @@ const EditIconButton = styled.button`
 `;
 
 const StyledXMarkIcon = styled(XMarkIcon)`
-  color: ${(props) =>
-    props.disabled ? props.theme.neutral.light : props.theme.neutral[0]};
-
-  &:hover {
-    color: ${(props) =>
-      props.disabled ? props.theme.neutral.light : props.theme.neutral[200]};
-  }
-`;
-
-const StyledEditIcon = styled(EditIcon)`
   color: ${(props) =>
     props.disabled ? props.theme.neutral.light : props.theme.neutral[0]};
 
@@ -205,7 +167,7 @@ const ReviewByProductItem: React.FC<IReviewByProductItemProps> = ({
   return (
     <>
       <ReviewCard>
-        <ContentFlexWrapper gap="1.6rem">
+        <ContentFlexWrapper gap="1.6rem" alignItems="flex-start">
           <ProfileImageLogo
             profileImage={profileImage}
             size="10rem"
@@ -236,25 +198,26 @@ const ReviewByProductItem: React.FC<IReviewByProductItemProps> = ({
                   </ProductInfoStatsAvgRatingStars>
                   {isReviewer && !isEditReviewMode && (
                     <EditIconButton
-                      onClick={activateEditReviewMode}
-                      disabled={deleteReviewIsLoading}
-                    >
-                      <StyledEditIcon width="2rem" />
-                    </EditIconButton>
+                      buttonProps={{
+                        onClick: activateEditReviewMode,
+                        disabled: isEditReviewMode,
+                      }}
+                      svgProps={{ width: '2rem' }}
+                    />
                   )}
                 </ReviewMainContainer>
                 <ReviewText>{reviewText}</ReviewText>
               </ReviewMainFlexWrapper>
             )}
-            {isReviewer && (
-              <XMarkIconButton
-                onClick={deleteReviewOnClickHandler}
-                disabled={deleteReviewIsLoading}
-              >
-                <StyledXMarkIcon width="2rem" />
-              </XMarkIconButton>
-            )}
           </ReviewData>
+          {isReviewer && (
+            <XMarkIconButton
+              onClick={deleteReviewOnClickHandler}
+              disabled={deleteReviewIsLoading}
+            >
+              <StyledXMarkIcon width="2rem" />
+            </XMarkIconButton>
+          )}
         </ContentFlexWrapper>
       </ReviewCard>
       {isDeleteReviewModalOpen && (

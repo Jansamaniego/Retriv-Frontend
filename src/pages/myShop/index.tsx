@@ -28,8 +28,6 @@ export const MyShop = () => {
     trigger(currentShop!._id);
   }, [currentShop]);
 
-  console.log(shop);
-
   if (!currentShop || !shop) return <h3>Shop is not found</h3>;
 
   return (

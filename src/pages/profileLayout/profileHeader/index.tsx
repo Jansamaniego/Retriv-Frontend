@@ -14,6 +14,7 @@ import {
   UpdateProfileImageModal,
 } from 'components/common';
 import { EditIcon } from 'assets/icons';
+import { EditIconButton } from 'components/common/editIconButton';
 
 interface ProfileHeaderProps {
   user: IUser;
@@ -75,24 +76,10 @@ const ProfileImage = styled.img`
   height: 18rem;
 `;
 
-const EditIconButton = styled.button`
-  display: flex;
-  position: relative;
-  width: 100%;
-  align-items: center;
-  justify-content: flex-end;
-  background: none;
-  color: ${(props) =>
-    props.disabled ? props.theme.neutral.light : props.theme.neutral.text};
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  bottom: 1.5rem;
-
-  &:hover {
-    color: ${(props) => props.theme.neutral[500]};
-  }
+const EditButtonWrapper = styled.div`
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
 `;
 
 const UserHeaderInfoFlexContainer = styled.div`
@@ -203,10 +190,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
     <ProfileHeaderCard>
       <ColoredDiv />
       <ProfileImageContainer>
-        {profileImage ? <ProfileImage src={profileImage} /> : null}
-        <EditIconButton>
-          <EditIcon width="2rem" onClick={openProfileImageEditModal} />
-        </EditIconButton>
+        {profileImage && <ProfileImage src={profileImage} />}
+        <EditButtonWrapper>
+          <EditIconButton
+            buttonProps={{ onClick: openProfileImageEditModal }}
+            svgProps={{ width: '2rem' }}
+          />
+        </EditButtonWrapper>
       </ProfileImageContainer>
       <NormalDiv>
         <UserHeaderInfoFlexContainer>

@@ -24,9 +24,11 @@ const YearSelect = styled(Select)`
 const OverallStatsGrid = styled.main`
   column-gap: 1.6rem;
   row-gap: 1.6rem;
-  display: grid;
+  /* display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 1fr; */
+  display: flex;
+  flex-direction: column;
 `;
 
 export const AdminDashboard = () => {
@@ -78,14 +80,14 @@ export const AdminDashboard = () => {
         </YearSelect>
       </YearSelectContainer>
       <OverallStatsGrid>
-        <SalesAndUnitsPerMonthLineGraph monthlyData={monthlyData} />
-        <SalesAndUnitsPerDayGraph dailyData={dailyData} year={queryStatsYear} />
-        <SalesByCategoryGraph salesByCategoryData={salesByCategory} />
         <Card>
           <h4>Total Customers: {totalCustomers}</h4>
           <h4>Total Sales for 2023: {yearlySalesTotal}</h4>
           <h4>Total Units Sold for 2023:{yearlyTotalSoldUnits}</h4>
         </Card>
+        <SalesAndUnitsPerMonthLineGraph monthlyData={monthlyData} />
+        <SalesAndUnitsPerDayGraph dailyData={dailyData} year={queryStatsYear} />
+        <SalesByCategoryGraph salesByCategoryData={salesByCategory} />
       </OverallStatsGrid>
     </>
   );

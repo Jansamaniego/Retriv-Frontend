@@ -119,11 +119,8 @@ const EditReviewForm: React.FC<IEditReviewFormProps> = ({
           <FlexWrapper>
             <StyledTextarea
               placeholder="Please leave a review..."
-              {...register('reviewText')}
+              name="reviewText"
             />
-            {errors['reviewText']?.message && (
-              <p>{errors['reviewText']?.message}</p>
-            )}
             <Button onClick={deactivateEditReviewMode} disabled={isLoading}>
               Cancel
             </Button>

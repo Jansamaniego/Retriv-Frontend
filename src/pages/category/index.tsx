@@ -6,6 +6,7 @@ import { useGetCategoryQuery } from 'redux/services/categoryApi/categoryApi';
 import { Loading } from 'components/common';
 import CategoryDetail from 'pages/category/categoryDetail';
 import ProductManager from 'components/product/productManager';
+import { useProductPagination } from 'context/ProductPaginationContext';
 
 const CategoryPageFlexWrapper = styled.main`
   display: flex;
@@ -15,8 +16,24 @@ const CategoryPageFlexWrapper = styled.main`
 
 export const Category = () => {
   const { categoryId } = useParams();
+  const { currentPage, setCurrentPage } = useProductPagination();
   const { data: category, isLoading } = useGetCategoryQuery(categoryId || '');
   const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      params.set('page', '1');
+      return params;
+    });
+    setCurrentPage(1);
+  }, []);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      params.set('page', currentPage.toString());
+      return params;
+    });
+  }, [currentPage]);
 
   useEffect(() => {
     setSearchParams((params) => {

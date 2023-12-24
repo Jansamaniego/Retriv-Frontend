@@ -12,6 +12,7 @@ interface StyledInputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
   placeholder?: string;
   marginBottom?: number | string;
+  isRegister?: boolean;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -32,7 +33,6 @@ const Input = styled.input`
   font-size: 2rem;
   font-weight: 400;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
   min-height: 4rem;
   color: ${(props) => props.theme.neutral.text};
 
@@ -45,6 +45,7 @@ export const StyledInput: React.FC<StyledInputProps> = ({
   name,
   type = 'text',
   marginBottom = 0,
+  isRegister = true,
   ...props
 }) => {
   const {
@@ -61,7 +62,9 @@ export const StyledInput: React.FC<StyledInputProps> = ({
         type={type}
         {...props}
       />
-      {errors[name]?.message && <p>{errors[name]?.message?.toString()}</p>}
+      {errors[name]?.message && isRegister && (
+        <p>{errors[name]?.message?.toString()}</p>
+      )}
     </InputWrapper>
   );
 };

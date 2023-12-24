@@ -10,9 +10,24 @@ import { DevTool } from '@hookform/devtools';
 import { RootState } from 'redux/store';
 import { useUpdateDetailsMutation } from 'redux/services/myProfileApi/myProfileApi';
 import { useUpdateUserMutation } from 'redux/services/userApi/userApi';
-import { Button, StyledInput } from 'components/common';
-import { EditIcon } from 'assets/icons';
+import { StyledInput, StyledModal, StyledTextarea } from 'components/common';
 import { useUser } from 'pages/profileLayout';
+import { EditIconButton } from 'components/common/editIconButton';
+import GenderSelect from 'components/common/genderSelect';
+
+interface IEditUserModalProps {
+  isModalOpen: boolean;
+  closeModal: () => void;
+  isLoading: boolean;
+  isEditFirstNameMode: boolean;
+  isEditLastNameMode: boolean;
+  isEditUsernameMode: boolean;
+  isEditEmailMode: boolean;
+  isEditGenderMode: boolean;
+  isEditPhoneMode: boolean;
+  isEditDateOfBirthMode: boolean;
+  isEditAddressMode: boolean;
+}
 
 interface FormValues {
   username: string;
@@ -39,34 +54,114 @@ const UserData = styled.section`
 
 const UserDataValueFlexWrapper = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const UserDataInputFlexWrapper = styled.div`
   flex-direction: column;
 `;
 
+const EditButtonWrapper = styled.div`
+  display: flex;
+`;
+
 const Value = styled.h6`
   padding: 0.4rem 0.8rem;
 `;
 
-const EditIconButton = styled.button`
-  display: flex;
-  align-items: center;
-  background: none;
-  color: ${(props) =>
-    props.disabled ? props.theme.neutral.light : props.theme.neutral.text};
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: ${(props) => (props.disabled ? 'inherit' : 'pointer')};
-  outline: inherit;
-`;
+const EditUserModal: React.FC<IEditUserModalProps> = ({
+  isModalOpen,
+  closeModal,
+  isLoading,
+  isEditFirstNameMode,
+  isEditLastNameMode,
+  isEditUsernameMode,
+  isEditEmailMode,
+  isEditGenderMode,
+  isEditPhoneMode,
+  isEditDateOfBirthMode,
+  isEditAddressMode,
+}) => {
+  return (
+    <StyledModal
+      isModalOpen={isModalOpen}
+      closeModal={closeModal}
+      isLoading={isLoading}
+    >
+      {isEditFirstNameMode && (
+        <>
+          <h4>First name</h4>
+          <StyledInput
+            placeholder="First Name"
+            name="firstName"
+            marginBottom={0}
+          />
+        </>
+      )}
+      {isEditLastNameMode && (
+        <>
+          <h4>Last name</h4>
+          <StyledInput
+            placeholder="Last Name"
+            name="lastName"
+            marginBottom={0}
+          />
+        </>
+      )}
+      {isEditUsernameMode && (
+        <>
+          <h4>Username</h4>
+          <StyledInput
+            placeholder="User Name"
+            name="username"
+            marginBottom={0}
+          />
+        </>
+      )}
+      {isEditEmailMode && (
+        <>
+          <h4>Email</h4>
+          <StyledInput placeholder="Email" name="email" marginBottom={0} />
+        </>
+      )}
+      {isEditGenderMode && (
+        <>
+          <h4>Gender</h4>
+          <GenderSelect name="gender" />
+        </>
+      )}
+      {isEditPhoneMode && (
+        <>
+          <h4>Phone</h4>
+          <StyledInput placeholder="Phone" name="phone" marginBottom={0} />
+        </>
+      )}
+      {isEditDateOfBirthMode && (
+        <>
+          <h4>Date of birth</h4>
+          <StyledInput
+            placeholder="Date of birth"
+            type="date"
+            name="dateOfBirth"
+            marginBottom={0}
+          />
+        </>
+      )}
+      {isEditAddressMode && (
+        <>
+          <h4>Address</h4>
+          <StyledTextarea placeholder="Address" name="address" />
+        </>
+      )}
+    </StyledModal>
+  );
+};
 
 const UserInfo = () => {
   const { user } = useUser();
   const loggedInUser = useSelector((state: RootState) => state.userState.user);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isEditMode, setisEditMode] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isEditFirstNameMode, setIsEditFirstNameMode] = useState(false);
   const [isEditLastNameMode, setIsEditLastNameMode] = useState(false);
   const [isEditUsernameMode, setIsEditUsernameMode] = useState(false);
@@ -75,7 +170,7 @@ const UserInfo = () => {
   const [isEditPhoneMode, setIsEditPhoneMode] = useState(false);
   const [isEditDateOfBirthMode, setIsEditDateOfBirthMode] = useState(false);
   const [isEditAddressMode, setIsEditAddressMode] = useState(false);
-  const [updateUser] = useUpdateUserMutation();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
   const [updateDetails] = useUpdateDetailsMutation();
 
   const { firstName, lastName, username, gender, email, id = '' } = user || {};
@@ -87,15 +182,13 @@ const UserInfo = () => {
     setIsAdmin(role === 'admin');
   }, [loggedInUser]);
 
-  console.log(user);
-
   const userInfoSchema = z.object({
     firstName: z.string(),
     lastName: z.string(),
     username: z.string().min(6),
     email: z.string().email(),
     phone: z.string().optional().nullable(),
-    dateOfBirth: z.string().optional().nullable(),
+    dateOfBirth: z.coerce.string().optional().nullable(),
     address: z.string().optional().nullable(),
     gender: z.enum(['male', 'female', 'other', 'undisclosed']).optional(),
   });
@@ -120,83 +213,100 @@ const UserInfo = () => {
 
   const { handleSubmit, control } = methods;
 
+  const openEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+
+    if (isEditFirstNameMode) setIsEditFirstNameMode(false);
+    if (isEditLastNameMode) setIsEditLastNameMode(false);
+    if (isEditUsernameMode) setIsEditUsernameMode(false);
+    if (isEditEmailMode) setIsEditEmailMode(false);
+    if (isEditGenderMode) setIsEditGenderMode(false);
+    if (isEditPhoneMode) setIsEditPhoneMode(false);
+    if (isEditDateOfBirthMode) setIsEditDateOfBirthMode(false);
+    if (isEditAddressMode) setIsEditAddressMode(false);
+  };
+
   const enableEditFirstNameMode = () => {
     setIsEditFirstNameMode(true);
-    setisEditMode(true);
+    openEditModal();
   };
 
   const disableEditFirstNameMode = () => {
     setIsEditFirstNameMode(false);
-    setisEditMode(false);
+    closeEditModal();
   };
 
   const enableEditLastNameMode = () => {
     setIsEditLastNameMode(true);
-    setisEditMode(true);
+    openEditModal();
   };
 
   const disableEditLastNameMode = () => {
     setIsEditLastNameMode(false);
-    setisEditMode(false);
+    closeEditModal();
   };
 
   const enableEditUsernameMode = () => {
     setIsEditUsernameMode(true);
-    setisEditMode(true);
+    openEditModal();
   };
 
   const disableEditUsernameMode = () => {
     setIsEditUsernameMode(false);
-    setisEditMode(false);
+    closeEditModal();
   };
 
   const enableEditEmailMode = () => {
     setIsEditEmailMode(true);
-    setisEditMode(true);
+    openEditModal();
   };
 
   const disableEditEmailMode = () => {
     setIsEditEmailMode(false);
-    setisEditMode(false);
+    closeEditModal();
   };
 
   const enableEditGenderMode = () => {
     setIsEditGenderMode(true);
-    setisEditMode(true);
+    openEditModal();
   };
 
   const disableEditGenderMode = () => {
     setIsEditGenderMode(false);
-    setisEditMode(false);
+    closeEditModal();
   };
 
   const enableEditPhoneMode = () => {
     setIsEditPhoneMode(true);
-    setisEditMode(true);
+    openEditModal();
   };
   const disableEditPhoneMode = () => {
     setIsEditPhoneMode(false);
-    setisEditMode(false);
+    closeEditModal();
   };
 
   const enableEditDateOfBirthMode = () => {
     setIsEditDateOfBirthMode(true);
-    setisEditMode(true);
+    openEditModal();
   };
 
   const disableEditDateOfBirthMode = () => {
     setIsEditDateOfBirthMode(false);
-    setisEditMode(false);
+    closeEditModal();
   };
 
   const enableEditAddressMode = () => {
     setIsEditAddressMode(true);
-    setisEditMode(true);
+    openEditModal();
   };
 
   const disableEditAddressMode = () => {
     setIsEditAddressMode(false);
-    setisEditMode(false);
+    closeEditModal();
   };
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
@@ -233,255 +343,160 @@ const UserInfo = () => {
             <h4>Update Info</h4>
           </UserInfoHeading>
           <UserData>
-            {isEditFirstNameMode ? (
+            <div>
               <div>
-                <label>
-                  <h5>first name:</h5>
-                </label>
-                <UserDataInputFlexWrapper>
-                  <StyledInput placeholder="First Name" name="firstName" />
-                  <div>
-                    <Button onClick={disableEditFirstNameMode}>Cancel</Button>
-                    <Button type="submit">Update</Button>
-                  </div>
-                </UserDataInputFlexWrapper>
+                <h5>first name:</h5>
               </div>
-            ) : (
-              <div>
-                <div>
-                  <h5>first name:</h5>
-                </div>
-                <UserDataValueFlexWrapper>
-                  <Value>{firstName}</Value>
-                  {isAdmin && (
+              <UserDataValueFlexWrapper>
+                <Value>{firstName}</Value>
+                {isAdmin && (
+                  <EditButtonWrapper>
                     <EditIconButton
-                      onClick={enableEditFirstNameMode}
-                      disabled={isEditMode}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
-                  )}
-                </UserDataValueFlexWrapper>
-              </div>
-            )}
-            {isEditLastNameMode ? (
+                      buttonProps={{
+                        onClick: enableEditFirstNameMode,
+                        disabled: isEditModalOpen,
+                      }}
+                      svgProps={{ width: '2rem' }}
+                    />
+                  </EditButtonWrapper>
+                )}
+              </UserDataValueFlexWrapper>
+            </div>
+            <div>
               <div>
-                <label>
-                  <h5>last name:</h5>
-                </label>
-                <UserDataInputFlexWrapper>
-                  <StyledInput placeholder="Last Name" name="lastName" />
-                  <div>
-                    <Button onClick={disableEditLastNameMode}>Cancel</Button>
-                    <Button type="submit">Update</Button>
-                  </div>
-                </UserDataInputFlexWrapper>
+                <h5>last name:</h5>
               </div>
-            ) : (
+              <UserDataValueFlexWrapper>
+                <Value>{lastName}</Value>
+                {isAdmin && (
+                  <EditIconButton
+                    buttonProps={{
+                      onClick: enableEditLastNameMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
+                )}
+              </UserDataValueFlexWrapper>
+            </div>
+            <div>
               <div>
-                <div>
-                  <h5>last name:</h5>
-                </div>
-                <UserDataValueFlexWrapper>
-                  <Value>{lastName}</Value>
-                  {isAdmin && (
-                    <EditIconButton
-                      onClick={enableEditLastNameMode}
-                      disabled={isEditMode}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
-                  )}
-                </UserDataValueFlexWrapper>
+                <h5>username:</h5>
               </div>
-            )}
-            {isEditUsernameMode ? (
+              <UserDataValueFlexWrapper>
+                <Value>{username}</Value>
+                {isAdmin && (
+                  <EditIconButton
+                    buttonProps={{
+                      onClick: enableEditUsernameMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
+                )}
+              </UserDataValueFlexWrapper>
+            </div>
+            <div>
               <div>
-                <label>
-                  <h5>username:</h5>
-                </label>
-                <UserDataInputFlexWrapper>
-                  <StyledInput placeholder="Username" name="username" />
-                  <div>
-                    <Button onClick={disableEditUsernameMode}>Cancel</Button>
-                    <Button type="submit">Update</Button>
-                  </div>
-                </UserDataInputFlexWrapper>
+                <h5>email:</h5>
               </div>
-            ) : (
+              <UserDataValueFlexWrapper>
+                <Value>{email}</Value>
+                {isAdmin && (
+                  <EditIconButton
+                    buttonProps={{
+                      onClick: enableEditEmailMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
+                )}
+              </UserDataValueFlexWrapper>
+            </div>
+            <div>
               <div>
-                <div>
-                  <h5>username:</h5>
-                </div>
-                <UserDataValueFlexWrapper>
-                  <Value>{username}</Value>
-                  {isAdmin && (
-                    <EditIconButton
-                      onClick={enableEditUsernameMode}
-                      disabled={isEditMode}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
-                  )}
-                </UserDataValueFlexWrapper>
+                <h5>phone:</h5>
               </div>
-            )}
-            {isEditEmailMode ? (
+              <UserDataValueFlexWrapper>
+                <Value>{phone ? phone : 'N/A'}</Value>
+                {isAdmin && (
+                  <EditIconButton
+                    buttonProps={{
+                      onClick: enableEditPhoneMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
+                )}
+              </UserDataValueFlexWrapper>
+            </div>
+            <div>
               <div>
-                <label>
-                  <h5>email:</h5>
-                </label>
-                <UserDataInputFlexWrapper>
-                  <StyledInput placeholder="Email" name="email" />
-                  <div>
-                    <Button onClick={disableEditEmailMode}>Cancel</Button>
-                    <Button type="submit">Update</Button>
-                  </div>
-                </UserDataInputFlexWrapper>
+                <h5>date of birth:</h5>
               </div>
-            ) : (
+              <UserDataValueFlexWrapper>
+                <Value>{dateOfBirth ? dateOfBirth : 'N/A'}</Value>
+                {isAdmin && (
+                  <EditIconButton
+                    buttonProps={{
+                      onClick: enableEditDateOfBirthMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
+                )}
+              </UserDataValueFlexWrapper>
+            </div>
+            <div>
               <div>
-                <div>
-                  <h5>email:</h5>
-                </div>
-                <UserDataValueFlexWrapper>
-                  <Value>{email}</Value>
-                  {isAdmin && (
-                    <EditIconButton
-                      onClick={enableEditEmailMode}
-                      disabled={isEditMode}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
-                  )}
-                </UserDataValueFlexWrapper>
+                <h5>gender:</h5>
               </div>
-            )}
-            {isEditPhoneMode ? (
+              <UserDataValueFlexWrapper>
+                <Value>{gender}</Value>
+                {isAdmin && (
+                  <EditIconButton
+                    buttonProps={{
+                      onClick: enableEditGenderMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
+                )}
+              </UserDataValueFlexWrapper>
+            </div>
+            <div>
               <div>
-                <label>
-                  <h5>phone:</h5>
-                </label>
-                <UserDataInputFlexWrapper>
-                  <StyledInput placeholder="Phone" name="phone" />
-                  <div>
-                    <Button onClick={disableEditPhoneMode}>Cancel</Button>
-                    <Button type="submit">Update</Button>
-                  </div>
-                </UserDataInputFlexWrapper>
+                <h5>address:</h5>
               </div>
-            ) : (
-              <div>
-                <div>
-                  <h5>phone:</h5>
-                </div>
-                <UserDataValueFlexWrapper>
-                  <Value>{phone ? phone : 'N/A'}</Value>
-                  {isAdmin && (
-                    <EditIconButton
-                      onClick={enableEditPhoneMode}
-                      disabled={isEditMode}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
-                  )}
-                </UserDataValueFlexWrapper>
-              </div>
-            )}
-            {isEditDateOfBirthMode ? (
-              <div>
-                <label>
-                  <h5>date of birth:</h5>
-                </label>
-                <UserDataInputFlexWrapper>
-                  <StyledInput placeholder="Date of birth" name="dateOfBirth" />
-                  <div>
-                    <Button onClick={disableEditDateOfBirthMode}>Cancel</Button>
-                    <Button type="submit">Update</Button>
-                  </div>
-                </UserDataInputFlexWrapper>
-              </div>
-            ) : (
-              <div>
-                <div>
-                  <h5>date of birth:</h5>
-                </div>
-                <UserDataValueFlexWrapper>
-                  <Value>{dateOfBirth ? dateOfBirth : 'N/A'}</Value>
-                  {isAdmin && (
-                    <EditIconButton
-                      onClick={enableEditDateOfBirthMode}
-                      disabled={isEditMode}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
-                  )}
-                </UserDataValueFlexWrapper>
-              </div>
-            )}
-            {isEditGenderMode ? (
-              <div>
-                <label>
-                  <h5>gender:</h5>
-                </label>
-                <UserDataInputFlexWrapper>
-                  <StyledInput placeholder="Gender" name="gender" />
-                  <div>
-                    <Button onClick={disableEditGenderMode}>Cancel</Button>
-                    <Button type="submit">Update</Button>
-                  </div>
-                </UserDataInputFlexWrapper>
-              </div>
-            ) : (
-              <div>
-                <div>
-                  <h5>gender:</h5>
-                </div>
-                <UserDataValueFlexWrapper>
-                  <Value>{gender}</Value>
-                  {isAdmin && (
-                    <EditIconButton
-                      onClick={enableEditGenderMode}
-                      disabled={isEditMode}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
-                  )}
-                </UserDataValueFlexWrapper>
-              </div>
-            )}
-            {isEditAddressMode ? (
-              <div>
-                <label>
-                  <h5>address:</h5>
-                </label>
-                <UserDataInputFlexWrapper>
-                  <StyledInput placeholder="Address" name="address" />
-                  <div>
-                    <Button onClick={disableEditAddressMode}>Cancel</Button>
-                    <Button type="submit">Update</Button>
-                  </div>
-                </UserDataInputFlexWrapper>
-              </div>
-            ) : (
-              <div>
-                <div>
-                  <h5>address:</h5>
-                </div>
-                <UserDataValueFlexWrapper>
-                  <Value>{address ? address : 'N/A'}</Value>
-                  {isAdmin && (
-                    <EditIconButton
-                      onClick={enableEditAddressMode}
-                      disabled={isEditMode}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
-                  )}
-                </UserDataValueFlexWrapper>
-              </div>
-            )}
+              <UserDataValueFlexWrapper>
+                <Value>{address ? address : 'N/A'}</Value>
+                {isAdmin && (
+                  <EditIconButton
+                    buttonProps={{
+                      onClick: enableEditAddressMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
+                )}
+              </UserDataValueFlexWrapper>
+            </div>
           </UserData>
+          {isEditModalOpen && (
+            <EditUserModal
+              isModalOpen={isEditModalOpen}
+              closeModal={closeEditModal}
+              isLoading={isLoading}
+              isEditFirstNameMode={isEditFirstNameMode}
+              isEditLastNameMode={isEditLastNameMode}
+              isEditUsernameMode={isEditUsernameMode}
+              isEditEmailMode={isEditEmailMode}
+              isEditGenderMode={isEditGenderMode}
+              isEditPhoneMode={isEditPhoneMode}
+              isEditDateOfBirthMode={isEditDateOfBirthMode}
+              isEditAddressMode={isEditAddressMode}
+            />
+          )}
         </form>
         <DevTool control={control} />
       </FormProvider>

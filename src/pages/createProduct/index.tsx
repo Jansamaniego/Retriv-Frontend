@@ -159,11 +159,16 @@ export const CreateProduct = () => {
     const formData = new FormData();
 
     for (const key in mutatedData) {
+      if (key === 'mainImage') {
+        formData.append('mainImage', mutatedData[key]);
+      }
+
       if (key === 'images') {
         for (let i = 0; i < mutatedData[key].length; i++) {
           formData.append('images', mutatedData[key][i]);
         }
       }
+
       formData.append(
         key,
         JSON.stringify(mutatedData[key as keyof IMutatedData])
@@ -282,12 +287,13 @@ export const CreateProduct = () => {
                 <Select
                   placeholder="Category"
                   {...register('category')}
-                  defaultValue=""
+                  defaultValue={''}
                 >
                   <option value="" disabled>
                     Select category
                   </option>
                   {categories &&
+                    categories.length !== 0 &&
                     categories.map((category) => (
                       <option value={category._id} key={category._id}>
                         {category.name}

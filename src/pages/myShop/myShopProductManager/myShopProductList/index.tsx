@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -14,7 +14,7 @@ interface IMyShopProductListProps {
 
 interface IMyShopProductItemProps {
   id: string;
-  shopId: String;
+  shopId: string;
 }
 interface IProductCardProps {
   children: React.ReactNode;
@@ -72,13 +72,14 @@ const ProductCard: React.FC<IProductCardProps> = ({ children, onClick }) => {
 
 const ShopProductItem: React.FC<IMyShopProductItemProps> = ({ id, shopId }) => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const { product, isLoading } = useGetProductsByShopIdQuery(
-    shopId.toString(),
+    { shopId, queryString: searchParams.toString() },
     {
       selectFromResult: ({ data, isLoading }) => {
         return {
-          product: data?.find((product) => product.id === id),
+          product: data?.results?.find((product) => product._id === id),
           isLoading,
         };
       },

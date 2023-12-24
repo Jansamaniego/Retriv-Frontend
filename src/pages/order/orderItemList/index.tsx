@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { ICartItem } from 'types';
 import { useGetProductByIdQuery } from 'redux/services/productApi/productApi';
-import { Card, Loading, QuantityTogglerInput } from 'components/common';
+import { Card, Loading } from 'components/common';
 import OrderItemListHeader from 'pages/order/orderItemList/orderItemListHeader';
 
 interface IOrderItemListProps {
@@ -97,9 +97,6 @@ const OrderItemItem: React.FC<IOrderItemItemProps> = ({
   totalProductPrice,
   totalProductQuantity,
 }) => {
-  const [quantityToPurchase, setQuantityToPurchase] =
-    useState(totalProductQuantity);
-
   const { data: product, isLoading } = useGetProductByIdQuery({
     shopId,
     productId,
@@ -108,18 +105,6 @@ const OrderItemItem: React.FC<IOrderItemItemProps> = ({
   if (isLoading) return <Loading />;
 
   if (!product) return <h4>Product is not found</h4>;
-
-  const decrementQuantityToPurchase = () => {
-    setQuantityToPurchase((value) => Number(value) - 1);
-  };
-
-  const incrementQuantityToPurchase = () => {
-    setQuantityToPurchase((value) => Number(value) + 1);
-  };
-
-  const changeQuantityToPurchase = (event: ChangeEvent) => {
-    setQuantityToPurchase(Number((event.target as HTMLInputElement).value));
-  };
 
   const { name, mainImage, price } = product;
 
@@ -138,12 +123,7 @@ const OrderItemItem: React.FC<IOrderItemItemProps> = ({
           <h5>&#8369;{price}</h5>
         </OrderItemDetailContainer>
         <OrderItemDetailContainer>
-          <QuantityTogglerInput
-            decrementQuantityToggle={decrementQuantityToPurchase}
-            incrementQuantityToggle={incrementQuantityToPurchase}
-            onChangeHandler={changeQuantityToPurchase}
-            QuantityInputValue={quantityToPurchase}
-          />
+          <h5>{totalProductQuantity}</h5>
         </OrderItemDetailContainer>
         <OrderItemDetailContainer>
           <h5>&#8369;{totalProductPrice}</h5>

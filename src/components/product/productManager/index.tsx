@@ -33,6 +33,7 @@ const ProductManagerGrid = styled.main`
     grid-template-columns: repeat(1, minmax(20.8rem, 1fr));
   }
 `;
+
 const ProductManager: React.FC<IProductManagerProps> = ({
   isProductSearchControlsOpen,
 }) => {
@@ -52,6 +53,17 @@ const ProductManager: React.FC<IProductManagerProps> = ({
       },
     });
 
+  console.log(products);
+  console.log(totalProductPages);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setSearchParams((params) => {
+      params.delete('page');
+      return params;
+    });
+  }, []);
+
   useEffect(() => {
     if (totalProductPages) {
       setTotalPages(totalProductPages);
@@ -62,6 +74,11 @@ const ProductManager: React.FC<IProductManagerProps> = ({
     if (currentPage !== 1) {
       setSearchParams((params) => {
         params.set('page', currentPage.toString());
+        return params;
+      });
+    } else {
+      setSearchParams((params) => {
+        params.delete('page');
         return params;
       });
     }
@@ -89,13 +106,13 @@ const ProductManager: React.FC<IProductManagerProps> = ({
 
   return (
     <>
-      {isProductSearchControlsOpen && searchParams.size ? (
+      {isProductSearchControlsOpen && !!searchParams.size && (
         <ProductSearchControls
           totalPages={totalPages}
           handlePageChange={handlePageChange}
           currentPage={currentPage}
         />
-      ) : null}
+      )}
       <ProductManagerGrid>
         <ProductList products={products} />
       </ProductManagerGrid>

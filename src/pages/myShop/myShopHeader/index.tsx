@@ -19,12 +19,12 @@ import { removeShop } from 'redux/features/shopSlice';
 import { Card, StyledInput, StyledModal } from 'components/common';
 import {
   DateIcon,
-  EditIcon,
   ProductIcon,
   ProductsSoldIcon,
   StarRatingIcon,
 } from 'assets/icons';
 import UpdateShopImageModal from 'pages/myShop/myShopHeader/updateShopImageModal';
+import { EditIconButton } from 'components/common/editIconButton';
 
 interface IMyShopHeaderProps {
   shop: IShopWithOwnerPickValues;
@@ -77,19 +77,18 @@ const ShopImage = styled.img`
   object-fit: cover;
 `;
 
+const EditButtonWrapper = styled.div`
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+`;
+
 const InfoFlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 1rem;
   /* max-width: 75ch; */
   width: 100%;
-`;
-
-const StyledEditIcon = styled(EditIcon)`
-  position: absolute;
-  cursor: pointer;
-  right: 0.2rem;
-  bottom: 0.05rem;
 `;
 
 const ShopInfoContainer = styled.div`
@@ -157,19 +156,6 @@ const ShopStat = styled.h5`
   font-weight: 300;
 `;
 
-const EditIconButton = styled.button`
-  display: flex;
-  align-items: center;
-  background: none;
-  color: ${(props) =>
-    props.disabled ? props.theme.neutral.light : props.theme.neutral.text};
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: ${(props) => (props.disabled ? 'inherit' : 'pointer')};
-  outline: inherit;
-`;
-
 const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -177,10 +163,8 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
   const { data: shopRatings, isLoading: shopRatingsIsLoading } =
     useGetShopRatingsQuery(shop.id);
 
-  const [
-    deleteShop,
-    { isLoading: deleteShopIsLoading},
-  ] = useDeleteShopMutation();
+  const [deleteShop, { isLoading: deleteShopIsLoading }] =
+    useDeleteShopMutation();
 
   const [updateShop, { isLoading: updateShopIsLoading }] =
     useUpdateShopMutation();
@@ -225,11 +209,7 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
     resolver: zodResolver(updateShopSchema),
   });
 
-  const {
-    handleSubmit,
-    reset,
-    control,
-  } = methods;
+  const { handleSubmit, reset, control } = methods;
 
   useEffect(() => {
     reset({ name, address, description, phone });
@@ -329,7 +309,6 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
 
   const { ratingsAverage, ratingsQuantity } = shopRatings;
 
-
   return (
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -338,11 +317,16 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
             <ShopImageAndInfoContainer>
               <div>
                 <ShopImageContainer>
-                  {shopImage ? <ShopImage src={shopImage} /> : null}
-                  <StyledEditIcon
-                    width="2rem"
-                    onClick={openShopImageEditModal}
-                  />
+                  {shopImage && <ShopImage src={shopImage} />}
+                  <EditButtonWrapper>
+                    <EditIconButton
+                      buttonProps={{
+                        onClick: openShopImageEditModal,
+                        disabled: isEditModalOpen,
+                      }}
+                      svgProps={{ width: '2rem' }}
+                    />
+                  </EditButtonWrapper>
                 </ShopImageContainer>
               </div>
               <InfoFlexWrapper>
@@ -350,11 +334,12 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
                   <InfoContainer>
                     <Info>{name}</Info>
                     <EditIconButton
-                      onClick={enableEditNameMode}
-                      disabled={isEditModalOpen}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
+                      buttonProps={{
+                        onClick: enableEditNameMode,
+                        disabled: isEditModalOpen,
+                      }}
+                      svgProps={{ width: '2rem' }}
+                    />
                   </InfoContainer>
                 </InfoWrapper>
                 <ShopInfoContainer>
@@ -362,31 +347,34 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
                     <InfoContainer>
                       <SubInfo>{description}</SubInfo>
                       <EditIconButton
-                        onClick={enableEditDescriptionMode}
-                        disabled={isEditModalOpen}
-                      >
-                        <EditIcon width="2rem" />
-                      </EditIconButton>
+                        buttonProps={{
+                          onClick: enableEditDescriptionMode,
+                          disabled: isEditModalOpen,
+                        }}
+                        svgProps={{ width: '2rem' }}
+                      />
                     </InfoContainer>
                   </InfoWrapper>
                   <InfoWrapper>
                     <InfoContainer>
                       <SubInfo>{address}</SubInfo>
                       <EditIconButton
-                        onClick={enableEditAddressMode}
-                        disabled={isEditModalOpen}
-                      >
-                        <EditIcon width="2rem" />
-                      </EditIconButton>
+                        buttonProps={{
+                          onClick: enableEditAddressMode,
+                          disabled: isEditModalOpen,
+                        }}
+                        svgProps={{ width: '2rem' }}
+                      />
                     </InfoContainer>
                     <InfoContainer>
                       <SubInfo>{phone}</SubInfo>
                       <EditIconButton
-                        onClick={enableEditPhoneMode}
-                        disabled={isEditModalOpen}
-                      >
-                        <EditIcon width="2rem" />
-                      </EditIconButton>
+                        buttonProps={{
+                          onClick: enableEditPhoneMode,
+                          disabled: isEditModalOpen,
+                        }}
+                        svgProps={{ width: '2rem' }}
+                      />
                     </InfoContainer>
                   </InfoWrapper>
                 </ShopInfoContainer>
@@ -426,29 +414,41 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
             isLoading={updateShopIsLoading}
           >
             {isEditNameMode && (
-              <StyledInput placeholder="Name" name="name" marginBottom={0} />
+              <>
+                <h4>Name</h4>
+                <StyledInput placeholder="Name" name="name" marginBottom={0} />
+              </>
             )}
             {isEditDescriptionMode && (
-              <StyledInput
-                placeholder="Description"
-                name="description"
-                marginBottom={0}
-              />
+              <>
+                <h4>Description</h4>
+                <StyledInput
+                  placeholder="Description"
+                  name="description"
+                  marginBottom={0}
+                />
+              </>
             )}
             {isEditAddressMode && (
-              <StyledInput
-                placeholder="Address"
-                name="address"
-                marginBottom={0}
-              />
+              <>
+                <h4>Address</h4>
+                <StyledInput
+                  placeholder="Address"
+                  name="address"
+                  marginBottom={0}
+                />
+              </>
             )}
             {isEditPhoneMode && (
-              <StyledInput
-                placeholder="Phone"
-                type="number"
-                name="phone"
-                marginBottom={0}
-              />
+              <>
+                <h4>Phone</h4>
+                <StyledInput
+                  placeholder="Phone"
+                  type="number"
+                  name="phone"
+                  marginBottom={0}
+                />
+              </>
             )}
           </StyledModal>
         )}

@@ -6,12 +6,14 @@ interface ContentFlexWrapperProps {
   gap?: string;
   columnBreakPoint?: string;
   children?: React.ReactNode;
+  alignItems?: string;
 }
 
 interface FlexWrapperProps {
   justifyContent?: string;
   gap?: string;
   columnBreakPoint?: string;
+  alignItems?: string;
 }
 
 const ContentFlexContainer = styled.div`
@@ -22,6 +24,7 @@ const ContentFlexContainer = styled.div`
 const FlexWrapper = styled.div<FlexWrapperProps>`
   display: flex;
   justify-content: ${(props) => props.justifyContent};
+  align-items: ${(props) => props.alignItems};
   gap: ${(props) => props.gap};
   width: 100%;
   min-width: 70rem;
@@ -39,6 +42,7 @@ export const ContentFlexWrapper: React.FC<ContentFlexWrapperProps> = ({
   justifyContent = 'flex-start',
   gap = 'clamp(1.6rem, 1.007rem + 1.58vw, 4.8rem)',
   columnBreakPoint = '1200px',
+  ...props
 }) => {
   return (
     <ContentFlexContainer>
@@ -46,6 +50,7 @@ export const ContentFlexWrapper: React.FC<ContentFlexWrapperProps> = ({
         justifyContent={justifyContent}
         gap={gap}
         columnBreakPoint={columnBreakPoint}
+        {...props}
       >
         {children}
       </FlexWrapper>

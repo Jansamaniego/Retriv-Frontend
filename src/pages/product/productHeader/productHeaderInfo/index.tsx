@@ -10,7 +10,7 @@ import {
   useDeleteProductMutation,
   useUpdateProductDetailsMutation,
 } from 'redux/services/productApi/productApi';
-import { CheckIcon, EditIcon, StarGradientIcon } from 'assets/icons';
+import { CheckIcon, StarGradientIcon } from 'assets/icons';
 import {
   Button,
   QuantityTogglerInput,
@@ -19,6 +19,7 @@ import {
   StyledModal,
   TransparentPopup,
 } from 'components/common';
+import { EditIconButton } from 'components/common/editIconButton';
 
 interface IProductHeaderInfoProps {
   productId: string;
@@ -101,19 +102,6 @@ const DescriptionContainer = styled.div`
   margin-top: 2.4rem;
 `;
 
-const EditIconButton = styled.button`
-  display: flex;
-  align-items: center;
-  background: none;
-  color: ${(props) =>
-    props.disabled ? props.theme.neutral.light : props.theme.neutral.text};
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: ${(props) => (props.disabled ? 'inherit' : 'pointer')};
-  outline: inherit;
-`;
-
 const QuantityControllerContainer = styled.section`
   display: flex;
   gap: 2.4rem;
@@ -144,7 +132,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
   const [avgRating] = useState(ratingsAverage * 10);
   const [isDeleteProductModalOpen, setIsDeleteProductModalOpen] =
     useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditModalOpen, setisEditModalOpen] = useState(false);
   const [isEditNameMode, setIsEditNameMode] = useState(false);
   const [isEditDescriptionMode, setIsEditDescriptionMode] = useState(false);
   const [isEditPriceMode, setIsEditPriceMode] = useState(false);
@@ -159,7 +147,8 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
   const [deleteProduct, { isLoading: deleteProductIsLoading }] =
     useDeleteProductMutation();
 
-  const [updateProductDetails] = useUpdateProductDetailsMutation();
+  const [updateProductDetails, { isLoading: isUpdateProductLoading }] =
+    useUpdateProductDetailsMutation();
 
   const updateProductDetailsSchema = z.object({
     name: z.string(),
@@ -180,44 +169,57 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
 
   const { handleSubmit } = methods;
 
+  const openEditModal = () => {
+    setisEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setisEditModalOpen(false);
+
+    if (isEditNameMode) setIsEditNameMode(false);
+    if (isEditDescriptionMode) setIsEditDescriptionMode(false);
+    if (isEditPriceMode) setIsEditPriceMode(false);
+    if (isEditQuantityInStockMode) setIsEditQuantityInStockMode(false);
+  };
+
   const enableEditNameMode = () => {
     setIsEditNameMode(true);
-    setIsEditMode(true);
+    openEditModal();
   };
 
   const disableEditNameMode = () => {
     setIsEditNameMode(false);
-    setIsEditMode(false);
+    closeEditModal();
   };
 
   const enableEditDescriptionMode = () => {
     setIsEditDescriptionMode(true);
-    setIsEditMode(true);
+    openEditModal();
   };
 
   const disableEditDescriptionMode = () => {
     setIsEditDescriptionMode(false);
-    setIsEditMode(false);
+    closeEditModal();
   };
 
   const enableEditPriceMode = () => {
     setIsEditPriceMode(true);
-    setIsEditMode(true);
+    openEditModal();
   };
 
   const disableEditPriceMode = () => {
     setIsEditPriceMode(false);
-    setIsEditMode(false);
+    closeEditModal();
   };
 
   const enableEditQuantityInStockMode = () => {
     setIsEditQuantityInStockMode(true);
-    setIsEditMode(true);
+    openEditModal();
   };
 
   const disableEditQuantityInStockMode = () => {
     setIsEditQuantityInStockMode(false);
-    setIsEditMode(false);
+    closeEditModal();
   };
 
   const decrementQuantityToPurchase = () => {
@@ -279,35 +281,20 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ProductInfo>
-            {isEditNameMode ? (
-              <>
-                <ProductDataInputFlexWrapper>
-                  <StyledInput
-                    placeholder="Name"
-                    name="name"
-                    marginBottom={0}
+            <>
+              <ProductDataValueFlexWrapper>
+                <h3>{name}</h3>
+                {isOwner && (
+                  <EditIconButton
+                    buttonProps={{
+                      onClick: enableEditNameMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
                   />
-                  <FlexWrapper>
-                    <Button onClick={disableEditNameMode}>Cancel</Button>
-                    <Button type="submit">Update</Button>
-                  </FlexWrapper>
-                </ProductDataInputFlexWrapper>
-              </>
-            ) : (
-              <>
-                <ProductDataValueFlexWrapper>
-                  <h3>{name}</h3>
-                  {isOwner && (
-                    <EditIconButton
-                      onClick={enableEditNameMode}
-                      disabled={isEditMode}
-                    >
-                      <EditIcon width="2rem" />
-                    </EditIconButton>
-                  )}
-                </ProductDataValueFlexWrapper>
-              </>
-            )}
+                )}
+              </ProductDataValueFlexWrapper>
+            </>
             <ProductInfoStatsContainer>
               <ProductInfoStatsAvgRating>
                 <RatingsAverage>{ratingsAverage}</RatingsAverage>
@@ -331,63 +318,33 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
               </ProductInfoStatsProductsSoldContainer>
             </ProductInfoStatsContainer>
             <DescriptionContainer>
-              {isEditDescriptionMode ? (
-                <>
-                  <ProductDataInputFlexWrapper>
-                    <StyledInput
-                      placeholder="Quantity in stock"
-                      name="description"
-                      marginBottom={0}
+              <>
+                <ProductDataValueFlexWrapper>
+                  <h6>{description}</h6>
+                  {isOwner && (
+                    <EditIconButton
+                      buttonProps={{
+                        onClick: enableEditDescriptionMode,
+                        disabled: isEditModalOpen,
+                      }}
+                      svgProps={{ width: '2rem' }}
                     />
-                    <FlexWrapper>
-                      <Button onClick={disableEditDescriptionMode}>
-                        Cancel
-                      </Button>
-                      <Button type="submit">Update</Button>
-                    </FlexWrapper>
-                  </ProductDataInputFlexWrapper>
-                </>
-              ) : (
-                <>
-                  <ProductDataValueFlexWrapper>
-                    <h6>{description}</h6>
-                    {isOwner && (
-                      <EditIconButton
-                        onClick={enableEditDescriptionMode}
-                        disabled={isEditMode}
-                      >
-                        <EditIcon width="2rem" />
-                      </EditIconButton>
-                    )}
-                  </ProductDataValueFlexWrapper>
-                </>
-              )}
+                  )}
+                </ProductDataValueFlexWrapper>
+              </>
             </DescriptionContainer>
-            {isEditPriceMode ? (
-              <ProductDataInputFlexWrapper>
-                <StyledInput
-                  placeholder="Price"
-                  name="price"
-                  marginBottom={0}
+            <ProductDataValueFlexWrapper>
+              <h4> &#8369;{price}</h4>
+              {isOwner && (
+                <EditIconButton
+                  buttonProps={{
+                    onClick: enableEditPriceMode,
+                    disabled: isEditModalOpen,
+                  }}
+                  svgProps={{ width: '2rem' }}
                 />
-                <FlexWrapper>
-                  <Button onClick={disableEditPriceMode}>Cancel</Button>
-                  <Button type="submit">Update</Button>
-                </FlexWrapper>
-              </ProductDataInputFlexWrapper>
-            ) : (
-              <ProductDataValueFlexWrapper>
-                <h4> &#8369;{price}</h4>
-                {isOwner && (
-                  <EditIconButton
-                    onClick={enableEditPriceMode}
-                    disabled={isEditMode}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
-                )}
-              </ProductDataValueFlexWrapper>
-            )}
+              )}
+            </ProductDataValueFlexWrapper>
             {isOwner && (
               <div>
                 <Button
@@ -412,37 +369,22 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                 />
                 <div>
                   <div>
-                    {isEditQuantityInStockMode ? (
-                      <ProductDataInputFlexWrapper>
-                        <StyledInput
-                          placeholder="Quantity in stock"
-                          name="quantityInStock"
-                          marginBottom={0}
+                    <ProductDataValueFlexWrapper>
+                      <h6>
+                        {isOutOfStock
+                          ? 'Out of stock'
+                          : `${quantityInStock} units available`}
+                      </h6>
+                      {isOwner && (
+                        <EditIconButton
+                          buttonProps={{
+                            onClick: enableEditQuantityInStockMode,
+                            disabled: isEditModalOpen,
+                          }}
+                          svgProps={{ width: '2rem' }}
                         />
-                        <FlexWrapper>
-                          <Button onClick={disableEditQuantityInStockMode}>
-                            Cancel
-                          </Button>
-                          <Button type="submit">Update</Button>
-                        </FlexWrapper>
-                      </ProductDataInputFlexWrapper>
-                    ) : (
-                      <ProductDataValueFlexWrapper>
-                        <h6>
-                          {isOutOfStock
-                            ? 'Out of stock'
-                            : `${quantityInStock} units available`}
-                        </h6>
-                        {isOwner && (
-                          <EditIconButton
-                            onClick={enableEditQuantityInStockMode}
-                            disabled={isEditMode}
-                          >
-                            <EditIcon width="2rem" />
-                          </EditIconButton>
-                        )}
-                      </ProductDataValueFlexWrapper>
-                    )}
+                      )}
+                    </ProductDataValueFlexWrapper>
                   </div>
                 </div>
               </QuantityControllerContainer>
@@ -465,6 +407,55 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
               </TransparentPopup>
             )}
           </ProductInfo>
+          {isEditModalOpen && (
+            <StyledModal
+              isModalOpen={isEditModalOpen}
+              closeModal={closeEditModal}
+              isLoading={isUpdateProductLoading}
+            >
+              {isEditNameMode && (
+                <>
+                  <h4>Name</h4>
+                  <StyledInput
+                    placeholder="Name"
+                    name="name"
+                    marginBottom={0}
+                  />
+                </>
+              )}
+              {isEditDescriptionMode && (
+                <>
+                  <h4>Description</h4>
+                  <StyledInput
+                    placeholder="Description"
+                    name="description"
+                    marginBottom={0}
+                  />
+                </>
+              )}
+              {isEditPriceMode && (
+                <>
+                  <h4>Price</h4>
+                  <StyledInput
+                    placeholder="Price"
+                    name="price"
+                    marginBottom={0}
+                  />
+                </>
+              )}
+              {isEditQuantityInStockMode && (
+                <>
+                  <h4>QuantityInStock</h4>
+                  <StyledInput
+                    placeholder="Quantity in stock"
+                    type="number"
+                    name="quantityInStock"
+                    marginBottom={0}
+                  />
+                </>
+              )}
+            </StyledModal>
+          )}
         </form>
       </FormProvider>
       {isDeleteProductModalOpen && (

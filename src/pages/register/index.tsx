@@ -17,8 +17,10 @@ import {
   Select,
   StyledLink,
   ImageUpload,
+  StyledModal,
 } from 'components/common';
 import RegisterStepTracker from './registerStepTracker';
+import { isErrorWithMessage } from 'redux/services/helpers';
 
 interface FormValues {
   username: string;
@@ -98,15 +100,16 @@ const TITLE: ITitle = {
 
 export const Register = () => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const currentUser = useSelector((state: RootState) => state.userState.user);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [formStep, setFormStep] = useState(0);
   const [image, setImage] = useState<File | EmptyString>(null);
   const [imageError, setImageError] = useState<{
     isError: boolean;
     message: string;
   } | null>(null);
-  const [registerUser, { isLoading, isSuccess }] = useRegisterUserMutation();
+  const [registerUser, { isLoading, isSuccess, error }] =
+    useRegisterUserMutation();
 
   const modelSchema = z.object({
     username: z.string().min(9),
@@ -179,8 +182,6 @@ export const Register = () => {
       return;
     }
 
-    console.log(image);
-
     const mutatedData: IMutatedData = { ...data, image };
 
     const formData = new FormData();
@@ -192,6 +193,12 @@ export const Register = () => {
 
     await registerUser(formData);
   };
+
+  useEffect(() => {
+    if (isSuccess && !isLoading && currentUser) {
+      navigate('/');
+    }
+  }, [isSuccess, isLoading, currentUser, navigate]);
 
   const nextFormStep = () => {
     if (formStep === 0) {
@@ -259,6 +266,14 @@ export const Register = () => {
 
   const prevFormStep = () => {
     setFormStep((curr) => curr - 1);
+  };
+
+  const openRegisterModal = () => {
+    setIsRegisterModalOpen(true);
+  };
+
+  const closeRegisterModal = () => {
+    setIsRegisterModalOpen(false);
   };
 
   const changeImage: (image: File | EmptyString) => void = (image) => {
@@ -332,6 +347,11 @@ export const Register = () => {
                 />
               </ImageUploadWrapper>
             )}
+            {formStep === 4 && (
+              <>
+                {isErrorWithMessage(error) && <h4>{error?.data?.message}</h4>}
+              </>
+            )}
             <ButtonFlexWrapper>
               {formStep !== 0 && (
                 <Button onClick={prevFormStep} type="button">
@@ -344,12 +364,25 @@ export const Register = () => {
                 </Button>
               )}
               {formStep === 4 && (
-                <Button type="submit" disabled={isLoading}>
+                <Button
+                  disabled={isLoading}
+                  onClick={openRegisterModal}
+                  type="button"
+                >
                   Register
                 </Button>
               )}
             </ButtonFlexWrapper>
           </FormFlexWrapper>
+          {isRegisterModalOpen && (
+            <StyledModal
+              isModalOpen={isRegisterModalOpen}
+              closeModal={closeRegisterModal}
+              isLoading={isLoading}
+            >
+              Are you sure you want to create this Shop?
+            </StyledModal>
+          )}
         </Form>
         <DevTool control={control} />
       </FormProvider>

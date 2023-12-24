@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useGetProductsByShopIdQuery } from 'redux/services/productApi/productApi';
-import { Card } from 'components/common';
+import { Card, Pagination } from 'components/common';
 import MyShopProductList from 'pages/myShop/myShopProductManager/myShopProductList';
+import { useProductPagination } from 'context/ProductPaginationContext';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 interface IMyShopProductManagerProps {
   shopId: string;
@@ -41,27 +43,84 @@ const ShopProductManagerGrid = styled.main`
 const MyShopProductManager: React.FC<IMyShopProductManagerProps> = ({
   shopId,
 }) => {
-  const { data: products, isLoading } = useGetProductsByShopIdQuery(shopId);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { currentPage, setCurrentPage, totalPages, setTotalPages } =
+    useProductPagination();
+  const { products, totalProductPages, isLoading, refetch } =
+    useGetProductsByShopIdQuery(
+      { shopId, queryString: searchParams.toString() },
+      {
+        selectFromResult: ({ data, isLoading }) => {
+          return {
+            products: data?.results,
+            totalProductPages: data?.totalPages,
+            isLoading,
+          };
+        },
+      }
+    );
 
-  if (isLoading)
+  useEffect(() => {
+    setSearchParams((params) => {
+      params.set('page', '1');
+      return params;
+    });
+    setCurrentPage(1);
+  }, []);
+
+  useEffect(() => {
+    if (totalProductPages) {
+      setTotalPages(totalProductPages);
+    }
+  }, [totalProductPages]);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      params.set('page', currentPage.toString());
+      return params;
+    });
+  }, [currentPage]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await refetch();
+    };
+
+    fetchData();
+  }, [refetch, searchParams]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  if (isLoading) {
     return (
       <Card>
         <h1>Loading...</h1>
       </Card>
     );
+  }
 
-  if (!products || products.length === 0)
+  if (!products || products.length === 0) {
     return (
       <Card>
         <h1>No products found.</h1>
       </Card>
     );
+  }
 
   return (
     <>
       <ShopProductManagerGrid>
         <MyShopProductList products={products} />
       </ShopProductManagerGrid>
+      {totalPages && totalPages > 1 && (
+        <Pagination
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          currentPage={currentPage}
+        />
+      )}
     </>
   );
 };

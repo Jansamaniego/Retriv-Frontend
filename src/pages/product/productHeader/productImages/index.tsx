@@ -2,7 +2,8 @@ import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { IProduct } from 'types';
-import { EditIcon, XMarkIcon } from 'assets/icons';
+import { XMarkIcon } from 'assets/icons';
+import { EditIconButton } from 'components/common/editIconButton';
 
 interface ISmallImageProps {
   onMouseEnter: (event: MouseEvent) => void;
@@ -61,24 +62,14 @@ const DisplayImageContainer = styled.div<IDisplayImageContainer>`
 
 const DisplayImage = styled.img`
   object-fit: cover;
-  min-height: 45rem;
+  width: 40rem;
+  height: 40rem;
 `;
 
-const EditIconButton = styled.button`
+const EditButtonWrapper = styled.div`
   position: absolute;
-  background-color: ${(props) => props.theme.neutral[700]};
-  right: 0.8rem;
-  bottom: 0.4rem;
-  display: flex;
-  align-items: center;
-  border-radius: 0.5rem;
-  color: ${(props) =>
-    props.disabled ? props.theme.neutral.light : props.theme.neutral.text};
-  border: none;
-  padding: 0.2rem;
-  font: inherit;
-  cursor: ${(props) => (props.disabled ? 'inherit' : 'pointer')};
-  outline: inherit;
+  right: 0.5rem;
+  bottom: 0.5rem;
 `;
 
 const XMarkIconButton = styled.button`
@@ -190,13 +181,16 @@ const ProductImages: React.FC<IProductImagesProps> = ({
             {displayImage === mainImage && (
               <>
                 {isOwner && (
-                  <EditIconButton onClick={showMainImageEditModal}>
-                    <EditIcon width="4rem" />
-                  </EditIconButton>
+                  <EditButtonWrapper>
+                    <EditIconButton
+                      buttonProps={{ onClick: showMainImageEditModal }}
+                      svgProps={{ width: '2rem' }}
+                    />
+                  </EditButtonWrapper>
                 )}
               </>
             )}
-            {displayImage !== mainImage && (
+            {displayImage !== mainImage && isOwner && (
               <XMarkIconButton onClick={showDeleteProductImageModal}>
                 <XMarkIcon width="4rem" />
               </XMarkIconButton>

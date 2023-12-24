@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ShopProductList from './shopProductList';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useGetProductsByShopIdQuery } from '../../../redux/services/productApi/productApi';
-import { Loading } from '../../../components/common';
+import { Card, Loading, Pagination } from '../../../components/common';
+import { useProductPagination } from 'context/ProductPaginationContext';
 
 const ShopProductManagerGrid = styled.main`
   display: grid;
@@ -26,17 +27,89 @@ const ShopProductManagerGrid = styled.main`
 `;
 
 const ShopProductManager = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { shopId = '' } = useParams();
-  const { data: products, isLoading } = useGetProductsByShopIdQuery(shopId);
+  const { currentPage, setCurrentPage, totalPages, setTotalPages } =
+    useProductPagination();
+  const { products, totalProductPages, isLoading, refetch } =
+    useGetProductsByShopIdQuery(
+      {
+        shopId,
+        queryString: searchParams.toString(),
+      },
+      {
+        selectFromResult: ({ data, isLoading }) => {
+          return {
+            products: data?.results,
+            totalProductPages: data?.totalPages,
+            isLoading,
+          };
+        },
+      }
+    );
 
-  if (isLoading) return <Loading />;
+  useEffect(() => {
+    setSearchParams((params) => {
+      params.set('page', '1');
+      return params;
+    });
+    setCurrentPage(1);
+  }, []);
 
-  if (!products) return <h3>No products found.</h3>;
+  useEffect(() => {
+    if (totalProductPages) {
+      setTotalPages(totalProductPages);
+    }
+  }, [totalProductPages]);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      params.set('page', currentPage.toString());
+      return params;
+    });
+  }, [currentPage]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await refetch();
+    };
+
+    fetchData();
+  }, [refetch, searchParams]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  if (isLoading) {
+    return (
+      <Card>
+        <h1>Loading...</h1>
+      </Card>
+    );
+  }
+
+  if (!products || products.length === 0) {
+    return (
+      <Card>
+        <h1>No products found.</h1>
+      </Card>
+    );
+  }
 
   return (
-    <ShopProductManagerGrid>
-      <ShopProductList products={products} />
-    </ShopProductManagerGrid>
+    <>
+      <ShopProductManagerGrid>
+        <ShopProductList products={products} />
+      </ShopProductManagerGrid>
+      {totalPages && totalPages > 1 && (
+        <Pagination
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          currentPage={currentPage}
+        />
+      )}
+    </>
   );
 };
 

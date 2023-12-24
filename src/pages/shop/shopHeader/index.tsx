@@ -151,7 +151,7 @@ const ShopHeader: React.FC<IShopHeaderProps> = ({ shop, shopRatings }) => {
         <ShopImageAndInfoContainer>
           <div>
             <ShopImageContainer>
-              {shopImage ? <ShopImage src={shopImage} /> : null}
+              {shopImage && <ShopImage src={shopImage} />}
             </ShopImageContainer>
           </div>
           <InfoFlexWrapper>

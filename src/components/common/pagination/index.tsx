@@ -80,21 +80,27 @@ export const Pagination: React.FC<PaginationProps> = ({
     return buttons;
   };
 
+  console.log(currentPage);
+
   return (
     <PaginationContainer>
-      <PaginationButton
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        Previous
-      </PaginationButton>
+      {currentPage !== 1 && (
+        <PaginationButton
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </PaginationButton>
+      )}
       {renderPaginationButtons()}
-      <PaginationButton
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        Next
-      </PaginationButton>
+      {currentPage !== totalPages && (
+        <PaginationButton
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </PaginationButton>
+      )}
     </PaginationContainer>
   );
 };

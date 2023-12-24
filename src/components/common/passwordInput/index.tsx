@@ -8,6 +8,7 @@ interface ToggleButtonProps {
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
+  isRegister?: boolean;
   name: string;
 }
 
@@ -73,6 +74,7 @@ const ToggleButton = styled.div<ToggleButtonProps>`
 export const PasswordInput: React.FC<PasswordInputProps> = ({
   placeholder = 'password',
   name,
+  isRegister = true,
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -95,7 +97,9 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
           {showPassword ? 'Hide' : 'Show'}
         </ToggleButton>
       </PasswordInputWrapper>
-      {errors[name]?.message && <p>{errors[name]?.message?.toString()}</p>}
+      {errors[name]?.message && isRegister && (
+        <p>{errors[name]?.message?.toString()}</p>
+      )}
     </>
   );
 };

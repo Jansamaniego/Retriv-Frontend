@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { IProduct } from 'types';
@@ -24,9 +24,18 @@ interface IProductCardProps {
 
 const StyledCard = styled(Card)`
   min-height: 12vh;
+  transition: 0.3s;
 
   &:hover {
     cursor: pointer;
+    transform: scale(1.08);
+    transform-origin: center;
+    box-shadow: 0 30px 45px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: translateY(-10px);
+    transition: 0.2s;
   }
 `;
 
@@ -53,6 +62,11 @@ const ProductInfoContainer = styled.div`
 const ProductInfoName = styled.div``;
 
 const Name = styled.h5`
+  font-size: 2rem;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: ${(props) => props.theme.neutral[300]};
 `;
 
@@ -75,15 +89,19 @@ const ProductCard: React.FC<IProductCardProps> = ({ children, onClick }) => {
 
 const ShopProductItem: React.FC<IShopProductItemProps> = ({ id, shopId }) => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { product, isLoading } = useGetProductsByShopIdQuery(shopId, {
-    selectFromResult: ({ data, isLoading }) => {
-      return {
-        product: data?.find((product) => product.id === id),
-        isLoading,
-      };
-    },
-  });
+  const { product, isLoading } = useGetProductsByShopIdQuery(
+    { shopId, queryString: searchParams.toString() },
+    {
+      selectFromResult: ({ data, isLoading }) => {
+        return {
+          product: data?.results?.find((product) => product._id === id),
+          isLoading,
+        };
+      },
+    }
+  );
 
   if (isLoading) return <h1>Loading...</h1>;
 
@@ -114,12 +132,12 @@ const ShopProductItem: React.FC<IShopProductItemProps> = ({ id, shopId }) => {
 };
 
 const ShopProductList: React.FC<IShopProductListProps> = ({ products }) => {
-  const currentShop = useSelector(
-    (state: RootState) => state.shopState.currentShop
-  );
-  const { shopId = currentShop?.id } = useParams();
+  const { currentShop } = useSelector((state: RootState) => state.shopState);
+
+  const { shopId = currentShop?.id || '' } = useParams();
+
   return products.map(({ id }) => (
-    <ShopProductItem key={id} id={id} shopId={shopId!} />
+    <ShopProductItem key={id} id={id} shopId={shopId} />
   ));
 };
 

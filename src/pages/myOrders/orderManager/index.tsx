@@ -45,6 +45,19 @@ const OrderManagerGrid = styled.main`
 
 const OrderItemCard = styled(Card)`
   cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+    transform-origin: center;
+    box-shadow: 0 30px 45px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: translateY(-10px);
+    transition: 0.2s;
+  }
 `;
 
 const OrderItemFlexWrapper = styled.div`

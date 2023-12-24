@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { z } from 'zod';
@@ -11,9 +11,17 @@ import {
   useDeleteCategoryMutation,
   useUpdateCategoryDetailsMutation,
 } from 'redux/services/categoryApi/categoryApi';
-import { Button, Card, StyledInput, StyledModal } from 'components/common';
-import { EditIcon } from 'assets/icons';
+import {
+  Button,
+  Card,
+  StyledInput,
+  StyledModal,
+  StyledTextarea,
+} from 'components/common';
 import UpdateCategoryImageModal from 'pages/category/categoryDetail/updateCategoryImageModal';
+import { EditIconButton } from 'components/common/editIconButton';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 interface ICategoryDetailProps {
   category: ICategory;
@@ -51,6 +59,12 @@ const ShopImage = styled.img`
   object-fit: cover;
 `;
 
+const EditButtonWrapper = styled.div`
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+`;
+
 const ShopInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -73,28 +87,10 @@ const SubInfo = styled.h5`
   font-weight: 400;
 `;
 
-const StyledEditIcon = styled(EditIcon)`
-  position: absolute;
-  cursor: pointer;
-  right: 0.2rem;
-  bottom: 0.05rem;
-`;
-
-const EditIconButton = styled.button`
-  display: flex;
-  align-items: center;
-  background: none;
-  color: ${(props) =>
-    props.disabled ? props.theme.neutral.light : props.theme.neutral.text};
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: ${(props) => (props.disabled ? 'inherit' : 'pointer')};
-  outline: inherit;
-`;
-
 const CategoryDetail: React.FC<ICategoryDetailProps> = ({ category }) => {
   const navigate = useNavigate();
+  const loggedInUser = useSelector((state: RootState) => state.userState.user);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isDeleteCategoryModalOpen, setIsDeleteCategoryModalOpen] =
     useState(false);
   const [isImageEditModalOpen, setIsImageEditModalOpen] = useState(false);
@@ -121,6 +117,11 @@ const CategoryDetail: React.FC<ICategoryDetailProps> = ({ category }) => {
   });
 
   const { handleSubmit, control } = methods;
+
+  useEffect(() => {
+    const { role } = loggedInUser || {};
+    setIsAdmin(role === 'admin');
+  }, [loggedInUser]);
 
   const openImageEditModal = () => {
     setIsImageEditModalOpen(true);
@@ -195,28 +196,43 @@ const CategoryDetail: React.FC<ICategoryDetailProps> = ({ category }) => {
             <ProductShopInfoFlex>
               <div>
                 <ShopImageContainer>
-                  {image ? <ShopImage src={image} /> : null}
-                  <StyledEditIcon width="2rem" onClick={openImageEditModal} />
-                </ShopImageContainer>{' '}
+                  {image && <ShopImage src={image} />}
+                  {isAdmin && (
+                    <EditButtonWrapper>
+                      <EditIconButton
+                        buttonProps={{
+                          onClick: openImageEditModal,
+                        }}
+                        svgProps={{ width: '2rem' }}
+                      />
+                    </EditButtonWrapper>
+                  )}
+                </ShopImageContainer>
               </div>
               <ShopInfoContainer>
                 <InfoContainer>
                   <Info>{name}</Info>
-                  <EditIconButton
-                    onClick={enableEditNameMode}
-                    disabled={isEditModalOpen}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
+                  {isAdmin && (
+                    <EditIconButton
+                      buttonProps={{
+                        onClick: enableEditNameMode,
+                        disabled: isEditModalOpen,
+                      }}
+                      svgProps={{ width: '2rem' }}
+                    />
+                  )}
                 </InfoContainer>
                 <InfoContainer>
                   <SubInfo>{description}</SubInfo>
-                  <EditIconButton
-                    onClick={enableEditDescriptionMode}
-                    disabled={isEditModalOpen}
-                  >
-                    <EditIcon width="2rem" />
-                  </EditIconButton>
+                  {isAdmin && (
+                    <EditIconButton
+                      buttonProps={{
+                        onClick: enableEditDescriptionMode,
+                        disabled: isEditModalOpen,
+                      }}
+                      svgProps={{ width: '2rem' }}
+                    />
+                  )}
                 </InfoContainer>
                 {id !== '64df6a203bb08b6c3f1d7a8f' && (
                   <Button type="button" large onClick={openDeleteCategoryModal}>
@@ -240,14 +256,24 @@ const CategoryDetail: React.FC<ICategoryDetailProps> = ({ category }) => {
               isLoading={updateCategoryDetailsIsLoading}
             >
               {isEditNameMode && (
-                <StyledInput placeholder="Name" name="name" marginBottom={0} />
+                <>
+                  <h4>Name</h4>
+                  <StyledInput
+                    placeholder="Name"
+                    name="name"
+                    marginBottom={0}
+                  />
+                </>
               )}
               {isEditDescriptionMode && (
-                <StyledInput
-                  placeholder="Description"
-                  name="description"
-                  marginBottom={0}
-                />
+                <>
+                  <h4>Description</h4>
+                  <StyledTextarea
+                    placeholder="Please write a description"
+                    name="description"
+                    marginBottom={'0'}
+                  />
+                </>
               )}
             </StyledModal>
           )}

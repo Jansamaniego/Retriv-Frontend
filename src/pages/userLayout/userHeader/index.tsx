@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { IUser } from 'types';
 import { Card, Socials, UpdateProfileImageModal } from 'components/common';
-import { EditIcon } from 'assets/icons';
+import { EditIconButton } from 'components/common/editIconButton';
 
 interface IUserHeaderProps {
   user: IUser;
@@ -50,15 +50,10 @@ const ProfileImage = styled.img`
   height: 18rem;
 `;
 
-const StyledEditIcon = styled(EditIcon)`
+const EditButtonWrapper = styled.div`
   position: absolute;
-  cursor: pointer;
-  right: 0.2rem;
-  bottom: 0.05rem;
-
-  &:hover {
-    color: ${(props) => props.theme.primary.main};
-  }
+  right: 0.5rem;
+  bottom: 0.5rem;
 `;
 
 const UserHeaderInfoFlexContainer = styled.div`
@@ -103,7 +98,12 @@ const UserHeader: React.FC<IUserHeaderProps> = ({ user }) => {
       <NormalDiv>
         <ProfileImageContainer>
           {profileImage && <ProfileImage src={profileImage} />}
-          <StyledEditIcon width="2rem" onClick={openProfileImageEditModal} />
+          <EditButtonWrapper>
+            <EditIconButton
+              buttonProps={{ onClick: openProfileImageEditModal }}
+              svgProps={{ width: '2rem' }}
+            />
+          </EditButtonWrapper>
         </ProfileImageContainer>
         <UserHeaderInfoFlexContainer>
           <UserHeaderInfo>
