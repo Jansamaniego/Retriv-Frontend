@@ -379,6 +379,9 @@ export const Register = () => {
               isModalOpen={isRegisterModalOpen}
               closeModal={closeRegisterModal}
               isLoading={isLoading}
+
+
+              
             >
               Are you sure you want to create this Shop?
             </StyledModal>

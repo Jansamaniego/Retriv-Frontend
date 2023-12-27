@@ -234,7 +234,7 @@ const CategoryDetail: React.FC<ICategoryDetailProps> = ({ category }) => {
                     />
                   )}
                 </InfoContainer>
-                {id !== '64df6a203bb08b6c3f1d7a8f' && (
+                {id !== '64df6a203bb08b6c3f1d7a8f' && isAdmin && (
                   <Button type="button" large onClick={openDeleteCategoryModal}>
                     Delete Category
                   </Button>
