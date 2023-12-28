@@ -4,7 +4,11 @@ import Cookies from 'js-cookie';
 
 import { logout } from 'redux/features/userSlice';
 
-const baseUrl = `${process.env.REACT_APP_API_BASE_URL}/api`;
+const baseUrl = `${
+  process.env.REACT_APP_NODE_ENV === 'development'
+    ? process.env.REACT_APP_API_BASE_URL
+    : process.env.RENDER_EXTERNAL_HOSTNAME
+}/api`;
 
 const mutex = new Mutex();
 
