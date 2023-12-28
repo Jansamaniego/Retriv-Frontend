@@ -30,6 +30,8 @@ const customBaseQuery: BaseQueryFn = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   console.log(result);
+  console.log(process.env.REACT_APP_NODE_ENV);
+  console.log(process.env.REACT_APP_NODE_ENV === 'development');
   console.log(baseUrl);
 
   //@ts-ignore
