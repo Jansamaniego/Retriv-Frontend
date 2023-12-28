@@ -30,6 +30,7 @@ const customBaseQuery: BaseQueryFn = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   console.log(result);
+  console.log(baseUrl);
 
   //@ts-ignore
   if (result.error?.data?.message === 'you are not logged in') {
