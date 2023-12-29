@@ -10,6 +10,8 @@ interface IAuthMiddleWareProps {
 const AuthMiddleware: React.FC<IAuthMiddleWareProps> = ({ children }) => {
   const [cookies] = useCookies(['logged_in']);
 
+  console.log(cookies);
+
   const { isLoading } = myProfileApi.endpoints.getMe.useQuery(null, {
     skip: !cookies.logged_in,
   });
