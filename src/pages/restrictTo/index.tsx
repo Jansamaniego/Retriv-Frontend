@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useGetMeQuery } from 'redux/services/myProfileApi/myProfileApi';
+import { useCookies } from 'react-cookie';
 
 interface IRestrictToProps {
   allowedRoles: string[];
@@ -11,6 +12,7 @@ interface IRestrictToProps {
 export const RestrictTo: React.FC<IRestrictToProps> = ({ allowedRoles }) => {
   const isLoggedIn = Cookies.get('logged_in');
   const location = useLocation();
+  const [cookies] = useCookies(['logged_in']);
 
   const {
     data: user,
@@ -35,6 +37,8 @@ export const RestrictTo: React.FC<IRestrictToProps> = ({ allowedRoles }) => {
   if (loading) {
     return <h1>Loading...</h1>;
   }
+
+  console.log(cookies);
 
   return isLoggedIn && user && allowedRoles.includes(user?.role) ? (
     <Outlet context={[user]} />
