@@ -104,7 +104,7 @@ export const Login = () => {
     window.open(`${BASE_URL}/auth/google/url`, '_self');
   };
 
-  console.log(isError);
+  console.log(currentUser);
 
   return (
     <LoginFlexWrapper>
