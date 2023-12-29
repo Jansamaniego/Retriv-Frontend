@@ -36,6 +36,8 @@ export const RestrictTo: React.FC<IRestrictToProps> = ({ allowedRoles }) => {
     return <h1>Loading...</h1>;
   }
 
+  console.log(user);
+
   return isLoggedIn && user && allowedRoles.includes(user?.role) ? (
     <Outlet context={[user]} />
   ) : isLoggedIn && user ? (
