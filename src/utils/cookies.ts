@@ -7,7 +7,7 @@ export const accessTokenCookieOptions: {
   maxAge:
     Number(process.env.REACT_APP_JWT_ACCESS_EXPIRATION_MINUTES) * 60 * 1000,
   httpOnly: false,
-  sameSite: 'lax',
+  sameSite: 'none',
   secure: true,
 };
 
@@ -24,6 +24,6 @@ export const refreshTokenCookieOptions: {
     60 *
     1000,
   httpOnly: false,
-  sameSite: 'lax',
+  sameSite: 'none',
   secure: true,
 };
