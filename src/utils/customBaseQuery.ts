@@ -57,18 +57,6 @@ const customBaseQuery: BaseQueryFn = async (args, api, extraOptions) => {
           if (tokens) {
             const cookies = new Cookies(null, { path: '/' });
 
-            cookies.set(
-              'access_token',
-              tokens.accessToken,
-              accessTokenCookieOptions
-            );
-
-            cookies.set(
-              'refresh_token',
-              tokens.refreshToken,
-              refreshTokenCookieOptions
-            );
-
             cookies.set('logged_in', true, accessTokenCookieOptions);
           }
 

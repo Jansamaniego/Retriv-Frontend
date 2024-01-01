@@ -16,7 +16,6 @@ import {
 import { IResponse, IUser } from 'types';
 import { myProfileApi } from 'redux/services/myProfileApi/myProfileApi';
 import { logout } from 'redux/features/userSlice';
-import { setTokens } from 'redux/features/tokenSlice';
 import {
   accessTokenCookieOptions,
   refreshTokenCookieOptions,
@@ -44,19 +43,15 @@ export const authApi = createApi({
 
           const cookies = new Cookies(null, { path: '/' });
 
-          // cookies.set(
-          //   'access_token',
-          //   tokens.accessToken,
-          //   accessTokenCookieOptions
-          // );
-
-          // cookies.set(
-          //   'refresh_token',
-          //   tokens.refreshToken,
-          //   refreshTokenCookieOptions
-          // );
-
-          cookies.set('logged_in', true, accessTokenCookieOptions);
+          cookies.set('logged_in', true, {
+            maxAge:
+              Number(process.env.REACT_APP_JWT_ACCESS_EXPIRATION_MINUTES) *
+              60 *
+              1000,
+            httpOnly: false,
+            sameSite: 'none',
+            secure: true,
+          });
 
           await dispatch(
             myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
@@ -82,18 +77,6 @@ export const authApi = createApi({
           } = await queryFulfilled;
 
           const cookies = new Cookies(null, { path: '/' });
-
-          // cookies.set(
-          //   'access_token',
-          //   tokens.accessToken,
-          //   accessTokenCookieOptions
-          // );
-
-          // cookies.set(
-          //   'refresh_token',
-          //   tokens.refreshToken,
-          //   refreshTokenCookieOptions
-          // );
 
           cookies.set('logged_in', true, {
             maxAge:
@@ -123,6 +106,11 @@ export const authApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
+
+          const cookies = new Cookies(null, { path: '/' });
+
+          cookies.remove('logged_in');
+
           dispatch(logout());
         } catch (error) {
           console.log(error);
