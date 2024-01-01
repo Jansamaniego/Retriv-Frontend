@@ -106,13 +106,15 @@ const ProductManager: React.FC<IProductManagerProps> = ({
 
   return (
     <>
-      {isProductSearchControlsOpen && !!searchParams.size && (
-        <ProductSearchControls
-          totalPages={totalPages}
-          handlePageChange={handlePageChange}
-          currentPage={currentPage}
-        />
-      )}
+      {isProductSearchControlsOpen &&
+        !!searchParams.size &&
+        !searchParams.get('googleSignIn') && (
+          <ProductSearchControls
+            totalPages={totalPages}
+            handlePageChange={handlePageChange}
+            currentPage={currentPage}
+          />
+        )}
       <ProductManagerGrid>
         <ProductList products={products} />
       </ProductManagerGrid>
