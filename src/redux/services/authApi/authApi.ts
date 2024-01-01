@@ -44,17 +44,17 @@ export const authApi = createApi({
 
           const cookies = new Cookies(null, { path: '/' });
 
-          cookies.set(
-            'access_token',
-            tokens.accessToken,
-            accessTokenCookieOptions
-          );
+          // cookies.set(
+          //   'access_token',
+          //   tokens.accessToken,
+          //   accessTokenCookieOptions
+          // );
 
-          cookies.set(
-            'refresh_token',
-            tokens.refreshToken,
-            refreshTokenCookieOptions
-          );
+          // cookies.set(
+          //   'refresh_token',
+          //   tokens.refreshToken,
+          //   refreshTokenCookieOptions
+          // );
 
           cookies.set('logged_in', true, accessTokenCookieOptions);
 
@@ -83,17 +83,17 @@ export const authApi = createApi({
 
           const cookies = new Cookies(null, { path: '/' });
 
-          cookies.set(
-            'access_token',
-            tokens.accessToken,
-            accessTokenCookieOptions
-          );
+          // cookies.set(
+          //   'access_token',
+          //   tokens.accessToken,
+          //   accessTokenCookieOptions
+          // );
 
-          cookies.set(
-            'refresh_token',
-            tokens.refreshToken,
-            refreshTokenCookieOptions
-          );
+          // cookies.set(
+          //   'refresh_token',
+          //   tokens.refreshToken,
+          //   refreshTokenCookieOptions
+          // );
 
           cookies.set('logged_in', true, {
             maxAge:
