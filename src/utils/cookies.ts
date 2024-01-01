@@ -3,12 +3,14 @@ export const accessTokenCookieOptions: {
   httpOnly: boolean;
   sameSite: 'lax' | 'none';
   secure: boolean;
+  domain: string | undefined;
 } = {
   maxAge:
     Number(process.env.REACT_APP_JWT_ACCESS_EXPIRATION_MINUTES) * 60 * 1000,
   httpOnly: false,
   sameSite: 'none',
   secure: true,
+  domain: process.env.REACT_APP_API_WEB_BASE_URL,
 };
 
 export const refreshTokenCookieOptions: {
@@ -16,6 +18,7 @@ export const refreshTokenCookieOptions: {
   httpOnly: boolean;
   sameSite: 'lax' | 'none';
   secure: boolean;
+  domain: string | undefined;
 } = {
   maxAge:
     Number(process.env.REACT_APP_JWT_REFRESH_EXPIRATION_DAYS) *
@@ -26,4 +29,5 @@ export const refreshTokenCookieOptions: {
   httpOnly: false,
   sameSite: 'none',
   secure: true,
+  domain: process.env.REACT_APP_API_WEB_BASE_URL,
 };

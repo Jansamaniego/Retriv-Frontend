@@ -56,7 +56,7 @@ export const authApi = createApi({
             refreshTokenCookieOptions
           );
 
-          cookies.set('logged_in', true);
+          cookies.set('logged_in', true, accessTokenCookieOptions);
 
           await dispatch(
             myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
@@ -95,7 +95,15 @@ export const authApi = createApi({
             refreshTokenCookieOptions
           );
 
-          cookies.set('logged_in', true, accessTokenCookieOptions);
+          cookies.set('logged_in', true, {
+            maxAge:
+              Number(process.env.REACT_APP_JWT_ACCESS_EXPIRATION_MINUTES) *
+              60 *
+              1000,
+            httpOnly: false,
+            sameSite: 'none',
+            secure: true,
+          });
 
           await dispatch(
             myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
