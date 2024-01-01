@@ -1,4 +1,9 @@
-import { IUser, IToken, IResponse } from 'types';
+import { IUser, IResponse } from 'types';
+
+export interface Tokens {
+  accessToken: string;
+  refreshToken: string;
+}
 
 export interface ILogin {
   email: string;
@@ -51,9 +56,4 @@ export interface IChangePassword {
 
 export interface IVerifyEmailResponse extends IResponse {
   user: IUser;
-}
-
-export interface Tokens {
-  accessToken: IToken;
-  refreshToken: IToken;
 }

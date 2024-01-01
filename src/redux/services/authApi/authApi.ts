@@ -1,4 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import Cookies from 'universal-cookie';
 
 import customBaseQuery from 'utils/customBaseQuery';
 import {
@@ -15,6 +16,11 @@ import {
 import { IResponse, IUser } from 'types';
 import { myProfileApi } from 'redux/services/myProfileApi/myProfileApi';
 import { logout } from 'redux/features/userSlice';
+import { setTokens } from 'redux/features/tokenSlice';
+import {
+  accessTokenCookieOptions,
+  refreshTokenCookieOptions,
+} from 'utils/cookies';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -32,7 +38,26 @@ export const authApi = createApi({
       },
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled;
+          const {
+            data: { tokens, user },
+          } = await queryFulfilled;
+
+          const cookies = new Cookies(null, { path: '/' });
+
+          cookies.set(
+            'access_token',
+            tokens.accessToken,
+            accessTokenCookieOptions
+          );
+
+          cookies.set(
+            'refresh_token',
+            tokens.refreshToken,
+            refreshTokenCookieOptions
+          );
+
+          cookies.set('logged_in', true);
+
           await dispatch(
             myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })
           );
@@ -52,7 +77,25 @@ export const authApi = createApi({
       },
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled;
+          const {
+            data: { tokens, user },
+          } = await queryFulfilled;
+
+          const cookies = new Cookies(null, { path: '/' });
+
+          cookies.set(
+            'access_token',
+            tokens.accessToken,
+            accessTokenCookieOptions
+          );
+
+          cookies.set(
+            'refresh_token',
+            tokens.refreshToken,
+            refreshTokenCookieOptions
+          );
+
+          cookies.set('logged_in', true, accessTokenCookieOptions);
 
           await dispatch(
             myProfileApi.endpoints.getMe.initiate(null, { forceRefetch: true })

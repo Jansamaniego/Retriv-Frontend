@@ -27,6 +27,7 @@ import userReducer from 'redux/features/userSlice';
 import shopReducer from 'redux/features/shopSlice';
 import themeReducer from 'redux/features/themeSlice';
 import cartReducer from 'redux/features/cartSlice';
+import tokenReducer from 'redux/features/tokenSlice';
 import { ThemeProvider, useTheme } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { themeSettings } from 'components/theme';
@@ -66,6 +67,7 @@ export function renderWithProviders(
         shopState: shopReducer,
         themeState: themeReducer,
         cartState: cartReducer,
+        tokenState: tokenReducer,
       },
       preloadedState,
       middleware: (getDefaultMiddleware) =>

@@ -26,6 +26,7 @@ import userReducer from './features/userSlice';
 import shopReducer from './features/shopSlice';
 import themeReducer from './features/themeSlice';
 import cartReducer from './features/cartSlice';
+import tokenReducer from './features/tokenSlice';
 import { useDispatch } from 'react-redux';
 
 const rootReducer = combineReducers({
@@ -48,6 +49,7 @@ const rootReducer = combineReducers({
   shopState: shopReducer,
   themeState: themeReducer,
   cartState: cartReducer,
+  tokenState: tokenReducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
