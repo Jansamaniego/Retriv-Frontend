@@ -7,10 +7,10 @@ import Cookies from 'universal-cookie';
 
 export const Home = () => {
   const [searchParams] = useSearchParams();
+  const cookies = new Cookies(null, { path: '/' });
 
   useEffect(() => {
     if (searchParams.get('googleSignIn')) {
-      const cookies = new Cookies(null, { path: '/' });
       cookies.set('logged_in', true, {
         maxAge: Number(process.env.REACT_APP_API_WEB_BASE_URL) * 60 * 1000,
         httpOnly: false,
@@ -18,7 +18,7 @@ export const Home = () => {
         secure: true,
       });
     }
-  }, [searchParams]);
+  }, []);
 
   return (
     <PageFlexColumnWrapper>
