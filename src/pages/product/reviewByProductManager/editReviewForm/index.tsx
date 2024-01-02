@@ -88,7 +88,10 @@ const EditReviewForm: React.FC<IEditReviewFormProps> = ({
     deactivateEditReviewMode();
   };
 
-  const { rating } = watch();
+  const { rating, reviewText } = watch();
+
+  console.log(rating, 'yegege');
+  console.log(reviewText, 'yegege');
 
   return (
     <FormProvider {...methods}>
