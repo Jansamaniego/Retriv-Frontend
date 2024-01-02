@@ -58,7 +58,7 @@ const EditReviewForm: React.FC<IEditReviewFormProps> = ({
 
   const reviewSchema = z.object({
     reviewText: z.string().min(3).max(100),
-    rating: z.number().max(5),
+    rating: z.coerce.number().max(5),
   });
 
   const methods = useForm<FormValues>({
@@ -79,7 +79,6 @@ const EditReviewForm: React.FC<IEditReviewFormProps> = ({
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log(data);
-    console.log('hit');
     await updateReview({
       reviewId: review._id,
       productId: productId!,
