@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { z } from 'zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { Form, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
 
 import { IReviewWithUserPickValues } from 'redux/services/reviewApi/reviewApi.types';
 import { useUpdateReviewMutation } from 'redux/services/reviewApi/reviewApi';
 import { StarGradientIcon } from 'assets/icons';
-import { Button, StyledTextarea } from 'components/common';
+import { Button, Form, StyledTextarea } from 'components/common';
 
 interface IEditReviewFormProps {
   review: IReviewWithUserPickValues;
