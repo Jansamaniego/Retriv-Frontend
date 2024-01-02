@@ -76,6 +76,9 @@ const Search = () => {
 
   const onSubmitSearchQueryHandler: (data: FormValues) => void = (data) => {
     setSearchParams((params) => {
+      if (params.get('googleSignIn') !== undefined) {
+        params.delete('googleSignIn');
+      }
       params.set('search', data.search);
       params.set('sortBy', 'relevance');
       params.set('sort', '-1');
