@@ -95,7 +95,7 @@ const EditReviewForm: React.FC<IEditReviewFormProps> = ({
 
   return (
     <FormProvider {...methods}>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <EditReviewFormContainer>
           <div>
             <ProductInfoStatsStarsRating>
@@ -131,7 +131,7 @@ const EditReviewForm: React.FC<IEditReviewFormProps> = ({
             </Button>
           </FlexWrapper>
         </EditReviewFormContainer>
-      </Form>
+      </form>
       <DevTool control={control} />
     </FormProvider>
   );
