@@ -210,7 +210,7 @@ const ReviewByProductItem: React.FC<IReviewByProductItemProps> = ({
               </ReviewMainFlexWrapper>
             )}
           </ReviewData>
-          {isReviewer && (
+          {isReviewer && !isEditReviewMode && (
             <XMarkIconButton
               onClick={deleteReviewOnClickHandler}
               disabled={deleteReviewIsLoading}
