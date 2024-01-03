@@ -98,7 +98,7 @@ const ProductManager: React.FC<IProductManagerProps> = ({
     return <Loading />;
   }
 
-  if (!products || products.length === 0 || !isLoading) {
+  if (!products || (products.length === 0 && !isLoading)) {
     return <h1>No products found</h1>;
   }
 
