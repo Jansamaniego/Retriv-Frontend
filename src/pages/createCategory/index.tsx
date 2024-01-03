@@ -57,6 +57,10 @@ const ButtonFlexWrapper = styled.div`
   display: flex;
 `;
 
+const CreateCategoryTitle = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const MB_BYTES = 1000000;
 
 const TITLE: ITitle = {
@@ -163,7 +167,9 @@ export const CreateCategory = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
             <CreateCategoryStepTracker formStep={formStep} />
-            <h5>{TITLE[formStep as keyof ITitle]}</h5>
+            <CreateCategoryTitle>
+              {TITLE[formStep as keyof ITitle]}
+            </CreateCategoryTitle>
             {formStep === 0 && (
               <FlexWrapper>
                 <StyledInput placeholder="Name" name="name" />

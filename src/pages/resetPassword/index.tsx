@@ -13,6 +13,11 @@ import {
   TransparentPopup,
 } from 'components/common';
 import { CheckIcon } from 'assets/icons';
+import styled from 'styled-components';
+
+const ResetPasswordText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
@@ -85,7 +90,7 @@ export const ResetPassword = () => {
       {isTransparentPopupOpen && (
         <TransparentPopup>
           <CheckIcon width="3rem" />
-          <h3>You have successfully reset your password</h3>
+          <ResetPasswordText>You have successfully reset your password</ResetPasswordText>
         </TransparentPopup>
       )}
     </FormProvider>

@@ -6,6 +6,7 @@ import { Button, Card } from 'components/common';
 import { useUser } from 'pages/profileLayout';
 
 const SendVerificationEmailHeading = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
   padding-bottom: 1.6rem;
 `;
 
@@ -16,6 +17,10 @@ const SendVerificationEmailFlexBox = styled.section`
   flex-direction: column;
   gap: 1.6rem;
   padding: 1.6rem;
+`;
+
+const SendVerificationEmailText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 export const SendVerificationEmail = () => {
@@ -45,16 +50,15 @@ export const SendVerificationEmail = () => {
         </SendVerificationEmailHeading>
         <SendVerificationEmailFlexBox>
           {emailSent ? (
-            <h5>
+            <SendVerificationEmailText>
               An email was sent to {email}, please click the link on the message
               to complete the verification process.
-            </h5>
+            </SendVerificationEmailText>
           ) : (
-            <h5>
+            <SendVerificationEmailText>
               Click the button below to send a verification email to {email}.
-            </h5>
+            </SendVerificationEmailText>
           )}
-
           {!emailSent && (
             <Button
               superLarge

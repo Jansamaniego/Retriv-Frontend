@@ -93,6 +93,7 @@ const ReviewData = styled.div`
 
 const ReviewerName = styled.h5`
   font-weight: 400;
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const ProductInfoStatsAvgRatingStars = styled.div`
@@ -101,7 +102,12 @@ const ProductInfoStatsAvgRatingStars = styled.div`
 `;
 
 const ReviewText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 400;
+`;
+
+const NoReviewText = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const ReviewCard: React.FC<IReviewCardProps> = ({ children }) => {
@@ -131,7 +137,7 @@ const ReviewByProductItem: React.FC<IReviewByProductItemProps> = ({
 
   if (isLoading) return <Loading />;
 
-  if (!review) return <h3>Review is not found.</h3>;
+  if (!review) return null;
 
   const {
     rating,
@@ -278,7 +284,7 @@ const ReviewByProductManager: React.FC<IReviewByProductManagerProps> = ({
     return (
       <StyledCard>
         <ContentFlexWrapper>
-          <h4>There are no reviews for this product</h4>
+          <NoReviewText>There are no reviews for this product</NoReviewText>
         </ContentFlexWrapper>
       </StyledCard>
     );

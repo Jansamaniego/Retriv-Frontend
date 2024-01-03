@@ -11,6 +11,13 @@ const PaymentCompletionFlexWrapper = styled.main`
   gap: 1.6rem;
 `;
 
+const PaymentCompletionText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+const PaymentCompletionSubText = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 export const PaymentCompletion = () => {
   const [searchParams] = useSearchParams();
   const { products, isLoading } = useGetProductsQuery(
@@ -29,17 +36,23 @@ export const PaymentCompletion = () => {
   if (isLoading) return <Loading />;
 
   if (!products || products.length === 0 || !Array.isArray(products)) {
-    return <h3>No products found</h3>;
+    return <PaymentCompletionText>No products found</PaymentCompletionText>;
   }
 
   return (
     <PaymentCompletionFlexWrapper>
       <Card>
-        <h3>Your order has been processed successfully!</h3>
-        <h4>Thank you for shopping with Retriv!</h4>
+        <PaymentCompletionText>
+          Your order has been processed successfully!
+        </PaymentCompletionText>
+        <PaymentCompletionSubText>
+          Thank you for shopping with Retriv!
+        </PaymentCompletionSubText>
       </Card>
       <Card>
-        <h4>Please check out our other products:</h4>
+        <PaymentCompletionSubText>
+          Please check out our other products:
+        </PaymentCompletionSubText>
       </Card>
       <ProductManager isProductSearchControlsOpen={false} />
     </PaymentCompletionFlexWrapper>

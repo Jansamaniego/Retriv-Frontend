@@ -88,7 +88,7 @@ const ShopProductItem: React.FC<IMyShopProductItemProps> = ({ id, shopId }) => {
 
   if (isLoading) return <Loading />;
 
-  if (!product) return <h1>No product</h1>;
+  if (!product) return null;
 
   const { name, price, mainImage, quantitySold, id: productId } = product;
 

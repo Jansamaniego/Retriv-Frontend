@@ -150,6 +150,8 @@ const TrackerPoint = styled.div<ITrackerPointProps>`
   }
 `;
 
+const OrderTrackerText = styled.h4``;
+
 const TrackerLine = styled.div<ITrackerLineProps>`
   background-color: ${(props) =>
     props.active ? props.theme.primary.main : props.theme.neutral[700]};
@@ -162,7 +164,7 @@ const OrderTracker: React.FC<IOrderTrackerProps> = ({ orderStatus }) => {
     <Card backgroundColor="green">
       <PlacedOrderTrackerFlexWrapper>
         <PlacedOrderTrackerHeader>
-          <h4>{orderStatus}</h4>
+          <OrderTrackerText>{orderStatus}</OrderTrackerText>
         </PlacedOrderTrackerHeader>
         <TrackerFlexWrapper>
           <TrackerPoint

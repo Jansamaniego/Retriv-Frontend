@@ -52,6 +52,10 @@ const DeleteModalFlexWrapper = styled.div`
   gap: 1.6rem;
 `;
 
+const DeleteProductImageModalText = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const ProductHeader: React.FC<IProductHeaderProps> = ({
   product,
   productRatings,
@@ -175,7 +179,9 @@ const ProductHeader: React.FC<IProductHeaderProps> = ({
                 <DisplayImage src={displayImage} alt="delete this" />
               </DisplayImageContainer>
             </ImageFlexWrapper>
-            <h4>Are you sure you want to remove this product image?</h4>
+            <DeleteProductImageModalText>
+              Are you sure you want to remove this product image?
+            </DeleteProductImageModalText>
           </DeleteModalFlexWrapper>
         </StyledModal>
       )}

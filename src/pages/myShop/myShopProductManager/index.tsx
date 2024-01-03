@@ -40,6 +40,10 @@ const ShopProductManagerGrid = styled.main`
   }
 `;
 
+const MyShopProductManagerText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const MyShopProductManager: React.FC<IMyShopProductManagerProps> = ({
   shopId,
 }) => {
@@ -100,7 +104,7 @@ const MyShopProductManager: React.FC<IMyShopProductManagerProps> = ({
   if (!products || products.length === 0) {
     return (
       <Card>
-        <h1>No products found.</h1>
+        <MyShopProductManagerText>No products found.</MyShopProductManagerText>
       </Card>
     );
   }

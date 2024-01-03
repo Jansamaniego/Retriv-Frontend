@@ -43,11 +43,15 @@ const ProfilePageTab = styled.button<ProfilePageTabProps>`
   cursor: pointer;
 `;
 
+const ProfileText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 export const Profile = () => {
   const [isProfileTabOpen, setIsProfileTabOpen] = useState(true);
   const loggedInUser = useSelector((state: RootState) => state.userState.user);
 
-  if (!loggedInUser) return <h3>User is not found</h3>;
+  if (!loggedInUser) return <ProfileText>User is not found</ProfileText>;
 
   const { role } = loggedInUser;
 

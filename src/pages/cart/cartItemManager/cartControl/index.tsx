@@ -70,7 +70,9 @@ const CartDetailsQuantityAndPriceContainer = styled.div`
   align-items: center;
 `;
 
-const CartDetailsQuantityAndPrice = styled.h5``;
+const CartDetailsQuantityAndPrice = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const CheckOutButtonContainer = styled.div`
   display: flex;
@@ -79,6 +81,10 @@ const CheckOutButtonContainer = styled.div`
 `;
 
 const CheckOutButton = styled(Button)``;
+
+const DeleteCartModalText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const CartControl: React.FC<ICartControlProps> = ({
   totalPrice,
@@ -134,7 +140,9 @@ const CartControl: React.FC<ICartControlProps> = ({
           isLoading={isLoading}
           onClick={deleteCartOnClickHandler}
         >
-          <h5>Are you sure you want to delete your cart?</h5>
+          <DeleteCartModalText>
+            Are you sure you want to delete your cart?
+          </DeleteCartModalText>
         </StyledModal>
       )}
     </Card>

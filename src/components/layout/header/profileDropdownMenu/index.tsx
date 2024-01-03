@@ -47,6 +47,10 @@ const ProfileDropdownMenuOption = styled.div`
   }
 `;
 
+const ProfileDropDownMenuText = styled.h6`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const ProfileSectionContainer = styled.div`
   padding: 1.6rem;
   border-bottom: 0.1rem solid ${(props) => props.theme.neutral[0]};
@@ -98,10 +102,10 @@ const ProfileDropdownMenu = forwardRef<
         <ProfileSection>
           <ProfileImageLogo profileImage={profileImage} size="6rem" />
           <UserInfo>
-            <h6>
+            <ProfileDropDownMenuText>
               {firstName} {lastName}
-            </h6>
-            <h6>{email}</h6>
+            </ProfileDropDownMenuText>
+            <ProfileDropDownMenuText>{email}</ProfileDropDownMenuText>
             <StyledLink to="/profile" isActive={pathname === '/profile'}>
               Manage your account
             </StyledLink>

@@ -17,6 +17,10 @@ const UserShopManagerGrid = styled.main`
   row-gap: 1.6rem;
 `;
 
+const UserShopManagerText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const UserShopManager: React.FC<IUserShopManagerProps> = ({ user }) => {
   const queryFilter = { filter: { id: user.id } };
 
@@ -33,13 +37,10 @@ const UserShopManager: React.FC<IUserShopManagerProps> = ({ user }) => {
     }
   );
 
-  console.log(user);
-
   if (isLoading) return <Loading />;
 
-  if (!shops || shops.length === 0) return <h3>User has no shops</h3>;
-
-  console.log(shops);
+  if (!shops || shops.length === 0)
+    return <UserShopManagerText>User has no shops</UserShopManagerText>;
 
   return (
     <>

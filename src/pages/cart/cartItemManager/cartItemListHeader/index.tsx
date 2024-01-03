@@ -35,7 +35,9 @@ const CartItemListColumnHeaderContainer = styled.div`
   width: 100%;
 `;
 
-const CartItemListColumnHeader = styled.h5``;
+const CartItemListColumnHeader = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const CartItemListHeader: React.FC = () => {
   return (

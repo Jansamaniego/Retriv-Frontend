@@ -70,6 +70,10 @@ const ButtonFlexWrapper = styled.div`
   display: flex;
 `;
 
+const CreateProductTitle = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const MB_BYTES = 1000000;
 
 const TITLE: ITitle = {
@@ -265,7 +269,7 @@ export const CreateProduct = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
             <CreateProductStepTracker formStep={formStep} />
-            <h5>{TITLE[formStep as keyof ITitle]}</h5>
+            <CreateProductTitle>{TITLE[formStep as keyof ITitle]}</CreateProductTitle>
             {formStep === 0 && (
               <FlexWrapper>
                 <StyledInput placeholder="name" name="name" />

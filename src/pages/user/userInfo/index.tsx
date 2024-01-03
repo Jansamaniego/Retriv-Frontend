@@ -57,16 +57,19 @@ const UserDataValueFlexWrapper = styled.div`
   align-items: center;
 `;
 
-const UserDataInputFlexWrapper = styled.div`
-  flex-direction: column;
-`;
-
 const EditButtonWrapper = styled.div`
   display: flex;
 `;
 
 const Value = styled.h6`
   padding: 0.4rem 0.8rem;
+`;
+
+const UserInfoText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
+const UserInfoSubText = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const EditUserModal: React.FC<IEditUserModalProps> = ({
@@ -90,7 +93,7 @@ const EditUserModal: React.FC<IEditUserModalProps> = ({
     >
       {isEditFirstNameMode && (
         <>
-          <h4>First name</h4>
+          <UserInfoText>First name</UserInfoText>
           <StyledInput
             placeholder="First Name"
             name="firstName"
@@ -100,7 +103,7 @@ const EditUserModal: React.FC<IEditUserModalProps> = ({
       )}
       {isEditLastNameMode && (
         <>
-          <h4>Last name</h4>
+          <UserInfoText>Last name</UserInfoText>
           <StyledInput
             placeholder="Last Name"
             name="lastName"
@@ -110,7 +113,7 @@ const EditUserModal: React.FC<IEditUserModalProps> = ({
       )}
       {isEditUsernameMode && (
         <>
-          <h4>Username</h4>
+          <UserInfoText>Username</UserInfoText>
           <StyledInput
             placeholder="User Name"
             name="username"
@@ -120,25 +123,25 @@ const EditUserModal: React.FC<IEditUserModalProps> = ({
       )}
       {isEditEmailMode && (
         <>
-          <h4>Email</h4>
+          <UserInfoText>Email</UserInfoText>
           <StyledInput placeholder="Email" name="email" marginBottom={0} />
         </>
       )}
       {isEditGenderMode && (
         <>
-          <h4>Gender</h4>
+          <UserInfoText>Gender</UserInfoText>
           <GenderSelect name="gender" />
         </>
       )}
       {isEditPhoneMode && (
         <>
-          <h4>Phone</h4>
+          <UserInfoText>Phone</UserInfoText>
           <StyledInput placeholder="Phone" name="phone" marginBottom={0} />
         </>
       )}
       {isEditDateOfBirthMode && (
         <>
-          <h4>Date of birth</h4>
+          <UserInfoText>Date of birth</UserInfoText>
           <StyledInput
             placeholder="Date of birth"
             type="date"
@@ -149,7 +152,7 @@ const EditUserModal: React.FC<IEditUserModalProps> = ({
       )}
       {isEditAddressMode && (
         <>
-          <h4>Address</h4>
+          <UserInfoText>Address</UserInfoText>
           <StyledTextarea placeholder="Address" name="address" />
         </>
       )}
@@ -340,12 +343,12 @@ const UserInfo = () => {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <UserInfoHeading>
-            <h4>Update Info</h4>
+            <UserInfoText>Update Info</UserInfoText>
           </UserInfoHeading>
           <UserData>
             <div>
               <div>
-                <h5>first name:</h5>
+                <UserInfoSubText>first name:</UserInfoSubText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{firstName}</Value>
@@ -364,7 +367,7 @@ const UserInfo = () => {
             </div>
             <div>
               <div>
-                <h5>last name:</h5>
+                <UserInfoSubText>last name:</UserInfoSubText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{lastName}</Value>
@@ -381,7 +384,7 @@ const UserInfo = () => {
             </div>
             <div>
               <div>
-                <h5>username:</h5>
+                <UserInfoSubText>username:</UserInfoSubText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{username}</Value>
@@ -398,7 +401,7 @@ const UserInfo = () => {
             </div>
             <div>
               <div>
-                <h5>email:</h5>
+                <UserInfoSubText>email:</UserInfoSubText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{email}</Value>
@@ -415,7 +418,7 @@ const UserInfo = () => {
             </div>
             <div>
               <div>
-                <h5>phone:</h5>
+                <UserInfoSubText>phone:</UserInfoSubText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{phone ? phone : 'N/A'}</Value>
@@ -432,7 +435,7 @@ const UserInfo = () => {
             </div>
             <div>
               <div>
-                <h5>date of birth:</h5>
+                <UserInfoSubText>date of birth:</UserInfoSubText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{dateOfBirth ? dateOfBirth : 'N/A'}</Value>
@@ -449,7 +452,7 @@ const UserInfo = () => {
             </div>
             <div>
               <div>
-                <h5>gender:</h5>
+                <UserInfoSubText>gender:</UserInfoSubText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{gender}</Value>
@@ -466,7 +469,7 @@ const UserInfo = () => {
             </div>
             <div>
               <div>
-                <h5>address:</h5>
+                <UserInfoSubText>address:</UserInfoSubText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{address ? address : 'N/A'}</Value>

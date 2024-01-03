@@ -44,6 +44,10 @@ const StyledStarGradientIcon = styled(StarGradientIcon)`
   cursor: pointer;
 `;
 
+const ReviewFormText = styled.h6`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const ReviewForm: React.FC<IReviewFormProps> = ({ shopId, productId }) => {
   const [createReview, { isLoading }] = useCreateReviewMutation();
   const [hover, setHover] = useState<number | null>(0);
@@ -80,11 +84,11 @@ const ReviewForm: React.FC<IReviewFormProps> = ({ shopId, productId }) => {
         <ContentFlexWrapper>
           <StyledForm onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <h6>
+              <ReviewFormText>
                 {rating
                   ? `Your rating is ${rating}`
                   : 'Please rate our product'}
-              </h6>
+              </ReviewFormText>
               <ProductInfoStatsStarsRating>
                 {[...Array(5)].map((star, idx) => {
                   const currentRating = idx + 1;
@@ -106,8 +110,10 @@ const ReviewForm: React.FC<IReviewFormProps> = ({ shopId, productId }) => {
               </ProductInfoStatsStarsRating>
             </div>
             <div>
-              <h6>Please leave a comment about the product:</h6>
-              <StyledTextarea name="reviewText" placeholder='review' />
+              <ReviewFormText>
+                Please leave a comment about the product:
+              </ReviewFormText>
+              <StyledTextarea name="reviewText" placeholder="review" />
             </div>
             <Button type="submit" disabled={isLoading} large>
               Submit Review

@@ -11,6 +11,10 @@ const CategoryManagerGrid = styled.main`
   row-gap: 1.6rem;
 `;
 
+const CategoryManagerText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const CategoryManager = () => {
   const { categories, isLoading } = useGetCategoriesQuery(null, {
     selectFromResult: ({ data, isLoading }) => {
@@ -25,7 +29,7 @@ const CategoryManager = () => {
   if (isLoading) return <Loading />;
 
   if (!categories || categories.length === 0)
-    return <h3>No categories found.</h3>;
+    return <CategoryManagerText>No categories found.</CategoryManagerText>;
 
   return (
     <CategoryManagerGrid>

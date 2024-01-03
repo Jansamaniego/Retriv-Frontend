@@ -63,6 +63,10 @@ const ShopInfoStats = styled.div`
   justify-content: space-between;
 `;
 
+const UserShopListText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const UserShopItem: React.FC<IUserShopItemProps> = ({ id, queryFilter }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -78,15 +82,10 @@ const UserShopItem: React.FC<IUserShopItemProps> = ({ id, queryFilter }) => {
 
   if (isLoading) return <Loading />;
 
-  if (!shop) return <h3>Shop is not found</h3>;
+  if (!shop) return <UserShopListText>Shop is not found</UserShopListText>;
 
-  const {
-    dateCreated,
-    name,
-    productsQuantity,
-    shopImage,
-    totalUnitsSold,
-  } = shop;
+  const { dateCreated, name, productsQuantity, shopImage, totalUnitsSold } =
+    shop;
 
   const manageShop = () => {
     dispatch(setShop(shop));

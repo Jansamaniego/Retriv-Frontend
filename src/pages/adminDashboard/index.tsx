@@ -24,11 +24,12 @@ const YearSelect = styled(Select)`
 const OverallStatsGrid = styled.main`
   column-gap: 1.6rem;
   row-gap: 1.6rem;
-  /* display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr; */
   display: flex;
   flex-direction: column;
+`;
+
+const AdminDashBoardText = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 export const AdminDashboard = () => {
@@ -81,9 +82,13 @@ export const AdminDashboard = () => {
       </YearSelectContainer>
       <OverallStatsGrid>
         <Card>
-          <h4>Total Customers: {totalCustomers}</h4>
-          <h4>Total Sales for 2023: {yearlySalesTotal}</h4>
-          <h4>Total Units Sold for 2023:{yearlyTotalSoldUnits}</h4>
+          <AdminDashBoardText>Total Customers: {totalCustomers}</AdminDashBoardText>
+          <AdminDashBoardText>
+            Total Sales for 2023: {yearlySalesTotal}
+          </AdminDashBoardText>
+          <AdminDashBoardText>
+            Total Units Sold for 2023:{yearlyTotalSoldUnits}
+          </AdminDashBoardText>
         </Card>
         <SalesAndUnitsPerMonthLineGraph monthlyData={monthlyData} />
         <SalesAndUnitsPerDayGraph dailyData={dailyData} year={queryStatsYear} />

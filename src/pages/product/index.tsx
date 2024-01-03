@@ -42,7 +42,7 @@ export const Product = () => {
 
   if (productIsLoading || productRatingsIsLoading) return <Loading />;
 
-  if (!product) return <h3>Product is not found</h3>;
+  if (!product) return null;
 
   const { shop } = product;
 

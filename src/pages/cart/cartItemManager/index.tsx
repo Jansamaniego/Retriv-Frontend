@@ -13,6 +13,10 @@ const CartPageFlexWrapper = styled.div`
   gap: 2rem;
 `;
 
+const CartItemManagerText = styled.h2`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const CartItemManager: React.FC = () => {
   const { data: cart, isLoading } = useGetCartQuery();
 
@@ -20,9 +24,7 @@ const CartItemManager: React.FC = () => {
 
   if (!cart)
     return (
-      <Card>
-        <h2>Your shopping cart is empty.</h2>
-      </Card>
+      <CartItemManagerText>Your shopping cart is empty.</CartItemManagerText>
     );
 
   const { items, totalPrice, totalQuantity } = cart;

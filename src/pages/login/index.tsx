@@ -52,8 +52,8 @@ const GoogleOAuthButton = styled.button`
   display: flex;
   border-radius: 0.5rem;
   width: 100%;
-
   padding: 0.8rem 1.2rem;
+  background-color: ${(props) => props.theme.neutral[900]};
 
   &:hover {
     cursor: pointer;
@@ -71,6 +71,10 @@ const GoogleOAuthFlexWrapper = styled.div`
   align-items: center;
 
   gap: 1.6rem;
+`;
+
+const GoogleOAuthText = styled.h6`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 export const Login = () => {
@@ -140,7 +144,7 @@ export const Login = () => {
             >
               <GoogleOAuthFlexWrapper>
                 <GoogleIcon width="3rem" height="3rem" />
-                <h6>Continue with Google</h6>
+                <GoogleOAuthText>Continue with Google</GoogleOAuthText>
               </GoogleOAuthFlexWrapper>
             </GoogleOAuthButton>
             <StyledLink to="/register" isActive={pathname === '/register'}>

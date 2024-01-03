@@ -120,29 +120,41 @@ const CartItemUnitPriceContainer = styled.div`
   }
 `;
 
-const CartItemName = styled.h5``;
+const CartItemName = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const PriceLabel = styled.h5`
   display: none;
+  color: ${(props) => props.theme.neutral.text};
 
   @media (max-width: 900px) {
     display: block;
   }
 `;
 
-const CartItemUnitPrice = styled.h5``;
+const CartItemUnitPrice = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const TotalPriceLabel = styled.h5`
   display: none;
+  color: ${(props) => props.theme.neutral.text};
 
   @media (max-width: 900px) {
     display: block;
   }
 `;
 
-const CartItemTotalPrice = styled.h5``;
+const CartItemTotalPrice = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const DeleteButton = styled(Button)``;
+
+const CartItemItemPopupText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const CartItemItem: React.FC<ICartItemItemProps> = ({
   cartItem: {
@@ -184,7 +196,7 @@ const CartItemItem: React.FC<ICartItemItemProps> = ({
 
   if (isLoading) return <Loading />;
 
-  if (!product) return <h1>No product found!</h1>;
+  if (!product) return null;
 
   const decrementQuantityToPurchase = () => {
     if (quantityToPurchase <= 1) return;
@@ -242,7 +254,9 @@ const CartItemItem: React.FC<ICartItemItemProps> = ({
       </CartItemFlexWrapper>
       {isTransparentPopupOpen && (
         <TransparentPopup>
-          <h3>Item has been removed from your cart!</h3>
+          <CartItemItemPopupText>
+            Item has been removed from your cart!
+          </CartItemItemPopupText>
         </TransparentPopup>
       )}
     </CartItemContainer>

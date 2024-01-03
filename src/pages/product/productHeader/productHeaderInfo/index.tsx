@@ -55,13 +55,20 @@ const ProductDataValueFlexWrapper = styled.div`
   gap: 0.8rem;
 `;
 
-const ProductDataInputFlexWrapper = styled.div`
-  display: flex;
-  align-items: center;
+const ProductInfoBigText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
-const FlexWrapper = styled.div`
-  display: flex;
+const ProductInfoText = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
+const ProductInfoSubText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
+const ProductInfoMiniText = styled.h6`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const ProductInfoStatsContainer = styled.div`
@@ -281,20 +288,19 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ProductInfo>
-            <>
-              <ProductDataValueFlexWrapper>
-                <h3>{name}</h3>
-                {isOwner && (
-                  <EditIconButton
-                    buttonProps={{
-                      onClick: enableEditNameMode,
-                      disabled: isEditModalOpen,
-                    }}
-                    svgProps={{ width: '2rem' }}
-                  />
-                )}
-              </ProductDataValueFlexWrapper>
-            </>
+            <ProductDataValueFlexWrapper>
+              <ProductInfoBigText>{name}</ProductInfoBigText>
+              {isOwner && (
+                <EditIconButton
+                  buttonProps={{
+                    onClick: enableEditNameMode,
+                    disabled: isEditModalOpen,
+                  }}
+                  svgProps={{ width: '2rem' }}
+                />
+              )}
+            </ProductDataValueFlexWrapper>
+
             <ProductInfoStatsContainer>
               <ProductInfoStatsAvgRating>
                 <RatingsAverage>{ratingsAverage}</RatingsAverage>
@@ -311,16 +317,18 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                 </ProductInfoStatsAvgRatingStars>
               </ProductInfoStatsAvgRating>
               <ProductInfoStatsRatingQuantityContainer>
-                <h5>{ratingsQuantity} Ratings</h5>
+                <ProductInfoSubText>
+                  {ratingsQuantity} Ratings
+                </ProductInfoSubText>
               </ProductInfoStatsRatingQuantityContainer>
               <ProductInfoStatsProductsSoldContainer>
-                <h5>{quantitySold} Sold</h5>
+                <ProductInfoSubText>{quantitySold} Sold</ProductInfoSubText>
               </ProductInfoStatsProductsSoldContainer>
             </ProductInfoStatsContainer>
             <DescriptionContainer>
               <>
                 <ProductDataValueFlexWrapper>
-                  <h6>{description}</h6>
+                  <ProductInfoMiniText>{description}</ProductInfoMiniText>
                   {isOwner && (
                     <EditIconButton
                       buttonProps={{
@@ -334,7 +342,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
               </>
             </DescriptionContainer>
             <ProductDataValueFlexWrapper>
-              <h4> &#8369;{price}</h4>
+              <ProductInfoText> &#8369;{price}</ProductInfoText>
               {isOwner && (
                 <EditIconButton
                   buttonProps={{
@@ -359,7 +367,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
             <>
               <QuantityControllerContainer>
                 <div>
-                  <h6>Quantity</h6>
+                  <ProductInfoMiniText>Quantity</ProductInfoMiniText>
                 </div>
                 <QuantityTogglerInput
                   decrementQuantityToggle={decrementQuantityToPurchase}
@@ -370,11 +378,11 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                 <div>
                   <div>
                     <ProductDataValueFlexWrapper>
-                      <h6>
+                      <ProductInfoMiniText>
                         {isOutOfStock
                           ? 'Out of stock'
                           : `${quantityInStock} units available`}
-                      </h6>
+                      </ProductInfoMiniText>
                       {isOwner && (
                         <EditIconButton
                           buttonProps={{
@@ -403,7 +411,9 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
             {isTransparentPopupOpen && (
               <TransparentPopup>
                 <CheckIcon width="3rem" />
-                <h3>Item has been added to your cart!</h3>
+                <ProductInfoBigText>
+                  Item has been added to your cart!
+                </ProductInfoBigText>
               </TransparentPopup>
             )}
           </ProductInfo>
@@ -415,7 +425,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
             >
               {isEditNameMode && (
                 <>
-                  <h4>Name</h4>
+                  <ProductInfoText>Name</ProductInfoText>
                   <StyledInput
                     placeholder="Name"
                     name="name"
@@ -425,7 +435,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
               )}
               {isEditDescriptionMode && (
                 <>
-                  <h4>Description</h4>
+                  <ProductInfoText>Description</ProductInfoText>
                   <StyledInput
                     placeholder="Description"
                     name="description"
@@ -435,7 +445,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
               )}
               {isEditPriceMode && (
                 <>
-                  <h4>Price</h4>
+                  <ProductInfoText>Price</ProductInfoText>
                   <StyledInput
                     placeholder="Price"
                     name="price"
@@ -445,7 +455,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
               )}
               {isEditQuantityInStockMode && (
                 <>
-                  <h4>QuantityInStock</h4>
+                  <ProductInfoText>QuantityInStock</ProductInfoText>
                   <StyledInput
                     placeholder="Quantity in stock"
                     type="number"

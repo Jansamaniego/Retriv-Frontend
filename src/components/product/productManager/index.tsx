@@ -34,6 +34,8 @@ const ProductManagerGrid = styled.main`
   }
 `;
 
+const ProductManagerText = styled.h3``;
+
 const ProductManager: React.FC<IProductManagerProps> = ({
   isProductSearchControlsOpen,
 }) => {
@@ -99,7 +101,7 @@ const ProductManager: React.FC<IProductManagerProps> = ({
   }
 
   if (!products || (products.length === 0 && !isLoading)) {
-    return <h1>No products found</h1>;
+    return <ProductManagerText>No products found</ProductManagerText>;
   }
 
   return (

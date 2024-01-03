@@ -108,6 +108,8 @@ const OrderTable: React.FC<IOrderTableProps> = ({ orders }) => {
   );
 };
 
+const AdminOrderText = styled.h2``;
+
 export const AdminOrder = () => {
   const { orders, isLoading } = useGetOrdersQuery(undefined, {
     selectFromResult: ({ data, isLoading }) => {
@@ -129,11 +131,7 @@ export const AdminOrder = () => {
   if (isLoading) return <Loading />;
 
   if (!orders || orders.length === 0)
-    return (
-      <Card>
-        <h2>No orders found.</h2>
-      </Card>
-    );
+    return <AdminOrderText>No orders found.</AdminOrderText>;
 
   return <OrderTable orders={orders} />;
 };

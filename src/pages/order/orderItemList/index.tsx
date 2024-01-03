@@ -90,6 +90,9 @@ const OrderItemDetailContainer = styled.div`
   max-width: 30rem;
   width: 100%;
 `;
+const OrderItemDetailText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const OrderItemItem: React.FC<IOrderItemItemProps> = ({
   productId,
@@ -104,7 +107,7 @@ const OrderItemItem: React.FC<IOrderItemItemProps> = ({
 
   if (isLoading) return <Loading />;
 
-  if (!product) return <h4>Product is not found</h4>;
+  if (!product) return null;
 
   const { name, mainImage, price } = product;
 
@@ -117,16 +120,16 @@ const OrderItemItem: React.FC<IOrderItemItemProps> = ({
           </OrderItemImageContainer>
         </OrderItemImageWrapper>
         <OrderItemDetailContainer>
-          <h5>{name}</h5>
+          <OrderItemDetailText>{name}</OrderItemDetailText>
         </OrderItemDetailContainer>
         <OrderItemDetailContainer>
-          <h5>&#8369;{price}</h5>
+          <OrderItemDetailText>&#8369;{price}</OrderItemDetailText>
         </OrderItemDetailContainer>
         <OrderItemDetailContainer>
-          <h5>{totalProductQuantity}</h5>
+          <OrderItemDetailText>{totalProductQuantity}</OrderItemDetailText>
         </OrderItemDetailContainer>
         <OrderItemDetailContainer>
-          <h5>&#8369;{totalProductPrice}</h5>
+          <OrderItemDetailText>&#8369;{totalProductPrice}</OrderItemDetailText>
         </OrderItemDetailContainer>
       </OrderItemFlexWrapper>
     </div>

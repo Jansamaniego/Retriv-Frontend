@@ -38,6 +38,7 @@ const ChangePasswordGrid = styled.section`
 `;
 
 const ChangePasswordHeading = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
   padding-bottom: 1.6rem;
 `;
 
@@ -45,6 +46,10 @@ const EmptyDiv = styled.div`
   @media (max-width: 940px) {
     display: none;
   }
+`;
+
+const TransparentPopupText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const ButtonContainer = styled.div``;
@@ -117,7 +122,9 @@ export const ChangePassword = () => {
           </ChangePasswordGrid>
           {isTransparentPopupOpen && (
             <TransparentPopup>
-              <h3>Your password has been changed.</h3>
+              <TransparentPopupText>
+                Your password has been changed.
+              </TransparentPopupText>
             </TransparentPopup>
           )}
         </Form>

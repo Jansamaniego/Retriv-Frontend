@@ -21,6 +21,10 @@ const PlacedOrderPageHeaderFlexWrapper = styled.div`
   }
 `;
 
+const OrderHeaderText = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const OrderHeader: React.FC<IOrderHeaderProps> = ({
   orderId,
   dateOfPurchase,
@@ -28,8 +32,10 @@ const OrderHeader: React.FC<IOrderHeaderProps> = ({
   return (
     <Card>
       <PlacedOrderPageHeaderFlexWrapper>
-        <h4>Order {orderId}</h4>
-        <h4>{moment(dateOfPurchase).format('yyyy-MM-DD')}</h4>
+        <OrderHeaderText>Order {orderId}</OrderHeaderText>
+        <OrderHeaderText>
+          {moment(dateOfPurchase).format('yyyy-MM-DD')}
+        </OrderHeaderText>
       </PlacedOrderPageHeaderFlexWrapper>
     </Card>
   );

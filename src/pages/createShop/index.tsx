@@ -70,6 +70,10 @@ const ButtonFlexWrapper = styled.div`
   justify-content: flex-end;
 `;
 
+const CreateShopTitle = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const MB_BYTES = 1000000;
 
 const TITLE: ITitle = {
@@ -213,7 +217,9 @@ export const CreateShop = () => {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <FormFlexWrapper>
               <CreateShopStepTracker formStep={formStep} />
-              <h5>{TITLE[formStep as keyof ITitle]}</h5>
+              <CreateShopTitle>
+                {TITLE[formStep as keyof ITitle]}
+              </CreateShopTitle>
               {formStep === 0 && (
                 <FlexWrapper>
                   <StyledInput placeholder="Name" name="name" />

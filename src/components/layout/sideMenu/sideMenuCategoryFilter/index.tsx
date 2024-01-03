@@ -33,7 +33,9 @@ const CategoryFilterList = styled.ul`
   padding-left: 0;
 `;
 
-const CategoryFilter = styled.li``;
+const CategoryFilter = styled.li`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const CategoriesFilterTitleContainer = styled.div``;
 
@@ -42,6 +44,10 @@ const CategoriesFilterTitle = styled.h5`
   margin-bottom: 0.5rem;
   font-weight: 400;
   white-space: nowrap;
+`;
+
+const SideMenuCategoryFilterText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const CategoryCheckBoxContainer = styled.div`
@@ -54,7 +60,7 @@ const CategoryCheckBoxContainer = styled.div`
   &:hover {
     background: ${(props) => props.theme.neutral[800]};
   }
-  
+
   &:active {
     box-shadow: inset 0 20px 30px 0 rgba(0, 0, 0, 0.1);
   }
@@ -123,7 +129,12 @@ const SideMenuCategoryFilter = () => {
 
   if (categoriesIsLoading) return <Loading />;
 
-  if (!categories) return <h3>No categories found</h3>;
+  if (!categories)
+    return (
+      <SideMenuCategoryFilterText>
+        No categories found
+      </SideMenuCategoryFilterText>
+    );
 
   return (
     <SideMenuCategoryFilterContainer>

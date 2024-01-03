@@ -44,6 +44,10 @@ const Name = styled.h6`
   }
 `;
 
+const AdminUserText = styled.h2`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const ProfileImageRenderer = (p: ValueFormatterParams) => {
   return (
     <>
@@ -134,7 +138,7 @@ export const AdminUser = () => {
   if (!users || users.length === 0)
     return (
       <Card>
-        <h2>No users found.</h2>
+        <AdminUserText>No users found.</AdminUserText>
       </Card>
     );
 

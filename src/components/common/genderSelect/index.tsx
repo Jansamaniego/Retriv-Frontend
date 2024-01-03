@@ -23,7 +23,8 @@ const StyledSelect = styled.select`
   cursor: pointer;
   width: 100%;
   color: ${(props) => props.theme.neutral.text};
-
+  background-color: ${(props) => props.theme.neutral[700]};
+  
   &:focus {
     outline-color: ${(props) => props.theme.neutral[200]};
   }

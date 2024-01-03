@@ -86,6 +86,35 @@ const ButtonFlexWrapper = styled.div`
   justify-content: flex-end;
 `;
 
+const RegisterText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
+const ErrorText = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
+const StyledSelect = styled.select`
+  padding: 0.4rem 0.8rem;
+  border: 0.1rem solid ${(props) => props.theme.primary.main};
+  border-radius: 0.5rem;
+  font-size: 2rem;
+  font-weight: 400;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  cursor: pointer;
+  width: 100%;
+  color: ${(props) => props.theme.neutral.text};
+  background-color: ${(props) => props.theme.neutral[700]};
+
+  &:focus {
+    outline-color: ${(props) => props.theme.neutral[200]};
+  }
+
+  &:active {
+    outline-color: ${(props) => props.theme.neutral[200]};
+  }
+`;
+
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
 const MB_BYTES = 1000000;
@@ -298,7 +327,7 @@ export const Register = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormFlexWrapper>
             <RegisterStepTracker formStep={formStep} />
-            <h5>{TITLE[formStep]}</h5>
+            <RegisterText>{TITLE[formStep]}</RegisterText>
             {formStep === 0 && (
               <FlexWrapper>
                 <StyledInput placeholder="Username" name="username" />
@@ -314,13 +343,13 @@ export const Register = () => {
               <FlexWrapper>
                 <StyledInput placeholder="First Name" name="firstName" />
                 <StyledInput placeholder="Last Name" name="lastName" />
-                <Select {...register('gender')}>
+                <StyledSelect {...register('gender')}>
                   <option>Select Gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                   <option value="other">Other</option>
                   <option value="undisclosed">Undisclosed</option>
-                </Select>
+                </StyledSelect>
                 {errors.gender?.message && <p>{errors.gender?.message}</p>}
                 <StyledInput
                   placeholder="DateOfBirth"
@@ -349,7 +378,9 @@ export const Register = () => {
             )}
             {formStep === 4 && (
               <>
-                {isErrorWithMessage(error) && <h4>{error?.data?.message}</h4>}
+                {isErrorWithMessage(error) && (
+                  <ErrorText>{error?.data?.message}</ErrorText>
+                )}
               </>
             )}
             <ButtonFlexWrapper>
@@ -379,9 +410,6 @@ export const Register = () => {
               isModalOpen={isRegisterModalOpen}
               closeModal={closeRegisterModal}
               isLoading={isLoading}
-
-
-              
             >
               Are you sure you want to create this Shop?
             </StyledModal>

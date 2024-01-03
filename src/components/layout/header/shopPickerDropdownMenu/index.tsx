@@ -62,6 +62,10 @@ const ShopImage = styled.img`
   border-radius: 50%;
 `;
 
+const ShopPickerText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const ShopName = styled.h5``;
 
 const ShopProductsQuantity = styled.h6`
@@ -97,7 +101,7 @@ const ShopPickerDropdownMenuItem: React.FC<
     state.shopState.userShops.find((userShop) => userShop._id === id)
   );
 
-  if (!userShop) return <h3>shop is not found</h3>;
+  if (!userShop) return <ShopPickerText>shop is not found</ShopPickerText>;
 
   const { name, shopImage, productsQuantity, totalUnitsSold } = userShop;
 
@@ -145,7 +149,7 @@ const ShopPickerDropdownMenu = forwardRef<HTMLDivElement>((props, ref) => {
   };
 
   if (!currentShop || !userShops || userShops.length === 0)
-    return <h3> No shops found</h3>;
+    return <ShopPickerText> No shops found</ShopPickerText>;
 
   return (
     <ShopPickerDropdownMenuContainer ref={ref}>

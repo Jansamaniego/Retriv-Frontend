@@ -64,7 +64,16 @@ const UserDataValueFlexWrapper = styled.div`
 `;
 
 const Value = styled.h6`
+  color: ${(props) => props.theme.neutral.text};
   padding: 0.4rem 0.8rem;
+`;
+
+const ProfileInfoText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
+const ProfileSubInfoText = styled.h6`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const EditProfileModal: React.FC<IEditProfileModalProps> = ({
@@ -88,7 +97,7 @@ const EditProfileModal: React.FC<IEditProfileModalProps> = ({
     >
       {isEditFirstNameMode && (
         <>
-          <h4>First name</h4>
+          <ProfileInfoText>First name</ProfileInfoText>
           <StyledInput
             placeholder="First Name"
             name="firstName"
@@ -98,7 +107,7 @@ const EditProfileModal: React.FC<IEditProfileModalProps> = ({
       )}
       {isEditLastNameMode && (
         <>
-          <h4>Last name</h4>
+          <ProfileInfoText>Last name</ProfileInfoText>
           <StyledInput
             placeholder="Last Name"
             name="lastName"
@@ -108,7 +117,7 @@ const EditProfileModal: React.FC<IEditProfileModalProps> = ({
       )}
       {isEditUsernameMode && (
         <>
-          <h4>Username</h4>
+          <ProfileInfoText>Username</ProfileInfoText>
           <StyledInput
             placeholder="User Name"
             name="username"
@@ -118,25 +127,25 @@ const EditProfileModal: React.FC<IEditProfileModalProps> = ({
       )}
       {isEditEmailMode && (
         <>
-          <h4>Email</h4>
+          <ProfileInfoText>Email</ProfileInfoText>
           <StyledInput placeholder="Email" name="email" marginBottom={0} />
         </>
       )}
       {isEditGenderMode && (
         <>
-          <h4>Gender</h4>
+          <ProfileInfoText>Gender</ProfileInfoText>
           <GenderSelect name="gender" />
         </>
       )}
       {isEditPhoneMode && (
         <>
-          <h4>Phone</h4>
+          <ProfileInfoText>Phone</ProfileInfoText>
           <StyledInput placeholder="Phone" name="phone" marginBottom={0} />
         </>
       )}
       {isEditDateOfBirthMode && (
         <>
-          <h4>Date of birth</h4>
+          <ProfileInfoText>Date of birth</ProfileInfoText>
           <StyledInput
             placeholder="Date of birth"
             type="date"
@@ -147,7 +156,7 @@ const EditProfileModal: React.FC<IEditProfileModalProps> = ({
       )}
       {isEditAddressMode && (
         <>
-          <h4>Address</h4>
+          <ProfileInfoText>Address</ProfileInfoText>
           <StyledTextarea placeholder="Address" name="address" />
         </>
       )}
@@ -330,12 +339,12 @@ const ProfileInfo = () => {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <UserInfoHeading>
-            <h4>Update Info</h4>
+            <ProfileInfoText>Update Info</ProfileInfoText>
           </UserInfoHeading>
           <UserData>
             <div>
               <div>
-                <h5>first name:</h5>
+                <ProfileSubInfoText>first name:</ProfileSubInfoText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{firstName}</Value>
@@ -352,7 +361,7 @@ const ProfileInfo = () => {
             </div>
             <div>
               <div>
-                <h5>last name:</h5>
+                <ProfileSubInfoText>last name:</ProfileSubInfoText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{lastName}</Value>
@@ -369,7 +378,7 @@ const ProfileInfo = () => {
             </div>
             <div>
               <div>
-                <h5>username:</h5>
+                <ProfileSubInfoText>username:</ProfileSubInfoText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{username}</Value>
@@ -387,7 +396,7 @@ const ProfileInfo = () => {
             {!loggedInUser?.isGoogleAccount && (
               <div>
                 <div>
-                  <h5>email:</h5>
+                  <ProfileSubInfoText>email:</ProfileSubInfoText>
                 </div>
                 <UserDataValueFlexWrapper>
                   <Value>{email}</Value>
@@ -405,7 +414,7 @@ const ProfileInfo = () => {
             )}
             <div>
               <div>
-                <h5>phone:</h5>
+                <ProfileSubInfoText>phone:</ProfileSubInfoText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{phone ? phone : 'N/A'}</Value>
@@ -422,7 +431,7 @@ const ProfileInfo = () => {
             </div>
             <div>
               <div>
-                <h5>date of birth:</h5>
+                <ProfileSubInfoText>date of birth:</ProfileSubInfoText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{dateOfBirth ? dateOfBirth : 'N/A'}</Value>
@@ -439,7 +448,7 @@ const ProfileInfo = () => {
             </div>
             <div>
               <div>
-                <h5>gender:</h5>
+                <ProfileSubInfoText>gender:</ProfileSubInfoText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{gender}</Value>
@@ -456,7 +465,7 @@ const ProfileInfo = () => {
             </div>
             <div>
               <div>
-                <h5>address:</h5>
+                <ProfileSubInfoText>address:</ProfileSubInfoText>
               </div>
               <UserDataValueFlexWrapper>
                 <Value>{address ? address : 'N/A'}</Value>

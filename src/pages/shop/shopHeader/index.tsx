@@ -94,10 +94,12 @@ const InfoContainer = styled.div`
 `;
 
 const Info = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 700;
 `;
 
 const SubInfo = styled.h6`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 400;
 `;
 
@@ -126,7 +128,12 @@ const ShopHeaderStatContainer = styled.div`
 `;
 
 const ShopStat = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 300;
+`;
+
+const ShopHeaderText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const ShopHeader: React.FC<IShopHeaderProps> = ({ shop, shopRatings }) => {
@@ -141,7 +148,8 @@ const ShopHeader: React.FC<IShopHeaderProps> = ({ shop, shopRatings }) => {
     createdAt,
   } = shop;
 
-  if (!shopRatings) return <h3>No shop ratings found</h3>;
+  if (!shopRatings)
+    return <ShopHeaderText>No shop ratings found</ShopHeaderText>;
 
   const { ratingsAverage, ratingsQuantity } = shopRatings;
 

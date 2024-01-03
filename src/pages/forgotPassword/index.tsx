@@ -27,6 +27,10 @@ const FormFlexWrapper = styled.div`
   width: 60ch;
 `;
 
+const TransparentPopupText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 export const ForgotPassword = () => {
   const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
   const [sendResetPasswordEmail, { isLoading, isSuccess }] =
@@ -80,9 +84,9 @@ export const ForgotPassword = () => {
           </FormFlexWrapper>
           {isTransparentPopupOpen && (
             <TransparentPopup>
-              <h3>
+              <TransparentPopupText>
                 An email has been sent to the email address: {watch('email')}
-              </h3>
+              </TransparentPopupText>
             </TransparentPopup>
           )}
         </Form>

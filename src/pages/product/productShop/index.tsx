@@ -33,6 +33,7 @@ const ProductShopPreviewContainer = styled.section`
 `;
 
 const ProductShopDescription = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 300;
 `;
 
@@ -65,7 +66,12 @@ const ProductShopStatsItem = styled.div`
 `;
 
 const Tag = styled.h6`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 300;
+`;
+
+const ProductShopText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const ProductShop: React.FC<IProductShop> = ({ shopId }) => {
@@ -104,7 +110,7 @@ const ProductShop: React.FC<IProductShop> = ({ shopId }) => {
             />
             <ProductShopPreviewContainer>
               <ProductShopName onClick={navigateShop}>
-                <h5>{name}</h5>
+                <ProductShopText>{name}</ProductShopText>
               </ProductShopName>
               <div>
                 <ProductShopDescription>{description}</ProductShopDescription>
@@ -117,22 +123,22 @@ const ProductShop: React.FC<IProductShop> = ({ shopId }) => {
             <ProductShopStatsItemContainer>
               <ProductShopStatsItem>
                 <Tag>Average Ratings </Tag>
-                <h6>{ratingsAverage}</h6>
+                <Tag>{ratingsAverage}</Tag>
               </ProductShopStatsItem>
             </ProductShopStatsItemContainer>
             <ProductShopStatsItemContainer>
               <ProductShopStatsItem>
-                <Tag>Ratings</Tag> <h6>{ratingsQuantity}</h6>
+                <Tag>Ratings</Tag> <Tag>{ratingsQuantity}</Tag>
               </ProductShopStatsItem>
             </ProductShopStatsItemContainer>
             <ProductShopStatsItemContainer>
               <ProductShopStatsItem>
-                <Tag> Products</Tag> <h6>{productsQuantity}</h6>
+                <Tag> Products</Tag> <Tag>{productsQuantity}</Tag>
               </ProductShopStatsItem>
             </ProductShopStatsItemContainer>
             <ProductShopStatsItemContainer>
               <ProductShopStatsItem>
-                <Tag> Products Sold</Tag> <h6>{totalUnitsSold}</h6>
+                <Tag> Products Sold</Tag> <Tag>{totalUnitsSold}</Tag>
               </ProductShopStatsItem>
             </ProductShopStatsItemContainer>
           </ProductShopStats>

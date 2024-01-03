@@ -26,6 +26,7 @@ const StyledPasswordInput = styled.input`
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   min-height: 4rem;
   color: ${(props) => props.theme.neutral.text};
+  background-color: ${(props) => props.theme.neutral[700]};
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   width: 100%;

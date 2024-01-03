@@ -13,6 +13,10 @@ const ShopContainer = styled.main`
   gap: 3.2rem;
 `;
 
+const ShopText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 export const Shop = () => {
   const { shopId = '' } = useParams();
   const { data: shop, isLoading: isgetShopQueryLoading } =
@@ -24,9 +28,9 @@ export const Shop = () => {
     return <Loading />;
   }
 
-  if (!shop) return <h3>Shop is not found</h3>;
+  if (!shop) return <ShopText>Shop is not found</ShopText>;
 
-  if (!ratings) return <h3>Shop rating is not found</h3>;
+  if (!ratings) return <ShopText>Shop rating is not found</ShopText>;
 
   return (
     <ShopContainer>

@@ -80,6 +80,10 @@ const ProductInfoDetails = styled.div`
   justify-content: space-between;
 `;
 
+const ProductListText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const ProductCard: React.FC<IProductCardProps> = ({ children, onClick }) => {
   return (
     <StyledCard onClick={onClick} hoverAnimate={true}>
@@ -107,7 +111,7 @@ const ProductItem: React.FC<IProductItemProps> = ({ id }) => {
 
   if (isLoading) return <Loading />;
 
-  if (!product) return <h3>Product is not found</h3>;
+  if (!product) return <ProductListText>Product is not found</ProductListText>;
 
   const {
     name,

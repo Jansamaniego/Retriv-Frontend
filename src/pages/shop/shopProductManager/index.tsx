@@ -26,6 +26,10 @@ const ShopProductManagerGrid = styled.main`
   }
 `;
 
+const ShopProductManagerText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const ShopProductManager = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { shopId = '' } = useParams();
@@ -88,7 +92,7 @@ const ShopProductManager = () => {
   if (!products || products.length === 0) {
     return (
       <Card>
-        <h1>No products found.</h1>
+        <ShopProductManagerText>No products found.</ShopProductManagerText>
       </Card>
     );
   }

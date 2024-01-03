@@ -156,6 +156,14 @@ const ShopStat = styled.h5`
   font-weight: 300;
 `;
 
+const ShopRatingsText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
+const EditModalText = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -305,7 +313,8 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
 
   if (shopRatingsIsLoading) return <Loading />;
 
-  if (!shopRatings) return <h3>No Shop ratings found</h3>;
+  if (!shopRatings)
+    return <ShopRatingsText>No Shop ratings found</ShopRatingsText>;
 
   const { ratingsAverage, ratingsQuantity } = shopRatings;
 
@@ -415,13 +424,13 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
           >
             {isEditNameMode && (
               <>
-                <h4>Name</h4>
+                <EditModalText>Name</EditModalText>
                 <StyledInput placeholder="Name" name="name" marginBottom={0} />
               </>
             )}
             {isEditDescriptionMode && (
               <>
-                <h4>Description</h4>
+                <EditModalText>Description</EditModalText>
                 <StyledInput
                   placeholder="Description"
                   name="description"
@@ -431,7 +440,7 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
             )}
             {isEditAddressMode && (
               <>
-                <h4>Address</h4>
+                <EditModalText>Address</EditModalText>
                 <StyledInput
                   placeholder="Address"
                   name="address"
@@ -441,7 +450,7 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
             )}
             {isEditPhoneMode && (
               <>
-                <h4>Phone</h4>
+                <EditModalText>Phone</EditModalText>
                 <StyledInput
                   placeholder="Phone"
                   type="number"

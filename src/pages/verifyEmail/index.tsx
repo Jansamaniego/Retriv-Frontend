@@ -6,6 +6,11 @@ import { RootState } from 'redux/store';
 import { useVerifyEmailMutation } from 'redux/services/authApi/authApi';
 import { Button, TransparentPopup, Card } from 'components/common';
 import { CheckIcon } from 'assets/icons';
+import styled from 'styled-components';
+
+const VerifyEmailText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 export const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -35,15 +40,15 @@ export const VerifyEmail = () => {
   return (
     <Card>
       {isEmailVerificationComplete ? (
-        <h1>
+        <VerifyEmailText>
           Thank you for verifying your email address, enjoy your shopping in
           retriv! Navigating to the homepage...
-        </h1>
+        </VerifyEmailText>
       ) : (
-        <h1>
+        <VerifyEmailText>
           Please click the button below to complete the email verification
           process
-        </h1>
+        </VerifyEmailText>
       )}
       {!isEmailVerificationComplete && (
         <Button onClick={verifyEmailOnClickHandler} disabled={isLoading}>
@@ -53,7 +58,9 @@ export const VerifyEmail = () => {
       {isTransparentPopupOpen && (
         <TransparentPopup>
           <CheckIcon width="3rem" />
-          <h3>Your email address has been verified</h3>
+          <VerifyEmailText>
+            Your email address has been verified
+          </VerifyEmailText>
         </TransparentPopup>
       )}
     </Card>

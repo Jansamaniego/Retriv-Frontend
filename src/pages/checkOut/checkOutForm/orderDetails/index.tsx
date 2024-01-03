@@ -24,6 +24,10 @@ const OrderDetailContainer = styled.div`
   width: 100%;
 `;
 
+const OrderDetailText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const OrderDetails: React.FC<OrderDetailsProps> = ({
   totalPrice,
   totalQuantity,
@@ -43,12 +47,12 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
     <Card>
       <OrderDetailsFlexContainer>
         <OrderDetailContainer>
-          <h5>Units total:</h5>
-          <h5>{totalQuantity} units</h5>
+          <OrderDetailText>Units total:</OrderDetailText>
+          <OrderDetailText>{totalQuantity} units</OrderDetailText>
         </OrderDetailContainer>
         <OrderDetailContainer>
-          <h5>Payment total:</h5>
-          <h5>&#8369;{totalPrice}</h5>
+          <OrderDetailText>Payment total:</OrderDetailText>
+          <OrderDetailText>&#8369;{totalPrice}</OrderDetailText>
         </OrderDetailContainer>
         <Button onClick={openCreateOrderModal} disabled={isLoading}>
           Place Order

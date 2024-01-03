@@ -35,6 +35,7 @@ const Input = styled.input`
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   min-height: 4rem;
   color: ${(props) => props.theme.neutral.text};
+  background-color: ${(props) => props.theme.neutral[700]};
 
   &:focus {
     outline-color: ${(props) => props.theme.neutral[200]};

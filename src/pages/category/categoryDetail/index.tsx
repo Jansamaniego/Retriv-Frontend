@@ -80,11 +80,17 @@ const InfoContainer = styled.div`
 `;
 
 const Info = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 700;
 `;
 
 const SubInfo = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 400;
+`;
+
+const CategoryDetailText = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const CategoryDetail: React.FC<ICategoryDetailProps> = ({ category }) => {
@@ -257,7 +263,7 @@ const CategoryDetail: React.FC<ICategoryDetailProps> = ({ category }) => {
             >
               {isEditNameMode && (
                 <>
-                  <h4>Name</h4>
+                  <CategoryDetailText>Name</CategoryDetailText>
                   <StyledInput
                     placeholder="Name"
                     name="name"
@@ -267,7 +273,7 @@ const CategoryDetail: React.FC<ICategoryDetailProps> = ({ category }) => {
               )}
               {isEditDescriptionMode && (
                 <>
-                  <h4>Description</h4>
+                  <CategoryDetailText>Description</CategoryDetailText>
                   <StyledTextarea
                     placeholder="Please write a description"
                     name="description"

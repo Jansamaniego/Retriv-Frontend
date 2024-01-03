@@ -44,6 +44,10 @@ const UserPageTab = styled.button<UserPageTabProps>`
   cursor: pointer;
 `;
 
+const UserText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 export const User = () => {
   const [isProfileTabOpen, setIsProfileTabOpen] = useState(true);
   const { userId = '' } = useParams();
@@ -51,7 +55,7 @@ export const User = () => {
 
   if (isLoading) return <Loading />;
 
-  if (!user) return <h3>User is not found</h3>;
+  if (!user) return <UserText>User is not found</UserText>;
 
   const { role } = user;
 

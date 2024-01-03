@@ -75,7 +75,7 @@ const CategoryItem: React.FC<ICategoryItemProps> = ({ id }) => {
 
   if (isLoading) return <Loading />;
 
-  if (!category) return <h1>Category is not found</h1>;
+  if (!category) return null;
 
   const { name, image } = category;
 

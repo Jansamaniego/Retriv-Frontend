@@ -10,6 +10,7 @@ const SocialsFlexContainer = styled.div`
 `;
 
 const SocialsText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 400;
 `;
 

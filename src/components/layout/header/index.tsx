@@ -56,6 +56,10 @@ const LogoContainer = styled.div<ILogoContainerProps>`
   }
 `;
 
+const LogoText = styled.h1`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const IconsFlexWrapper = styled.div`
   display: flex;
   gap: 1.6rem;
@@ -251,7 +255,7 @@ const Header = () => {
         </MobileMenuIconContainer>
         <LogoContainer isMobileSearchOpen={isMobileSearchOpen}>
           <StyledLink to="/" isActive={pathname === '/'}>
-            <h1>Retriv</h1>
+            <LogoText>Retriv</LogoText>
           </StyledLink>
         </LogoContainer>
         <Search />

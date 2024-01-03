@@ -69,12 +69,15 @@ const UserHeaderInfo = styled.div`
 `;
 
 const UserHeaderInfoName = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 700;
 `;
 const UserHeaderInfoEmail = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 300;
 `;
 const UserHeaderInfoRole = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 300;
 `;
 

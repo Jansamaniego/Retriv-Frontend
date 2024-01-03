@@ -14,6 +14,10 @@ const CategoryPageFlexWrapper = styled.main`
   gap: 1.6rem;
 `;
 
+const CategoryText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 export const Category = () => {
   const { categoryId } = useParams();
   const { currentPage, setCurrentPage } = useProductPagination();
@@ -45,7 +49,7 @@ export const Category = () => {
 
   if (isLoading) return <Loading />;
 
-  if (!category) return <h3>Category is not found</h3>;
+  if (!category) return <CategoryText>Category is not found</CategoryText>;
 
   return (
     <CategoryPageFlexWrapper>

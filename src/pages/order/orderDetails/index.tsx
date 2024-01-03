@@ -21,7 +21,7 @@ const OrderDetails: React.FC<IOrderDetailsProps> = ({ orderId }) => {
 
   if (isLoading) return <Loading />;
 
-  if (!order) return <h4>Order is not found</h4>;
+  if (!order) return null;
 
   return (
     <Card>

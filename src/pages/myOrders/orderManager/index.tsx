@@ -72,6 +72,10 @@ const OrderItemDetailsFlexWrapper = styled.div`
   gap: 1rem;
 `;
 
+const OrderItemDetailsText = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const StatusIconContainer = styled.div<IStatusIconContainerProps>`
   display: flex;
   justify-content: center;
@@ -81,6 +85,10 @@ const StatusIconContainer = styled.div<IStatusIconContainerProps>`
     props.active ? props.theme.primary.main : props.theme.neutral[700]};
   width: 10rem;
   height: 10rem;
+`;
+
+const OrderManagerText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const OrderItem: React.FC<IOrderItemProps> = ({ id }) => {
@@ -96,7 +104,7 @@ const OrderItem: React.FC<IOrderItemProps> = ({ id }) => {
 
   if (isLoading) return <Loading />;
 
-  if (!order) return <h3>Order is not found</h3>;
+  if (!order) return <OrderManagerText>Order is not found</OrderManagerText>;
 
   const { dateOfPurchase, status, totalPrice, totalQuantity, paymentMethod } =
     order;
@@ -116,13 +124,17 @@ const OrderItem: React.FC<IOrderItemProps> = ({ id }) => {
             {status === 'Out for Delivery' && <OutForDelivery width="5rem" />}
             {status === 'Delivered' && <Delivered width="5rem" />}
           </StatusIconContainer>
-          <h5>status: {status}</h5>
-          <h5>date: {moment(dateOfPurchase).format('MMM DD YYYY')}</h5>
-          <h5>payment method: {paymentMethod}</h5>
+          <OrderItemDetailsText>status: {status}</OrderItemDetailsText>
+          <OrderItemDetailsText>
+            date: {moment(dateOfPurchase).format('MMM DD YYYY')}
+          </OrderItemDetailsText>
+          <OrderItemDetailsText>
+            payment method: {paymentMethod}
+          </OrderItemDetailsText>
         </OrderItemDetailsFlexWrapper>
         <OrderItemDetailsFlexWrapper>
-          <h5>products: {totalQuantity}</h5>
-          <h5>total price: {totalPrice}</h5>
+          <OrderItemDetailsText>products: {totalQuantity}</OrderItemDetailsText>
+          <OrderItemDetailsText>total price: {totalPrice}</OrderItemDetailsText>
         </OrderItemDetailsFlexWrapper>
       </OrderItemFlexWrapper>
     </OrderItemCard>
@@ -151,7 +163,7 @@ const OrderList = () => {
 
   if (isLoading) return <Loading />;
 
-  if (!orders) return <h3>Order are not found</h3>;
+  if (!orders) return <OrderManagerText>Order are not found</OrderManagerText>;
 
   return orders.map(({ _id: id }) => <OrderItem key={id} id={id} />);
 };

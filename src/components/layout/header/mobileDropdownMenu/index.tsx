@@ -42,6 +42,10 @@ const MobileNavOptionContainer = styled.div`
 
 const MobileNavOptionWrapper = styled.div``;
 
+const MobileDropDownText = styled.h2`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
 const XMarkIconContainer = styled.div`
   position: absolute;
   right: 5px;
@@ -88,18 +92,18 @@ const MobileDropdownMenu: React.FC<MobileDropdownMenuProps> = ({
         <MobileDropdownMenuFlexWrapper>
           <MobileNavOptionContainer onClick={navigateHome}>
             <MobileNavOptionWrapper>
-              <h2>Home</h2>
+              <MobileDropDownText>Home</MobileDropDownText>
             </MobileNavOptionWrapper>
           </MobileNavOptionContainer>
           <MobileNavOptionContainer onClick={navigateRegister}>
             <MobileNavOptionWrapper>
-              <h2>Sign up!</h2>
+              <MobileDropDownText>Sign up!</MobileDropDownText>
             </MobileNavOptionWrapper>
           </MobileNavOptionContainer>
           {isFilterOptionOpen && (
             <MobileNavOptionContainer onClick={showCategoryFilterModal}>
               <MobileNavOptionWrapper>
-                <h2>Filter</h2>
+                <MobileDropDownText>Filter</MobileDropDownText>
               </MobileNavOptionWrapper>
             </MobileNavOptionContainer>
           )}

@@ -162,13 +162,20 @@ const CheckOutItemTotalPriceContainer = styled.div`
 
 const TotalPriceLabel = styled.h5`
   display: none;
+  color: ${(props) => props.theme.neutral.text};
 
   @media (max-width: 900px) {
     display: block;
   }
 `;
 
-const CheckOutItemTotalPrice = styled.h5``;
+const CheckOutItemTotalPrice = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
+`;
+
+const CheckOutItemListText = styled.h3`
+  color: ${(props) => props.theme.neutral.text};
+`;
 
 const CheckOutItemItem: React.FC<CheckOutItemItemProps> = ({
   productId,
@@ -183,7 +190,8 @@ const CheckOutItemItem: React.FC<CheckOutItemItemProps> = ({
 
   if (isLoading) return <Loading />;
 
-  if (!product) return <h3>Product is not found</h3>;
+  if (!product)
+    return <CheckOutItemListText>Product is not found</CheckOutItemListText>;
 
   const { name, mainImage, price } = product;
 

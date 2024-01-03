@@ -131,16 +131,20 @@ const UserHeaderSubInfo = styled.div`
 `;
 
 const UserHeaderInfoName = styled.h4`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 700;
 `;
 const UserHeaderInfoEmail = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 300;
 `;
 const UserHeaderInfoRole = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 300;
 `;
 
 const DeleteMyAccountHeader = styled.h5`
+  color: ${(props) => props.theme.neutral.text};
   font-weight: 300;
   margin: 0;
   padding-bottom: 1rem;
