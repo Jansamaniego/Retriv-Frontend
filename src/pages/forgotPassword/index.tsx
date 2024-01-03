@@ -6,10 +6,26 @@ import { DevTool } from '@hookform/devtools';
 
 import { useForgotPasswordMutation } from 'redux/services/authApi/authApi';
 import { Button, Form, StyledInput, TransparentPopup } from 'components/common';
+import styled from 'styled-components';
 
 interface FormValues {
   email: string;
 }
+
+const ForgotPasswordFlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+`;
+
+const FormFlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  width: 60ch;
+`;
 
 export const ForgotPassword = () => {
   const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
@@ -49,22 +65,29 @@ export const ForgotPassword = () => {
   }, [isLoading, isSuccess]);
 
   return (
-    <FormProvider {...methods}>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <StyledInput placeholder="Email" type="email" {...register('email')} />
-        {errors.email?.message && <p>{errors.email?.message}</p>}
-        <Button type="submit" disabled={isLoading}>
-          Send reset password email
-        </Button>
-        {isTransparentPopupOpen && (
-          <TransparentPopup>
-            <h3>
-              An email has been sent to the email address: {watch('email')}
-            </h3>
-          </TransparentPopup>
-        )}
-      </Form>
-      <DevTool control={control} />
-    </FormProvider>
+    <ForgotPasswordFlexWrapper>
+      <FormProvider {...methods}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <FormFlexWrapper>
+            <StyledInput
+              placeholder="Email"
+              type="email"
+              {...register('email')}
+            />
+            <Button type="submit" disabled={isLoading} superLarge>
+              Send reset password email
+            </Button>
+          </FormFlexWrapper>
+          {isTransparentPopupOpen && (
+            <TransparentPopup>
+              <h3>
+                An email has been sent to the email address: {watch('email')}
+              </h3>
+            </TransparentPopup>
+          )}
+        </Form>
+        <DevTool control={control} />
+      </FormProvider>
+    </ForgotPasswordFlexWrapper>
   );
 };

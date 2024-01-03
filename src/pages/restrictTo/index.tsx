@@ -4,6 +4,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useGetMeQuery } from 'redux/services/myProfileApi/myProfileApi';
 import { useCookies } from 'react-cookie';
+import { Loading } from 'components/common';
 
 interface IRestrictToProps {
   allowedRoles: string[];
@@ -34,7 +35,7 @@ export const RestrictTo: React.FC<IRestrictToProps> = ({ allowedRoles }) => {
   const loading = isLoading || isFetching;
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <Loading />;
   }
 
   return isLoggedIn && user && allowedRoles.includes(user?.role) ? (

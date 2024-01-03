@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { useGetCategoriesQuery } from 'redux/services/categoryApi/categoryApi';
 import CategoryList from './categoryList';
+import { Loading } from 'components/common';
 
 const CategoryManagerGrid = styled.main`
   display: grid;
@@ -21,7 +22,7 @@ const CategoryManager = () => {
     },
   });
 
-  if (isLoading) return <h3>Loading...</h3>;
+  if (isLoading) return <Loading />;
 
   if (!categories || categories.length === 0)
     return <h3>No categories found.</h3>;

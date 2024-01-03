@@ -272,12 +272,7 @@ const ReviewByProductManager: React.FC<IReviewByProductManagerProps> = ({
     setIsUserReviewExists(!!reviewExists);
   }, [currentUser, reviews, setIsUserReviewExists]);
 
-  if (isLoading)
-    return (
-      <StyledCard>
-        <h1>Loading...</h1>
-      </StyledCard>
-    );
+  if (isLoading) return <Loading />;
 
   if (!reviews || reviews.length === 0) {
     return (

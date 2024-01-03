@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { ICartItem } from 'types';
 import { useGetProductByIdQuery } from 'redux/services/productApi/productApi';
-import { Card } from 'components/common';
+import { Card, Loading } from 'components/common';
 import CheckOutItemListHeader from 'pages/checkOut/checkOutForm/checkOutItemList/checkOutItemListHeader';
 
 interface CheckOutItemListProps {
@@ -181,7 +181,7 @@ const CheckOutItemItem: React.FC<CheckOutItemItemProps> = ({
     productId,
   });
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <Loading />;
 
   if (!product) return <h3>Product is not found</h3>;
 

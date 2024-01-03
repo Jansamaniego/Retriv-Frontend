@@ -16,7 +16,7 @@ import {
   useUpdateShopMutation,
 } from 'redux/services/shopApi/shopApi';
 import { removeShop } from 'redux/features/shopSlice';
-import { Card, StyledInput, StyledModal } from 'components/common';
+import { Card, Loading, StyledInput, StyledModal } from 'components/common';
 import {
   DateIcon,
   ProductIcon,
@@ -303,7 +303,7 @@ const MyShopHeader: React.FC<IMyShopHeaderProps> = ({ shop }) => {
     if (isEditPhoneMode) return disableEditPhoneMode();
   };
 
-  if (shopRatingsIsLoading) return <h3>Loading...</h3>;
+  if (shopRatingsIsLoading) return <Loading />;
 
   if (!shopRatings) return <h3>No Shop ratings found</h3>;
 

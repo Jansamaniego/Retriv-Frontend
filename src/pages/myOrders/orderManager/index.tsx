@@ -160,7 +160,7 @@ const OrderManager = () => {
   const { isLoading } = useGetOrdersQuery();
 
   if (isLoading) {
-    return <h3>Loading...</h3>;
+    return <Loading />;
   }
 
   return (

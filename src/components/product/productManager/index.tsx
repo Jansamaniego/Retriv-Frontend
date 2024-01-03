@@ -42,19 +42,17 @@ const ProductManager: React.FC<IProductManagerProps> = ({
   const { currentPage, setCurrentPage, totalPages, setTotalPages } =
     useProductPagination();
 
-  const { products, totalProductPages, isLoading, refetch } =
+  const { products, totalProductPages, isLoading, isFetching, refetch } =
     useGetProductsQuery(searchParams.size ? searchParams.toString() : '', {
-      selectFromResult: ({ data, isLoading }) => {
+      selectFromResult: ({ data, isLoading, isFetching }) => {
         return {
           products: data?.results,
           totalProductPages: data?.totalPages,
           isLoading,
+          isFetching,
         };
       },
     });
-
-  console.log(products);
-  console.log(totalProductPages);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -115,9 +113,13 @@ const ProductManager: React.FC<IProductManagerProps> = ({
             currentPage={currentPage}
           />
         )}
-      <ProductManagerGrid>
-        <ProductList products={products} />
-      </ProductManagerGrid>
+      {isFetching ? (
+        <Loading />
+      ) : (
+        <ProductManagerGrid>
+          <ProductList products={products} />
+        </ProductManagerGrid>
+      )}
       {totalPages > 1 && (
         <Pagination
           totalPages={totalPages}

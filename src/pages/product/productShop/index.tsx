@@ -21,6 +21,10 @@ const ProductShopInfoFlex = styled.div`
   gap: 1.6rem;
 `;
 
+const ProductShopName = styled.div`
+  cursor: pointer;
+`;
+
 const ProductShopPreviewContainer = styled.section`
   display: flex;
   flex-direction: column;
@@ -99,9 +103,9 @@ const ProductShop: React.FC<IProductShop> = ({ shopId }) => {
               onClick={navigateShop}
             />
             <ProductShopPreviewContainer>
-              <div>
+              <ProductShopName onClick={navigateShop}>
                 <h5>{name}</h5>
-              </div>
+              </ProductShopName>
               <div>
                 <ProductShopDescription>{description}</ProductShopDescription>
               </div>

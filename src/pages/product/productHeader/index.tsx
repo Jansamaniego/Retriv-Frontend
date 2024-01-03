@@ -109,8 +109,6 @@ const ProductHeader: React.FC<IProductHeaderProps> = ({
     await deleteProductImage({ shopId, productId: id, image: displayImage });
   };
 
-  console.log(productImages.length <= 9);
-
   return (
     <ProductHeaderCard>
       <ContentFlexWrapper>

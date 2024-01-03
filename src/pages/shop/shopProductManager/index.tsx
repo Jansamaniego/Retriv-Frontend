@@ -82,11 +82,7 @@ const ShopProductManager = () => {
   };
 
   if (isLoading) {
-    return (
-      <Card>
-        <h1>Loading...</h1>
-      </Card>
-    );
+    return <Loading />;
   }
 
   if (!products || products.length === 0) {

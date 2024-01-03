@@ -5,6 +5,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { useGetCartQuery } from 'redux/services/cartApi/cartApi';
 import { useCreatePaymentIntentMutation } from 'redux/services/paymentIntentApi/paymentIntentApi';
 import CheckOutForm from 'pages/checkOut/checkOutForm';
+import { Loading } from 'components/common';
 
 interface IAppearance {
   theme: 'stripe' | 'flat' | 'night' | 'none' | undefined;
@@ -47,8 +48,9 @@ export const CheckOut = () => {
     }
   }, []);
 
-  if (isLoading || createPaymentIntentIsLoading || !clientSecret)
-    return <h1>Loading...</h1>;
+  if (isLoading || createPaymentIntentIsLoading || !clientSecret) {
+    return <Loading />;
+  }
 
   return (
     clientSecret && (

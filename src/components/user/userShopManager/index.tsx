@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { IUser } from 'types';
 import { useGetShopsQuery } from 'redux/services/shopApi/shopApi';
 import UserShopList from 'components/user/userShopManager/userShopList';
+import { Loading } from 'components/common';
 
 interface IUserShopManagerProps {
   user: IUser;
@@ -34,7 +35,7 @@ const UserShopManager: React.FC<IUserShopManagerProps> = ({ user }) => {
 
   console.log(user);
 
-  if (isLoading) return <h3>Loading...</h3>;
+  if (isLoading) return <Loading />;
 
   if (!shops || shops.length === 0) return <h3>User has no shops</h3>;
 

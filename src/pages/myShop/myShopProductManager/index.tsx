@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useGetProductsByShopIdQuery } from 'redux/services/productApi/productApi';
-import { Card, Pagination } from 'components/common';
+import { Card, Loading, Pagination } from 'components/common';
 import MyShopProductList from 'pages/myShop/myShopProductManager/myShopProductList';
 import { useProductPagination } from 'context/ProductPaginationContext';
 import { useParams, useSearchParams } from 'react-router-dom';
@@ -94,11 +94,7 @@ const MyShopProductManager: React.FC<IMyShopProductManagerProps> = ({
   };
 
   if (isLoading) {
-    return (
-      <Card>
-        <h1>Loading...</h1>
-      </Card>
-    );
+    return <Loading />;
   }
 
   if (!products || products.length === 0) {

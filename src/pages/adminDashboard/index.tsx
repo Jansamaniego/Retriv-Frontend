@@ -3,7 +3,7 @@ import styled, { useTheme } from 'styled-components';
 import moment from 'moment/moment';
 
 import { useGetOverallStatsQuery } from 'redux/services/stats/overallStatsApi/overallStatsApi';
-import { Card, Select } from 'components/common';
+import { Card, Loading, Select } from 'components/common';
 import SalesAndUnitsPerMonthLineGraph from 'pages/adminDashboard/salesAndUnitsPerMonthLineGraph';
 import SalesAndUnitsPerDayGraph from 'pages/adminDashboard/salesAndUnitsPerDayGraph';
 import SalesByCategoryGraph from 'pages/adminDashboard/salesByCategoryGraph';
@@ -43,7 +43,7 @@ export const AdminDashboard = () => {
     }
   );
 
-  if (!overallStats || isLoading) return <h1>Loading...</h1>;
+  if (!overallStats || isLoading) return <Loading />;
 
   const {
     monthlyData,

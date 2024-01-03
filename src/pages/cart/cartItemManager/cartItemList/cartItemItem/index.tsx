@@ -5,6 +5,7 @@ import { useGetProductByIdQuery } from 'redux/services/productApi/productApi';
 import { useRemoveCartItemMutation } from 'redux/services/cartApi/cartApi';
 import {
   Button,
+  Loading,
   QuantityTogglerInput,
   TransparentPopup,
 } from 'components/common';
@@ -181,7 +182,7 @@ const CartItemItem: React.FC<ICartItemItemProps> = ({
     }
   }, [removeCartItemIsLoading, isSuccess]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <Loading />;
 
   if (!product) return <h1>No product found!</h1>;
 

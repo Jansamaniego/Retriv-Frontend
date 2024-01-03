@@ -10,7 +10,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 import { IUserWithModifiedShops } from 'redux/services/userApi/userApi.types';
 import { useGetUsersQuery } from 'redux/services/userApi/userApi';
-import { Card } from 'components/common';
+import { Card, Loading } from 'components/common';
 
 interface IUserTableProps {
   users: IUserWithModifiedShops[];
@@ -129,7 +129,7 @@ const UserTable: React.FC<IUserTableProps> = ({ users }) => {
 export const AdminUser = () => {
   const { data: users, isLoading } = useGetUsersQuery(null);
 
-  if (isLoading) return <h2>Loading...</h2>;
+  if (isLoading) return <Loading />;
 
   if (!users || users.length === 0)
     return (

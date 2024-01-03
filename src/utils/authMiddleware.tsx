@@ -1,3 +1,4 @@
+import { Loading } from 'components/common';
 import React from 'react';
 import { useCookies } from 'react-cookie';
 
@@ -17,7 +18,7 @@ const AuthMiddleware: React.FC<IAuthMiddleWareProps> = ({ children }) => {
   });
 
   if (isLoading) {
-    return <h3>Loading...</h3>;
+    return <Loading />;
   }
 
   return children;

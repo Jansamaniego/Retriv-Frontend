@@ -18,6 +18,7 @@ import {
   Select,
   ImageUpload,
   StyledModal,
+  Loading,
 } from 'components/common';
 import CreateProductStepTracker from './createProductStepTracker';
 
@@ -256,12 +257,7 @@ export const CreateProduct = () => {
     setIsCreateProductModalOpen(false);
   };
 
-  if (categoryIsLoading)
-    return (
-      <Card>
-        <h1>Loading...</h1>
-      </Card>
-    );
+  if (categoryIsLoading) return <Loading />;
 
   return (
     <CreateProductFlexWrapper>

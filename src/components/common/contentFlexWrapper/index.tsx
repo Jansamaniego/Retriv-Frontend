@@ -28,7 +28,7 @@ const FlexWrapper = styled.div<FlexWrapperProps>`
   gap: ${(props) => props.gap};
   width: 100%;
   min-width: 70rem;
-  max-width: 135rem;
+  max-width: 150rem;
 
   @media (max-width: ${(props) => props.columnBreakPoint}) {
     flex-direction: column;

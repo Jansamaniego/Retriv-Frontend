@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { IProduct } from 'types';
 import { RootState } from 'redux/store';
 import { useGetProductsByShopIdQuery } from 'redux/services/productApi/productApi';
-import { Card } from 'components/common';
+import { Card, Loading } from 'components/common';
 
 interface IMyShopProductListProps {
   products: IProduct[];
@@ -86,7 +86,7 @@ const ShopProductItem: React.FC<IMyShopProductItemProps> = ({ id, shopId }) => {
     }
   );
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <Loading />;
 
   if (!product) return <h1>No product</h1>;
 
