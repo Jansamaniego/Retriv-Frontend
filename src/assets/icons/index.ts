@@ -38,3 +38,5 @@ export * from './outForDelivery';
 export * from './delivered';
 export * from './mobileMenuIcon';
 export * from './googleIcon';
+export * from './linkedinIcon';
+export * from './githubIcon';

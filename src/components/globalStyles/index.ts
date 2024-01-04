@@ -21,6 +21,11 @@ html{
   font-family: 'Lato', 'sans-serif';
 }
 
+
+/* body{
+  
+} */
+
 /* Remove default margin */
 body,
 h1,

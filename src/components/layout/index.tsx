@@ -7,12 +7,18 @@ import Header from 'components/layout/header';
 import Footer from 'components/layout/footer';
 import SideMenu from 'components/layout/sideMenu';
 
+const LayoutContainer = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
 const ContentFlex = styled.section`
   display: flex;
   justify-content: space-between;
   gap: 1.6rem;
   padding: 9rem 1.6rem 0 1.6rem;
-  height: calc(100vh - 9rem);
+  /* height: calc(100vh - 9rem); */
 `;
 
 const OutletContainer = styled.div`
@@ -22,14 +28,16 @@ const OutletContainer = styled.div`
 const RootLayout = () => {
   return (
     <ProductPaginationProvider>
-      <Header />
-      <ContentFlex>
-        <SideMenu />
-        <OutletContainer>
-          <Outlet />
-        </OutletContainer>
-      </ContentFlex>
-      <Footer />
+      <LayoutContainer>
+        <Header />
+        <ContentFlex>
+          <SideMenu />
+          <OutletContainer>
+            <Outlet />
+          </OutletContainer>
+        </ContentFlex>
+        <Footer />
+      </LayoutContainer>
     </ProductPaginationProvider>
   );
 };
