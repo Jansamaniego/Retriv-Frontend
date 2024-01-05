@@ -20,6 +20,8 @@ import {
   TransparentPopup,
 } from 'components/common';
 import { EditIconButton } from 'components/common/editIconButton';
+import { RootState } from 'redux/store';
+import { useSelector } from 'react-redux';
 
 interface IProductHeaderInfoProps {
   productId: string;
@@ -134,6 +136,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
 }) => {
   const navigate = useNavigate();
 
+  const currentUser = useSelector((state: RootState) => state.userState.user);
   const [quantityToPurchase, setQuantityToPurchase] = useState(1);
   const [isTransparentPopupOpen, setIsTransparentPopupOpen] = useState(false);
   const [avgRating] = useState(ratingsAverage * 10);
@@ -369,12 +372,14 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                 <div>
                   <ProductInfoMiniText>Quantity</ProductInfoMiniText>
                 </div>
-                <QuantityTogglerInput
-                  decrementQuantityToggle={decrementQuantityToPurchase}
-                  incrementQuantityToggle={incrementQuantityToPurchase}
-                  onChangeHandler={changeQuantityToPurchase}
-                  QuantityInputValue={quantityToPurchase}
-                />
+                {currentUser && (
+                  <QuantityTogglerInput
+                    decrementQuantityToggle={decrementQuantityToPurchase}
+                    incrementQuantityToggle={incrementQuantityToPurchase}
+                    onChangeHandler={changeQuantityToPurchase}
+                    QuantityInputValue={quantityToPurchase}
+                  />
+                )}
                 <div>
                   <div>
                     <ProductDataValueFlexWrapper>
@@ -396,7 +401,7 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                   </div>
                 </div>
               </QuantityControllerContainer>
-              {!isOwner && (
+              {!isOwner && currentUser && (
                 <div>
                   <AddToCartButton
                     onClick={addToCartOnClickHandler}
