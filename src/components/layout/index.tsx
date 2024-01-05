@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { ProductPaginationProvider } from '../../context/ProductPaginationContext';
 import Header from 'components/layout/header';
@@ -26,12 +26,18 @@ const OutletContainer = styled.div`
 `;
 
 const RootLayout = () => {
+  const { pathname } = useLocation();
+  const [isHome, setIsHome] = useState(pathname === '/');
+
+  useEffect(() => {
+    setIsHome(pathname === '/');
+  }, [pathname]);
   return (
     <ProductPaginationProvider>
       <LayoutContainer>
         <Header />
         <ContentFlex>
-          <SideMenu />
+          {isHome && <SideMenu />}
           <OutletContainer>
             <Outlet />
           </OutletContainer>
