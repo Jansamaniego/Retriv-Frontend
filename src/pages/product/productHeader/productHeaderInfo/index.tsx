@@ -113,7 +113,7 @@ const DescriptionContainer = styled.div`
 
 const QuantityControllerContainer = styled.section`
   display: flex;
-  gap: 2.4rem;
+  gap: 1.6rem;
   margin-top: 2.4rem;
 `;
 
