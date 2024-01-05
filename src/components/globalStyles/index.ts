@@ -43,7 +43,8 @@ dd {
 }
 
 body{
-  background-color: ${(props) => props.theme.neutral[700]};
+  background-image: ${(props) =>
+    `linear-gradient(to right,${props.theme.secondary[600]},${props.theme.neutral[700]})`}
 }
 
 /* Set header and paragraph typography scale */

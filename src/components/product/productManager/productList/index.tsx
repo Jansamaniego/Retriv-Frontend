@@ -20,6 +20,8 @@ interface IProductCardProps {
 }
 
 const StyledCard = styled(Card)`
+  padding: 0;
+  padding-top: 0.8rem;
   min-height: 12vh;
   transition: 0.3s;
 
@@ -42,8 +44,8 @@ const ProductImageContainer = styled.div`
 `;
 
 const ProductImage = styled.img`
-  width: 16rem;
-  height: 16rem;
+  width: 20rem;
+  height: 20rem;
   object-fit: cover;
 `;
 
@@ -51,20 +53,20 @@ const ProductInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 14rem;
-  gap: 1.6rem;
+  gap: 1.2rem;
   padding: 1.6rem;
 `;
 
-const ProductInfoName = styled.div``;
+const ProductInfoName = styled.div`
+  width: 100%;
+`;
 
-const Name = styled.div`
-  font-size: 2rem;
+const Name = styled.h5`
+  color: ${(props) => props.theme.neutral[300]};
   word-wrap: break-word;
-  white-space: normal;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: ${(props) => props.theme.neutral[300]};
 `;
 
 const Price = styled.h5`

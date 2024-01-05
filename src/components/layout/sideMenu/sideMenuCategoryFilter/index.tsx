@@ -25,7 +25,7 @@ const SideMenuCategoryFilterFlexWrapper = styled.div`
 const CategoryFilterTitle = styled.h5`
   font-weight: 400;
 
-  color: ${(props) => props.theme.primary.main};
+  color: ${(props) => props.theme.neutral.text};
 `;
 
 const CategoryFilterList = styled.ul`
@@ -40,7 +40,7 @@ const CategoryFilter = styled.li`
 const CategoriesFilterTitleContainer = styled.div``;
 
 const CategoriesFilterTitle = styled.h5`
-  color: ${(props) => props.theme.primary.main};
+  color: ${(props) => props.theme.neutral.text};
   margin-bottom: 0.5rem;
   font-weight: 400;
   white-space: nowrap;

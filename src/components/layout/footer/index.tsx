@@ -5,7 +5,8 @@ import styled from 'styled-components';
 
 const FooterContainer = styled.div`
   margin-top: auto;
-  background-color: ${(props) => props.theme.background.default};
+  background-image: ${(props) =>
+    `linear-gradient(to right,${props.theme.secondary[600]},${props.theme.neutral[700]})`};
   display: flex;
   justify-content: center;
   text-align: center;

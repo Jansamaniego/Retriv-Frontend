@@ -22,7 +22,7 @@ const SortBar = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 2rem;
-  background: ${(props) => props.theme.neutral[900]};
+  background: ${(props) => props.theme.neutral[800]};
   border-radius: 0.5rem;
   margin-bottom: 1.6rem;
   font-size: 1.6rem;

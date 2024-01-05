@@ -50,6 +50,11 @@ const SearchIconButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: ${(props) => props.theme.secondary.main};
+
+  &:hover {
+    background-color: ${(props) => props.theme.secondary[400]};
+  }
 `;
 
 const Search = () => {

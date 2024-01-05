@@ -30,7 +30,7 @@ const SideMenuMain = styled.aside`
 
   padding: 2.4rem;
   border-radius: 0.5rem;
-  background-color: ${(props) => props.theme.neutral.background};
+  background-color: ${(props) => props.theme.neutral[700]};
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
 
   @media (max-width: 1300px) {
@@ -53,7 +53,7 @@ const MenuLinkLabel = styled.h5`
 
 const StyledMainMenuLink = styled(Link)`
   text-decoration: none;
-  color: ${(props) => props.theme.primary.main};
+  color: ${(props) => props.theme.neutral.text};
   display: flex;
   align-items: center;
   gap: 4rem;
@@ -95,7 +95,7 @@ const SubMenuLinkLabel = styled.h5`
 
 const StyledMainMenuDropDown = styled.div<IStyledMainMenuDropDownProps>`
   text-decoration: none;
-  color: ${(props) => props.theme.primary.main};
+  color: ${(props) => props.theme.neutral.text};
   display: flex;
   align-items: center;
   gap: 4rem;

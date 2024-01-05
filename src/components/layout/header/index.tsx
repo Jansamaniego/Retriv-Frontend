@@ -28,7 +28,7 @@ const HeaderWrapper = styled.header`
   z-index: 999;
   position: fixed;
   top: 0;
-  background-color: ${(props) => props.theme.background.default};
+  background-color: ${(props) => props.theme.primary.main};
 `;
 
 const MobileMenuIconContainer = styled.div`
@@ -135,7 +135,7 @@ const CartItemQuantity = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => props.theme.primary.main};
+  background-color: ${(props) => props.theme.secondary.main};
   color: ${(props) => props.theme.neutral[900]};
   top: -0.1rem;
   right: 0.4rem;

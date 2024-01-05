@@ -56,6 +56,10 @@ const CategoryImage = styled.img`
 
 const CategoryName = styled.h6`
   color: ${(props) => props.theme.neutral[300]};
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const CategoryCard: React.FC<ICategoryCardProps> = ({ children, onClick }) => {
