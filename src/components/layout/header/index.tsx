@@ -57,7 +57,15 @@ const LogoContainer = styled.div<ILogoContainerProps>`
 `;
 
 const LogoText = styled.h1`
-  color: ${(props) => props.theme.neutral.text};
+  color: ${(props) => props.theme.neutral[800]};
+
+  &:hover {
+    color: ${(props) => props.theme.neutral.light};
+  }
+
+  &:active {
+    color: ${(props) => props.theme.neutral[600]};
+  }
 `;
 
 const IconsFlexWrapper = styled.div`

@@ -12,8 +12,8 @@ export const StyledLink = styled(Link)<Props>`
   display: inline-block;
   text-align: center;
   text-decoration: none;
-  font-weight: ${(props) => (props.isActive ? 700 : 300)};
-  color: ${(props) => props.theme.neutral.text};
+  font-weight: 700;
+  color: ${(props) => props.theme.neutral[800]};
 
   &:hover {
     color: ${(props) => props.theme.neutral.light};
