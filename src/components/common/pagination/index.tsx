@@ -80,8 +80,6 @@ export const Pagination: React.FC<PaginationProps> = ({
     return buttons;
   };
 
-  console.log(currentPage);
-
   return (
     <PaginationContainer>
       {currentPage !== 1 && (

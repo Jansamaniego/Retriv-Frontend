@@ -8,7 +8,6 @@ interface Props extends SVGElementProps {
 }
 
 export const StarGradientIcon: React.FC<Props> = ({ gradient, ...props }) => {
-  console.log(gradient);
   const theme = useTheme();
   return (
     <svg

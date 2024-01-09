@@ -48,6 +48,10 @@ const FlexWrapper = styled.div`
   width: 100%;
 `;
 
+const StyledStyledLink = styled(StyledLink)`
+  color: ${(props) => props.theme.neutral[400]};
+`;
+
 const GoogleOAuthButton = styled.button`
   display: flex;
   border-radius: 0.5rem;
@@ -127,12 +131,12 @@ export const Login = () => {
               isRegister={false}
             />
           </FlexWrapper>
-          <StyledLink
+          <StyledStyledLink
             to="/forgot-password"
             isActive={pathname === '/forgot-password'}
           >
             Forgot your password?
-          </StyledLink>
+          </StyledStyledLink>
           {isError && <ErrorText>Incorrect Email or password</ErrorText>}
           <FlexWrapper>
             <Button type="submit" disabled={isLoading}>
@@ -147,9 +151,12 @@ export const Login = () => {
                 <GoogleOAuthText>Continue with Google</GoogleOAuthText>
               </GoogleOAuthFlexWrapper>
             </GoogleOAuthButton>
-            <StyledLink to="/register" isActive={pathname === '/register'}>
+            <StyledStyledLink
+              to="/register"
+              isActive={pathname === '/register'}
+            >
               Don't have an account yet? Sign up now!
-            </StyledLink>
+            </StyledStyledLink>
           </FlexWrapper>
         </Form>
         <DevTool control={control} />

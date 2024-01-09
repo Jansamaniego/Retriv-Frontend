@@ -15,6 +15,7 @@ import {
   ProfileImageLogo,
   Loading,
   ContentFlexWrapper,
+  CardWithFlexWrapper,
 } from 'components/common';
 import EditReviewForm from 'pages/product/reviewByProductManager/editReviewForm';
 import { EditIconButton } from 'components/common/editIconButton';
@@ -40,8 +41,6 @@ interface IReviewByProductItemProps {
 interface IReviewCardProps {
   children: React.ReactNode;
 }
-
-const StyledCard = styled(Card)``;
 
 const XMarkIconButton = styled.button`
   display: flex;
@@ -110,10 +109,6 @@ const NoReviewText = styled.h4`
   color: ${(props) => props.theme.neutral.text};
 `;
 
-const ReviewCard: React.FC<IReviewCardProps> = ({ children }) => {
-  return <StyledCard>{children}</StyledCard>;
-};
-
 const ReviewByProductItem: React.FC<IReviewByProductItemProps> = ({
   reviewId,
   currentUser,
@@ -172,7 +167,7 @@ const ReviewByProductItem: React.FC<IReviewByProductItemProps> = ({
 
   return (
     <>
-      <ReviewCard>
+      <CardWithFlexWrapper>
         <ContentFlexWrapper gap="1.6rem" alignItems="flex-start">
           <ProfileImageLogo
             profileImage={profileImage}
@@ -225,7 +220,7 @@ const ReviewByProductItem: React.FC<IReviewByProductItemProps> = ({
             </XMarkIconButton>
           )}
         </ContentFlexWrapper>
-      </ReviewCard>
+      </CardWithFlexWrapper>
       {isDeleteReviewModalOpen && (
         <StyledModal
           isModalOpen={isDeleteReviewModalOpen}
@@ -282,11 +277,11 @@ const ReviewByProductManager: React.FC<IReviewByProductManagerProps> = ({
 
   if (!reviews || reviews.length === 0) {
     return (
-      <StyledCard>
+      <CardWithFlexWrapper>
         <ContentFlexWrapper>
           <NoReviewText>There are no reviews for this product</NoReviewText>
         </ContentFlexWrapper>
-      </StyledCard>
+      </CardWithFlexWrapper>
     );
   }
 

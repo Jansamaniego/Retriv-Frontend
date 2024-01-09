@@ -47,6 +47,19 @@ const ProfileDropdownMenuOption = styled.div`
   }
 `;
 
+const StyledStyledLink = styled(StyledLink)`
+  color: ${(props) => props.theme.neutral.text};
+  font-weight: 400;
+
+  &:hover {
+    color: ${(props) => props.theme.neutral.light};
+  }
+
+  &:active {
+    color: ${(props) => props.theme.neutral.main};
+  }
+`;
+
 const ProfileDropDownMenuText = styled.h6`
   color: ${(props) => props.theme.neutral.text};
 `;
@@ -106,19 +119,19 @@ const ProfileDropdownMenu = forwardRef<
               {firstName} {lastName}
             </ProfileDropDownMenuText>
             <ProfileDropDownMenuText>{email}</ProfileDropDownMenuText>
-            <StyledLink to="/profile" isActive={pathname === '/profile'}>
+            <StyledStyledLink to="/profile" isActive={pathname === '/profile'}>
               Manage your account
-            </StyledLink>
+            </StyledStyledLink>
           </UserInfo>
         </ProfileSection>
       </ProfileSectionContainer>
       <MenuLinksContainer>
-        <StyledLink to="/profile" isActive={pathname === '/profile'}>
+        <StyledStyledLink to="/profile" isActive={pathname === '/profile'}>
           My Profile
-        </StyledLink>
-        <StyledLink to="/my-orders" isActive={pathname === '/my-orders'}>
+        </StyledStyledLink>
+        <StyledStyledLink to="/my-orders" isActive={pathname === '/my-orders'}>
           Orders
-        </StyledLink>
+        </StyledStyledLink>
         {role === 'admin' && (
           <ProfileDropdownMenuOption>Admin Dashboard</ProfileDropdownMenuOption>
         )}

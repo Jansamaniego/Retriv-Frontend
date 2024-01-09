@@ -10,6 +10,13 @@ import ProductHeader from 'pages/product/productHeader';
 import ProductShop from 'pages/product/productShop';
 import ReviewByProductManager from 'pages/product/reviewByProductManager';
 import ReviewForm from 'pages/product/reviewForm';
+import styled from 'styled-components';
+
+const ProductHeaderAndShopColumnFLexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+`;
 
 export const Product = () => {
   const { shopId = '', productId = '' } = useParams();
@@ -48,15 +55,17 @@ export const Product = () => {
 
   return (
     <PageFlexColumnWrapper>
-      <ProductHeader
-        productRatings={
-          productRatings || { ratingsAverage: 0, ratingsQuantity: 0 }
-        }
-        product={product}
-        isOwner={isOwner}
-        shopId={shopId}
-      />
-      <ProductShop shopId={typeof shop === 'string' ? shop : shop.id} />
+      <ProductHeaderAndShopColumnFLexWrapper>
+        <ProductHeader
+          productRatings={
+            productRatings || { ratingsAverage: 0, ratingsQuantity: 0 }
+          }
+          product={product}
+          isOwner={isOwner}
+          shopId={shopId}
+        />
+        <ProductShop shopId={typeof shop === 'string' ? shop : shop.id} />
+      </ProductHeaderAndShopColumnFLexWrapper>
       <ReviewByProductManager
         shopId={shopId}
         productId={productId}

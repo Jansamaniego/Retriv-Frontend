@@ -6,6 +6,7 @@ import { useGetShopByIdQuery } from 'redux/services/shopApi/shopApi';
 import { useGetShopRatingsQuery } from 'redux/services/ratings/shopRatingsApi/shopRatingsApi';
 import {
   Card,
+  CardWithFlexWrapper,
   ContentFlexWrapper,
   Loading,
   ProfileImageLogo,
@@ -96,7 +97,7 @@ const ProductShop: React.FC<IProductShop> = ({ shopId }) => {
   };
 
   return (
-    <Card>
+    <CardWithFlexWrapper>
       <ContentFlexWrapper
         justifyContent="space-between"
         columnBreakPoint="900px"
@@ -144,7 +145,7 @@ const ProductShop: React.FC<IProductShop> = ({ shopId }) => {
           </ProductShopStats>
         </ProductShopStatsFlexWrapper>
       </ContentFlexWrapper>
-    </Card>
+    </CardWithFlexWrapper>
   );
 };
 

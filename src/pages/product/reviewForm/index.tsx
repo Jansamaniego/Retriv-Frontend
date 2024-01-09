@@ -9,6 +9,7 @@ import { useCreateReviewMutation } from 'redux/services/reviewApi/reviewApi';
 import {
   Button,
   Card,
+  CardWithFlexWrapper,
   ContentFlexWrapper,
   StyledTextarea,
 } from 'components/common';
@@ -79,7 +80,7 @@ const ReviewForm: React.FC<IReviewFormProps> = ({ shopId, productId }) => {
   const { rating } = watch();
 
   return (
-    <Card>
+    <CardWithFlexWrapper>
       <FormProvider {...methods}>
         <ContentFlexWrapper>
           <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -122,7 +123,7 @@ const ReviewForm: React.FC<IReviewFormProps> = ({ shopId, productId }) => {
           <DevTool control={control} />
         </ContentFlexWrapper>
       </FormProvider>
-    </Card>
+    </CardWithFlexWrapper>
   );
 };
 

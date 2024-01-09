@@ -4,7 +4,12 @@ import styled from 'styled-components';
 import { IProduct } from 'types';
 import { IProductRatings } from 'redux/services/ratings/productRatingsApi/productRatingsApi.types';
 import { useDeleteProductImageMutation } from 'redux/services/productApi/productApi';
-import { Card, ContentFlexWrapper, StyledModal } from 'components/common';
+import {
+  Card,
+  CardWithFlexWrapper,
+  ContentFlexWrapper,
+  StyledModal,
+} from 'components/common';
 import DisplayImageModal from 'pages/product/productHeader/displayImageModal';
 import ProductHeaderInfo from 'pages/product/productHeader/productHeaderInfo';
 import UpdateProductMainImageModal from 'pages/product/productHeader/updateProductMainImageModal';
@@ -19,8 +24,6 @@ interface IProductHeaderProps {
   isOwner: boolean;
   shopId: string;
 }
-
-const ProductHeaderCard = styled(Card)``;
 
 const DisplayImageContainer = styled.div`
   position: relative;
@@ -114,30 +117,32 @@ const ProductHeader: React.FC<IProductHeaderProps> = ({
   };
 
   return (
-    <ProductHeaderCard>
-      <ContentFlexWrapper>
-        <ProductImages
-          product={product}
-          isOwner={isOwner}
-          setIsDisplayImageModalOpen={setIsDisplayImageModalOpen}
-          setIsMainImageEditModalOpen={setIsMainImageEditModalOpen}
-          setIsAddProductImagesModalOpen={setIsAddProductImagesModalOpen}
-          setIsDeleteProductImageModalOpen={setIsDeleteProductImageModalOpen}
-        />
-        <ProductHeaderInfo
-          productId={id}
-          name={name}
-          quantitySold={quantitySold}
-          isOutOfStock={isOutOfStock}
-          quantityInStock={quantityInStock}
-          ratingsAverage={ratingsAverage}
-          ratingsQuantity={ratingsQuantity}
-          description={description}
-          price={price}
-          isOwner={isOwner}
-          shopId={shopId}
-        />
-      </ContentFlexWrapper>
+    <>
+      <CardWithFlexWrapper>
+        <ContentFlexWrapper>
+          <ProductImages
+            product={product}
+            isOwner={isOwner}
+            setIsDisplayImageModalOpen={setIsDisplayImageModalOpen}
+            setIsMainImageEditModalOpen={setIsMainImageEditModalOpen}
+            setIsAddProductImagesModalOpen={setIsAddProductImagesModalOpen}
+            setIsDeleteProductImageModalOpen={setIsDeleteProductImageModalOpen}
+          />
+          <ProductHeaderInfo
+            productId={id}
+            name={name}
+            quantitySold={quantitySold}
+            isOutOfStock={isOutOfStock}
+            quantityInStock={quantityInStock}
+            ratingsAverage={ratingsAverage}
+            ratingsQuantity={ratingsQuantity}
+            description={description}
+            price={price}
+            isOwner={isOwner}
+            shopId={shopId}
+          />
+        </ContentFlexWrapper>
+      </CardWithFlexWrapper>
       {isDisplayImageModalOpen && (
         <DisplayImageModal
           isModalOpen={isDisplayImageModalOpen}
@@ -185,7 +190,7 @@ const ProductHeader: React.FC<IProductHeaderProps> = ({
           </DeleteModalFlexWrapper>
         </StyledModal>
       )}
-    </ProductHeaderCard>
+    </>
   );
 };
 

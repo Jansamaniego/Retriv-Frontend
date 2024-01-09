@@ -40,3 +40,4 @@ export * from './mobileMenuIcon';
 export * from './googleIcon';
 export * from './linkedinIcon';
 export * from './githubIcon';
+export * from './barsIcon';

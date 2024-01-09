@@ -18,3 +18,4 @@ export * from './updateProfileImageModal';
 export * from './imageUpload';
 export * from './pageFlexColumnWrapper';
 export * from './contentFlexWrapper';
+export * from './cardWithFLexWrapper';
