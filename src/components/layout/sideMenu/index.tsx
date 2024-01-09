@@ -43,7 +43,7 @@ const SideMenuMain = styled.aside<SideMenuMainProps>`
   background-color: ${(props) => props.theme.neutral[700]};
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
   opacity: 0.95;
-  z-index: 9999;
+  z-index: 998;
 
   @media (max-width: 1300px) {
     padding: 0;
