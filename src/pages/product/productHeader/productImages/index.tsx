@@ -38,8 +38,8 @@ const ImagesContainer = styled.div`
 const ImagesFlex = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
+  align-items: flex-start;
+  gap: 0.4rem;
 `;
 
 const DisplayImageContainer = styled.div<IDisplayImageContainer>`
@@ -176,26 +176,6 @@ const ProductImages: React.FC<IProductImagesProps> = ({
     <ImagesWrapper>
       <ImagesContainer>
         <ImagesFlex>
-          <DisplayImageContainer onClick={showDisplayImageModal}>
-            <DisplayImage src={displayImage} ref={displayImageRef} />
-            {displayImage === mainImage && (
-              <>
-                {isOwner && (
-                  <EditButtonWrapper>
-                    <EditIconButton
-                      buttonProps={{ onClick: showMainImageEditModal }}
-                      svgProps={{ width: '2rem' }}
-                    />
-                  </EditButtonWrapper>
-                )}
-              </>
-            )}
-            {displayImage !== mainImage && isOwner && (
-              <XMarkIconButton onClick={showDeleteProductImageModal}>
-                <XMarkIcon width="4rem" />
-              </XMarkIconButton>
-            )}
-          </DisplayImageContainer>
           <ImagesPickerContainer>
             {productImages.map((image, idx) => (
               <SmallImageContainer
@@ -223,6 +203,26 @@ const ProductImages: React.FC<IProductImagesProps> = ({
               </>
             )}
           </ImagesPickerContainer>
+          <DisplayImageContainer onClick={showDisplayImageModal}>
+            <DisplayImage src={displayImage} ref={displayImageRef} />
+            {displayImage === mainImage && (
+              <>
+                {isOwner && (
+                  <EditButtonWrapper>
+                    <EditIconButton
+                      buttonProps={{ onClick: showMainImageEditModal }}
+                      svgProps={{ width: '2rem' }}
+                    />
+                  </EditButtonWrapper>
+                )}
+              </>
+            )}
+            {displayImage !== mainImage && isOwner && (
+              <XMarkIconButton onClick={showDeleteProductImageModal}>
+                <XMarkIcon width="4rem" />
+              </XMarkIconButton>
+            )}
+          </DisplayImageContainer>
         </ImagesFlex>
       </ImagesContainer>
     </ImagesWrapper>

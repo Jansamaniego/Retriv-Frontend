@@ -49,6 +49,15 @@ const ReviewFormText = styled.h6`
   color: ${(props) => props.theme.neutral.text};
 `;
 
+const StyledStyledTextarea = styled(StyledTextarea)`
+  width: 100%;
+`;
+
+const SubmitButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 const ReviewForm: React.FC<IReviewFormProps> = ({ shopId, productId }) => {
   const [createReview, { isLoading }] = useCreateReviewMutation();
   const [hover, setHover] = useState<number | null>(0);
@@ -88,7 +97,7 @@ const ReviewForm: React.FC<IReviewFormProps> = ({ shopId, productId }) => {
               <ReviewFormText>
                 {rating
                   ? `Your rating is ${rating}`
-                  : 'Please rate our product'}
+                  : 'Please rate our product:'}
               </ReviewFormText>
               <ProductInfoStatsStarsRating>
                 {[...Array(5)].map((star, idx) => {
@@ -101,7 +110,7 @@ const ReviewForm: React.FC<IReviewFormProps> = ({ shopId, productId }) => {
                       />
                       <StyledStarGradientIcon
                         width="3rem"
-                        gradient={currentRating <= (hover || rating) ? 10 : 0}
+                        gradient={currentRating <= (hover || rating) ? 20 : 0}
                         onMouseEnter={() => setHover(currentRating)}
                         onMouseLeave={() => setHover(null)}
                       />
@@ -114,11 +123,13 @@ const ReviewForm: React.FC<IReviewFormProps> = ({ shopId, productId }) => {
               <ReviewFormText>
                 Please leave a comment about the product:
               </ReviewFormText>
-              <StyledTextarea name="reviewText" placeholder="review" />
+              <StyledStyledTextarea name="reviewText" placeholder="review" />
             </div>
-            <Button type="submit" disabled={isLoading} large>
-              Submit Review
-            </Button>
+            <SubmitButtonContainer>
+              <Button type="submit" disabled={isLoading}>
+                Submit
+              </Button>
+            </SubmitButtonContainer>
           </StyledForm>
           <DevTool control={control} />
         </ContentFlexWrapper>

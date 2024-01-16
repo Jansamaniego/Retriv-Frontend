@@ -33,7 +33,7 @@ const LoginFlexWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100%;
+  min-height: 60vh;
 `;
 
 const ErrorText = styled.h6`

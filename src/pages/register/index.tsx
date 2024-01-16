@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { z } from 'zod';
+import { ZodError, z } from 'zod';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DevTool } from '@hookform/devtools';
@@ -14,8 +14,6 @@ import {
   StyledInput,
   PasswordInput,
   Button,
-  Select,
-  StyledLink,
   ImageUpload,
   StyledModal,
 } from 'components/common';
@@ -59,7 +57,7 @@ const RegisterFlexWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100%;
+  min-height: 60vh;
 `;
 
 const FormFlexWrapper = styled.div`
@@ -132,6 +130,11 @@ export const Register = () => {
   const currentUser = useSelector((state: RootState) => state.userState.user);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [formStep, setFormStep] = useState(0);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  const [
+    passwordConfirmationErrorMessage,
+    setPasswordConfirmationErrorMessage,
+  ] = useState('');
   const [image, setImage] = useState<File | EmptyString>(null);
   const [imageError, setImageError] = useState<{
     isError: boolean;
@@ -141,10 +144,14 @@ export const Register = () => {
     useRegisterUserMutation();
 
   const modelSchema = z.object({
-    username: z.string().min(9),
+    username: z
+      .string()
+      .min(9, { message: 'Username must contain at least 9 characters' }),
     email: z.string().email(),
-    password: z.string().min(9),
-    passwordConfirmation: z.string().min(9),
+    password: z
+      .string()
+      .min(9, { message: 'Password must contain at least 9 characters' }),
+    passwordConfirmation: z.string(),
     firstName: z.string(),
     lastName: z.string(),
     address: z.string().optional(),
@@ -162,7 +169,7 @@ export const Register = () => {
     })
     .refine((data) => passwordRegex.test(data.password), {
       message:
-        'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
+        'Password must contain at least one uppercase letter, one lowercase letter and on number',
       path: ['password'],
     })
     .refine((data) => data.password === data.passwordConfirmation, {
@@ -240,10 +247,27 @@ export const Register = () => {
         });
 
         if (canNext) {
+          setPasswordErrorMessage('');
+          setPasswordConfirmationErrorMessage('');
           setFormStep((curr) => curr + 1);
         }
       } catch (error) {
-        console.log(error);
+        if (error instanceof ZodError) {
+          const passwordError = error.issues.find(
+            (issue) => issue.path[0] === 'password'
+          );
+          if (passwordError) {
+            setPasswordErrorMessage(passwordError.message);
+          }
+          const passwordConfirmationError = error.issues.find(
+            (issue) => issue.path[0] === 'passwordConfirmation'
+          );
+          if (passwordConfirmationError) {
+            setPasswordConfirmationErrorMessage(
+              passwordConfirmationError.message
+            );
+          }
+        }
       }
       return;
     }
@@ -291,8 +315,6 @@ export const Register = () => {
     }
   };
 
-  console.log(image);
-
   const prevFormStep = () => {
     setFormStep((curr) => curr - 1);
   };
@@ -333,10 +355,14 @@ export const Register = () => {
                 <StyledInput placeholder="Username" name="username" />
                 <StyledInput placeholder="Email" type="email" name="email" />
                 <PasswordInput name="password" placeholder="Password" />
+                {passwordErrorMessage && <p>{passwordErrorMessage}</p>}
                 <PasswordInput
                   name="passwordConfirmation"
                   placeholder="Confirm password"
                 />
+                {passwordConfirmationErrorMessage && (
+                  <p>{passwordConfirmationErrorMessage}</p>
+                )}
               </FlexWrapper>
             )}
             {formStep === 1 && (
@@ -361,7 +387,7 @@ export const Register = () => {
             {formStep === 2 && (
               <FlexWrapper>
                 <StyledInput placeholder="Address" name="address" />
-                <StyledInput placeholder="Phone" name="phone" />
+                <StyledInput placeholder="Phone" name="phone" type="number" />
               </FlexWrapper>
             )}
             {formStep === 3 && (

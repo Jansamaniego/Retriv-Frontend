@@ -40,6 +40,15 @@ const Input = styled.input`
   &:focus {
     outline-color: ${(props) => props.theme.neutral[200]};
   }
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export const StyledInput: React.FC<StyledInputProps> = ({

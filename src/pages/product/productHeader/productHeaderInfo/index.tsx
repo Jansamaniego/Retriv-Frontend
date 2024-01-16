@@ -47,7 +47,7 @@ interface FormValues {
 const ProductInfo = styled.main`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 1.2rem;
   width: 100%;
 `;
 
@@ -108,17 +108,20 @@ const ProductInfoStatsProductsSoldContainer = styled.div`
 `;
 
 const DescriptionContainer = styled.div`
-  margin-top: 2.4rem;
 `;
 
 const QuantityControllerContainer = styled.section`
   display: flex;
   gap: 1.6rem;
-  margin-top: 2.4rem;
+`;
+
+const QuantityControllerDataWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const AddToCartButton = styled(Button)`
-  margin-bottom: 2.4rem;
+  margin-left: 0;
 `;
 
 const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
@@ -303,7 +306,6 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                 />
               )}
             </ProductDataValueFlexWrapper>
-
             <ProductInfoStatsContainer>
               <ProductInfoStatsAvgRating>
                 <RatingsAverage>{ratingsAverage}</RatingsAverage>
@@ -329,20 +331,18 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
               </ProductInfoStatsProductsSoldContainer>
             </ProductInfoStatsContainer>
             <DescriptionContainer>
-              <>
-                <ProductDataValueFlexWrapper>
-                  <ProductInfoMiniText>{description}</ProductInfoMiniText>
-                  {isOwner && (
-                    <EditIconButton
-                      buttonProps={{
-                        onClick: enableEditDescriptionMode,
-                        disabled: isEditModalOpen,
-                      }}
-                      svgProps={{ width: '2rem' }}
-                    />
-                  )}
-                </ProductDataValueFlexWrapper>
-              </>
+              <ProductDataValueFlexWrapper>
+                <ProductInfoMiniText>{description}</ProductInfoMiniText>
+                {isOwner && (
+                  <EditIconButton
+                    buttonProps={{
+                      onClick: enableEditDescriptionMode,
+                      disabled: isEditModalOpen,
+                    }}
+                    svgProps={{ width: '2rem' }}
+                  />
+                )}
+              </ProductDataValueFlexWrapper>
             </DescriptionContainer>
             <ProductDataValueFlexWrapper>
               <ProductInfoText> &#8369;{price}</ProductInfoText>
@@ -367,61 +367,55 @@ const ProductHeaderInfo: React.FC<IProductHeaderInfoProps> = ({
                 </Button>
               </div>
             )}
-            <>
-              <QuantityControllerContainer>
-                <div>
-                  <ProductInfoMiniText>Quantity</ProductInfoMiniText>
-                </div>
-                {currentUser && (
-                  <QuantityTogglerInput
-                    decrementQuantityToggle={decrementQuantityToPurchase}
-                    incrementQuantityToggle={incrementQuantityToPurchase}
-                    onChangeHandler={changeQuantityToPurchase}
-                    QuantityInputValue={quantityToPurchase}
-                  />
-                )}
-                <div>
-                  <div>
-                    <ProductDataValueFlexWrapper>
-                      <ProductInfoMiniText>
-                        {isOutOfStock
-                          ? 'Out of stock'
-                          : `${quantityInStock} units available`}
-                      </ProductInfoMiniText>
-                      {isOwner && (
-                        <EditIconButton
-                          buttonProps={{
-                            onClick: enableEditQuantityInStockMode,
-                            disabled: isEditModalOpen,
-                          }}
-                          svgProps={{ width: '2rem' }}
-                        />
-                      )}
-                    </ProductDataValueFlexWrapper>
-                  </div>
-                </div>
-              </QuantityControllerContainer>
-              {!isOwner && currentUser && (
-                <div>
-                  <AddToCartButton
-                    onClick={addToCartOnClickHandler}
-                    disabled={addProductIsLoading}
-                  >
-                    Add To Cart
-                  </AddToCartButton>
-                </div>
+            <QuantityControllerContainer>
+              <QuantityControllerDataWrapper>
+                <ProductInfoMiniText>Quantity</ProductInfoMiniText>
+              </QuantityControllerDataWrapper>
+              {currentUser && (
+                <QuantityTogglerInput
+                  decrementQuantityToggle={decrementQuantityToPurchase}
+                  incrementQuantityToggle={incrementQuantityToPurchase}
+                  onChangeHandler={changeQuantityToPurchase}
+                  QuantityInputValue={quantityToPurchase}
+                />
               )}
-            </>
-            <Socials />
-            {isTransparentPopupOpen && (
-              <TransparentPopup>
-                <CheckIcon width="3rem" />
-                <ProductInfoBigText>
-                  Item has been added to your cart!
-                </ProductInfoBigText>
-              </TransparentPopup>
+              <QuantityControllerDataWrapper>
+                <ProductDataValueFlexWrapper>
+                  <ProductInfoMiniText>
+                    {isOutOfStock
+                      ? 'Out of stock'
+                      : `${quantityInStock} units available`}
+                  </ProductInfoMiniText>
+                  {isOwner && (
+                    <EditIconButton
+                      buttonProps={{
+                        onClick: enableEditQuantityInStockMode,
+                        disabled: isEditModalOpen,
+                      }}
+                      svgProps={{ width: '2rem' }}
+                    />
+                  )}
+                </ProductDataValueFlexWrapper>
+              </QuantityControllerDataWrapper>
+            </QuantityControllerContainer>
+            {!isOwner && currentUser && (
+              <AddToCartButton
+                onClick={addToCartOnClickHandler}
+                disabled={addProductIsLoading}
+              >
+                Add To Cart
+              </AddToCartButton>
             )}
+            <Socials />
           </ProductInfo>
+          {isTransparentPopupOpen && (
+            <TransparentPopup>
+              <CheckIcon width="3rem" />
+              <ProductInfoBigText>
+                Item has been added to your cart!
+              </ProductInfoBigText>
+            </TransparentPopup>
+          )}
           {isEditModalOpen && (
             <StyledModal
               isModalOpen={isEditModalOpen}

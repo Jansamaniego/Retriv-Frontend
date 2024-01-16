@@ -7,6 +7,8 @@ import { IShopRatings } from 'redux/services/ratings/shopRatingsApi/shopRatingsA
 import { Card } from 'components/common';
 import {
   DateIcon,
+  LocationIcon,
+  PhoneIcon,
   ProductIcon,
   ProductsSoldIcon,
   StarRatingIcon,
@@ -89,8 +91,10 @@ const InfoWrapper = styled.div`
 `;
 
 const InfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   word-wrap: break-word;
-  /* width: 100%; */
 `;
 
 const Info = styled.h5`
@@ -176,9 +180,11 @@ const ShopHeader: React.FC<IShopHeaderProps> = ({ shop, shopRatings }) => {
               </InfoWrapper>
               <InfoWrapper>
                 <InfoContainer>
+                  <LocationIcon width="3rem" />
                   <SubInfo>{address}</SubInfo>
                 </InfoContainer>
                 <InfoContainer>
+                  <PhoneIcon width="2rem" />
                   <SubInfo>{phone}</SubInfo>
                 </InfoContainer>
               </InfoWrapper>

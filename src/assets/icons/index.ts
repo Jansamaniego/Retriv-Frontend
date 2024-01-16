@@ -41,3 +41,5 @@ export * from './googleIcon';
 export * from './linkedinIcon';
 export * from './githubIcon';
 export * from './barsIcon';
+export * from './locationIcon';
+export * from './phoneIcon';
